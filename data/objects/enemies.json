@@ -1,0 +1,128 @@
+{
+  "0": {
+    "requires": "0.1.4",
+    "state": {
+      "name": "main",
+      "list": [
+        ["set_animation", ["SD_JOAN", 0]],
+        ["enemy", 100],
+        ["gravity", null],
+        ["walk", 100.0],
+        ["look_at_walking_direction", null]
+      ]
+    }
+  },
+  "1": {
+    "requires": "0.1.4",
+    "state": {
+      "name": "main",
+      "list": [
+        ["set_animation", ["SD_FLYINGBOY", 0]],
+        ["enemy", 100],
+        ["elliptical_trajectory", [0.0, 20.0, 0.0, 0.5, 0.0, 0.0]],
+        ["walk", 100.0],
+        ["look_at_walking_direction", null]
+      ]
+    }
+  },
+  "2": {
+    "requires": "0.1.4",
+    "state": {
+      "name": "main",
+      "list": [        
+        ["set_animation", ["SD_FLYINGEYES", 0]],
+        ["enemy", 100],
+        ["elliptical_trajectory", [0.0, 20.0, 0.0, 0.5, 0.0, 0.0]],
+        ["look_at_player", null]      
+      ]
+    }
+  },
+  "3": {
+    "requires": "0.1.4",
+    "state": {
+      "name": "main",
+      "list": [
+        ["set_animation", ["SD_KLEPS", 0]],
+        ["enemy", 50],
+        ["gravity", null],
+        ["walk", 50.0],
+        ["look_at_walking_direction", null]
+      ]
+    }
+  },
+  "4": {
+    "requires": "0.1.4",
+    "state": {
+      "name": "main",
+      "list": [
+        ["set_animation", ["SD_GOLDFISH", 0]],
+        ["enemy", 100],
+        ["bullet_trajectory", [-150.0, 0.0]],
+        ["look_at_walking_direction", null]
+      ]
+    }
+  },
+  "5": {
+    "requires": "0.1.4",
+    "state": {
+      "name": "main",
+      "list": [
+        ["set_animation", ["SD_SURPREYES", 0]],
+        ["enemy", 150],
+        ["bullet_trajectory", [-200.0, 0.0]],
+        ["look_at_walking_direction", null]
+      ]
+    }
+  },
+  "6": {
+    "requires": "0.1.4",
+    "state": {
+      "name": "main",
+      "list": [
+        ["set_animation", ["SD_ORANJECTION", 0]],
+        ["enemy", 150],
+        ["mosquito_movement", 100.0],
+        ["look_at_walking_direction", null]
+      ]
+    }
+  },
+  "7": {
+    "requires": "0.1.4",
+    "state": {
+      "name": "main",
+      "list": [
+        ["set_animation", ["SD_ROBOXER", 0]],
+        ["enemy", 100],
+        ["gravity", null],
+        ["walk", 110.0],
+        ["look_at_walking_direction", null]
+      ]
+    }
+  },
+  "8": {
+    "requires": "0.1.4",
+    "state": {
+      "name": "main",
+      "list": [
+        ["set_animation", ["SD_NAFDER", 0]],
+        ["enemy", 150],
+        ["gravity", null],
+        ["walk", 120.0],
+        ["look_at_walking_direction", null]
+      ]
+    }
+  },
+  "9": {
+    "requires": "0.1.4",
+    "state": {
+      "name": "main",
+      "list": [
+        ["set_animation", ["SD_CHEF", 0]],
+        ["enemy", 100],
+        ["gravity", null],
+        ["walk", 120.0],
+        ["look_at_walking_direction", null]
+      ]
+    }
+  }
+}

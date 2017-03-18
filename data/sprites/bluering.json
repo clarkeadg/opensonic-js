@@ -1,0 +1,20 @@
+{
+    "SD_BLUERING": {
+        "source_file":     "data/images/items.png",
+        "source_rect":     { "xpos": 358, "ypos": 178, "width": 64, "height": 48 },
+        "frame_size":      { "width": 16, "height": 16 },
+        "hot_spot":        { "xpos": 9, "ypos": 12 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         16,
+                "data":  [0,1,2,3,4,5,6,7]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [8,9,10]
+            }
+        ]
+    }
+}

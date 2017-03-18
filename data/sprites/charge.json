@@ -1,0 +1,140 @@
+{
+    "SD_KNUCKLES": {
+        "source_file":     "data/images/player.png",
+        "source_rect":     { "xpos": 450, "ypos": 20, "width": 250, "height": 650 },
+        "frame_size":      { "width": 50, "height": 50 },
+        "hot_spot":        { "xpos": 25, "ypos": 50 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [3,4,5,6,7,8,9,10]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [11,12,13,14]
+            },
+            {
+                "repeat":     true,
+                "fps":         16,
+                "data":  [15,16,17,18,19]
+            },
+            {
+                "repeat":     false,
+                "fps":         12,
+                "data":  [20,21]
+            },
+            {
+                "repeat":     false,
+                "fps":         12,
+                "data":  [24,25]
+            },
+            {
+                "repeat":     true,
+                "fps":         16,
+                "data":  [40,41,42,43,44,45]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [23]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [34]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [49]
+            },
+            {
+                "repeat":     true,
+                "fps":         6,
+                "data":  [46,47]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [35]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [50]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [48]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [3,4,5,6,7,8,9,10]
+            },
+            {
+                "repeat":     true,
+                "fps":         6,
+                "data":  [1,2]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [26,27,28]
+            },
+            {
+                "repeat":     true,
+                "fps":         12,
+                "data":  [29,30,31,32,33,28]
+            },
+            {
+                "repeat":     false,
+                "fps":         16,
+                "data":  [26,27]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [39]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [22]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [53,52,51]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [28]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [36,37,38]
+            },
+            {
+                "repeat":     false,
+                "fps":         1,
+                "data":  [0]
+            }, 
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [54]
+            }
+        ]
+    }
+}

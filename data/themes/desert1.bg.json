@@ -1,0 +1,172 @@
+{
+    "bg": [
+        {
+            "initial_position":    { "xpos": 0, "ypos": 400 },
+            "scroll_speed":        { "xspeed": -0.30, "yspeed": -0.04 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/desert1.png",
+                "source_rect":     { "xpos": 0, "ypos": 730, "width": 470, "height": 50 },
+                "frame_size":      { "width": 470, "height": 50 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 300 },
+            "scroll_speed":        { "xspeed": -0.25, "yspeed": -0.04 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/desert1.png",
+                "source_rect":     { "xpos": 0, "ypos": 630, "width": 470, "height": 100 },
+                "frame_size":      { "width": 470, "height": 100 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 253 },
+            "scroll_speed":        { "xspeed": -0.20, "yspeed": -0.04 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/desert1.png",
+                "source_rect":     { "xpos": 0, "ypos": 582, "width": 470, "height": 47 },
+                "frame_size":      { "width": 470, "height": 47 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        }, 
+        {
+            "initial_position":    { "xpos": 0, "ypos": 225 },
+            "scroll_speed":        { "xspeed": -0.15, "yspeed": -0.04 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/desert1.png",
+                "source_rect":     { "xpos": 0, "ypos": 553, "width": 470, "height": 28 },
+                "frame_size":      { "width": 470, "height": 28 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 195 },
+            "scroll_speed":        { "xspeed": -0.10, "yspeed": -0.04 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/desert1.png",
+                "source_rect":     { "xpos": 0, "ypos": 520, "width": 470, "height": 30 },
+                "frame_size":      { "width": 470, "height": 30 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 170 },
+            "scroll_speed":        { "xspeed": -0.05, "yspeed": -0.04 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/desert1.png",
+                "source_rect":     { "xpos": 0, "ypos": 500, "width": 470, "height": 25 },
+                "frame_size":      { "width": 470, "height": 25 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 110 },
+            "scroll_speed":        { "xspeed": -0.01, "yspeed": -0.04 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/desert1.png",
+                "source_rect":     { "xpos": 0, "ypos": 440, "width": 470, "height": 60 },
+                "frame_size":      { "width": 470, "height": 60 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 70 },
+            "scroll_speed":        { "xspeed": -0.10, "yspeed": -0.04 },
+            "behavior":            ["LINEAR", -4.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/desert1.png",
+                "source_rect":     { "xpos": 0, "ypos": 400, "width": 470, "height": 40 },
+                "frame_size":      { "width": 470, "height": 40 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        }
+    ]
+}

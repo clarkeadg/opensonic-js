@@ -1,0 +1,11 @@
+{
+    "name":             "$EXTRA_LEVELS_NAME",
+    "description":      "$MENU_CQ_EXTRA",
+    "image":            "data/images/quest_extra.png",
+    "show_ending":       false,
+    "levels": [
+                        "data/levels/template.json",
+                        "data/levels/desert1.json",
+                        "data/levels/exotichell_1.json"
+    ]    
+}

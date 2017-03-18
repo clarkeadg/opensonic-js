@@ -1,0 +1,134 @@
+{
+    "SD_CONFIRMBOX": {
+        "source_file":     "data/images/gui.png",
+        "source_rect":     { "xpos": 13, "ypos": 523, "width": 179, "height": 63 },
+        "frame_size":      { "width": 179, "height": 63 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_DIALOGBOX": {
+        "source_file":     "data/images/gui.png",
+        "source_rect":     { "xpos": 12, "ypos": 450, "width": 272, "height": 68 },
+        "frame_size":      { "width": 272, "height": 68 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_MAINGUI": {
+        "source_file":     "data/images/gui.png",
+        "source_rect":     { "xpos": 0, "ypos": 0, "width": 39, "height": 86 },
+        "frame_size":      { "width": 39, "height": 43 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0,0,1,1]
+            }
+        ]
+    },
+    "SD_LIFEGUI": {
+        "source_file":     "data/images/gui.png",
+        "source_rect":     { "xpos": 0, "ypos": 90, "width": 48, "height": 48 },
+        "frame_size":      { "width": 48, "height": 16 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [1]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [2]
+            }
+        ]
+    },
+    "SD_PAUSE": {
+        "source_file":     "data/images/gui.png",
+        "source_rect":     { "xpos": 182, "ypos": 56, "width": 88, "height": 24 },
+        "frame_size":      { "width": 88, "height": 24 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_LEVELOP": {
+        "source_file":     "data/images/gui.png",
+        "source_rect":     { "xpos": 0, "ypos": 200, "width": 125, "height": 240 },
+        "frame_size":      { "width": 125, "height": 240 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_RINGBONUS": {
+        "source_file":     "data/images/gui.png",
+        "source_rect":     { "xpos": 156, "ypos": 391, "width": 104, "height": 11 },
+        "frame_size":      { "width": 104, "height": 11 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_SECRETBONUS": {
+        "source_file":     "data/images/gui.png",
+        "source_rect":     { "xpos": 156, "ypos": 405, "width": 104, "height": 11 },
+        "frame_size":      { "width": 104, "height": 11 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_TOTAL": {
+        "source_file":     "data/images/gui.png",
+        "source_rect":     { "xpos": 156, "ypos": 419, "width": 40, "height": 11 },
+        "frame_size":      { "width": 40, "height": 11 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    }
+}

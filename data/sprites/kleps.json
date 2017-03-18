@@ -1,0 +1,15 @@
+{
+    "SD_KLEPS": {
+        "source_file":     "data/images/baddies.png",
+        "source_rect":     { "xpos": 308, "ypos": 319, "width": 60, "height": 25 },
+        "frame_size":      { "width": 30, "height": 25 },
+        "hot_spot":        { "xpos": 15, "ypos": 24 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         0,
+                "data":  [0,1]
+            }
+        ]
+    }
+}

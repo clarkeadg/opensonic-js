@@ -1,0 +1,434 @@
+{
+    "SD_YELLOWSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 16, "ypos": 82, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 16, "ypos": 32 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_BYELLOWSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 80, "ypos": 82, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 16, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_TRYELLOWSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 16, "ypos": 195, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 0, "ypos": 39 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_RYELLOWSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 144, "ypos": 82, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 0, "ypos": 16 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_BRYELLOWSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 190, "ypos": 195, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_BLYELLOWSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 274, "ypos": 195, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 39, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_LYELLOWSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 208, "ypos": 82, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 32, "ypos": 16 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_TLYELLOWSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 100, "ypos": 195, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 39, "ypos": 39 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_REDSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 16, "ypos": 50, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 16, "ypos": 32 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_BREDSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 80, "ypos": 50, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 16, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_TRREDSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 16, "ypos": 150, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 0, "ypos": 39 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_RREDSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 144, "ypos": 50, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 0, "ypos": 16 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_BRREDSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 190, "ypos": 150, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_BLREDSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 274, "ypos": 150, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 39, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_LREDSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 208, "ypos": 50, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 32, "ypos": 16 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_TLREDSPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 100, "ypos": 150, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 32, "ypos": 16 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_BLUESPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 16, "ypos": 114, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 16, "ypos": 32 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_BBLUESPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 80, "ypos": 114, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 16, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_TRBLUESPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 16, "ypos": 240, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 0, "ypos": 39 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_RBLUESPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 144, "ypos": 144, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 0, "ypos": 16 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_BRBLUESPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 190, "ypos": 240, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_BLBLUESPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 274, "ypos": 240, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 39, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_LBLUESPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 208, "ypos": 114, "width": 64, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 32, "ypos": 16 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    },
+    "SD_TLBLUESPRING": {
+        "source_file":     "data/images/spring_pads.png",
+        "source_rect":     { "xpos": 100, "ypos": 240, "width": 78, "height": 39 },
+        "frame_size":      { "width": 39, "height": 39 },
+        "hot_spot":        { "xpos": 39, "ypos": 39 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [1,1,1]
+            }
+        ]
+    }
+}

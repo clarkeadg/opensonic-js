@@ -1,0 +1,1466 @@
+{
+  "bricks": [
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 8, "ypos": 3, "width": 128, "height": 32 },
+            "frame_size":      { "width": 128, "height": 32 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":               0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 8, "ypos": 56, "width": 136, "height": 88 },
+            "frame_size":      { "width": 136, "height": 88 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 7, "ypos": 165, "width": 128, "height": 32 },
+            "frame_size":      { "width": 128, "height": 32 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        26,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 11, "ypos": 204, "width": 127, "height": 64 },
+            "frame_size":      { "width": 127, "height": 64 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 10, "ypos": 269, "width": 65, "height": 33 },
+            "frame_size":      { "width": 65, "height": 33 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        334,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 10, "ypos": 314, "width": 127, "height": 64 },
+            "frame_size":      { "width": 127, "height": 64 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 73, "ypos": 379, "width": 65, "height": 33 },
+            "frame_size":      { "width": 65, "height": 33 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 10, "ypos": 428, "width": 128, "height": 192 },
+            "frame_size":      { "width": 128, "height": 32 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0,1,2,3,4,5]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 392, "ypos": 171, "width": 256, "height": 20 },
+            "frame_size":      { "width": 256, "height": 20 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        26,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 381, "ypos": 5, "width": 128, "height": 64 },
+            "frame_size":      { "width": 128, "height": 64 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        26,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 381, "ypos": 5, "width": 128, "height": 64 },
+            "frame_size":      { "width": 128, "height": 64 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        116,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 381, "ypos": 90, "width": 128, "height": 64 },
+            "frame_size":      { "width": 128, "height": 64 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        206,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 516, "ypos": 90, "width": 128, "height": 64 },
+            "frame_size":      { "width": 128, "height": 64 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        334,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 516, "ypos": 5, "width": 128, "height": 64 },
+            "frame_size":      { "width": 128, "height": 64 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 649, "ypos": 11, "width": 129, "height": 136 },
+            "frame_size":      { "width": 129, "height": 136 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 649, "ypos": 148, "width": 129, "height": 136 },
+            "frame_size":      { "width": 129, "height": 136 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 380, "ypos": 333, "width": 136, "height": 33 },
+            "frame_size":      { "width": 136, "height": 33 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        17,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 378, "ypos": 315, "width": 51, "height": 16 },
+            "frame_size":      { "width": 51, "height": 16 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        45,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 429, "ypos": 286, "width": 29, "height": 29 },
+            "frame_size":      { "width": 29, "height": 29 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        75,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 458, "ypos": 227, "width": 16, "height": 59 },
+            "frame_size":      { "width": 16, "height": 59 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 430, "ypos": 316, "width": 45, "height": 16 },
+            "frame_size":      { "width": 45, "height": 16 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 459, "ypos": 287, "width": 16, "height": 29 },
+            "frame_size":      { "width": 6, "height": 29 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        90,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 476, "ypos": 227, "width": 40, "height": 104 },
+            "frame_size":      { "width": 40, "height": 104 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        90,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 684, "ypos": 345, "width": 33, "height": 33 },
+            "frame_size":      { "width": 33, "height": 33 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        270,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 747, "ypos": 345, "width": 33, "height": 33 },
+            "frame_size":      { "width": 33, "height": 33 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 518, "ypos": 333, "width": 136, "height": 33 },
+            "frame_size":      { "width": 136, "height": 33 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        343,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 605, "ypos": 315, "width": 51, "height": 16 },
+            "frame_size":      { "width": 51, "height": 16 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        315,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 576, "ypos": 286, "width": 29, "height": 29 },
+            "frame_size":      { "width": 29, "height": 29 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        285,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 560, "ypos": 227, "width": 16, "height": 59 },
+            "frame_size":      { "width": 16, "height": 59 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 559, "ypos": 316, "width": 45, "height": 16 },
+            "frame_size":      { "width": 45, "height": 16 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 559, "ypos": 287, "width": 16, "height": 29 },
+            "frame_size":      { "width": 16, "height": 29 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        270,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 518, "ypos": 227, "width": 40, "height": 104 },
+            "frame_size":      { "width": 40, "height": 104 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 518, "ypos": 368, "width": 136, "height": 33 },
+            "frame_size":      { "width": 136, "height": 33 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        197,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 605, "ypos": 403, "width": 51, "height": 16 },
+            "frame_size":      { "width": 51, "height": 16 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        225,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 576, "ypos": 419, "width": 29, "height": 29 },
+            "frame_size":      { "width": 29, "height": 29 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        255,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 560, "ypos": 448, "width": 16, "height": 59 },
+            "frame_size":      { "width": 16, "height": 59 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 559, "ypos": 402, "width": 45, "height": 16 },
+            "frame_size":      { "width": 45, "height": 16 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 559, "ypos": 418, "width": 16, "height": 29 },
+            "frame_size":      { "width": 16, "height": 29 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        270,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 518, "ypos": 403, "width": 40, "height": 104 },
+            "frame_size":      { "width": 40, "height": 104 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 380, "ypos": 368, "width": 136, "height": 33 },
+            "frame_size":      { "width": 136, "height": 33 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        163,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 378, "ypos": 403, "width": 51, "height": 16 },
+            "frame_size":      { "width": 51, "height": 16 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        135,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 429, "ypos": 419, "width": 29, "height": 29 },
+            "frame_size":      { "width": 29, "height": 29 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        105,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 458, "ypos": 448, "width": 16, "height": 59 },
+            "frame_size":      { "width": 16, "height": 59 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 430, "ypos": 402, "width": 45, "height": 16 },
+            "frame_size":      { "width": 45, "height": 16 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 459, "ypos": 418, "width": 16, "height": 29 },
+            "frame_size":      { "width": 16, "height": 29 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        90,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 476, "ypos": 403, "width": 40, "height": 104 },
+            "frame_size":      { "width": 40, "height": 104 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        180,
+        "zindex":              0.4,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 684, "ypos": 398, "width": 33, "height": 22 },
+            "frame_size":      { "width": 33, "height": 22 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 684, "ypos": 385, "width": 33, "height": 11 },
+            "frame_size":      { "width": 33, "height": 11 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 672, "ypos": 451, "width": 129, "height": 56 },
+            "frame_size":      { "width": 129, "height": 56 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 195, "ypos": 10, "width": 96, "height": 72 },
+            "frame_size":      { "width": 96, "height": 72 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 328, "ypos": 12, "width": 32, "height": 128 },
+            "frame_size":      { "width": 32, "height": 128 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 266, "ypos": 104, "width": 48, "height": 24 },
+            "frame_size":      { "width": 48, "height": 24 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 207, "ypos": 98, "width": 49, "height": 96 },
+            "frame_size":      { "width": 49, "height": 96 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 274, "ypos": 156, "width": 15, "height": 24 },
+            "frame_size":      { "width": 15, "height": 24 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 294, "ypos": 156, "width": 28, "height": 24 },
+            "frame_size":      { "width": 28, "height": 24 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 329, "ypos": 156, "width": 16, "height": 24 },
+            "frame_size":      { "width": 16, "height": 24 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 210, "ypos": 209, "width": 129, "height": 32 },
+            "frame_size":      { "width": 129, "height": 32 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 218, "ypos": 257, "width": 8, "height": 24 },
+            "frame_size":      { "width": 8, "height": 24 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 226, "ypos": 257, "width": 56, "height": 24 },
+            "frame_size":      { "width": 56, "height": 24 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 200, "ypos": 346, "width": 53, "height": 166 },
+            "frame_size":      { "width": 53, "height": 166 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 274, "ypos": 317, "width": 52, "height": 195 },
+            "frame_size":      { "width": 52, "height": 195 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 175, "ypos": 537, "width": 288, "height": 126 },
+            "frame_size":      { "width": 96, "height": 126 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0,1,2]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 493, "ypos": 535, "width": 220, "height": 128 },
+            "frame_size":      { "width": 44, "height": 128 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         16,
+                    "data":        [0,1,2,3,4,3,2,1]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 150, "ypos": 101, "width": 52, "height": 97 },
+            "frame_size":      { "width": 52, "height": 97 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 762, "ypos": 537, "width": 34, "height": 52 },
+            "frame_size":      { "width": 34, "height": 52 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 797, "ypos": 537, "width": 34, "height": 52 },
+            "frame_size":      { "width": 34, "height": 52 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 762, "ypos": 590, "width": 34, "height": 52 },
+            "frame_size":      { "width": 34, "height": 52 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 797, "ypos": 590, "width": 34, "height": 52 },
+            "frame_size":      { "width": 34, "height": 52 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            ["CIRCULAR", 200, 0, 0.1, 0],
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 38, "ypos": 637, "width": 64, "height": 32 },
+            "frame_size":      { "width": 64, "height": 32 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "PASSABLE",
+        "behavior":            "DEFAULT",
+        "angle":              0,
+        "zindex":             0.1,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 0, "ypos": 690, "width": 96, "height": 80 },
+            "frame_size":      { "width": 96, "height": 80 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        90,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 826, "ypos": 305, "width": 40, "height": 104 },
+            "frame_size":      { "width": 40, "height": 104 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "OBSTACLE",
+        "behavior":            "DEFAULT",
+        "angle":        270,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 871, "ypos": 305, "width": 40, "height": 104 },
+            "frame_size":      { "width": 40, "height": 104 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            ]
+        }
+    },
+    {
+        "type":                "CLOUD",
+        "behavior":            "DEFAULT",
+        "angle":        0,
+
+        "sprite":
+        {
+            "source_file":     "data/images/ocean.png",
+            "source_rect":     { "xpos": 784, "ypos": 11, "width": 128, "height": 192 },
+            "frame_size":      { "width": 128, "height": 32 },
+
+            "animations": [
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0,1,2,3,4,5]
+                }
+            ]
+        }
+    }
+  ]
+}

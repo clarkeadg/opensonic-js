@@ -1,0 +1,59 @@
+{
+    "SD_TITLESURGE": {
+        "source_file":     "data/images/title.png",
+        "source_rect":     { "xpos": 0, "ypos": 0, "width": 412, "height": 260 },
+        "frame_size":      { "width": 103, "height": 130 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     false,
+                "fps":         12,
+                "data":  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3]
+            },
+            {
+                "repeat":     true,
+                "fps":         12,
+                "data":  [7,6,5,4,5,6]
+            }
+        ]
+    },
+     "SD_TITLEBG": {
+        "source_file":     "data/images/title.png",
+        "source_rect":     { "xpos": 420, "ypos": 0, "width": 214, "height": 137 },
+        "frame_size":      { "width": 214, "height": 137 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+     "SD_TITLEGAMENAME": {
+        "source_file":     "data/images/title.png",
+        "source_rect":     { "xpos": 650, "ypos": 115, "width": 230, "height": 82 },
+        "frame_size":      { "width": 230, "height": 82 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+     "SD_TITLEFOOT": {
+        "source_file":     "data/images/title.png",
+        "source_rect":     { "xpos": 682, "ypos": 212, "width": 14, "height": 5 },
+        "frame_size":      { "width": 14, "height": 5 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    }
+}

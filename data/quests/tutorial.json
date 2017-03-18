@@ -1,0 +1,10 @@
+{
+    "name":             "$TUTORIAL_QUEST_NAME",
+    "description":      "$MENU_CQ_TUTORIAL",
+    "image":            "data/images/quest_tutorial.png",
+    "show_ending":       false,
+    "levels": [
+                        "data/levels/tutorial_1.json",
+                        "data/levels/tutorial_2.json"
+    ]    
+}

@@ -1,0 +1,305 @@
+{
+  "bricks": [
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 0, "ypos": 0, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               45,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 64, "ypos": 0, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               315,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 128, "ypos": 0, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+            "zindex":              0.1,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 0, "ypos": 64, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               135,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 64, "ypos": 64, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               225,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 128, "ypos": 64, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               90,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 0, "ypos": 128, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               180,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 64, "ypos": 128, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               270,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 128, "ypos": 128, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            [ "CIRCULAR", 100, 0, 0.15, 0 ],
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 0, "ypos": 192, "width": 128, "height": 64 },
+                "frame_size":      { "width": 128, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            ["CIRCULAR", 75, 75, -0.15, 0.15],
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 0, "ypos": 0, "width": 64, "height": 32 },
+                "frame_size":      { "width": 64, "height": 32 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 128, "ypos": 192, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               45,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 0, "ypos": 256, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "CLOUD",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 64, "ypos": 256, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0]
+                    }
+                ]
+            }
+        },
+        {
+            "type":                "CLOUD",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/prototype2.png",
+                "source_rect":     { "xpos": 64, "ypos": 256, "width": 64, "height": 64 },
+                "frame_size":      { "width": 64, "height": 16 },
+
+                "animations": [
+                    {
+                        "repeat":      true,
+                        "fps":         8,
+                        "data":        [0, 1, 2]
+                    }
+                ]
+            }
+        }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+    "SD_GLASSES": {
+        "source_file":     "data/images/items.png",
+        "source_rect":     { "xpos": 51, "ypos": 23, "width": 16, "height": 55 },
+        "frame_size":      { "width": 16, "height": 11 },
+        "hot_spot":        { "xpos": 8, "ypos": 10 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [1]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [2]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [3]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [4]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [5]
+            }
+        ]
+    }
+}

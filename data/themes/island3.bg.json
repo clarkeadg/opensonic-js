@@ -1,0 +1,193 @@
+{
+    "bg": [        
+        {
+            "initial_position":    { "xpos": 0, "ypos": 197 },
+            "scroll_speed":        { "xspeed": -0.30, "yspeed": -0.0 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            true,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island3.png",
+                "source_rect":     { "xpos": 0, "ypos": 1300, "width": 888, "height": 100 },
+                "frame_size":      { "width": 888, "height": 100 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 297 },
+            "scroll_speed":        { "xspeed": -0.30, "yspeed": -0.04 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island3.png",
+                "source_rect":     { "xpos": 0, "ypos": 1211, "width": 888, "height": 89 },
+                "frame_size":      { "width": 888, "height": 89 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 273 },
+            "scroll_speed":        { "xspeed": -0.25, "yspeed": -0.0 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island3.png",
+                "source_rect":     { "xpos": 0, "ypos": 1187, "width": 888, "height": 24 },
+                "frame_size":      { "width": 888, "height": 24 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 199 },
+            "scroll_speed":        { "xspeed": -0.20, "yspeed": -0.0 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island3.png",
+                "source_rect":     { "xpos": 0, "ypos": 1113, "width": 888, "height": 74 },
+                "frame_size":      { "width": 888, "height": 74 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 180 },
+            "scroll_speed":        { "xspeed": -0.20, "yspeed": -0.0 },
+            "behavior":            ["LINEAR", -8.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island3.png",
+                "source_rect":     { "xpos": 0, "ypos": 1096, "width": 888, "height": 19 },
+                "frame_size":      { "width": 888, "height": 19 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 142 },
+            "scroll_speed":        { "xspeed": -0.17, "yspeed": -0.0 },
+            "behavior":            ["LINEAR", -6.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island3.png",
+                "source_rect":     { "xpos": 0, "ypos": 1058, "width": 888, "height": 38 },
+                "frame_size":      { "width": 888, "height": 38 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 105 },
+            "scroll_speed":        { "xspeed": -0.14, "yspeed": -0.0 },
+            "behavior":            ["LINEAR", -4.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island3.png",
+                "source_rect":     { "xpos": 0, "ypos": 1015, "width": 888, "height": 37 },
+                "frame_size":      { "width": 888, "height": 37 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 79 },
+            "scroll_speed":        { "xspeed": -0.11, "yspeed": -0.0 },
+            "behavior":            ["LINEAR", -2.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island3.png",
+                "source_rect":     { "xpos": 0, "ypos": 985, "width": 888, "height": 26 },
+                "frame_size":      { "width": 888, "height": 26 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 0 },
+            "scroll_speed":        { "xspeed": -0.10, "yspeed": -0.0 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island3.png",
+                "source_rect":     { "xpos": 0, "ypos": 906, "width": 888, "height": 79 },
+                "frame_size":      { "width": 888, "height": 79 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        }
+    ]
+}

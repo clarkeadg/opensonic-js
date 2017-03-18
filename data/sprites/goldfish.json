@@ -1,0 +1,15 @@
+{
+    "SD_GOLDFISH": {
+        "source_file":     "data/images/baddies.png",
+        "source_rect":     { "xpos": 9, "ypos": 359, "width": 90, "height": 34 },
+        "frame_size":      { "width": 45, "height": 34 },
+        "hot_spot":        { "xpos": 30, "ypos": 33 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0,1]
+            }
+        ]
+    }
+}

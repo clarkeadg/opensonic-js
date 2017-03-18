@@ -1,0 +1,76 @@
+{
+    "SD_GOAL": {
+        "source_file":     "data/images/items.png",
+        "source_rect":     { "xpos": 282, "ypos": 743, "width": 76, "height": 55 },
+        "frame_size":      { "width": 38, "height": 55 },
+        "hot_spot":        { "xpos": 20, "ypos": 54 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [1]
+            }
+        ]
+    },
+    "SD_ENDSIGN": {
+        "source_file":     "data/images/items.png",
+        "source_rect":     { "xpos": 286, "ypos": 362, "width": 192, "height": 116 },
+        "frame_size":      { "width": 48, "height": 58 },
+        "hot_spot":        { "xpos": 26, "ypos": 57 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         16,
+                "data":  [1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [4]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [5]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [6]
+            }
+        ]
+    },
+    "SD_ENDLEVEL": {
+        "source_file":     "data/images/items.png",
+        "source_rect":     { "xpos": 0, "ypos": 707, "width": 256, "height": 93 },
+        "frame_size":      { "width": 64, "height": 93 },
+        "hot_spot":        { "xpos": 32, "ypos": 93 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0,1]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [3,3]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [2]
+            }
+        ]
+    }
+}

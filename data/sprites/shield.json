@@ -1,0 +1,80 @@
+{
+    "SD_SHIELD": {
+        "source_file":     "data/images/ring_shields.png",
+        "source_rect":     { "xpos": 0, "ypos": 50, "width": 230, "height": 42 },
+        "frame_size":      { "width": 46, "height": 42 },
+        "hot_spot":        { "xpos": 23, "ypos": 19 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [0,1,2,3,4]
+            }
+        ]
+    },
+    "SD_FIRESHIELD": {
+        "source_file":     "data/images/ring_shields.png",
+        "source_rect":     { "xpos": 0, "ypos": 92, "width": 230, "height": 42 },
+        "frame_size":      { "width": 46, "height": 42 },
+        "hot_spot":        { "xpos": 23, "ypos": 19 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [0,1,2,3,4]
+            }
+        ]
+    },
+    "SD_THUNDERSHIELD": {
+        "source_file":     "data/images/more_shields.png",
+        "source_rect":     { "xpos": 0, "ypos": 50, "width": 230, "height": 42 },
+        "frame_size":      { "width": 46, "height": 42 },
+        "hot_spot":        { "xpos": 23, "ypos": 19 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [0,1,2,3,4]
+            }
+        ]
+    },
+    "SD_WATERSHIELD": {
+        "source_file":     "data/images/more_shields.png",
+        "source_rect":     { "xpos": 0, "ypos": 92, "width": 230, "height": 42 },
+        "frame_size":      { "width": 46, "height": 42 },
+        "hot_spot":        { "xpos": 23, "ypos": 19 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [0,1,2,3,4]
+            }
+        ]
+    },
+    "SD_WINDSHIELD": {
+        "source_file":     "data/images/even_more_shields.png",
+        "source_rect":     { "xpos": 0, "ypos": 50, "width": 230, "height": 42 },
+        "frame_size":      { "width": 46, "height": 42 },
+        "hot_spot":        { "xpos": 23, "ypos": 19 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [0,1,2,3,4]
+            }
+        ]
+    },
+    "SD_ACIDSHIELD": {
+        "source_file":     "data/images/even_more_shields.png",
+        "source_rect":     { "xpos": 0, "ypos": 92, "width": 230, "height": 42 },
+        "frame_size":      { "width": 46, "height": 42 },
+        "hot_spot":        { "xpos": 23, "ypos": 19 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [0,1,2,3,4]
+            }
+        ]
+    }
+}

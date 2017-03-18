@@ -1,0 +1,20 @@
+{
+    "SD_TELEPORTER": {
+        "source_file":     "data/images/items.png",
+        "source_rect":     { "xpos": 0, "ypos": 291, "width": 220, "height": 111 },
+        "frame_size":      { "width": 110, "height": 111 },
+        "hot_spot":        { "xpos": 55, "ypos": 110 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     true,
+                "fps":         16,
+                "data":  [1,0]
+            }
+        ]
+    }
+}

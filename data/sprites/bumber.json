@@ -1,0 +1,20 @@
+{
+    "SD_BUMPER": {
+        "source_file":     "data/images/bumper.png",
+        "source_rect":     { "xpos": 10, "ypos": 60, "width": 40, "height": 80 },
+        "frame_size":      { "width": 40, "height": 40 },
+        "hot_spot":        { "xpos": 20, "ypos": 20 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [1]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [0,1]
+            }
+        ]
+    }
+}

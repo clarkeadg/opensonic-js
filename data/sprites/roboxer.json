@@ -1,0 +1,15 @@
+{
+    "SD_ROBOXER": {
+        "source_file":     "data/images/baddies.png",
+        "source_rect":     { "xpos": 0, "ypos": 33, "width": 111, "height": 34 },
+        "frame_size":      { "width": 37, "height": 34 },
+        "hot_spot":        { "xpos": 19, "ypos": 33 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0,1,2]
+            }
+        ]
+    }
+}

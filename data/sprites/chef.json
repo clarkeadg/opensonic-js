@@ -1,0 +1,15 @@
+{
+    "SD_CHEF": {
+        "source_file":     "data/images/baddies.png",
+        "source_rect":     { "xpos": 152, "ypos": 418, "width": 168, "height": 45 },
+        "frame_size":      { "width": 42, "height": 45 },
+        "hot_spot":        { "xpos": 21, "ypos": 44 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0,1,2,3]
+            }
+        ]
+    }
+}

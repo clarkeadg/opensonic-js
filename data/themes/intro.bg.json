@@ -1,0 +1,25 @@
+{
+    "bg": [        
+        {
+            "initial_position":    { "xpos": 0, "ypos": 0 },
+            "scroll_speed":        { "xspeed": 0, "yspeed": 0 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            true,
+
+            "sprite":
+            {
+                "source_file":     "data/images/intro.png",
+                "source_rect":     { "xpos": 0, "ypos": 0, "width": 480, "height": 271 },
+                "frame_size":      { "width": 480, "height": 271 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        }
+    ]
+}

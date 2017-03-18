@@ -1,0 +1,15 @@
+{
+    "SD_FLYINGEYES": {
+        "source_file":     "data/images/baddies.png",
+        "source_rect":     { "xpos": 243, "ypos": 246, "width": 192, "height": 60 },
+        "frame_size":      { "width": 48, "height": 60 },
+        "hot_spot":        { "xpos": 26, "ypos": 59 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0,1,2,3]
+            }
+        ]
+    }
+}

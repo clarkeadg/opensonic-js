@@ -1,0 +1,25 @@
+{
+    "SD_FIREBALL": {
+        "source_file":     "data/images/items.png",
+        "source_rect":     { "xpos": 223, "ypos": 403, "width": 51, "height": 66 },
+        "frame_size":      { "width": 17, "height": 33 },
+        "hot_spot":        { "xpos": 8, "ypos": 32 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         16,
+                "data":  [0,1]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [2]
+            },
+            {
+                "repeat":     true,
+                "fps":         16,
+                "data":  [3,4]
+            }
+        ]
+    }
+}

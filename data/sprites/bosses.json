@@ -1,0 +1,58 @@
+{
+    "SD_SIMPLEBOSS": {
+        "source_file":     "data/images/boss.png",
+        "source_rect":     { "xpos": 0, "ypos": 0, "width": 216, "height": 56 },
+        "frame_size":      { "width": 54, "height": 56 },
+        "hot_spot":        { "xpos": 27, "ypos": 55 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         16,
+                "data":  [0,1]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [2,2,2]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [3]
+            }
+        ]
+    },
+    "SD_MECHASHADOW": {
+        "source_file":     "data/images/boss.png",
+        "source_rect":     { "xpos": 0, "ypos": 71, "width": 300, "height": 50 },
+        "frame_size":      { "width": 50, "height": 50 },
+        "hot_spot":        { "xpos": 25, "ypos": 25 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         16,
+                "data":  [0,1]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [4,4]
+            },
+            {
+                "repeat":     true,
+                "fps":         16,
+                "data":  [2,3]
+            },
+            {
+                "repeat":     false,
+                "fps":         8,
+                "data":  [5,5]
+            },
+            {
+                "repeat":     true,
+                "fps":         32,
+                "data":  [4,0]
+            }
+        ]
+    }
+}

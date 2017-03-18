@@ -1,0 +1,41 @@
+{
+    "SD_ARROW": {
+        "source_file":     "data/images/items.png",
+        "source_rect":     { "xpos": 3, "ypos": 37, "width": 14, "height": 14 },
+        "frame_size":      { "width": 14, "height": 14 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_QUESTIONMARK": {
+        "source_file":     "data/images/questionmark.png",
+        "source_rect":     { "xpos": 0, "ypos": 0, "width": 20, "height": 40 },
+        "frame_size":      { "width": 20, "height": 40 },
+        "hot_spot":        { "xpos": 10, "ypos": 32 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_INVSTAR": {
+        "source_file":     "data/images/items.png",
+        "source_rect":     { "xpos": 0, "ypos": 58, "width": 42, "height": 12 },
+        "frame_size":      { "width": 14, "height": 12 },
+        "hot_spot":        { "xpos": 9, "ypos": 9 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0,1,2]
+            }
+        ]
+    }   
+}

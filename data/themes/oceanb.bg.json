@@ -1,0 +1,550 @@
+{
+    "bg": [        
+        {
+            "initial_position":    { "xpos": 0, "ypos": 0 },
+            "scroll_speed":        { "xspeed": -0.05, "yspeed": 0 },
+            "behavior":            "DEFAULT",
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 960, "width": 925, "height": 130 },
+                "frame_size":      { "width": 925, "height": 130 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 130 },
+            "scroll_speed":        { "xspeed": -0.10, "yspeed": 0 },
+            "behavior":            ["LINEAR", -5.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1090, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 132 },
+            "scroll_speed":        { "xspeed": -0.11, "yspeed": 0 },
+            "behavior":            ["LINEAR", -6.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1092, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 134 },
+            "scroll_speed":        { "xspeed": -0.12, "yspeed": 0 },
+            "behavior":            ["LINEAR", -7.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1094, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 136 },
+            "scroll_speed":        { "xspeed": -0.13, "yspeed": 0 },
+            "behavior":            ["LINEAR", -8.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1096, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 138 },
+            "scroll_speed":        { "xspeed": -0.14, "yspeed": 0 },
+            "behavior":            ["LINEAR", -9.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1098, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 140 },
+            "scroll_speed":        { "xspeed": -0.15, "yspeed": 0 },
+            "behavior":            ["LINEAR", -10.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1100, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 142 },
+            "scroll_speed":        { "xspeed": -0.16, "yspeed": 0 },
+            "behavior":            ["LINEAR", -11.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1102, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 144 },
+            "scroll_speed":        { "xspeed": -0.17, "yspeed": 0 },
+            "behavior":            ["LINEAR", -12.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1104, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 146 },
+            "scroll_speed":        { "xspeed": -0.18, "yspeed": 0 },
+            "behavior":            ["LINEAR", -13.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1106, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 148 },
+            "scroll_speed":        { "xspeed": -0.19, "yspeed": 0 },
+            "behavior":            ["LINEAR", -14.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1108, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 150 },
+            "scroll_speed":        { "xspeed": -0.20, "yspeed": 0 },
+            "behavior":            ["LINEAR", -15.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1110, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 152 },
+            "scroll_speed":        { "xspeed": -0.21, "yspeed": 0 },
+            "behavior":            ["LINEAR", -16.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1112, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 154 },
+            "scroll_speed":        { "xspeed": -0.22, "yspeed": 0 },
+            "behavior":            ["LINEAR", -17.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1114, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 156 },
+            "scroll_speed":        { "xspeed": -0.23, "yspeed": 0 },
+            "behavior":            ["LINEAR", -18.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1116, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 158 },
+            "scroll_speed":        { "xspeed": -0.24, "yspeed": 0 },
+            "behavior":            ["LINEAR", -19.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1118, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 160 },
+            "scroll_speed":        { "xspeed": -0.25, "yspeed": 0 },
+            "behavior":            ["LINEAR", -20.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1120, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 162 },
+            "scroll_speed":        { "xspeed": -0.26, "yspeed": 0 },
+            "behavior":            ["LINEAR", -21.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1122, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 164 },
+            "scroll_speed":        { "xspeed": -0.27, "yspeed": 0 },
+            "behavior":            ["LINEAR", -22.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1124, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 166 },
+            "scroll_speed":        { "xspeed": -0.28, "yspeed": 0 },
+            "behavior":            ["LINEAR", -23.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1126, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 168 },
+            "scroll_speed":        { "xspeed": -0.29, "yspeed": 0 },
+            "behavior":            ["LINEAR", -24.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1128, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 170 },
+            "scroll_speed":        { "xspeed": -0.30, "yspeed": 0 },
+            "behavior":            ["LINEAR", -25.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1130, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 172 },
+            "scroll_speed":        { "xspeed": -0.31, "yspeed": 0 },
+            "behavior":            ["LINEAR", -26.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1132, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 174 },
+            "scroll_speed":        { "xspeed": -0.32, "yspeed": 0 },
+            "behavior":            ["LINEAR", -27.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1134, "width": 925, "height": 2 },
+                "frame_size":      { "width": 925, "height": 2 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 176 },
+            "scroll_speed":        { "xspeed": -0.33, "yspeed": 0 },
+            "behavior":            ["LINEAR", -28.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 0, "ypos": 1136, "width": 925, "height": 114 },
+                "frame_size":      { "width": 925, "height": 114 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        },
+        {
+            "initial_position":    { "xpos": 0, "ypos": 235 },
+            "scroll_speed":        { "xspeed": -0.25, "yspeed": -0.05 },
+            "behavior":            ["LINEAR", -10.0, 0.0],
+            "repeat_x":            true,
+            "repeat_y":            false,
+
+            "sprite":
+            {
+                "source_file":     "data/images/ocean.png",
+                "source_rect":     { "xpos": 110, "ypos": 700, "width": 810, "height": 170 },
+                "frame_size":      { "width": 810, "height": 170 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Blue Ocean Zone",
+  "act": 1,
+  "theme": "data/themes/ocean.bricks.json",
+  "bgtheme": "data/themes/oceanf.bg.json",
+  "spawn_point": {
+    "x": 40,
+    "y": 2550
+  },
+  "music": "data/music/crusader.mp4",
+  "boss": null,
+  "bricklist": [
+    { "id": 7, "xpos": 0, "ypos": 2568 }
+  ],
+  "itemlist": [],
+  "enemylist": [],
+  "dialogbox": []
+}

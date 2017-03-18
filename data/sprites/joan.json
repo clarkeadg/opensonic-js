@@ -1,0 +1,15 @@
+{
+    "SD_JOAN": {
+        "source_file":     "data/images/baddies.png",
+        "source_rect":     { "xpos": 0, "ypos": 121, "width": 48, "height": 24 },
+        "frame_size":      { "width": 24, "height": 24 },
+        "hot_spot":        { "xpos": 12, "ypos": 12 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         16,
+                "data":  [0,1]
+            }
+        ]
+    }
+}

@@ -1,0 +1,90 @@
+{
+    "SD_ICON": {
+        "source_file":     "data/images/item_boxes.png",
+        "source_rect":     { "xpos": 200, "ypos": 100, "width": 96, "height": 42 },
+        "frame_size":      { "width": 16, "height": 14 },
+        "hot_spot":        { "xpos": 8, "ypos": 20 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [1]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [2]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [3]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [4]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [5]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [6]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [7]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [8]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [9]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [10]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [11]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [12]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [13]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [14]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [15]
+            },
+            {
+                "repeat":     true,
+                "fps":         24,
+                "data":  [16]
+            }
+        ]
+    }
+}

@@ -1,0 +1,1316 @@
+{
+  "bricks": [
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 8, "ypos": 10, "width": 144, "height": 39 },
+                "frame_size":      { "width": 144, "height": 39 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 8, "ypos": 60, "width": 143, "height": 33 },
+                "frame_size":      { "width": 143, "height": 33 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 193, "ypos": 20, "width": 40, "height": 71 },
+                "frame_size":      { "width": 40, "height": 71 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               340,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 242, "ypos": 22, "width": 87, "height": 31 },
+                "frame_size":      { "width": 87, "height": 31 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 242, "ypos": 54, "width": 87, "height": 38 },
+                "frame_size":      { "width": 87, "height": 38 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               20,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 343, "ypos": 22, "width": 87, "height": 31 },
+                "frame_size":      { "width": 87, "height": 31 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 343, "ypos": 54, "width": 87, "height": 38 },
+                "frame_size":      { "width": 87, "height": 38 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 7, "ypos": 100, "width": 128, "height": 128 },
+                "frame_size":      { "width": 128, "height": 128 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 6, "ypos": 235, "width": 128, "height": 128 },
+                "frame_size":      { "width": 128, "height": 128 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 6, "ypos": 377, "width": 124, "height": 172 },
+                "frame_size":      { "width": 124, "height": 172 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 142, "ypos": 378, "width": 31, "height": 86 },
+                "frame_size":      { "width": 31, "height": 86 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 5, "ypos": 570, "width": 49, "height": 42 },
+                "frame_size":      { "width": 49, "height": 42 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               317,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 77, "ypos": 559, "width": 127, "height": 119 },
+                "frame_size":      { "width": 127, "height": 119 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 161, "ypos": 679, "width": 43, "height": 32 },
+                "frame_size":      { "width": 43, "height": 32 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 16, "ypos": 628, "width": 41, "height": 39 },
+                "frame_size":      { "width": 41, "height": 39 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 375, "ypos": 570, "width": 49, "height": 42 },
+                "frame_size":      { "width": 49, "height": 42 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               43,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 228, "ypos": 559, "width": 127, "height": 119 },
+                "frame_size":      { "width": 127, "height": 119 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 228, "ypos": 679, "width": 43, "height": 32 },
+                "frame_size":      { "width": 43, "height": 32 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 375, "ypos": 628, "width": 41, "height": 39 },
+                "frame_size":      { "width": 41, "height": 39 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 482, "ypos": 7, "width": 102, "height": 98 },
+                "frame_size":      { "width": 102, "height": 98 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 629, "ypos": 11, "width": 96, "height": 70 },
+                "frame_size":      { "width": 96, "height": 70 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+            "zindex":              0.1,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 739, "ypos": 69, "width": 128, "height": 128 },
+                "frame_size":      { "width": 64, "height": 64 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         6,
+                    "data":        [0, 1, 2, 3]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 758, "ypos": 219, "width": 64, "height": 102 },
+                "frame_size":      { "width": 64, "height": 102 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 758, "ypos": 337, "width": 71, "height": 63 },
+                "frame_size":      { "width": 71, "height": 63 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 763, "ypos": 408, "width": 60, "height": 72 },
+                "frame_size":      { "width": 60, "height": 72 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 752, "ypos": 495, "width": 80, "height": 90 },
+                "frame_size":      { "width": 80, "height": 90 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 604, "ypos": 595, "width": 114, "height": 217 },
+                "frame_size":      { "width": 114, "height": 217 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 728, "ypos": 596, "width": 114, "height": 157 },
+                "frame_size":      { "width": 114, "height": 157 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 17, "ypos": 760, "width": 32, "height": 48 },
+                "frame_size":      { "width": 32, "height": 48 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 52, "ypos": 760, "width": 32, "height": 48 },
+                "frame_size":      { "width": 32, "height": 48 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 21, "ypos": 814, "width": 24, "height": 48 },
+                "frame_size":      { "width": 24, "height": 48 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 55, "ypos": 814, "width": 24, "height": 48 },
+                "frame_size":      { "width": 24, "height": 48 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            ["CIRCULAR", 200, 200, 0.1, 0.1],
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 18, "ypos": 715, "width": 64, "height": 32 },
+                "frame_size":      { "width": 64, "height": 32 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               17,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 217, "ypos": 313, "width": 51, "height": 16 },
+                "frame_size":      { "width": 51, "height": 16 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 270, "ypos": 314, "width": 19, "height": 14 },
+                "frame_size":      { "width": 19, "height": 14 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               45,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 270, "ypos": 284, "width": 29, "height": 29 },
+                "frame_size":      { "width": 29, "height": 29 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 300, "ypos": 284, "width": 14, "height": 19 },
+                "frame_size":      { "width": 14, "height": 19 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               73,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 300, "ypos": 232, "width": 16, "height": 51 },
+                "frame_size":      { "width": 16, "height": 51 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 328, "ypos": 231, "width": 96, "height": 96 },
+                "frame_size":      { "width": 96, "height": 96 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               90,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 388, "ypos": 161, "width": 36, "height": 56 },
+                "frame_size":      { "width": 36, "height": 56 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               107,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 298, "ypos": 391, "width": 16, "height": 51 },
+                "frame_size":      { "width": 16, "height": 51 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 298, "ypos": 370, "width": 14, "height": 20 },
+                "frame_size":      { "width": 14, "height": 20 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               135,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 268, "ypos": 361, "width": 29, "height": 29 },
+                "frame_size":      { "width": 29, "height": 29 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 268, "ypos": 346, "width": 19, "height": 14 },
+                "frame_size":      { "width": 19, "height": 14 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               163,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 215, "ypos": 345, "width": 51, "height": 16 },
+                "frame_size":      { "width": 51, "height": 16 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 324, "ypos": 347, "width": 96, "height": 96 },
+                "frame_size":      { "width": 96, "height": 96 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               180,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 367, "ypos": 495, "width": 111, "height": 28 },
+                "frame_size":      { "width": 111, "height": 28 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 495, "ypos": 495, "width": 21, "height": 28 },
+                "frame_size":      { "width": 21, "height": 28 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               197,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 609, "ypos": 345, "width": 51, "height": 16 },
+                "frame_size":      { "width": 51, "height": 16 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 588, "ypos": 346, "width": 19, "height": 14 },
+                "frame_size":      { "width": 19, "height": 14 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               225,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 578, "ypos": 361, "width": 29, "height": 29 },
+                "frame_size":      { "width": 29, "height": 29 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 563, "ypos": 371, "width": 14, "height": 19 },
+                "frame_size":      { "width": 14, "height": 19 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               3,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 561, "ypos": 391, "width": 16, "height": 51 },
+                "frame_size":      { "width": 16, "height": 51 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 455, "ypos": 347, "width": 96, "height": 96 },
+                "frame_size":      { "width": 96, "height": 96 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               270,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 451, "ypos": 161, "width": 36, "height": 56 },
+                "frame_size":      { "width": 36, "height": 56 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               287,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 559, "ypos": 232, "width": 16, "height": 51 },
+                "frame_size":      { "width": 16, "height": 51 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 561, "ypos": 284, "width": 14, "height": 19 },
+                "frame_size":      { "width": 14, "height": 19 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               315,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 576, "ypos": 284, "width": 29, "height": 29 },
+                "frame_size":      { "width": 29, "height": 29 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 586, "ypos": 314, "width": 19, "height": 14 },
+                "frame_size":      { "width": 19, "height": 14 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               343,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 607, "ypos": 313, "width": 51, "height": 16 },
+                "frame_size":      { "width": 51, "height": 16 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "PASSABLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 453, "ypos": 231, "width": 96, "height": 96 },
+                "frame_size":      { "width": 96, "height": 96 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 489, "ypos": 584, "width": 80, "height": 74 },
+                "frame_size":      { "width": 80, "height": 74 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 754, "ypos": 19, "width": 40, "height": 40 },
+                "frame_size":      { "width": 40, "height": 40 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            "DEFAULT",
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 8, "ypos": 60, "width": 66, "height": 33 },
+                "frame_size":      { "width": 66, "height": 33 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            ["BREAKABLE", 3, 3],
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 629, "ypos": 18, "width": 32, "height": 56 },
+                "frame_size":      { "width": 32, "height": 56 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            ["FALL", 6, 3, 1],
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 168, "ypos": 766, "width": 140, "height": 49 },
+                "frame_size":      { "width": 140, "height": 49 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            ["FALL", 6, 3, 0],
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 168, "ypos": 766, "width": 140, "height": 49 },
+                "frame_size":      { "width": 140, "height": 49 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "OBSTACLE",
+            "behavior":            ["CIRCULAR", 100, 200, 0.1, 0.1],
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 18, "ypos": 715, "width": 64, "height": 32 },
+                "frame_size":      { "width": 64, "height": 32 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        },
+        {
+            "type":                "CLOUD",
+            "behavior":            ["CIRCULAR", 100, 200, 0.1, 0.1, 180],
+            "angle":               0,
+
+            "sprite":
+            {
+                "source_file":     "data/images/island2.png",
+                "source_rect":     { "xpos": 18, "ypos": 715, "width": 64, "height": 32 },
+                "frame_size":      { "width": 64, "height": 32 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        [0]
+                }
+            }
+        }
+  ]
+}

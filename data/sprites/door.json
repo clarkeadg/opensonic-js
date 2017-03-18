@@ -1,0 +1,15 @@
+{
+    "SD_DOOR": {
+        "source_file":     "data/images/switches.png",
+        "source_rect":     { "xpos": 50, "ypos": 80, "width": 24, "height": 64 },        
+        "frame_size":      { "width": 24, "height": 64 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":      true,
+                "fps":         8,
+                "data":        [0]
+            }
+        ]
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "SD_FLYINGBOY": {
+        "source_file":     "data/images/baddies.png",
+        "source_rect":     { "xpos": 4, "ypos": 242, "width": 64, "height": 59 },
+        "frame_size":      { "width": 32, "height": 59 },
+        "hot_spot":        { "xpos": 14, "ypos": 58 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0,1]
+            }
+        ]
+    }
+}

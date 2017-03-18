@@ -1,0 +1,25 @@
+{
+    "bg": [        
+        {
+            "initial_position":    { "xpos": 0, "ypos": 0 },
+            "scroll_speed":        { "xspeed": 0, "yspeed": 0 },
+            "behavior":            ["LINEAR", -15, -15],
+            "repeat_x":            true,
+            "repeat_y":            true,
+
+            "sprite":
+            {
+                "source_file":     "data/images/squarebg.png",
+                "source_rect":     { "xpos": 0, "ypos": 0, "width": 48, "height": 48 },
+                "frame_size":      { "width": 48, "height": 48 },
+
+                "animations":
+                {
+                    "repeat":      true,
+                    "fps":         8,
+                    "data":        0
+                }
+            }
+        }   
+    ]
+}

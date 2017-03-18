@@ -1,0 +1,20 @@
+{
+    "SD_SWITCH": {
+        "source_file":     "data/images/switches.png",
+        "source_rect":     { "xpos": 10, "ypos": 80, "width": 32, "height": 14 },
+        "frame_size":      { "width": 32, "height": 7 },
+        "hot_spot":        { "xpos": 16, "ypos": 7 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [1]
+            }
+        ]
+    }
+}

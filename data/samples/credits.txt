@@ -1,0 +1,25 @@
+Credits:
+
+Mateus Reis
+--- break.wav (CC-BY-SA 3.0)
+--- checkpoint.wav (CC-BY-SA 3.0)
+--- jump.wav (CC-BY-SA 3.0)
+--- spring.wav (CC-BY-SA 3.0)
+
+Di Rodrigues
+--- 1up.ogg (CC-BY-SA 3.0)
+--- goal.ogg (CC-BY-SA 3.0)
+
+SilverstepP
+--- shield.wav (GPL)
+--- acidshield.wav (GPL)
+--- fireshield.wav (GPL)
+--- thundershield.wav (GPL)
+--- watershield.wav (GPL)
+--- windshield.wav (GPL)
+
+Alexandre
+--- spikes_appearing.wav (CC-BY-SA 3.0)
+--- spikes_disappearing.wav (CC-BY-SA 3.0)
+
+The other sound effects were ripped by Kain, Timothy, Water Proof Pop Tart, Stealth and Chaotix Emerald. These were downloaded from http://www.sonicfangameshq.com , http://www.sonicfangameshq.com/sounds.html

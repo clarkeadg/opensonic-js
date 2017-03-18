@@ -1,0 +1,25 @@
+{
+    "SD_CHECKPOINT": {
+        "source_file":     "data/images/checkpoint_orb.png",
+        "source_rect":     { "xpos": 0, "ypos": 80, "width": 259, "height": 65 },
+        "frame_size":      { "width": 37, "height": 65 },
+        "hot_spot":        { "xpos": 18, "ypos": 63 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     false,
+                "fps":         24,
+                "data":  [1,2,3,4,5,0,1,2,3,4,5]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [6,0]
+            }
+        ]
+    }
+}

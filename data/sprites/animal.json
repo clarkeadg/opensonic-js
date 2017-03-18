@@ -1,0 +1,130 @@
+{
+    "SD_ANIMAL": {
+        "source_file":     "data/images/animals.png",
+        "source_rect":     { "xpos": 0, "ypos": 0, "width": 180, "height": 180 },
+        "frame_size":      { "width": 30, "height": 30 },
+        "hot_spot":        { "xpos": 15, "ypos": 30 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [1,2]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [3]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [4,5]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [6]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [7,8]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [9]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [10,11]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [12]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [13,14]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [15]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [16,17]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [18]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [19,20]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [21]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [22,23]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [24]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [25,26]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [27]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [28,29]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [30]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [31,32]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [33]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [34,35]
+            }
+        ]
+    }
+}

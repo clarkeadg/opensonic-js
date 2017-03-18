@@ -1,0 +1,93 @@
+{
+    "SD_LOOPRIGHT": {
+        "source_file":     "data/images/special.png",
+        "source_rect":     { "xpos": 0, "ypos": 0, "width": 32, "height": 96 },
+        "frame_size":      { "width": 32, "height": 96 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_LOOPMIDDLE": {
+        "source_file":     "data/images/special.png",
+        "source_rect":     { "xpos": 64, "ypos": 0, "width": 32, "height": 16 },
+        "frame_size":      { "width": 32, "height": 16 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_LOOPLEFT": {
+        "source_file":     "data/images/special.png",
+        "source_rect":     { "xpos": 32, "ypos": 0, "width": 32, "height": 96 },
+        "frame_size":      { "width": 32, "height": 96 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_LOOPNONE": {
+        "source_file":     "data/images/special.png",
+        "source_rect":     { "xpos": 96, "ypos": 0, "width": 32, "height": 96 },
+        "frame_size":      { "width": 32, "height": 96 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_LOOPFLOOR": {
+        "source_file":     "data/images/special.png",
+        "source_rect":     { "xpos": 64, "ypos": 16, "width": 32, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_LOOPFLOORNONE": {
+        "source_file":     "data/images/special.png",
+        "source_rect":     { "xpos": 64, "ypos": 48, "width": 32, "height": 32 },
+        "frame_size":      { "width": 32, "height": 32 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    },
+    "SD_LOOPFLOORTOP": {
+        "source_file":     "data/images/special.png",
+        "source_rect":     { "xpos": 128, "ypos": 0, "width": 64, "height": 16 },
+        "frame_size":      { "width": 64, "height": 16 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            }
+        ]
+    }
+}

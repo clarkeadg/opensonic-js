@@ -1,0 +1,15 @@
+{
+    "SD_SURPREYES": {
+        "source_file":     "data/images/baddies.png",
+        "source_rect":     { "xpos": 8, "ypos": 410, "width": 70, "height": 56 },
+        "frame_size":      { "width": 70, "height": 28 },
+        "hot_spot":        { "xpos": 35, "ypos": 27 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0,1]
+            }
+        ]
+    }
+}

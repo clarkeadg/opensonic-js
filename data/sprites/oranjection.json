@@ -1,0 +1,15 @@
+{
+    "SD_ORANJECTION": {
+        "source_file":     "data/images/baddies.png",
+        "source_rect":     { "xpos": 95, "ypos": 414, "width": 39, "height": 48 },
+        "frame_size":      { "width": 39, "height": 24 },
+        "hot_spot":        { "xpos": 20, "ypos": 23 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0,1]
+            }
+        ]
+    }
+}

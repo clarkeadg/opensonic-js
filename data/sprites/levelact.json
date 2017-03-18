@@ -1,0 +1,25 @@
+{
+    "SD_LEVELACT": {
+        "source_file":     "data/images/acts.png",
+        "source_rect":     { "xpos": 0, "ypos": 0, "width": 144, "height": 32 },
+        "frame_size":      { "width": 48, "height": 32 },
+        "hot_spot":        { "xpos": 0, "ypos": 0 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [1]
+            },
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [2]
+            }
+        ]
+    }
+}

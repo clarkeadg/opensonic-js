@@ -1,0 +1,15 @@
+{
+    "SD_NAFDER": {
+        "source_file":     "data/images/baddies.png",
+        "source_rect":     { "xpos": 0, "ypos": 70, "width": 174, "height": 42 },
+        "frame_size":      { "width": 58, "height": 42 },
+        "hot_spot":        { "xpos": 29, "ypos": 41 },
+        "animations": [
+            {
+                "repeat":     true,
+                "fps":         8,
+                "data":  [0,1,2]
+            }
+        ]
+    }
+}
