@@ -6,7 +6,7 @@ This is a port of the OpenSonic Project written in Javascript.
 
 <img src="https://clarkeadg.github.io/opensonic-js/screenshots/OpenSonicJS_01.jpg">
 
-## Original Open Sonic
+## Thanks to the Original Open Sonic
 [Open Sonic](http://opensnc.sourceforge.net/home/index.php)
 
 ## Install
