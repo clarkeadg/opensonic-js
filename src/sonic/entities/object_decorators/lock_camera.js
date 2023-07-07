@@ -58,7 +58,7 @@ const update = (obj, team, team_size, brick_list, item_list, object_list) => {
   let object = obj.get_object_instance(obj);
   let player = enemy_get_observed_player(object);
   let me = obj;
-  let act = object.actor, *ta;
+  let act = object.actor;
   let rx, ry, rw, rh;
   let i;
 

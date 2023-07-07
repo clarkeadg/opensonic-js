@@ -23,6 +23,9 @@ module.exports = {
   ],
   module: {
     rules: [
+      // Typescript
+      { test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
+
       // JavaScript: Use Babel to transpile JavaScript files
       { test: /\.js$/, use: ['babel-loader'] },
 
@@ -34,6 +37,6 @@ module.exports = {
     ],
   },
   resolve: {
-
+    extensions: [ '.tsx', '.ts', '.js' ]
   }
 }

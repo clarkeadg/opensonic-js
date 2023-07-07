@@ -123,7 +123,7 @@ const ontimeout_new = (timeout) => {
   e.should_trigger_event = ontimeout_should_trigger_event;
 
   x.timeout = timeout;
-  x.timer = 0.0f;
+  x.timer = 0.0;
 
   return e;
 }
@@ -141,7 +141,7 @@ const ontimeout_should_trigger_event = (event, object, team, team_size, brick_li
 
   x.timer += timer_get_delta();
   if(x.timer >= x.timeout) {
-      x.timer = 0.0f;
+      x.timer = 0.0;
       return true;
   }
 
@@ -232,7 +232,7 @@ const onrandomevent_release = (event) => {
 }
 
 const onrandomevent_should_trigger_event = (event, object, team, team_size, brick_list, item_list, object_list) => {
-  var r = 100000 * ((onrandomevent_t*)event).probability;
+  var r = 100000 * event.probability;
   return r > random(100000);
 }
 

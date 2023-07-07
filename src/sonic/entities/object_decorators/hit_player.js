@@ -60,13 +60,10 @@ const render = (obj, camera_position) => {
 }
 
 const hit_strategy = (p) => true
-}
 
 const burn_strategy = (p) => p.shield_type != SH_FIRESHIELD && p.shield_type != SH_WATERSHIELD
-}
 
 const shock_strategy = (p) => p.shield_type != SH_THUNDERSHIELD
-}
 
 const acid_strategy = (p) => p.shield_type != SH_ACIDSHIELD
 
