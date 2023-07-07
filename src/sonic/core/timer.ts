@@ -5,12 +5,18 @@ import { logfile_message } from "./logfile"
 const MIN_FRAME_INTERVAL = 10; /* (1/10) * 1000 = 100 fps max */
 const MAX_FRAME_INTERVAL = 16; /* (1/16) * 1000 ~  62 fps min */
 
-let partial_fps, fps_accum, fps;
-let last_time = 0;;
+let partial_fps  = 0;
+let fps_accum = 0;
+let fps = 0;
+let last_time = 0;
 let delta = 0.0;
 let start_time = 0;
 
-export const timer_init = () => {
+/*
+ * timer_init()
+ * Initializes the Time Handler
+ */
+export const timer_init = ():void => {
   logfile_message("timer_init()");
 
   partial_fps = 0;
@@ -21,9 +27,17 @@ export const timer_init = () => {
   last_time = timer_get_ticks();
 }
 
-export const timer_update = (step) => {
+/*
+ * timer_update()
+ * Updates the Time Handler. This routine
+ * must be called at every cycle of
+ * the main loop
+ */
+export const timer_update = ():void => {
 
-  let current_time, delta_time; /* both in milliseconds */
+   /* both in milliseconds */
+  let current_time = 0;
+  let delta_time = 0;
 
   /* time control */
   for(delta_time = 0; delta_time < MIN_FRAME_INTERVAL; ) {
@@ -36,7 +50,7 @@ export const timer_update = (step) => {
 
   /* FPS (frames per second) */
   partial_fps++; /* 1 render per cycle */
-  fps_accum += parseInt(delta_time,10);
+  fps_accum += delta_time;
   if(fps_accum >= 1000) {
       fps = partial_fps;
       partial_fps = 0;
@@ -47,30 +61,44 @@ export const timer_update = (step) => {
   last_time = timer_get_ticks();
 }
 
-export const timer_release = () => {
+/*
+ * timer_release()
+ * Releases the Time Handler
+ */
+export const timer_release = ():void => {
   logfile_message("timer_release()");
 }
 
-/* main utilities */
-export const timer_get_delta = () => {
+/*
+ * timer_get_delta()
+ * Returns the time interval, in seconds,
+ * between the last two cycles of the
+ * main loop
+ */
+export const timer_get_delta = ():number => {
   return delta;
 }
 
-export const timer_get_ticks = () => {
-  const ticks = get_tick_count();
+/*
+ * timer_get_ticks()
+ * Elapsed milliseconds since
+ * the application has started
+ */
+export const timer_get_ticks = ():number => {
+  const ticks:number = get_tick_count();
   if(ticks < start_time)
     start_time = ticks;
   return ticks - start_time;
 }
 
-export const timer_get_fps = () => {
+/*
+ * timer_get_fps()
+ * Returns the FPS rate
+ */
+export const timer_get_fps = ():number => {
   return fps;
 }
 
-const update_timer = () => {
-  elapsed_time++;
-}
-
-const get_tick_count = () => {
+const get_tick_count = ():number => {
   return Math.floor(Date.now());
 }
