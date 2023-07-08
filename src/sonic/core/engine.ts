@@ -28,11 +28,16 @@ import { timer_init, timer_update } from "./timer"
 import { runAnimation } from "./util"
 import { video_init, video_render } from "./video"
 import { level_setfile } from "./../scenes/level"
-import { player_init, player_set_lives, player_set_score, PLAYER_INITIAL_LIVES } from "./../entities/player"
+import { player_set_lives, player_set_score, PLAYER_INITIAL_LIVES } from "./../entities/player"
 import { enemy_objects_init } from "./../entities/enemy"
 import { font_init } from "./../entities/font"
 
-export const engine_init = (options) => {
+/**
+ * engine_init()
+ * Initializes all the subsystems of
+ * the game engine
+ */
+export const engine_init = (options:any) => {
 
   init_basic_stuff();
   const cmd = commandline_parse(options);
@@ -46,16 +51,20 @@ export const engine_init = (options) => {
     init_accessories(cmd,function(){
       init_game_data();
       push_initial_scene(cmd);
-      mainloop();
+      engine_mainloop();
     });
   });
 };
 
-const mainloop = () => {
+/**
+ * engine_mainloop()
+ * A classic main loop
+ */
+const engine_mainloop = () => {
   let scn;
 
-  runAnimation(function(step) {
-    timer_update(step);
+  runAnimation(function() {
+    timer_update();
     input_update();
     //audio_update();
 
@@ -72,11 +81,20 @@ const mainloop = () => {
   });
 }
 
+/**
+ * init_basic_stuff()
+ * Initializes the basic stuff, such as Allegro.
+ * Call this before anything else.
+ */
 const init_basic_stuff = () => {
   preferences_init();
 }
 
-const init_managers = (cmd) => {
+/**
+ * init_managers()
+ * Initializes the managers
+ */
+const init_managers = (cmd:any) => {
   timer_init();
   video_init(get_window_title(), cmd.video_resolution, cmd.smooth_graphics, cmd.fullscreen, cmd.color_depth, cmd.show_fps);
   audio_init();
@@ -84,7 +102,11 @@ const init_managers = (cmd) => {
   resourcemanager_init();
 }
 
-const init_accessories = (cmd,cb) => {
+/**
+ * init_accessories()
+ * Initializes the accessories
+ */
+const init_accessories = (cmd:any,cb:Function) => {
   soundfactory_init();
   enemy_objects_init();
   storyboard_init();
@@ -95,12 +117,20 @@ const init_accessories = (cmd,cb) => {
   });
 }
 
+/**
+ * init_game_data()
+ * Initializes the game data
+ */
 const init_game_data = () => {
   player_set_lives(PLAYER_INITIAL_LIVES);
   player_set_score(0);
 }
 
-const push_initial_scene = (cmd) => {
+/**
+ * push_initial_scene()
+ * Decides which scene should be pushed into the scene stack
+ */
+const push_initial_scene = (cmd:any) => {
   if(cmd.custom_level) {
       level_setfile(cmd.custom_level_path);
       scenestack_push(storyboard_get_scene(SCENE_LEVEL));
@@ -134,6 +164,10 @@ const push_initial_scene = (cmd) => {
   }
 }
 
+/**
+ * get_window_title()
+ * Returns the title of the window
+ */
 const get_window_title = () => {
   return '';
 }
