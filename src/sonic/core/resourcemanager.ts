@@ -13,16 +13,16 @@ import {
   hashtable_music_t_add
 } from "./hashtable"
 
-let images = {};
-let samples = {};
-let musics = {};
-let dataCache = {};
+let images:any = {};
+let samples:any = {};
+let musics:any = {};
+let dataCache:any = {};
 
-export const resourcemanager_getJsonFiles = (files) => {
+export const resourcemanager_getJsonFiles = (files:string[]) => {
   return Promise.all(files.map(resourcemanager_getJsonFile));
 };
 
-export const resourcemanager_getJsonFile = (file) => {
+export const resourcemanager_getJsonFile = (file:string) => {
   file = DATA_ROOT + file;
   return new Promise(function (fulfill, reject){
     //console.log('GETTING FILE: ',file)
@@ -60,14 +60,14 @@ export const resourcemanager_init = () => {
   musics = hashtable_music_t_create();
 };
 
-export const resourcemanager_add_image = (key, data) => {
+export const resourcemanager_add_image = (key:string, data:any) => {
   hashtable_image_t_add(images, key, data);
 };
 
-export const resourcemanager_add_sample = (key, data) => {
+export const resourcemanager_add_sample = (key:string, data:any) => {
   hashtable_sound_t_add(samples, key, data);
 };
 
-export const resourcemanager_add_music = (key, data) => {
+export const resourcemanager_add_music = (key:string, data:any) => {
   hashtable_music_t_add(musics, key, data);
 };
