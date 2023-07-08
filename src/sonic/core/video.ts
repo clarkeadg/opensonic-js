@@ -12,10 +12,10 @@ export const VIDEO_SCREEN_W           = 480;
 export const VIDEO_SCREEN_H           = 271;
 
 /* Private vars */
-let canvas;
-let cx;
-let video_buffer;
-let video_resolution;
+let canvas:any;
+let cx:any;
+let video_buffer:any;
+let video_resolution:number;
 let video_smooth = false;
 let video_fullscreen = false;
 let video_showfps = false;
@@ -25,11 +25,11 @@ const FADEFX_NONE          =  0;
 const FADEFX_IN            =  1;
 const FADEFX_OUT           =  2;
 
-let fadefx_type;
-let fadefx_end;
-let fadefx_color;
-let fadefx_elapsed_time;
-let fadefx_total_time;
+let fadefx_type:number;
+let fadefx_end:boolean;
+let fadefx_color:string;
+let fadefx_elapsed_time:number;
+let fadefx_total_time:number;
 
 let cameraX = 0;
 let cameraY = 0;
@@ -39,7 +39,11 @@ export const VIDEO_SCALE = 1;
 let CanvasScaleX = 1;
 let CanvasScaleY = 1;
 
-export const video_init = (window_title, resolution, smooth, fullscreen, bpp, show_fps) => {
+/**
+ * video_init()
+ * Initializes the video manager
+ */
+export const video_init = (window_title:string, resolution:number, smooth:boolean, fullscreen:boolean, color_depth: string, show_fps:boolean) => {
 
   video_changemode(resolution, smooth, fullscreen);
 
@@ -82,6 +86,10 @@ export const video_getScale = () => {
   return v2d_new(CanvasScaleX, CanvasScaleY)
 }
 
+/**
+ * video_render()
+ * Updates the video manager and the screen
+ */
 export const video_render = () => {
 
   /* fade effect */
@@ -97,7 +105,7 @@ export const video_render = () => {
             //n = clip(n, 0, 255);
             //n = (fadefx_type == FADEFX_IN) ? 255-n : n;
 
-            n = parseInt(( 100 * (fadefx_elapsed_time*1.25 / fadefx_total_time) ),10);
+            n = ( 100 * (fadefx_elapsed_time*1.25 / fadefx_total_time) );
             n = clip(n, 0, 100);
             n = (fadefx_type == FADEFX_IN) ? 100-n : n;
             n = n/100;
@@ -139,7 +147,7 @@ export const video_render = () => {
         }
         fadefx_type = FADEFX_NONE;
         fadefx_total_time = fadefx_elapsed_time = 0;
-        fadefx_color = 0;
+        fadefx_color = null;
         fadefx_end = true;
     }
   }
@@ -154,7 +162,11 @@ export const video_render = () => {
   }
 }
 
-export const video_fadefx_in = (color, seconds) => {
+/**
+ * video_fadefx_in()
+ * Fade-in effect
+ */
+export const video_fadefx_in = (color:string, seconds:number) => {
   if(fadefx_type == FADEFX_NONE) {
     fadefx_type = FADEFX_IN;
     fadefx_end = false;
@@ -164,7 +176,11 @@ export const video_fadefx_in = (color, seconds) => {
   }
 }
 
-export const video_fadefx_out = (color, seconds) => {
+/**
+ * video_fadefx_out()
+ * Fade-out effect
+ */
+export const video_fadefx_out = (color:string, seconds:number) => {
   if(fadefx_type == FADEFX_NONE) {
     fadefx_type = FADEFX_OUT;
     fadefx_end = false;
@@ -174,20 +190,29 @@ export const video_fadefx_out = (color, seconds) => {
   }
 }
 
+/**
+ * video_fadefx_over()
+ * Asks if the fade effect has ended
+ * (only one action when this event loops)
+ */
 export const video_fadefx_over = () => {
   return fadefx_end;
 }
 
+/**
+ * video_fadefx_is_fading()
+ * Is the fade effect ocurring?
+ */
 export const video_fadefx_is_fading = () => {
   return (fadefx_type != FADEFX_NONE);
 }
 
-export const video_clearDisplay = (rgb) => {
+export const video_clearDisplay = (rgb?:string) => {
   cx.fillStyle = rgb ? rgb : "rgb(0, 0, 0)";
   cx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-export const video_renderLoading = (text, percent) => {
+export const video_renderLoading = (text:string, percent:number) => {
   video_clearDisplay();
 
   const ctx = video_get_backbuffer();
@@ -220,15 +245,15 @@ export const video_renderLoading = (text, percent) => {
   ctx.fillText(text, 130,VIDEO_SCREEN_H/2-30);
 }
 
-export const video_setCameraX = (x) => {
+export const video_setCameraX = (x:number) => {
   return cameraX = x;
 }
 
-export const video_setFlipX = (x) => {
+export const video_setFlipX = (x:boolean) => {
   return flipX = x;
 }
 
-export const video_setCameraY = (y) => {
+export const video_setCameraY = (y:number) => {
   return cameraY = y;
 }
 
@@ -247,6 +272,10 @@ export const video_get_canvas = () => {
   return canvas;
 }
 
+/**
+ * video_get_backbuffer()
+ * Returns a pointer to the backbuffer
+ */
 export const video_get_backbuffer = () => {
   //if(video_buffer == null)
   //  fatal_error("FATAL ERROR: video_get_backbuffer() returned NULL!");
@@ -254,27 +283,52 @@ export const video_get_backbuffer = () => {
   return video_buffer;
 }
 
+/**
+ * video_get_resolution()
+ * Returns the current resolution value,
+ * i.e., VIDEORESOLUTION_*
+ */
 export const video_get_resolution = () => {
   return video_resolution;
 }
 
+/**
+ * video_is_smooth()
+ * Smooth graphics?
+ */
 export const video_is_smooth = () => {
   return video_smooth;
 }
 
+/**
+ * video_is_fullscreen()
+ * Fullscreen mode?
+ */
 export const video_is_fullscreen = () => {
   return video_fullscreen;
 }
 
+/**
+ * video_is_fps_visible()
+ * Is the FPS counter visible?
+ */
 export const video_is_fps_visible = () => {
   return video_showfps;
 }
 
-export const video_show_fps = (show) => {
+/**
+ * video_show_fps()
+ * Shows/hides the FPS counter
+ */
+export const video_show_fps = (show:boolean) => {
   video_showfps = show;
 }
 
-export const video_changemode = (resolution, smooth, fullscreen) => {
+/**
+ * video_changemode()
+ * Sets up the game window
+ */
+export const video_changemode = (resolution:number, smooth:boolean, fullscreen:boolean) => {
 
   /* resolution */
   video_resolution = resolution;
@@ -287,6 +341,11 @@ export const video_changemode = (resolution, smooth, fullscreen) => {
 
 }
 
+/**
+ * video_get_window_size()
+ * Returns the window size, based on
+ * the current resolution
+ */
 export const video_get_window_size = () => {
   let width = VIDEO_SCREEN_W;
   let height = VIDEO_SCREEN_H;
@@ -328,7 +387,7 @@ export const video_get_window_size = () => {
   return v2d_new(width, height);
 }
 
-export const video_getMousePos = (canvas, evt) => {
+export const video_getMousePos = (canvas:any, evt:any) => {
   const rect = canvas.getBoundingClientRect();
   return {
     x: evt.clientX - rect.left,
@@ -336,7 +395,7 @@ export const video_getMousePos = (canvas, evt) => {
   };
 }
 
-const flipHorizontally = (context, around) => {
+const flipHorizontally = (context:any, around:number) => {
   context.translate(around, 0);
   context.scale(-1, 1);
   context.translate(-around, 0);
