@@ -1,6 +1,6 @@
 
 /* Scene struct */
-interface scene_t {
+export interface scene_t {
   init():void,
   update():void,
   render():void,

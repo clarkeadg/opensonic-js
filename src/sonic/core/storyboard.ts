@@ -1,4 +1,4 @@
-
+import { scene_t } from "./scene"
 import { confirmbox_init, confirmbox_update, confirmbox_render, confirmbox_release } from "./../scenes/confirmbox"
 import { credits_init, credits_update, credits_render, credits_release } from "./../scenes/credits"
 import { endofdemo_init, endofdemo_update, endofdemo_render, endofdemo_release } from "./../scenes/endofdemo"
@@ -29,8 +29,12 @@ export const SCENE_CREDITS       = 10;
 export const SCENE_OPTIONS       = 11;
 export const SCENE_STAGESELECT   = 12;
 
-let storyboard = [];
+let storyboard:scene_t[] = [];
 
+/**
+ * storyboard_init()
+ * Initializes the storyboard
+ */
 export const storyboard_init = () => {
 
   /* initializing... */
@@ -53,6 +57,10 @@ export const storyboard_init = () => {
   storyboard[SCENE_STAGESELECT] = scene_create(stageselect_init, stageselect_update, stageselect_render, stageselect_release);
 }
 
+/**
+ * storyboard_release()
+ * Releases the storyboard
+ */
 export const storyboard_release = () => {
   for(let i=0; i<STORYBOARD_CAPACITY; i++) {
     if(storyboard[i])
@@ -60,22 +68,26 @@ export const storyboard_release = () => {
   }
 }
 
-export const storyboard_get_scene = (id) => {
+/**
+ * storyboard_get_scene()
+ * Gets a scene from the storyboard.
+ */
+export const storyboard_get_scene = (id:number) => {
   //const scene_id = STORYBOARD_CAPACITY-1;
   console.log('GET SCENE', id)
-  const scene_id = id;
-  return storyboard[scene_id];
+  return storyboard[id];
 }
 
-const scene_create = (init, update, render, release) => {
-  return {
-    init: init,
-    update: update,
-    render: render,
-    release: release
-  };
+const scene_create = (init:any, update:any, render:any, release:any):scene_t => {
+  const scene:scene_t = {
+    init,
+    update,
+    render,
+    release
+  }
+  return scene;
 }
 
-const scene_destroy = (scn) => {
+const scene_destroy = (scn:scene_t) => {
   scn = null
 }
