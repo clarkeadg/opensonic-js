@@ -51,13 +51,13 @@ export const video_init = (window_title:string, resolution:number, smooth:boolea
 
   canvas = document.getElementById('canvas');
   if (canvas) {
-    console.log('111111111')
+    //console.log('111111111')
     cx = canvas.getContext("2d");
     CanvasScaleX = canvas.width / VIDEO_SCREEN_W;
     CanvasScaleY = canvas.height / VIDEO_SCREEN_H;
     cx.scale( canvas.width / VIDEO_SCREEN_W, canvas.height / VIDEO_SCREEN_H);
   } else {
-    console.log('222222222')
+    //console.log('222222222')
     canvas = document.createElement("canvas");
     cx = canvas.getContext("2d");
     canvas.width = VIDEO_SCREEN_W;
