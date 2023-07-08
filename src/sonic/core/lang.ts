@@ -1,6 +1,5 @@
 import { logfile_message } from "./logfile"
 import { resourcemanager_getJsonFile } from "./resourcemanager"
-import { Dictionary } from "../interfaces/dictionary"
 
 let DEFAULT_LANGUAGE_FILEPATH = "data/languages/english.json";
 //let DEFAULT_LANGUAGE_FILEPATH = "data/languages/deutsch.json";
@@ -11,7 +10,11 @@ let DEFAULT_LANGUAGE_FILEPATH = "data/languages/english.json";
 //let DEFAULT_LANGUAGE_FILEPATH = "data/languages/polish.json";
 //let DEFAULT_LANGUAGE_FILEPATH = "data/languages/ptbr.json";
 
-let strings:Dictionary = {};
+interface strings_t {
+  [key: string]: string
+}
+
+let strings:strings_t = {};
 
 /**
  * lang_init()
@@ -42,13 +45,13 @@ export const lang_release = ():void => {
  * lang_loadfile()
  * Loads a language definition file
  */
-export const lang_loadfile = (filepath:string):Promise<Dictionary> => {
+export const lang_loadfile = (filepath:string):Promise<strings_t> => {
   return new Promise(function (fulfill, reject){
 
     logfile_message(`lang_loadfile(\"%s\")... ${filepath}`);
 
     resourcemanager_getJsonFile(filepath)
-    .then(function(data:Dictionary){
+    .then(function(data:strings_t){
       strings = data;
       fulfill(data);
     });
