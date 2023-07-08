@@ -8,7 +8,7 @@ const QUEST_MAXLEVELS   = 1024;
 const QUESTIMAGE_WIDTH  = 100;
 const QUESTIMAGE_HEIGHT = 75;
 
-interface quest_t {
+export interface quest_t {
   file:string,
   name:string,
   author:string,

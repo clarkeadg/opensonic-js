@@ -8,7 +8,7 @@ import {
   preferences_get_language
 } from "./preferences"
 
-interface cmd_t {
+export interface cmd_t {
   [key: string]: any
 }
 

@@ -23,7 +23,7 @@
     "start": "cross-env NODE_ENV=development webpack serve",
     "build": "cross-env NODE_ENV=production webpack",
     "test": "jest --coverage",
-    "docs": "typedoc --out docs src/sonic/main.ts"
+    "docs": "typedoc --out docs src/sonic/**/*.ts"
   },
   "author": "",
   "license": "ISC"

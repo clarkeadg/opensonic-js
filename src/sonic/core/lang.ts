@@ -10,7 +10,7 @@ let DEFAULT_LANGUAGE_FILEPATH = "data/languages/english.json";
 //let DEFAULT_LANGUAGE_FILEPATH = "data/languages/polish.json";
 //let DEFAULT_LANGUAGE_FILEPATH = "data/languages/ptbr.json";
 
-interface strings_t {
+export interface strings_t {
   [key: string]: string
 }
 

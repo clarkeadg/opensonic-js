@@ -195,7 +195,7 @@ export const sound_stop = (sample:HTMLAudioElement) => {
   }
 }
 
-/**
+/*
  * sound_is_playing()
  * Checks if a given sound is playing or not
  */
