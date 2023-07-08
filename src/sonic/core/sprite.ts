@@ -1,20 +1,39 @@
-
 import { DATA_ROOT } from "./global"
 import { hashtable_sprites, hashtable_spriteinfo_t_create, hashtable_spriteinfo_t_add } from "./hashtable"
 import { image_load, image_destroy } from "./image"
 import { logfile_message } from "./logfile"
 import { resourcemanager_getJsonFiles } from "./resourcemanager"
 import { isInArray } from "./util"
-import { v2d_new } from "./v2d"
+import { v2d_t, v2d_new } from "./v2d"
 import { video_renderLoading } from "./video"
 
 const SPRITE_MAX_ANIM = 1000;
 
-let canvasCache = {};
+interface animation_t {
+  repeat: boolean,
+  fps: number,
+  frame_count: number,
+  data: number,
+  hot_spot: v2d_t,
+  frame_data: any
+}
 
-let sprites = {};
-let numSpritesLoaded = 0;
-let numSprites = 0;
+interface spriteinfo_t {
+  source_file: string,
+  rect_x: number,
+  rect_y: number,
+  rect_w: number,
+  rect_h: number,
+  frame_w: number,
+  frame_h: number,
+  hot_spot: v2d_t,
+  frame_count: number,
+  frame_data: any,
+  animation_count: number,
+  animation_data: any
+}
+
+let sprites:any = {};
 
 // test
 const showSheets = false;
@@ -65,8 +84,12 @@ const spriteFiles = [
 ];
 
 let numLoaded = 0;
-let spriteData = [];
+let spriteData: any[] = [];
 
+/**
+ * sprite_init()
+ * Initializes the sprite module
+ */
 export const sprite_init = () => {
   return new Promise(function (fulfill, reject){
 
@@ -82,7 +105,7 @@ export const sprite_init = () => {
     video_renderLoading('Loading...',0);
 
     resourcemanager_getJsonFiles(spriteFiles)
-    .then(function(data){
+    .then(function(data:any){
 
       console.log('GOT ALL SPRITE JSON FILES')
 
@@ -100,14 +123,19 @@ export const sprite_init = () => {
         //console.log(hashtable.hash.sprites)
         sprites = hashtable_sprites();
         //cb();
-        fulfill();
+        fulfill(sprites);
       });
 
     });
   });
 }
 
-export const sprite_get_animation = (sprite_name, anim_id) => {
+/**
+ * sprite_get_animation()
+ * Receives the sprite name and the desired animation number.
+ * Returns a pointer to an animation object.
+ */
+export const sprite_get_animation = (sprite_name:string, anim_id:number) => {
   let info;
 
   /* find the corresponding spriteinfo_t* instance */
@@ -125,14 +153,19 @@ export const sprite_get_animation = (sprite_name, anim_id) => {
   }
 }
 
-export const sprite_get_image = (anim, frame_id) => {
+/**
+ * sprite_get_image()
+ * Receives an animation and the desired frame number.
+ * Returns an image.
+ */
+export const sprite_get_image = (anim:any, frame_id:number) => {
   //console.log(anim, frame_id)
   if (!anim) return 0;
   //frame_id = Math.min(frame_id, 0, anim.frame_count-1);
   return anim.frame_data[anim.data[frame_id]];
 }
 
-export const sprite_create = (tree) => {
+export const sprite_create = (tree:any) => {
   //console.log('CREATE SPRITE',tree)
   return new Promise(function (fulfill, reject){
     spriteinfo_create(tree)
@@ -140,7 +173,11 @@ export const sprite_create = (tree) => {
   });
 }
 
-export const sprite_info_destroy = (info) => {
+/**
+ * spriteinfo_destroy()
+ * Destroys a spriteinfo_t object
+ */
+export const sprite_info_destroy = (info:any) => {
   let i;
 
   if(info.source_file != null)
@@ -161,7 +198,7 @@ export const sprite_info_destroy = (info) => {
   info = null;
 }
 
-const createCanvas = (imgUrl, spr) => {
+const createCanvas = (imgUrl:string, spr:spriteinfo_t) => {
   let canvas = document.createElement("canvas");
   canvas.width = spr.rect_w;
   canvas.height = spr.rect_h;
@@ -169,7 +206,11 @@ const createCanvas = (imgUrl, spr) => {
   return canvas.getContext("2d");
 }
 
-const animation_delete = (anim) => {
+/**
+ * animation_delete()
+ * Deletes an existing animation_t instance
+ */
+const animation_delete = (anim:any):null => {
   if(anim != null) {
     if(anim.data != null)
       anim.data = null;
@@ -178,9 +219,11 @@ const animation_delete = (anim) => {
   return null;
 }
 
-const dirfill = () => {}
-
-const validate_sprite = (spr) => {
+/**
+ * validate_sprite()
+ * Validates the sprite
+ */
+const validate_sprite = (spr:any) => {
   let i, j, n;
 
   //console.log(spr)
@@ -216,13 +259,22 @@ const validate_sprite = (spr) => {
   return spr;
 }
 
-const validate_animation = (anim) => {
+/**
+ * validate_animation()
+ * Validates the animation
+ */
+const validate_animation = (anim:animation_t) => {
   if(anim.frame_count == 0)
     logfile_message("Animation error: invalid 'data' field. You must specify the frames of the animations");
   //  fatal_error("Animation error: invalid 'data' field. You must specify the frames of the animations");
 }
 
-const spriteinfo_create = (tree) => {
+/**
+ * spriteinfo_create()
+ * Creates and stores on the memory a spriteinfo_t
+ * object by parsing the passed tree
+ */
+const spriteinfo_create = (tree:any) => {
   return new Promise(function (fulfill, reject){
     let s = spriteinfo_new();
     let sprite = traverse_sprite_attributes(s,tree);
@@ -240,26 +292,35 @@ const spriteinfo_create = (tree) => {
   });
 }
 
+/**
+ * spriteinfo_new()
+ * Creates a new empty spriteinfo_t instance
+ */
 const spriteinfo_new = () => {
-  let info = {};
-
-  info.source_file = null;
-  info.rect_x = 0;
-  info.rect_y = 0;
-  info.rect_w = 0;
-  info.rect_h = 0;
-  info.frame_w = info.frame_h = 0;
-  info.hot_spot = v2d_new(0,0);
-  info.frame_count = 0;
-  info.frame_data = [];
-  info.animation_count = 0;
-  info.animation_data = [];
+  const info:spriteinfo_t = {
+    source_file: null,
+    rect_x: 0,
+    rect_y: 0,
+    rect_w: 0,
+    rect_h: 0,
+    frame_w: 0,
+    frame_h: 0,
+    hot_spot: v2d_new(0,0),
+    frame_count: 0,
+    frame_data: [],
+    animation_count: 0,
+    animation_data: []
+  } 
 
   return info;
 }
 
-/* this function needs to be highly optimzed, it gets run many many times */
-const load_sprite_images = (spr) => {
+/**
+ * load_sprite_images()
+ * Loads the sprite by reading the spritesheet
+ * !!! this function needs to be highly optimzed, it gets run many many times
+ */
+const load_sprite_images = (spr:spriteinfo_t) => {
   //console.log('load_sprite_images')
   return new Promise(function (fulfill, reject){
     let i = 0;
@@ -272,7 +333,7 @@ const load_sprite_images = (spr) => {
       //console.log('image loaded',spr.source_file)
 
       //console.log(sheet)
-      spr.frame_count = parseInt((spr.rect_w / spr.frame_w) * (spr.rect_h / spr.frame_h),10);
+      spr.frame_count = (spr.rect_w / spr.frame_w) * (spr.rect_h / spr.frame_h);
       spr.frame_data = [];
 
       spr = setupCanvasSprite(spr,sheet);
@@ -294,13 +355,13 @@ const load_sprite_images = (spr) => {
   });
 }
 
-const setupCanvasSprite = (spr, sheet) => {
+const setupCanvasSprite = (spr:spriteinfo_t, sheet:any) => {
   let cur_x = 0;
   let cur_y = 0;
 
   //console.log('setupCanvasSprite',spr.frame_count);
 
-  for(let i=0; i<parseInt(spr.frame_count,10); i++) {
+  for(let i=0; i<spr.frame_count; i++) {
 
     spr.frame_data[i] = {
       data: sheet,
@@ -325,7 +386,7 @@ const setupCanvasSprite = (spr, sheet) => {
   return spr;
 }
 
-const fix_sprite_animations = (spr) => {
+const fix_sprite_animations = (spr:any) => {
   for(let i=0; i<spr.animation_count; i++) {
     spr.animation_data[i].frame_data = spr.frame_data;
     spr.animation_data[i].hot_spot = spr.hot_spot;
@@ -333,11 +394,19 @@ const fix_sprite_animations = (spr) => {
   return spr;
 }
 
-const traverse = (data) => {
+/**
+ * traverse()
+ * Sprite list traversal
+ */
+const traverse = (data:any) => {
   return Promise.all(data.map(spriteinfo_create));
 }
 
-const traverse_sprite_attributes = (sprite, s) => {
+/**
+ * traverse_sprite_attributes()
+ * Sprite attributes traversal
+ */
+const traverse_sprite_attributes = (sprite:any, s:any) => {
 
   /* source_file */
   sprite.source_file = DATA_ROOT + s.source_file;
@@ -370,7 +439,11 @@ const traverse_sprite_attributes = (sprite, s) => {
   return sprite;
 }
 
-const traverse_animation_attributes = (anim, animation) => {
+/**
+ * traverse_animation_attributes()
+ * Animation attributes traversal
+ */
+const traverse_animation_attributes = (anim:animation_t, animation:any) => {
   //console.log(anim, animation);
 
   anim.repeat = animation.repeat;
@@ -381,20 +454,27 @@ const traverse_animation_attributes = (anim, animation) => {
   return anim;
 }
 
-const register_sprite = (sprite_name, spr) => {
+/**
+ * register_sprite()
+ * Adds spr to the main hash. Please provide the internal name as the sprite_name.
+ */
+const register_sprite = (sprite_name:string, spr:spriteinfo_t) => {
   //logfile_message("Registering sprite '%s'...", sprite_name);
   hashtable_spriteinfo_t_add(hashtable_sprites(), sprite_name, spr);
 }
 
+/**
+ * animation_new()
+ * Creates a new empty animation_t instance
+ */
 const animation_new = () => {
-  let anim = {};
-
-  anim.repeat = false;
-  anim.fps = 8;
-  anim.frame_count = 0;
-  anim.data = null; /* this will be malloc'd later */
-  anim.hot_spot = v2d_new(0,0);
-  anim.frame_data = null;
-
+  const anim:animation_t = {
+    repeat:false,
+    fps: 8,
+    frame_count: 0,
+    data: null, /* this will be malloc'd later */
+    hot_spot: v2d_new(0,0),
+    frame_data: null
+  }
   return anim;
 }
