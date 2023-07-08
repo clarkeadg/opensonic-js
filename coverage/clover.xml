@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1688803670673" clover="3.2.0">
-  <project timestamp="1688803670674" name="All files">
+<coverage generated="1688806153492" clover="3.2.0">
+  <project timestamp="1688806153492" name="All files">
     <metrics statements="95" coveredstatements="55" conditionals="45" coveredconditionals="2" methods="21" coveredmethods="10" elements="161" coveredelements="67" complexity="0" loc="95" ncloc="95" packages="1" files="3" classes="3"/>
     <file name="global.ts" path="C:\Users\clark\Work\Personal\GitHub\opensonic-js\src\sonic\core\global.ts">
       <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
