@@ -6,13 +6,49 @@ import { v2d_new } from "./v2d"
 import { video_get_backbuffer, video_get_canvas, video_getMousePos } from "./video"
 import VirtualJoystick from "./virtualjoystick"
 
-const IT_USER     = 0;
-const IT_KEYBOARD = 1;
-const IT_COMPUTER = 2;
-const IT_JOYSTICK = 3;
-const IT_MOUSE    = 4;
-
 const IB_MAX = 9;
+
+export enum inputbutton_t {
+  IB_UP = 1,      /* up */
+  IB_DOWN,    /* down */
+  IB_RIGHT,   /* right */
+  IB_LEFT,    /* left */
+  IB_FIRE1,   /* jump */
+  IB_FIRE2,   /* switch character */
+  IB_FIRE3,   /* pause */
+  IB_FIRE4,    /* quit */
+  IB_FIRE5    /* editor */
+};
+
+export const { IB_UP, IB_DOWN, IB_LEFT, IB_RIGHT, IB_FIRE1, IB_FIRE2, IB_FIRE3, IB_FIRE4, IB_FIRE5 } = inputbutton_t;
+
+export enum input_device_t {
+  IT_KEYBOARD = 1,
+  IT_MOUSE,
+  IT_COMPUTER,
+  IT_JOYSTICK,
+  IT_USER
+};
+
+export interface input_t {
+  type:input_device_t, /* which input device? keyboard, mouse...? other? */
+  state:any,
+  oldstate:any, /* states */
+  x:number, /* mouse-related, cursor position */
+  y:number,
+  z:number, 
+  dx:number, /* delta-x, delta-y, delta-z (mouse mickeys) */
+  dy:number,
+  dz:number,
+  keybmap:any, /* keyboard-related, key mappings */
+  enabled:boolean, /* enable input? */
+  howlong:any /* for how long (in seconds) is this button being holded? */
+}
+
+export interface input_list_t {
+  data: input_t,
+  next: input_list_t
+}
 
 export const KEY_UP           = 38;
 export const KEY_DOWN         = 40;
@@ -35,24 +71,14 @@ export const KEY_Y            = 89;
 export const KEY_G            = 71;
 export const KEY_P            = 80;
 
-export const IB_UP     = 1;
-export const IB_DOWN   = 2;
-export const IB_RIGHT  = 3;
-export const IB_LEFT   = 4;
-export const IB_FIRE1  = 5;
-export const IB_FIRE2  = 6;
-export const IB_FIRE3  = 7;
-export const IB_FIRE4  = 8;
-export const IB_FIRE5  = 9;
-
 /* private */
 
-let inlist = null;
-let got_joystick;
-let ignore_joystick;
+let inlist:input_list_t = null;
+let got_joystick:boolean = false;
+let ignore_joystick:boolean = false;
 
 /* custom */
-let enableVirtualJoystick = false;
+let enableVirtualJoystick:boolean = false;
 
 /* Custom */
 const arrowCodes = {
@@ -67,18 +93,23 @@ const arrowCodes = {
   192: "tilda"
 };
 
-let arrows;
-let joystick;
-let joystick2;
-let joystick3;
-let joystick4;
+let arrows:any = null;
+let joy:any = null;
+let joystick:any = null;
+let joystick2:any = null;
+let joystick3:any = null;
+let joystick4:any = null;
 
-let canGamepad;
-let gp;
+let canGamepad:any = null;
+let gp:any = null;
 
 let mousePos = { x: 0, y: 0 };
 let mouseIsDown = { left: false, middle: false, right: false };
 
+/**
+ * input_init()
+ * Initializes the input module
+ */
 export const input_init = () => {
   logfile_message("input_init()");
 
@@ -86,18 +117,18 @@ export const input_init = () => {
   inlist = null;
 
   /* mouse */
-  video_get_canvas().addEventListener('contextmenu', function(e) {
+  video_get_canvas().addEventListener('contextmenu', function(e:any) {
     if (e.button === 2) {
      e.preventDefault();
       return false;
     }
   }, false);
 
-  video_get_canvas().addEventListener('mousemove', function(e) {
+  video_get_canvas().addEventListener('mousemove', function(e:any) {
     mousePos = video_getMousePos(video_get_canvas(), e);
   }, false);
 
-  video_get_canvas().addEventListener('mousedown', function(e) {
+  video_get_canvas().addEventListener('mousedown', function(e:any) {
     //console.log('mousedown', e)
     switch(e.which) {
       case 1:
@@ -112,7 +143,7 @@ export const input_init = () => {
     }
   }, false);
 
-  video_get_canvas().addEventListener('mouseup', function(e) {
+  video_get_canvas().addEventListener('mouseup', function(e:any) {
     //console.log('mouseup', e)
     switch(e.which) {
       case 1:
@@ -153,8 +184,8 @@ export const input_init = () => {
       limitStickTravel: true,
       stickRadius: 50
     });
-    joystick.addEventListener('touchStartValidation', function(event){
-      const touch = event.changedTouches[0];
+    joystick.addEventListener('touchStartValidation', function(e:any){
+      const touch = e.changedTouches[0];
       //console.log(touch)
       //if( touch.pageX >= video.VIDEO_SCREEN_W/2 ) return false;
       if( touch.pageX >= window.innerWidth/2 ) return false;
@@ -175,8 +206,8 @@ export const input_init = () => {
       limitStickTravel: true,
       stickRadius: 50
     });
-    joystick2.addEventListener('touchStartValidation', function(event){
-      const touch = event.changedTouches[0];
+    joystick2.addEventListener('touchStartValidation', function(e:any){
+      const touch = e.changedTouches[0];
       //console.log(touch)
       if( touch.pageX < window.innerWidth/2 )  return false;
       if( touch.pageY < window.innerHeight/2 ) return false;
@@ -194,8 +225,8 @@ export const input_init = () => {
       limitStickTravel: true,
       stickRadius: 50
     });
-    joystick3.addEventListener('touchStartValidation', function(event){
-      const touch = event.changedTouches[0];
+    joystick3.addEventListener('touchStartValidation', function(e:any){
+      const touch = e.changedTouches[0];
       //console.log(touch)
       if( touch.pageX > window.innerWidth/2 )  return false;
       if( touch.pageY > window.innerHeight/2 ) return false;
@@ -215,8 +246,8 @@ export const input_init = () => {
       limitStickTravel: true,
       stickRadius: 50
     });
-    joystick4.addEventListener('touchStartValidation', function(event){
-      const touch = event.changedTouches[0];
+    joystick4.addEventListener('touchStartValidation', function(e:any){
+      const touch = e.changedTouches[0];
       //console.log(touch)
       if( touch.pageX < window.innerWidth/2 )  return false;
       if( touch.pageY > window.innerHeight/2 ) return false;
@@ -228,6 +259,10 @@ export const input_init = () => {
   arrows = trackKeys(arrowCodes);
 }
 
+/**
+ * input_update()
+ * Updates all the registered input objects
+ */
 export const input_update = () => {
 
   //console.log('INPUT UPDATE')
@@ -256,7 +291,7 @@ export const input_update = () => {
     /* checking the appropriate input device */
     switch(it.data.type) {
 
-      case IT_KEYBOARD:
+      case input_device_t.IT_KEYBOARD:
         //for(i=0; i<IB_MAX; i++)
         //  it.data.state[i] = key[ it.data.keybmap[i] ];
         it.data.state[IB_UP]      = arrows.up;
@@ -270,7 +305,7 @@ export const input_update = () => {
         it.data.state[IB_FIRE5]   = arrows.tilda;
       break;
 
-      case IT_MOUSE:
+      case input_device_t.IT_MOUSE:
         it.data.x = mousePos.x;
         it.data.y = mousePos.y;
         it.data.state[IB_FIRE1] = mouseIsDown.left;
@@ -290,12 +325,12 @@ export const input_update = () => {
         it.data.state[IB_FIRE4] = false;*/
       break;
 
-      case IT_COMPUTER:
+      case input_device_t.IT_COMPUTER:
         for(i=0; i<IB_MAX; i++)
           it.data.state[i] = false;
       break;
 
-      case IT_JOYSTICK:
+      case input_device_t.IT_JOYSTICK:
         if(input_joystick_available()) {
           it.data.state[IB_UP] = joy[0].stick[0].axis[1].d1;
           it.data.state[IB_DOWN] = joy[0].stick[0].axis[1].d2;
@@ -308,7 +343,7 @@ export const input_update = () => {
         }
       break;
 
-      case IT_USER:
+      case input_device_t.IT_USER:
         //for(i=0; i<IB_MAX; i++)
         //  it.data.state[i] = key[ it.data.keybmap[i] ];
 
@@ -399,31 +434,58 @@ export const input_render = () => {
   if (joystick4) joystick4.render(video_get_backbuffer());
 }
 
+/**
+ * input_release()
+ * Releases the input module
+ */
 export const input_release = () => {};
 
+/**
+ * input_joystick_available()
+ * Is a joystick available?
+ */
 export const input_joystick_available = () => {
   return got_joystick && !ignore_joystick;
 }
 
-export const input_ignore_joystick = (ignore) => {
+/**
+ * input_ignore_joystick()
+ * Ignores the input received from a joystick (if available)
+ */
+export const input_ignore_joystick = (ignore:boolean) => {
   ignore_joystick = ignore;
 }
 
+/**
+ * input_is_joystick_ignored()
+ * Is the joystick input ignored?
+ */
 export const input_is_joystick_ignored = () => {
   return ignore_joystick;
 }
 
+/**
+ * input_create_computer()
+ * Creates an object that receives "input" from
+ * the computer
+ */
 export const input_create_computer = () => {
-  let inp = {};
-  let i;
-
-  inp.type = IT_COMPUTER;
-  inp.enabled = true;
-  inp.dx = inp.dy = inp.x = inp.y = 0;
-  inp.state = [];
-  inp.oldstate = [];
-  inp.howlong = [];
-  for(i=0; i<IB_MAX; i++) {
+  let inp:input_t = {
+    type: input_device_t.IT_COMPUTER,
+    enabled: true,
+    dx: 0,
+    dy: 0,
+    dz: 0,
+    x: 0,
+    y: 0,
+    z: 0,
+    keybmap: null,
+    state: [],
+    oldstate: [],
+    howlong: []
+  };
+  
+  for(let i=0; i<IB_MAX; i++) {
     inp.state[i] = inp.oldstate[i] = false;
     inp.howlong[i] = 0.0;
   }
@@ -432,17 +494,30 @@ export const input_create_computer = () => {
   return inp;
 }
 
-export const input_create_keyboard = (keybmap) => {
-  let inp = {};
-  let i;
+/**
+ * input_create_keyboard()
+ * Creates an input object based on the keyboard
+ *
+ * keybmap: array of IB_MAX integers. Use NULL
+ *          to use the default settings.
+ */
+export const input_create_keyboard = (keybmap:any) => {
+  let inp:input_t = {
+    type: input_device_t.IT_KEYBOARD,
+    enabled: true,
+    dx: 0,
+    dy: 0,
+    dz: 0,
+    x: 0,
+    y: 0,
+    z: 0,
+    keybmap: null,
+    state: [],
+    oldstate: [],
+    howlong: []
+  };
 
-  inp.type = IT_KEYBOARD;
-  inp.enabled = true;
-  inp.dx = inp.dy = inp.x = inp.y = 0;
-  inp.state = [];
-  inp.oldstate = [];
-  inp.howlong = [];
-  for(i=0; i<IB_MAX; i++) {
+  for(let i=0; i<IB_MAX; i++) {
     inp.state[i] = inp.oldstate[i] = false;
     inp.howlong[i] = 0.0;
   }
@@ -450,7 +525,7 @@ export const input_create_keyboard = (keybmap) => {
   if(keybmap) {
       /* custom keyboard map */
       inp.keybmap = [];
-      for(i=0; i<IB_MAX; i++)
+      for(let i=0; i<IB_MAX; i++)
         inp.keybmap[i] = keybmap[i];
   } else {
     /* default settings */
@@ -469,17 +544,27 @@ export const input_create_keyboard = (keybmap) => {
   return inp;
 }
 
+/**
+ * input_create_mouse()
+ * Creates an input object based on the mouse
+ */
 export const input_create_mouse = () => {
-  let inp = {};
-  let i;
+  let inp:input_t = {
+    type: input_device_t.IT_MOUSE,
+    enabled: true,
+    dx: 0,
+    dy: 0,
+    dz: 0,
+    x: 0,
+    y: 0,
+    z: 0,
+    keybmap: null,
+    state: [],
+    oldstate: [],
+    howlong: []
+  };
 
-  inp.type = IT_MOUSE;
-  inp.enabled = true;
-  inp.dx = inp.dy = inp.x = inp.y = 0;
-  inp.state = [];
-  inp.oldstate = [];
-  inp.howlong = [];
-  for(i=0; i<IB_MAX; i++) {
+  for(let i=0; i<IB_MAX; i++) {
     inp.state[i] = inp.oldstate[i] = false;
     inp.howlong[i] = 0.0;
   }
@@ -488,6 +573,11 @@ export const input_create_mouse = () => {
   return inp;
 }
 
+/**
+ * input_create_joystick()
+ * Creates an object that receives input from
+ * a joystick
+ */
 export const input_create_joystick = () => {
 
   if(!input_joystick_available()) {
@@ -495,15 +585,22 @@ export const input_create_joystick = () => {
       return null;
   }
 
-  let i;
-  let inp = {};
-  inp.type = IT_JOYSTICK;
-  inp.enabled = true;
-  inp.dx = inp.dy = inp.x = inp.y = 0;
-  inp.state = [];
-  inp.oldstate = [];
-  inp.howlong = [];
-  for(i=0; i<IB_MAX; i++) {
+  let inp:input_t = {
+    type: input_device_t.IT_JOYSTICK,
+    enabled: true,
+    dx: 0,
+    dy: 0,
+    dz: 0,
+    x: 0,
+    y: 0,
+    z: 0,
+    keybmap: null,
+    state: [],
+    oldstate: [],
+    howlong: []
+  };
+  
+  for(let i=0; i<IB_MAX; i++) {
       inp.state[i] = inp.oldstate[i] = false;
       inp.howlong[i] = 0.0;
   }
@@ -512,16 +609,28 @@ export const input_create_joystick = () => {
   return inp;
 }
 
+/**
+ * input_create_user()
+ * Creates an user's custom input device
+ */
 export const input_create_user = () => {
 
   /* initializing */
-  let input = {};
-  input.type = IT_USER;
-  input.enabled = true;
-  input.dx = input.dy = input.x = input.y = 0;
-  input.state = [];
-  input.oldstate = [];
-  input.howlong = [];
+  let input:input_t = {
+    type: input_device_t.IT_USER,
+    enabled: true,
+    dx: 0,
+    dy: 0,
+    dz: 0,
+    x: 0,
+    y: 0,
+    z: 0,
+    keybmap: null,
+    state: [],
+    oldstate: [],
+    howlong: []
+  };
+  
   for(let i=0; i<IB_MAX; i++) {
     input.state[i] = input.oldstate[i] = false;
     input.howlong[i] = 0.0;
@@ -543,63 +652,111 @@ export const input_create_user = () => {
   return input;
 }
 
-export const input_destroy = (inp) => {
+/**
+ * input_destroy()
+ * Destroys an input object
+ */
+export const input_destroy = (inp:input_t) => {
   input_unregister(inp);
   inp = null;
 }
 
-export const input_button_down = (inp, button) => {
+/**
+ * input_button_down()
+ * Checks if a given button is down
+ */
+export const input_button_down = (inp:input_t, button:inputbutton_t) => {
   if (!button) return false;
-  return inp.enabled ? inp.state[parseInt(button,10)] : false;
+  return inp.enabled ? inp.state[button] : false;
 }
 
-export const input_button_pressed = (inp, button) => {
+/**
+ * input_button_pressed()
+ * Checks if a given button is pressed, not holded
+ */
+export const input_button_pressed = (inp:input_t, button:inputbutton_t) => {
   if (!button) return false;
-  return inp.enabled ? (inp.state[parseInt(button,10)] && !inp.oldstate[parseInt(button,10)]) : false;
+  return inp.enabled ? (inp.state[button] && !inp.oldstate[button]) : false;
 }
 
-export const input_button_up = (inp, button) => {
+/**
+ * input_button_up()
+ * Checks if a given button is up
+ */
+export const input_button_up = (inp:input_t, button:inputbutton_t) => {
   if (!button) return true;
-  return inp.enabled ? (!inp.state[parseInt(button,10)] && inp.oldstate[parseInt(button,10)]) : false;
+  return inp.enabled ? (!inp.state[button] && inp.oldstate[button]) : false;
 }
 
-export const input_button_howlong = (inp, button) => {
-  return inp.enabled ? inp.howlong[parseInt(button,10)] : 0.0;
+/**
+ * input_button_howlong()
+ * For how long (in seconds) is [button] being holded?
+ */
+export const input_button_howlong = (inp:input_t, button:inputbutton_t) => {
+  return inp.enabled ? inp.howlong[button] : 0.0;
 }
 
-export const input_simulate_button_down = (inp, button) => {
-  inp.state[parseInt(button,10)] = true;
+/**
+ * input_simulate_button_down()
+ * Useful for computer-controlled input objects
+ */
+export const input_simulate_button_down = (inp:input_t, button:inputbutton_t) => {
+  inp.state[button] = true;
 }
 
-export const input_ignore = (inp) => {
+/**
+ * input_ignore()
+ * Ignore Control
+ */
+export const input_ignore = (inp:input_t) => {
   inp.enabled = false;
 }
 
-export const input_restore = (inp) => {
+/**
+ * input_restore()
+ * Restore Control
+ */
+export const input_restore = (inp:input_t) => {
   inp.enabled = true;
 }
 
-export const input_is_ignored = (inp) => {
+/**
+ * input_is_ignored()
+ * Returns TRUE if the input is ignored,
+ * or FALSE otherwise
+ */
+export const input_is_ignored = (inp:input_t) => {
   return !inp.enabled;
 }
 
-export const input_clear = (inp) => {
+/**
+ * input_clear()
+ * Clears all the input buttons
+ */
+export const input_clear = (inp:input_t) => {
   for(let i=0; i<IB_MAX; i++)
     inp.state[i] = inp.oldstate[i] = false;
 }
 
-export const input_get_xy = (inp) => {
+/**
+ * input_get_xy()
+ * Gets the xy coordinates (mouse-related routine)
+ */
+export const input_get_xy = (inp:input_t) => {
   return v2d_new(inp.x, inp.y);
 }
 
-const input_register = (input) => {
-  let node = {};
-  node.data = input;
-  node.next = inlist;
+/* registers an input device */
+const input_register = (input:input_t) => {
+  let node:input_list_t = {
+    data: input,
+    next: inlist
+  };
   inlist = node;
 }
 
-const input_unregister = (input) => {
+/* unregisters the given input device */
+const input_unregister = (input:input_t) => {
   let node, next;
 
   if(inlist.data == input) {
@@ -619,13 +776,13 @@ const input_unregister = (input) => {
   }
 }
 
-const trackKeys = (codes) => {
+const trackKeys = (codes:any) => {
   let pressed = Object.create(null);
-  function handler(event) {
-    if (codes.hasOwnProperty(event.keyCode)) {
-      const down = event.type == "keydown";
-      pressed[codes[event.keyCode]] = down;
-      event.preventDefault();
+  function handler(e:any) {
+    if (codes.hasOwnProperty(e.keyCode)) {
+      const down = e.type == "keydown";
+      pressed[codes[e.keyCode]] = down;
+      e.preventDefault();
     }
   }
   addEventListener("keydown", handler);
