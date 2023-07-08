@@ -6,11 +6,19 @@ import {
   preferences_get_fullscreen,
   preferences_get_show_fps,
   preferences_get_language
- } from "./preferences"
- 
-export const commandline_parse = (options) => {
+} from "./preferences"
 
-  let cmd = {};
+interface cmd_t {
+  [key: string]: any
+}
+
+/**
+ * commandline_parse()
+ * Parses the command line arguments
+ */
+export const commandline_parse = (options:cmd_t) => {
+
+  let cmd:cmd_t = {};
 
   /* preferences */
   cmd.video_resolution = preferences_get_video_resolution();
@@ -56,11 +64,19 @@ export const commandline_parse = (options) => {
   return cmd;
 }
 
-const displayMessage = (msg) => {
+/*
+ * display_message()
+ * Displays a message (printf format)
+ */
+const displayMessage = (msg:string) => {
   logfile_message(msg);
 }
 
-const getParameterByName = (name) => {
+/*
+ * getParameterByName()
+ * Get url parameter
+ */
+const getParameterByName = (name:string) => {
   if (typeof window != "undefined") {
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
