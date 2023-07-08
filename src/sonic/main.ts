@@ -5,7 +5,6 @@ import { engine_init } from "./core/engine"
  * main()
  * Entry point
  */
-
 export const main = ():void => {
   engine_init({
     Xvideo_resolution: "TINY", // TINY NORMAL MAX

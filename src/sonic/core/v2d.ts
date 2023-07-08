@@ -3,7 +3,7 @@ import { EPSILON } from "./global"
 import { clip } from "./util"
 
 /* 2D vector structure */
-interface v2d_t {
+export interface v2d_t {
   x: number,
   y: number
 }

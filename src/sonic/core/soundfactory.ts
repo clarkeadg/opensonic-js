@@ -5,18 +5,41 @@ import { logfile_message } from "./logfile"
 import { resourcemanager_getJsonFile } from "./resourcemanager"
 //import { } from "./hashtable"
 
-let samples = {};
+export interface samples_t {
+  [key: string]: any
+}
 
-export const soundfactory_init = function() {
+type sound_t  = {};
+
+interface factorysound_t {
+  data: sound_t,
+  data2: sound_t
+}
+
+let samples:samples_t = {};
+
+/**
+ * soundfactory_init()
+ * Initializes the sound factory
+ */
+export const soundfactory_init = ():void => {
   //samples = hashtable.factorysound_t_create(factorysound_destroy);
   load_samples_table();
 };
 
-export const soundfactory_release = function() {
+/**
+ * soundfactory_release()
+ * Releases the sound factory
+ */
+export const soundfactory_release = ():void  => {
   //samples = hashtable.factorysound_t_destroy(samples);
 }
 
-export const soundfactory_get = function(sound_name) {
+/**
+ * soundfactory_get()
+ * Given a sound name, returns the corresponding sound effect
+ */
+export const soundfactory_get = (sound_name:string) => {
   let f = hashtable_sound_t_find(samples, sound_name);
   if (sound_is_playing(f)) {
     f = hashtable_sound_t_find(samples, sound_name+"2");
@@ -30,7 +53,8 @@ export const soundfactory_get = function(sound_name) {
   return f;    
 }
 
-const load_samples_table = () => {
+/* loads the samples table */
+const load_samples_table = ():void => {
 
   logfile_message("soundfactory: loading the samples table...");
   
@@ -40,25 +64,31 @@ const load_samples_table = () => {
   });
 }
 
-const traverse = (stmt) => {    
-  for (let s in stmt) {
-    samples[s] = traverse_sound(s, stmt[s])
+/* traverses a sound configuration file */
+const traverse = (data:samples_t):void => {    
+  for (let s in data) {
+    samples[s] = traverse_sound(s, data[s])
   }
 }
 
-const traverse_sound = (stmt, factorysound) => {
+/* traverses a sound block */
+const traverse_sound = (stmt:string, factorysound:string):factorysound_t => {
   const f = factorysound_create();
   f.data = sound_load(stmt, factorysound);
   f.data2 = sound_load(stmt, factorysound);
   return f;
 }  
 
-const factorysound_create = () => {
-  const f = {};
-  f.data = null;
+/* creates a new factorysound object */
+const factorysound_create = ():factorysound_t => {
+  const f:factorysound_t = {
+    data: null,
+    data2: null
+  };
   return f;
 }
 
-const factorysound_destroy = (f) => {
+/* destroys a factory sound */
+const factorysound_destroy = (f:factorysound_t):void => {
   f = null;
 }
