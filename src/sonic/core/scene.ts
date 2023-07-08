@@ -12,7 +12,7 @@ const SCENESTACK_CAPACITY = 16;
 const scenestack:scene_t[] = [];
 let scenestack_size = 0;
 
-/*
+/**
  * scenestack_init()
  * Initializes the scene stack
  */
@@ -22,7 +22,7 @@ export const scenestack_init = () => {
     scenestack[i] = null;
 };
 
-/*
+/**
  * scenestack_release()
  * Releases the scene stack
  */
@@ -31,7 +31,7 @@ export const scenestack_release = () => {
     scenestack_pop();
 };
 
-/*
+/**
  * scenestack_push()
  * Inserts a new scene into the stack
  */
@@ -40,7 +40,7 @@ export const scenestack_push = (scn:scene_t) => {
   if (scn) scn.init();
 };
 
-/*
+/**
  * scenestack_pop()
  * Deletes the top-most scene of the stack.
  * Please use "return" after calling pop()
@@ -53,7 +53,7 @@ export const scenestack_pop = () => {
   scenestack_size--;
 }; 
 
-/*
+/**
  * scenestack_top()
  * Returns the top-most scene of the stack.
  */
@@ -61,7 +61,7 @@ export const scenestack_top = () => {
   return scenestack[scenestack_size-1];
 };
 
-/*
+/**
  * scenestack_empty()
  * Is the stack empty?
  */

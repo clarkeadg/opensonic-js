@@ -14,7 +14,7 @@ module.exports = {
     port: 8080,
   },
 
-  entry: './src/sonic/main.js',
+  entry: './src/sonic/main.ts',
   output: {
     path: path.resolve(__dirname, "public/js"),
     filename: 'opensonic.js'

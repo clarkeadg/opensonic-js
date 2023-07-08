@@ -1,5 +1,5 @@
 
-/*
+/**
  * osspec_isTouch()
  * Check if device has touch screen
  */
@@ -12,7 +12,7 @@ export const osspec_isTouch = ():boolean => {
   }
 };
 
-/*
+/**
  * osspec_canGamepad()
  * Check if device has a gamepad
  */

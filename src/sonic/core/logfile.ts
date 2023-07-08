@@ -1,7 +1,7 @@
 
 const consoleLog = true;
 
-/*
+/**
  * logfile_message()
  * Prints a message on the logfile
  * (printf() format)
@@ -14,7 +14,7 @@ export const logfile_message = (msg:string) => {
   console.log(msg);    
 };   
 
-/*
+/**
  * logfile_fatal_error()
  * Prints a fatal error message on the logfile
  * (printf() format)

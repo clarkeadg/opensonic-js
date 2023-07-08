@@ -12,7 +12,7 @@ let last_time = 0;
 let delta = 0.0;
 let start_time = 0;
 
-/*
+/**
  * timer_init()
  * Initializes the Time Handler
  */
@@ -27,7 +27,7 @@ export const timer_init = ():void => {
   last_time = timer_get_ticks();
 }
 
-/*
+/**
  * timer_update()
  * Updates the Time Handler. This routine
  * must be called at every cycle of
@@ -61,7 +61,7 @@ export const timer_update = ():void => {
   last_time = timer_get_ticks();
 }
 
-/*
+/**
  * timer_release()
  * Releases the Time Handler
  */
@@ -69,7 +69,7 @@ export const timer_release = ():void => {
   logfile_message("timer_release()");
 }
 
-/*
+/**
  * timer_get_delta()
  * Returns the time interval, in seconds,
  * between the last two cycles of the
@@ -79,7 +79,7 @@ export const timer_get_delta = ():number => {
   return delta;
 }
 
-/*
+/**
  * timer_get_ticks()
  * Elapsed milliseconds since
  * the application has started
@@ -91,7 +91,7 @@ export const timer_get_ticks = ():number => {
   return ticks - start_time;
 }
 
-/*
+/**
  * timer_get_fps()
  * Returns the FPS rate
  */
