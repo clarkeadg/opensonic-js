@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1688777001262" clover="3.2.0">
-  <project timestamp="1688777001262" name="All files">
-    <metrics statements="95" coveredstatements="44" conditionals="45" coveredconditionals="0" methods="21" coveredmethods="6" elements="161" coveredelements="50" complexity="0" loc="95" ncloc="95" packages="1" files="3" classes="3"/>
+<coverage generated="1688777898829" clover="3.2.0">
+  <project timestamp="1688777898829" name="All files">
+    <metrics statements="95" coveredstatements="55" conditionals="45" coveredconditionals="2" methods="21" coveredmethods="10" elements="161" coveredelements="67" complexity="0" loc="95" ncloc="95" packages="1" files="3" classes="3"/>
     <file name="global.ts" path="C:\Users\clark\Work\Personal\GitHub\opensonic-js\src\sonic\core\global.ts">
       <metrics statements="14" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <line num="2" count="1" type="stmt"/>
@@ -20,7 +20,7 @@
       <line num="19" count="1" type="stmt"/>
     </file>
     <file name="util.js" path="C:\Users\clark\Work\Personal\GitHub\opensonic-js\src\sonic\core\util.js">
-      <metrics statements="52" coveredstatements="11" conditionals="43" coveredconditionals="0" methods="12" coveredmethods="0"/>
+      <metrics statements="52" coveredstatements="12" conditionals="43" coveredconditionals="0" methods="12" coveredmethods="1"/>
       <line num="5" count="1" type="stmt"/>
       <line num="6" count="0" type="stmt"/>
       <line num="8" count="0" type="stmt"/>
@@ -40,7 +40,7 @@
       <line num="33" count="1" type="stmt"/>
       <line num="34" count="0" type="stmt"/>
       <line num="37" count="1" type="stmt"/>
-      <line num="38" count="0" type="stmt"/>
+      <line num="38" count="1" type="stmt"/>
       <line num="41" count="1" type="stmt"/>
       <line num="42" count="0" type="cond" truecount="0" falsecount="4"/>
       <line num="45" count="1" type="stmt"/>
@@ -75,10 +75,10 @@
       <line num="84" count="0" type="stmt"/>
     </file>
     <file name="v2d.ts" path="C:\Users\clark\Work\Personal\GitHub\opensonic-js\src\sonic\core\v2d.ts">
-      <metrics statements="29" coveredstatements="19" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="6"/>
+      <metrics statements="29" coveredstatements="29" conditionals="2" coveredconditionals="2" methods="9" coveredmethods="9"/>
       <line num="15" count="1" type="stmt"/>
-      <line num="16" count="9" type="stmt"/>
-      <line num="17" count="9" type="stmt"/>
+      <line num="16" count="17" type="stmt"/>
+      <line num="17" count="17" type="stmt"/>
       <line num="24" count="1" type="stmt"/>
       <line num="25" count="1" type="stmt"/>
       <line num="26" count="1" type="stmt"/>
@@ -89,22 +89,22 @@
       <line num="43" count="1" type="stmt"/>
       <line num="44" count="1" type="stmt"/>
       <line num="51" count="1" type="stmt"/>
-      <line num="52" count="1" type="stmt"/>
+      <line num="52" count="3" type="stmt"/>
       <line num="59" count="1" type="stmt"/>
       <line num="60" count="1" type="stmt"/>
       <line num="67" count="1" type="stmt"/>
-      <line num="68" count="0" type="stmt"/>
-      <line num="69" count="0" type="stmt"/>
-      <line num="70" count="0" type="stmt"/>
-      <line num="74" count="0" type="stmt"/>
+      <line num="68" count="1" type="stmt"/>
+      <line num="69" count="1" type="stmt"/>
+      <line num="70" count="1" type="stmt"/>
+      <line num="74" count="1" type="stmt"/>
       <line num="82" count="1" type="stmt"/>
-      <line num="83" count="0" type="stmt"/>
-      <line num="84" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="85" count="0" type="stmt"/>
+      <line num="83" count="2" type="stmt"/>
+      <line num="84" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="85" count="2" type="stmt"/>
       <line num="95" count="1" type="stmt"/>
-      <line num="96" count="0" type="stmt"/>
-      <line num="97" count="0" type="stmt"/>
-      <line num="98" count="0" type="stmt"/>
+      <line num="96" count="1" type="stmt"/>
+      <line num="97" count="1" type="stmt"/>
+      <line num="98" count="1" type="stmt"/>
     </file>
   </project>
 </coverage>

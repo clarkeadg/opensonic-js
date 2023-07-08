@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.51% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/29</span>
+                <span class='fraction'>29/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.51% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/29</span>
+                <span class='fraction'>29/29</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -177,8 +177,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -213,7 +213,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -229,13 +229,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -244,9 +244,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -257,9 +257,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
 import { EPSILON } from "./global"
@@ -327,14 +327,14 @@ export const v2d_dotproduct = (u:v2d_t , v:v2d_t):number =&gt; {
  * v2d_rotate()
  * Rotates a vector. Angle in radians.
  */
-export const v2d_rotate = <span class="fstat-no" title="function not covered" >(v</span>:v2d_t, ang:number):v2d_t =&gt; {
-  const x = <span class="cstat-no" title="statement not covered" >v.x;</span>
-  const y = <span class="cstat-no" title="statement not covered" >v.y;</span>
-  const w:v2d_t = <span class="cstat-no" title="statement not covered" >{</span>
+export const v2d_rotate = (v:v2d_t, ang:number):v2d_t =&gt; {
+  const x = v.x;
+  const y = v.y;
+  const w:v2d_t = {
     x: x*Math.cos(ang) - y*Math.sin(ang),
     y: y*Math.cos(ang) + x*Math.sin(ang)
   };
-<span class="cstat-no" title="statement not covered" >  return w;</span>
+  return w;
 }
 &nbsp;
 /**
@@ -342,10 +342,10 @@ export const v2d_rotate = <span class="fstat-no" title="function not covered" >(
  * The same thing as v = v / |v|,
  * where |v| is the magnitude of v.
  */
-export const v2d_normalize = <span class="fstat-no" title="function not covered" >(v</span>:v2d_t):v2d_t =&gt; {
-  const m = <span class="cstat-no" title="statement not covered" >v2d_magnitude(v);</span>
-  const w = <span class="cstat-no" title="statement not covered" >(m &gt; EPSILON) ? v2d_new(v.x/m,v.y/m) : v2d_new(0,0);</span>
-<span class="cstat-no" title="statement not covered" >  return w;</span>
+export const v2d_normalize = (v:v2d_t):v2d_t =&gt; {
+  const m = v2d_magnitude(v);
+  const w = (m &gt; EPSILON) ? v2d_new(v.x/m,v.y/m) : v2d_new(0,0);
+  return w;
 };
 &nbsp;
 /**
@@ -355,10 +355,10 @@ export const v2d_normalize = <span class="fstat-no" title="function not covered"
  * 0.0 &lt;= weight &lt;= 1.0
  * The same as: (1-weight)*u + weight*v
  */
-export const v2d_lerp = <span class="fstat-no" title="function not covered" >(u</span>:v2d_t , v:v2d_t , weight:number):v2d_t =&gt; {
-  const w = <span class="cstat-no" title="statement not covered" >clip(weight, 0.0, 1.0);</span>
-  const c = <span class="cstat-no" title="statement not covered" >1.0 - w;</span>
-<span class="cstat-no" title="statement not covered" >  return v2d_new(u.x*c+v.x*w, u.y*c+v.y*w);</span>
+export const v2d_lerp = (u:v2d_t , v:v2d_t , weight:number):v2d_t =&gt; {
+  const w = clip(weight, 0.0, 1.0);
+  const c = 1.0 - w;
+  return v2d_new(u.x*c+v.x*w, u.y*c+v.y*w);
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -367,7 +367,7 @@ export const v2d_lerp = <span class="fstat-no" title="function not covered" >(u<
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-07-08T00:43:21.167Z
+                at 2023-07-08T00:58:18.808Z
             </div>
         <script src="prettify.js"></script>
         <script>
