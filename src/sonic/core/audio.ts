@@ -25,7 +25,7 @@ export const audio_release = () => {};
 
 /* music management */
 
-/*
+/**
  * music_load()
  * Loads a music from a file
  */
@@ -41,7 +41,7 @@ export const music_load = (path:string) => {
   return audioElement;
 }
 
-/*
+/**
  * music_play()
  * Plays the given music and loops [loop] times.
  * Set loop equal to INFINITY to make it loop forever.
@@ -65,7 +65,7 @@ export const music_play = (music:HTMLAudioElement, loop:boolean) => {
   current_music = music;
 }
 
-/*
+/**
  * music_stop()
  * Stops the current music (if any)
  */
@@ -78,7 +78,7 @@ export const music_stop = () => {
   current_music = null;
 }
 
-/*
+/**
  * music_pause()
  * Pauses the current music
  */
@@ -88,7 +88,7 @@ export const music_pause = () => {
   }
 }
 
-/*
+/**
  * music_resume()
  * Resumes the current music
  */
@@ -98,7 +98,7 @@ export const music_resume = () => {
   }
 }
 
-/*
+/**
  * music_set_volume()
  * Changes the volume of the current music.
  * 0.0f (quiet) <= volume <= 1.0f (loud)
@@ -112,7 +112,7 @@ export const music_set_volume = (volume:number) => {
   }
 }
 
-/*
+/**
  * music_get_volume()
  * Returns the volume of the current music.
  * 0.0f <= volume <= 1.0f
@@ -124,7 +124,7 @@ export const music_get_volume = () => {
     return 0.0;
 }
 
-/*
+/**
  * music_is_playing()
  * Returns TRUE if a music is playing, FALSE
  * otherwise.
@@ -135,7 +135,7 @@ export const music_is_playing = () => {
 
 /* sample management */
 
-/*
+/**
  * sound_load()
  * Loads a sample from a file
  */
@@ -162,7 +162,7 @@ export const sound_load = (key:string, path:string) => {
   return audioElement;
 }
 
-/*
+/**
  * sound_play()
  * Plays the given sample
  */
@@ -170,7 +170,7 @@ export const sound_play = (sample:HTMLAudioElement) => {
   sound_play_ex(sample);
 }
 
-/*
+/**
  * sound_play_ex()
  * Plays the given sample with extra options! :)
  *
@@ -185,7 +185,7 @@ export const sound_play_ex = (sample:HTMLAudioElement) => {
   }
 }
 
-/*
+/**
  * sound_stop()
  * Stops a sample
  */
@@ -195,7 +195,7 @@ export const sound_stop = (sample:HTMLAudioElement) => {
   }
 }
 
-/*
+/**
  * sound_is_playing()
  * Checks if a given sound is playing or not
  */
