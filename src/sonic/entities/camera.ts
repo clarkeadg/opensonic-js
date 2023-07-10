@@ -1,23 +1,41 @@
 
 import { INFINITY, EPSILON } from "./../core/global"
-import { v2d_new, v2d_subtract, v2d_magnitude, v2d_normalize } from "./../core/v2d"
+import { clip } from "./../core/util"
+import { v2d_t, v2d_new, v2d_subtract, v2d_magnitude, v2d_normalize } from "./../core/v2d"
 import { timer_get_delta } from "./../core/timer"
 import { VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
 import { level_size } from "./../scenes/level"
-  
-const camera = {
-  is_locked: false,
-  position: { x: 0, y: 0 },
-  dest: { x: 0, y: 0 },
-  speed: 0.0,
-  region_topleft:  { x: 0, y: 0 },
-  region_bottomright:  { x: 0, y: 0 },
-  dest_region_topleft:  { x: 0, y: 0 },
-  dest_region_bottomright:  { x: 0, y: 0 },
-  region_topleft_speed:  0.0,
-  region_bottomright_speed:  0.0
+
+export interface camera_t {
+  is_locked: boolean,
+  position: v2d_t,
+  dest: v2d_t,
+  speed: number,
+  region_topleft: v2d_t,
+  region_bottomright: v2d_t,
+  dest_region_topleft: v2d_t,
+  dest_region_bottomright: v2d_t,
+  region_topleft_speed: number,
+  region_bottomright_speed: number
 }
-  
+
+const camera:camera_t = {
+  is_locked: false,
+  position: v2d_new(0,0),
+  dest: v2d_new(0,0),
+  speed: 0.0,
+  region_topleft: v2d_new(0,0),
+  region_bottomright: v2d_new(0,0),
+  dest_region_topleft: v2d_new(0,0),
+  dest_region_bottomright: v2d_new(0,0),
+  region_topleft_speed: 0.0,
+  region_bottomright_speed: 0.0
+}
+
+/*
+ * camera_init()
+ * initializes the camera
+ */
 export const camera_init = () => {
 
   camera.is_locked = false;
@@ -33,6 +51,10 @@ export const camera_init = () => {
   camera.region_bottomright.y = camera.dest_region_bottomright.y = level_size().y-VIDEO_SCREEN_H/2;
 }
 
+/*
+ * camera_update()
+ * updates the camera
+ */
 export const camera_update = () => {
   
   const threshold = 10;
@@ -66,13 +88,21 @@ export const camera_update = () => {
   }
 
   /* clipping... */
-  //camera.position.x = Math.min(camera.position.x, camera.region_topleft.x, camera.region_bottomright.x);
-  //camera.position.y = Math.min(camera.position.y, camera.region_topleft.y, camera.region_bottomright.y);
+  camera.position.x = clip(camera.position.x, camera.region_topleft.x, camera.region_bottomright.x);
+  camera.position.y = clip(camera.position.y, camera.region_topleft.y, camera.region_bottomright.y);
 }
 
+/*
+ * camera_release()
+ * releases the camera
+ */
 export const camera_release = () => {}
 
-export const camera_move_to = (position, seconds) => {
+/*
+ * camera_move_to()
+ * moves the camera to a new position within a few seconds
+ */
+export const camera_move_to = (position:v2d_t, seconds:number) => {
 
   /* clipping */
   if(position.x < camera.region_topleft.x) {
@@ -98,30 +128,46 @@ export const camera_move_to = (position, seconds) => {
     camera.position = camera.dest;
   }
   //camera.position.x-=1;
-  camera.position.x = parseInt(position.x,10);
-  camera.position.y = parseInt(position.y,10);
+  camera.position.x = position.x;
+  camera.position.y = position.y;
   //console.log(camera.position);
 }
 
-export const camera_lock = (x1, y1, x2, y2) => {
+/*
+ * camera_lock()
+ * locks the camera, so it will only move within the given rectangle (in pixels)
+ */
+export const camera_lock = (x1:number, y1:number, x2:number, y2:number) => {
   camera.is_locked = true;
   define_boundaries(x1, y1, x2, y2);
 }
 
+/*
+ * camera_unlock()
+ * unlocks the camera, so it will move freely in the level
+ */
 export const camera_unlock = () => {
   camera.is_locked = false;
 }
 
-export const camera_get_position = () => {
+/*
+ * camera_get_position()
+ * returns the position of the camera
+ */
+export const camera_get_position = ():v2d_t => {
   return v2d_new(camera.position.x, camera.position.y);
 }
 
-export const camera_set_position = (position) => {
+/*
+ * camera_set_position()
+ * sets a new position
+ */
+export const camera_set_position = (position:v2d_t) => {
   const pos = v2d_new(position.x,position.y);
   camera.dest = camera.position = pos;
 }
 
-const define_boundaries = (x1, y1, x2, y2) => {
+const define_boundaries = (x1:number, y1:number, x2:number, y2:number) => {
 
   const seconds = 0.25;
 
