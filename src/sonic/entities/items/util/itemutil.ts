@@ -1,14 +1,14 @@
 
+import { item_t, item_list_t } from "./../../item"
 import { INFINITY_FLT } from "./../../../core/global"
-import { v2d_subtract, v2d_magnitude } from "./../../../core/v2d"
+import { v2d_t, v2d_subtract, v2d_magnitude } from "./../../../core/v2d"
 
-export const find_closest_item = (me, list, desired_type, distance) => {
+export const find_closest_item = (me:item_t, list:item_list_t, desired_type:number, distance:any) => {
   let min_dist = INFINITY_FLT;
-  let it;
-  let ret = null;
-  let v;
+  let ret:item_t = null;
+  let v:v2d_t = null;
 
-  for(it=list; it; it=it.next) { 
+  for(let it=list; it; it=it.next) { 
     if(it.data && it.data.type == desired_type) {
       v = v2d_subtract(it.data.actor.position, me.actor.position);
       if(v2d_magnitude(v) < min_dist) {

@@ -1,4 +1,6 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { EPSILON, IF_HFLIP } from "./../../core/global"
 import { sound_play } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
@@ -6,6 +8,14 @@ import { sprite_get_animation } from "./../../core/sprite"
 import { timer_get_delta } from "./../../core/timer"
 import { v2d_new } from "./../../core/v2d"
 import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_animation_finished, actor_pixelperfect_collision, actor_move } from "./../actor"
+
+export interface spring_t extends item_t {
+  strength: v2d_t,
+  sprite_name: string,
+  bang_timer: number,
+  is_bumping: boolean,
+  on_bump: Function
+}
 
 const SPRING_BANG_TIMER          = 0.2;
 
@@ -34,24 +44,26 @@ export const blbluespring_create = () =>   create(volatilespring_strategy, "SD_B
 export const lbluespring_create = () =>    create(volatilespring_strategy, "SD_LBLUESPRING",    v2d_new(-2000,0))
 export const tlbluespring_create = () =>   create(volatilespring_strategy, "SD_TLBLUESPRING",   v2d_new(-1800,-1500))
 
-const create = (strategy, sprite_name, strength) => {
-  let item = {};
-  let me = item;
+const create = (strategy:Function, sprite_name:string, strength:v2d_t) => {
 
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
 
-  item.on_bump = strategy;
-  item.sprite_name = sprite_name;
-  item.strength = strength;
+  const me:spring_t = <spring_t>item;
+
+  me.on_bump = strategy;
+  me.sprite_name = sprite_name;
+  me.strength = strength;
 
   return item;
 }
 
-const init = (item) => {
-  let me = item;
+const init = (item:item_t) => {
+  const me:spring_t = <spring_t>item;
 
   item.obstacle = false;
   item.bring_to_back = true;
@@ -63,20 +75,17 @@ const init = (item) => {
   actor_change_animation(item.actor, sprite_get_animation(me.sprite_name, 0));
 }
 
-const release = (item) => {
-  //var me = item;
-  //actor.destroy(item.actor);
-  //free(me.sprite_name);
+const release = (item:item_t) => {
+  actor_destroy(item.actor);
 }
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let me = item;
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+  const me:spring_t = <spring_t>item;
   const dt = timer_get_delta();
-  let i;
 
   // bump! 
   me.bang_timer += dt;
-  for(i=0; i<team_size; i++) {
+  for(let i=0; i<team_size; i++) {
     let player = team[i];
     if (player) {
       if(!player.dying && actor_pixelperfect_collision(player.actor, item.actor))
@@ -93,22 +102,22 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   }
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
 /* activates if you jump on it */
-const classicspring_strategy = (item, player) => {
+const classicspring_strategy = (item:item_t, player:any) => {
   if(player.actor.speed.y >= 1.0 && !player.actor.carrying && !player.actor.carried_by)
-    activate_spring(item, player);
+    activate_spring(<spring_t>item, player);
 }
 
 /* activates when touched */
-const volatilespring_strategy = (item, player) => {
-  activate_spring(item, player);
+const volatilespring_strategy = (item:item_t, player:any) => {
+  activate_spring(<spring_t>item, player);
 } 
 
-const springfy_player = (player, strength) => {
+const springfy_player = (player:any, strength:v2d_t) => {
   const dt = timer_get_delta();
   let same_signal = [];
   let different_signal = [];
@@ -142,8 +151,8 @@ const springfy_player = (player, strength) => {
   }
 }
 
-const activate_spring = (spring, player) => {
-  let item = spring;
+const activate_spring = (spring:spring_t, player:any) => {
+  const item:item_t = <item_t>spring;
 
   spring.is_bumping = true;
   springfy_player(player, spring.strength);

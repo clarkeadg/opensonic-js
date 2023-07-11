@@ -1,9 +1,16 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { find_closest_item } from "./util/itemutil"
 import { IT_LOOPFLOORTOP } from "./../item"
 import { PLAYER_WALL_NONE, PLAYER_WALL_TOP, PLAYER_WALL_RIGHT, PLAYER_WALL_BOTTOM, PLAYER_WALL_LEFT } from "./../player"
 import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_collision } from "./../actor"
 import { sprite_get_animation } from "./../../core/sprite"
+
+export interface loop_t extends item_t {
+  sprite_name: string,
+  on_collision: Function
+}
 
 export const loopright_create = () => create(loopright_strategy, "SD_LOOPRIGHT")
 export const looptop_create = () =>  create(looptop_strategy, "SD_LOOPMIDDLE")
@@ -13,14 +20,16 @@ export const loopfloor_create = () => create(loopfloor_strategy, "SD_LOOPFLOOR")
 export const loopfloornone_create = () => create(loopfloornone_strategy, "SD_LOOPFLOORNONE")
 export const loopfloortop_create = () => create(loopfloortop_strategy, "SD_LOOPFLOORTOP")
 
-const create = (strategy, sprite_name) => {
-  let item = {};
-  let me = item;
+const create = (strategy:Function, sprite_name:string) => {
+  
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
 
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
+  const me:loop_t = <loop_t>item;
 
   me.on_collision = strategy;
   me.sprite_name = sprite_name;
@@ -28,8 +37,8 @@ const create = (strategy, sprite_name) => {
   return item;
 }
 
-const init = (item) => {
-  let me = item;
+const init = (item:item_t) => {
+  const me:loop_t = <loop_t>item;
 
   item.obstacle = false;
   item.bring_to_back = false;
@@ -39,22 +48,19 @@ const init = (item) => {
   item.actor = actor_change_animation(item.actor, sprite_get_animation(me.sprite_name, 0));
 }
 
-const release = (item) => {
-  //var me = item;
-  //free(me.sprite_name);
-  //actor.destroy(item.actor);
+const release = (item:item_t) => {
+  actor_destroy(item.actor);
 } 
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let me = item;
-  let act = item.actor;
-  let i;
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+  const me:loop_t = <loop_t>item;
+  const act = item.actor;
 
   //console.log('LOOP UPDATE')
 
   //act.visible = level_editmode();
   act.visible = false;
-  for(i=0; i<team_size; i++) {
+  for(let i=0; i<team_size; i++) {
     let player = team[i];
     if (player) {
       if(actor_collision(act, player.actor)) {
@@ -66,23 +72,23 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   }
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
-const is_player_at_closest_loopfloortop = (item, item_list, player) => {
+const is_player_at_closest_loopfloortop = (item:item_t, item_list:item_list_t, player:any) => {
   let obj = find_closest_item(item, item_list, IT_LOOPFLOORTOP, null);
   return (obj != null) ? actor_collision(player.actor, obj.actor) : false;
 }
 
-const loopright_strategy = (player) => {
+const loopright_strategy = (player:any) => {
   //console.log('loopright_strategy')
   player.disable_wall |= PLAYER_WALL_LEFT;
   player.entering_loop = true;
   player.bring_to_back = false;
 }
 
-const looptop_strategy = (player) => {
+const looptop_strategy = (player:any) => {
   //console.log('looptop_strategy')
   if(!player.flying) {
     let b = (player.actor.speed.x > 0);
@@ -92,14 +98,14 @@ const looptop_strategy = (player) => {
   }
 }
 
-const loopleft_strategy = (player) => {
+const loopleft_strategy = (player:any) => {
  // console.log('loopleft_strategy')
   player.disable_wall |= PLAYER_WALL_RIGHT;
   player.entering_loop = true;
   player.bring_to_back = true;
 }
 
-const loopnone_strategy = (player) => {
+const loopnone_strategy = (player:any) => {
   //console.log('loopnone_strategy')
   if(!player.entering_loop) {
     player.disable_wall = PLAYER_WALL_NONE;
@@ -107,7 +113,7 @@ const loopnone_strategy = (player) => {
   }
 }
 
-const loopfloor_strategy = (player) => {
+const loopfloor_strategy = (player:any) => {
   //console.log('loopfloor_strategy')
   if(!player.at_loopfloortop && !player.flying) {
     player.disable_wall |= PLAYER_WALL_BOTTOM;
@@ -116,7 +122,7 @@ const loopfloor_strategy = (player) => {
   }
 }
 
-const loopfloornone_strategy = (player) => {
+const loopfloornone_strategy = (player:any) => {
   //console.log('loopfloornone_strategy')
   if(!player.at_loopfloortop && !player.entering_loop && !player.flying) {
    // console.log('111111')
@@ -125,7 +131,7 @@ const loopfloornone_strategy = (player) => {
   }
 }
 
-const loopfloortop_strategy = (player) => {
+const loopfloortop_strategy = (player:any) => {
   //console.log('loopfloortop_strategy')
   if(!player.flying) {
     if(player.disable_wall & PLAYER_WALL_BOTTOM) {

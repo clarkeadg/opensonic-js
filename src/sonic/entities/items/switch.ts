@@ -1,4 +1,6 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { door_open, door_close } from "./door"
 import { teleporter_activate } from "./teleporter"
 import { find_closest_item } from "./util/itemutil"
@@ -9,19 +11,25 @@ import { soundfactory_get } from "./../../core/soundfactory"
 import { bounding_box } from "./../../core/util"
 import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_image } from "./../actor"
 
-export const switch_create = () => {
-  let item = {};
+export interface switch_t extends item_t {
+  is_pressed: boolean,
+  partner: item_t
+}
 
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
+export const switch_create = () => {
+  
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
 
   return item;
 }
 
-const init = (item) => {
-  let me = item;
+const init = (item:item_t) => {
+  const me:switch_t = <switch_t>item;
 
   item.obstacle = false;
   item.bring_to_back = true;
@@ -34,14 +42,17 @@ const init = (item) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_SWITCH", 0));
 }
 
-const release = (item) => {
+const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let me = item;
-  let door, teleporter;
-  let d1 = {}, d2 = {};
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+  const me:switch_t = <switch_t>item;
+  let door:item_t = null;
+  let teleporter:item_t = null;
+  
+  let d1:any = {};
+  let d2:any = {};
 
   // I have no partner
   me.partner = null;
@@ -63,7 +74,7 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
     handle_logic(item, teleporter, team, team_size, stepin_teleporter, stepout_teleporter);
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
 
   let me = item;
 
@@ -78,14 +89,13 @@ const render = (item, camera_position) => {
   actor_render(item.actor, camera_position);
 }
 
-const handle_logic = (item, other, team, team_size, stepin, stepout) => {
-  let i;
+const handle_logic = (item:item_t, other:item_t, team:any, team_size:number, stepin:Function, stepout:Function) => {
   let nobody_is_pressing_me = true;
-  let me = item;
-  let act = item.actor;
+  const me:switch_t = <switch_t>item;
+  const act = item.actor;
 
   // step in
-  for(i=0; i<team_size; i++) {
+  for(let i=0; i<team_size; i++) {
     let player = team[i];
 
     if(pressed_the_switch(item, player)) {
@@ -109,31 +119,31 @@ const handle_logic = (item, other, team, team_size, stepin, stepout) => {
   }
 }
 
-const stepin_nothing = (door, who) => {}
+const stepin_nothing = (door:item_t, who:any) => {}
 
-const stepout_nothing = (door) => {}
+const stepout_nothing = (door:item_t) => {}
 
-const stepin_door = (door, who) => {
+const stepin_door = (door:item_t, who:any) => {
   door_open(door);
 }
 
-const stepout_door = (door) => {
+const stepout_door = (door:item_t) => {
   door_close(door);
 }
 
-const stepin_teleporter = (teleporter, who) => {
+const stepin_teleporter = (teleporter:item_t, who:any) => {
   teleporter_activate(teleporter, who);
 }
 
-const stepout_teleporter = (teleporter) => {}
+const stepout_teleporter = (teleporter:item_t) => {}
 
 /* returns true if the player has pressed the switch (item) */
-const pressed_the_switch = (item, player) => {
+const pressed_the_switch = (item:item_t, player:any) => {
   if (!item) return false;
   if (!player) return false;
 
-  let a = [];
-  let b = [];
+  const a = [];
+  const b = [];
 
   a[0] = item.actor.position.x - item.actor.hot_spot.x;
   a[1] = item.actor.position.y - item.actor.hot_spot.y;
