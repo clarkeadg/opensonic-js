@@ -1,10 +1,16 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { sprite_get_animation } from "./../../core/sprite"
 import { timer_get_delta } from "./../../core/timer"
 import { bounding_box } from "./../../core/util"
 import { actor_create, actor_render, actor_destroy, actor_pixelperfect_collision, actor_change_animation, actor_image } from "./../actor"
-import { IS_IDLE, IS_DEAD } from "./../item"
-import { PL_SONIC, PL_TAILS, PL_KNUCKLES } from "./../../entities/player" 
+import { PL_SONIC, PL_TAILS, PL_KNUCKLES } from "./../../entities/player"
+
+export interface dnadoor_t extends item_t {
+  authorized_player_type: number,
+  is_vertical_door: boolean
+}
 
 export const surge_dnadoor_create = () => {
   return dnadoor_create(PL_SONIC, true);
@@ -30,14 +36,16 @@ export const charge_horizontal_dnadoor_create = () => {
   return dnadoor_create(PL_KNUCKLES, false);
 } 
 
-const dnadoor_create = (authorized_player_type, is_vertical_door) => {
-  let item = {};
-  let me = item;
+const dnadoor_create = (authorized_player_type:number, is_vertical_door:boolean) => { 
 
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
+
+  const me:dnadoor_t = <dnadoor_t>item;
 
   me.authorized_player_type = authorized_player_type;
   me.is_vertical_door = is_vertical_door;
@@ -45,8 +53,8 @@ const dnadoor_create = (authorized_player_type, is_vertical_door) => {
   return item;
 }
 
-const init = (item) => {
-  let me = item;
+const init = (item:item_t) => {
+  const me:dnadoor_t = <dnadoor_t>item;
   let sprite_name;
   let anim_id;
 
@@ -55,14 +63,14 @@ const init = (item) => {
   item.preserve = true;
   item.actor = actor_create();
 
-  anim_id = parseInt(me.authorized_player_type,10);
+  anim_id = me.authorized_player_type;
   sprite_name = me.is_vertical_door ? "SD_DNADOOR" : "SD_HORIZONTALDNADOOR";
   actor_change_animation(item.actor, sprite_get_animation(sprite_name, anim_id));
 }
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let me = {};
-  let act = item.actor;
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+  const me:dnadoor_t = <dnadoor_t>item;
+  const act = item.actor;
   let it;
   let block_anyway = false;
   let perfect_collision = false;
@@ -70,11 +78,10 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   let a = [];
   let b = [];
   let diff = 5;
-  let i;
 
   /* should we block the DNA Door? */
   item.obstacle = true;
-  for(i=0; i<team_size; i++) {
+  for(let i=0; i<team_size; i++) {
     let player = team[i];
     if (player) {
       if(!player.dying && !player.actor_carrying && !player.actor_carried_by && hittest(player, item)) {
@@ -104,35 +111,35 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
     a[3] = a[1] + actor_image(act).height + 2*diff;
     for(it = item_list; it != null; it = it.next) {
       if(it.data.type == item.type) {
-        b[0] = it.data.actor_position.x - it.data.actor_hot_spot.x - diff;
-        b[1] = it.data.actor_position.y - it.data.actor_hot_spot.y - diff;
+        b[0] = it.data.actor.position.x - it.data.actor.hot_spot.x - diff;
+        b[1] = it.data.actor.position.y - it.data.actor.hot_spot.y - diff;
         b[2] = b[0] + actor_image(it.data.actor).width + 2*diff;
         b[3] = b[1] + actor_image(it.data.actor).height + 2*diff;
         if(bounding_box(a,b)) {
-          if(it.data.actor_alpha < act.alpha)
-            act.alpha = it.data.actor_alpha;
+          if(it.data.actor.alpha < act.alpha)
+            act.alpha = it.data.actor.alpha;
           else
-            it.data.actor_alpha = act.alpha;
+            it.data.actor.alpha = act.alpha;
         }
       }
     }
   }
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
-const release = (item) => {
+const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const hittest = (player, dnadoor) => {
-  let a = [];
-  let b = [];
-  let offset = 3;
-  let pl = player.actor;
-  let act = dnadoor.actor;
+const hittest = (player:any, dnadoor:item_t) => {
+  const a = [];
+  const b = [];
+  const offset = 3;
+  const pl = player.actor;
+  const act = dnadoor.actor;
 
   a[0] = pl.position.x - pl.hot_spot.x;
   a[1] = pl.position.y - pl.hot_spot.y;

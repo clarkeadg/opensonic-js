@@ -38,7 +38,7 @@ const init = (item:item_t) => {
 }
 
 const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
-  let act = item.actor;
+  const act = item.actor;
   const dt = timer_get_delta();
 
   act.angle += Math.sign(act.speed.x) * (6.0 * PI * dt);

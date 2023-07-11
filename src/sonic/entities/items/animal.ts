@@ -1,4 +1,6 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { actor_create, actor_move, actor_platform_movement, actor_render, actor_destroy, actor_change_animation, actor_corners, actor_handle_clouds } from "./../actor"
 import { sprite_get_animation } from "./../../core/sprite"
 import { random } from "./../../core/util"
@@ -7,22 +9,27 @@ import { EPSILON, IF_NONE, IF_HFLIP } from "./../../core/global"
 import { IS_DEAD } from "./../item"
 import { level_gravity } from "./../../scenes/level"
 
+export interface animal_t extends item_t {
+  animal_id: number,
+  is_running: boolean
+}
+
 const MAX_ANIMALS                = 12;
 
 export const animal_create = () => {
 
-  let item = {};
-
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
 
   return item;
 }
 
-const init = (item) => {
-  let me = item;
+const init = (item:item_t) => {
+  const me:animal_t = <animal_t>item;
 
   item.obstacle = false;
   item.bring_to_back = false;
@@ -36,13 +43,13 @@ const init = (item) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_ANIMAL", 0));
 }
 
-const release = (item) => {
+const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let me = item;
-  let act = item.actor;
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+  const me:animal_t = <animal_t>item;
+  const act = item.actor;
   let up, down, left, right;
   let upright, downright, downleft, upleft;
   let sqrsize = 2, diff = -2;
@@ -98,6 +105,6 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   actor_move(act, actor_platform_movement(act, brick_list, level_gravity()));
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }

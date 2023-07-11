@@ -10,6 +10,7 @@ import { VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
 import { sound_play } from "./../core/audio"
 import { soundfactory_get } from "./../core/soundfactory"
 import { IT_EXPLOSION, IT_DANGPOWER, IT_FIREBALL } from "./item"
+import { dangerouspower_set_speed } from "./items/dangpower"
 import { actor_create, actor_destroy, actor_image, actor_pixelperfect_collision, actor_change_animation, actor_move, actor_corners, actor_handle_clouds, actor_eightdirections_movement, actor_render, actor_animation_finished } from "./actor"
 import { level_kill_all_baddies, level_player, level_create_enemy, level_create_item, level_boss_battle } from "./../scenes/level"
 
@@ -303,7 +304,7 @@ const bossprog_mechashadow = (boss, team, brick_list, corners) => {
 
         v = v2d_multiply(v2d_normalize(v), 200);
         shot = level_create_item(IT_DANGPOWER, act.position);
-        shot.dangerouspower_set_speed(shot, v);
+        dangerouspower_set_speed(shot, v);
 
         sound_play( soundfactory_get("big shot") );
         lastshot = t;
@@ -480,7 +481,7 @@ const bossprog_mechashadowex = (boss, team, brick_list, corners) => {
 
         v = v2d_multiply(v2d_normalize(v), 200);
         shot = level_create_item(IT_DANGPOWER, act.position);
-        shot.dangerouspower_set_speed(shot, v);
+        dangerouspower_set_speed(shot, v);
 
         sound_play( soundfactory_get("big shot") );
         lastshot = t;

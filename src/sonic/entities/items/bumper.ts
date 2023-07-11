@@ -1,23 +1,28 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t, v2d_add, v2d_subtract, v2d_multiply, v2d_normalize, v2d_magnitude } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { sound_play } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
-import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_pixelperfect_collision } from "./../actor"
+import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_animation_finished, actor_pixelperfect_collision } from "./../actor"
 import { sprite_get_animation } from "./../../core/sprite"
-import { v2d_add, v2d_subtract, v2d_multiply, v2d_normalize } from "./../../core/v2d"
+
+export interface bumper_t extends item_t {
+  getting_hit: boolean
+}
 
 export const bumper_create = () => {
-  let item = {};
-
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
 
   return item;
 }
 
-const init = (item) => {
-  let me = item;
+const init = (item:item_t) => {
+  const me:bumper_t = <bumper_t>item;
 
   item.obstacle = false;
   item.bring_to_back = true;
@@ -28,12 +33,11 @@ const init = (item) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_BUMPER", 0));
 }
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let me = item;
-  let act = item.actor;
-  let i;
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+  const me:bumper_t = <bumper_t>item;
+  const act = item.actor;
 
-  for(i=0; i<team_size; i++) {
+  for(let i=0; i<team_size; i++) {
     let player = team[i];
     if (player){
       if(!player.dying && actor_pixelperfect_collision(player.actor, act)) {
@@ -55,15 +59,15 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   }
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
-const release = (item) => {
+const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const bump = (bumper, player) => {
+const bump = (bumper:item_t, player:any) => {
   /* law of conservation of linear momentum */
   const ec = 1.0; /* (coefficient of restitution == 1.0) => elastic collision */
   const mass_player = 1.0;
