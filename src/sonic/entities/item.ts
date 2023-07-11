@@ -126,12 +126,12 @@ export interface item_t {
   release: Function,
   update: Function,
   render: Function,
-  actor: any,
-  state: itemstate_t,
-  type: number,
-  obstacle: number,
-  preserve: boolean,
-  bring_to_back: number
+  actor?: any,
+  state?: itemstate_t,
+  type?: number,
+  obstacle?: boolean,
+  preserve?: boolean,
+  bring_to_back?: boolean
 }
 
 export interface item_list_t {

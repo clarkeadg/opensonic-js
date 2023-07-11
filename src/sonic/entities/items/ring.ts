@@ -3,7 +3,7 @@ import { sound_play } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
 import { brick_list_t } from "./../brick"
 import { item_t, itemstate_t, item_list_t, IS_DEAD } from "./../item"
-import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_animation_finished, actor_collision, actor_move, actor_platform_movement } from "./../actor"
+import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_animation_finished, actor_collision, actor_move, actor_platform_movement, actor_t } from "./../actor"
 import { sprite_get_animation } from "./../../core/sprite"
 import { timer_get_delta, timer_get_ticks } from "./../../core/timer"
 import { input_create_computer, input_simulate_button_down, IB_FIRE1 } from "./../../core/input"
@@ -12,47 +12,26 @@ import { v2d_t, v2d_magnitude, v2d_multiply, v2d_normalize, v2d_subtract } from 
 import { player_set_rings, player_get_rings } from "./../player"
 import { level_gravity } from "./../../scenes/level"
 
-export interface ring_t {
+export interface ring_t extends item_t {
   is_disappearing: boolean,
   is_moving: boolean,
-  life_time: number,
-
-  // item_t
-  init: Function,
-  release: Function,
-  update: Function,
-  render: Function,
-  actor: any,
-  state: itemstate_t,
-  type: number,
-  obstacle: boolean,
-  preserve: boolean,
-  bring_to_back: boolean
+  life_time: number
 }
 
 export const ring_create = () => {
-  const item:ring_t = {
-    is_disappearing: false,
-    is_moving: false,
-    life_time: 0,
-    // item_t
+  
+  const item:item_t = {
     init: init,
     release: release,
     update: update,
-    render: render,
-    actor: actor_create(),
-    state: 0,
-    type: 0,
-    obstacle: false,
-    preserve: true,
-    bring_to_back: false
-  };
+    render: render
+  }
 
   return item;
 }
 
-export const start_bouncing = (ring:ring_t) => {
-  let me = ring;
+export const start_bouncing = (ring:item_t) => {
+  const me:ring_t = <ring_t>ring;
 
   me.is_moving = true;
   ring.actor.speed.x = ring.actor.maxspeed * (random(100)-50)/100;
@@ -60,37 +39,32 @@ export const start_bouncing = (ring:ring_t) => {
 } 
 
 const init = (item:item_t) => {
-  let me = ring_create();
+  const me:ring_t = <ring_t>item;
 
-  me.obstacle = false;
-  me.bring_to_back = false;
-  me.preserve = true;
-
-  me.actor = item.actor;
-  me.actor.maxspeed = 220 + random(140);
-  me.actor.jump_strength = (350 + random(50)) * 1.2;
-  me.actor.input = input_create_computer();
+  item.obstacle = false;
+  item.bring_to_back = false;
+  item.preserve = true;
+  item.actor = actor_create();
+  item.actor.maxspeed = 220 + random(140);
+  item.actor.jump_strength = (350 + random(50)) * 1.2;
+  item.actor.input = input_create_computer();
 
   me.is_disappearing = false;
   me.is_moving = false;
   me.life_time = 0.0;
 
-  actor_change_animation(me.actor, sprite_get_animation("SD_RING", 0));
+  actor_change_animation(item.actor, sprite_get_animation("SD_RING", 0));
 }
 
 const release = (item:item_t) => {
   //actor_destroy(item.actor);
 }
 
-const update = (item:ring_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
 
   const dt = timer_get_delta();
-  
-  let me = item;
-  //let me = ring_create();
-  //me.actor = item.actor;
-
-  let act = item.actor;
+  const me:ring_t = <ring_t>item;
+  const act:actor_t = item.actor;
 
   /* a player has just got this ring */
   for(let i=0; i<team_size; i++) {
