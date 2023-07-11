@@ -13,7 +13,7 @@ export interface animation_t {
   repeat: boolean,
   fps: number,
   frame_count: number,
-  data: number,
+  data: number[],
   hot_spot: v2d_t,
   frame_data: any
 }
@@ -159,7 +159,6 @@ export const sprite_get_animation = (sprite_name:string, anim_id:number) => {
  * Returns an image.
  */
 export const sprite_get_image = (anim:any, frame_id:number) => {
-  //console.log(anim, frame_id)
   if (!anim) return 0;
   //frame_id = Math.min(frame_id, 0, anim.frame_count-1);
   return anim.frame_data[anim.data[frame_id]];

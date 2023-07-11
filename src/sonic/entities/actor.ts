@@ -35,7 +35,7 @@ export interface actor_t {
   animation_frame:number,
   animation_speed_factor:number,
   mirror:number,
-  visible:number,
+  visible:boolean,
   alpha:number,
   hot_spot:v2d_t,
 
@@ -48,8 +48,8 @@ export interface actor_t {
  * actor_create()
  * Creates an actor
  */
-export const actor_create = () => {
-  let act = {
+export const actor_create = ():actor_t => {
+  let act:actor_t = {
     spawn_point: v2d_new(0,0),
     position: v2d_new(0,0),
     angle: 0.0,
@@ -59,9 +59,9 @@ export const actor_create = () => {
     jump_strength: 0.0,
     is_jumping: false,
     ignore_horizontal: false,
-    //input: null,
+    input: null,
 
-    //animation: null,
+    animation: null,
     animation_frame: 0.0,
     animation_speed_factor: 1.0,
     mirror: 0,
@@ -69,9 +69,9 @@ export const actor_create = () => {
     alpha: 1.0,
     hot_spot: v2d_new(0,0),
 
-    //carried_by: null,
+    carried_by: null,
     carry_offset: v2d_new(0,0),
-    //carrying: null
+    carrying: null
   };
 
   return act;
@@ -165,7 +165,7 @@ export const actor_render = (act:actor_t, camera_position:v2d_t) => {
  * actor_render_repeat_xy()
  * Rendering / repeat xy
  */
-export const actor_render_repeat_xy = (act:actor_t, camera_position:v2d_t, repeat_x:number, repeat_y:number) => {
+export const actor_render_repeat_xy = (act:actor_t, camera_position:v2d_t, repeat_x:boolean, repeat_y:boolean) => {
 
   let final_pos = v2d_new(0,0);
 
