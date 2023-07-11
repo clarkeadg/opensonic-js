@@ -1,23 +1,30 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { sound_play } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
 import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_pixelperfect_collision, actor_animation_finished } from "./../actor"
 import { sprite_get_animation } from "./../../core/sprite"
 import { level_set_spawn_point } from "./../../scenes/level" 
 
-export const checkpointorb_create = () => {
-  let item = {};
+export interface checkpointorb_t extends item_t {
+  is_active: boolean
+}
 
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
+export const checkpointorb_create = () => {
+  
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
 
   return item;
 }
 
-const init = (item) => {
-  var me = item;
+const init = (item:item_t) => {
+  const me:checkpointorb_t = <checkpointorb_t>item;
 
   item.obstacle = false;
   item.bring_to_back = true;
@@ -28,14 +35,13 @@ const init = (item) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_CHECKPOINT", 0));
 }
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let me = item;
-  let act = item.actor;
-  let i;
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+  const me:checkpointorb_t = <checkpointorb_t>item;
+  const act = item.actor;
 
   if(!me.is_active) {
     /* activating the checkpoint orb... */
-    for(i=0; i<team_size; i++) {
+    for(let i=0; i<team_size; i++) {
       let player = team[i];
       if (player) {
         if(!player.dying && actor_pixelperfect_collision(player.actor, act)) {
@@ -54,11 +60,11 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   }
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
-const release = (item) => {
+const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 

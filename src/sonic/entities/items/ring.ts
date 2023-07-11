@@ -2,7 +2,7 @@ import { sound_play } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
 import { brick_list_t } from "./../brick"
 import { item_t, item_list_t, IS_DEAD } from "./../item"
-import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_animation_finished, actor_collision, actor_move, actor_platform_movement, actor_t } from "./../actor"
+import { actor_t, actor_create, actor_render, actor_destroy, actor_change_animation, actor_animation_finished, actor_collision, actor_move, actor_platform_movement } from "./../actor"
 import { sprite_get_animation } from "./../../core/sprite"
 import { timer_get_delta, timer_get_ticks } from "./../../core/timer"
 import { input_create_computer, input_simulate_button_down, IB_FIRE1 } from "./../../core/input"
@@ -17,13 +17,13 @@ export interface ring_t extends item_t {
   life_time: number
 }
 
-export const ring_create = ():item_t => {  
+export const ring_create = ():item_t => {    
   
   const item:item_t = {
-    init: init,
-    release: release,
-    update: update,
-    render: render
+    init,
+    release,
+    update,
+    render
   }
 
   return item;

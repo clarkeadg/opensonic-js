@@ -1,4 +1,6 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { sound_play } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
 import { sprite_get_animation } from "./../../core/sprite"
@@ -8,18 +10,21 @@ import { player_set_rings, player_get_rings } from "./../player"
 import { level_add_to_secret_bonus, level_call_dialogbox } from "./../../scenes/level"
 import { quest_setvalue, quest_getvalue, QUESTVALUE_BIGRINGS } from "./../../scenes/quest"
 
-export const bigring_create = () => {
-  let item = {};
+export interface bigring_t extends item_t {}
 
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
+export const bigring_create = () => {
+  
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
 
   return item;
 }
 
-const init = (item) => {
+const init = (item:item_t) => {
   let me = item;
 
   item.obstacle = false;
@@ -27,18 +32,15 @@ const init = (item) => {
   item.preserve = true;
   item.actor = actor_create();
 
-  me.is_disappearing = false;
   actor_change_animation(item.actor, sprite_get_animation("SD_BLUERING", 0));
 }
 
-const release = (item) => {
+const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let i;
-
-  for(i=0; i<team_size; i++) {
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+  for(let i=0; i<team_size; i++) {
     let player = team[i];
     if(player && !player.dying && actor_collision(player.actor, item.actor)) {
       item.state = IS_DEAD;
@@ -51,6 +53,6 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   }
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
