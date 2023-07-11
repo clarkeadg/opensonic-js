@@ -130,7 +130,7 @@ export interface item_t {
   state: itemstate_t,
   type: number,
   obstacle: number,
-  preserve: number,
+  preserve: boolean,
   bring_to_back: number
 }
 
