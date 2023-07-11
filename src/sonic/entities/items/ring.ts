@@ -1,14 +1,13 @@
-
 import { sound_play } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
 import { brick_list_t } from "./../brick"
-import { item_t, itemstate_t, item_list_t, IS_DEAD } from "./../item"
+import { item_t, item_list_t, IS_DEAD } from "./../item"
 import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_animation_finished, actor_collision, actor_move, actor_platform_movement, actor_t } from "./../actor"
 import { sprite_get_animation } from "./../../core/sprite"
 import { timer_get_delta, timer_get_ticks } from "./../../core/timer"
 import { input_create_computer, input_simulate_button_down, IB_FIRE1 } from "./../../core/input"
 import { random } from "./../../core/util"
-import { v2d_t, v2d_magnitude, v2d_multiply, v2d_normalize, v2d_subtract } from "./../../core/v2d"
+import { v2d_t } from "./../../core/v2d"
 import { player_set_rings, player_get_rings } from "./../player"
 import { level_gravity } from "./../../scenes/level"
 
@@ -18,7 +17,7 @@ export interface ring_t extends item_t {
   life_time: number
 }
 
-export const ring_create = () => {
+export const ring_create = ():item_t => {  
   
   const item:item_t = {
     init: init,
@@ -57,7 +56,7 @@ const init = (item:item_t) => {
 }
 
 const release = (item:item_t) => {
-  //actor_destroy(item.actor);
+  actor_destroy(item.actor);
 }
 
 const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
@@ -139,5 +138,3 @@ const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t
 const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
-
-
