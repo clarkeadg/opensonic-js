@@ -2,6 +2,10 @@
 import { logfile_message } from "./logfile"
 import { video_get_backbuffer } from "./video"
 
+export const IF_NONE = 0;
+export const IF_HFLIP = 1;
+export const IF_VFLIP = 2;
+
 interface cache_t {
   [key: string]: any
 }

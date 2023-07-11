@@ -1,4 +1,5 @@
 
+import { v2d_t } from "../core/v2d"
 import { PLAYERS } from "./../scenes/level"
 
 import { animal_create } from "./items/animal"
@@ -27,10 +28,7 @@ import { yellowspring_create, tryellowspring_create, ryellowspring_create, bryel
 import { switch_create } from "./items/switch"
 import { teleporter_create } from "./items/teleporter"
 
-export const IS_IDLE = 0;
-export const IS_DEAD = 1;
-
-export const ITEMDATA_MAX            =  82; /* number of existing items */
+export  const ITEMDATA_MAX            =  82; /* number of existing items */
 
 /* item list */
 export const IT_RING                 =  0;  /* ordinary ring */
@@ -116,8 +114,37 @@ export const IT_WATERSHIELDBOX       =  79; /* Water shield box */
 export const IT_ACIDSHIELDBOX        =  80; /* Acid shield box */
 export const IT_WINDSHIELDBOX        =  81; /* Wind shield box */
 
-export const item_create = function(type) {
-  let item = null;
+export enum itemstate_t {
+  IS_IDLE,
+  IS_DEAD
+}
+
+export const { IS_IDLE, IS_DEAD } = itemstate_t;
+
+export interface item_t {
+  init: Function,
+  release: Function,
+  update: Function,
+  render: Function,
+  actor: any,
+  state: itemstate_t,
+  type: number,
+  obstacle: number,
+  preserve: number,
+  bring_to_back: number
+}
+
+export interface item_list_t {
+  data: item_t,
+  next: item_list_t
+}
+
+/**
+ * item_create()
+ * Creates a new item
+ */
+export const item_create = function(type:number):item_t {
+  let item:any = null;
 
   switch(type) {
     case IT_RING:
@@ -456,16 +483,28 @@ export const item_create = function(type) {
   return item;
 }
 
-export const item_destroy = function(item) {
+/**
+ * item_destroy()
+ * Destroys an item
+ */
+export const item_destroy = function(item:item_t):item_t {
   //item.release(item);
   //free(item);
   return null;
 }
 
-export const item_update = function(item, team, team_size, brick_list, item_list, enemy_list) {
+/**
+ * item_update()
+ * Runs every cycle of the game to update an item
+ */
+export const item_update = function(item:item_t, team:any, team_size:number, brick_list:any, item_list:item_list_t, enemy_list:any) {
   item.update(item, team, team_size, brick_list, item_list, enemy_list);
 }
 
-export const item_render = function(item, camera_position) {
+/**
+ * item_render()
+ * Renders an item
+ */
+export const item_render = function(item:item_t, camera_position:v2d_t) {
   item.render(item, camera_position);
 }

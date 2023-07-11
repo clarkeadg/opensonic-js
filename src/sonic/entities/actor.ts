@@ -1,13 +1,12 @@
-
-import { INT_MAX, EPSILON, PI, IF_HFLIP } from "./../core/global"
-import { v2d_new, v2d_add, v2d_subtract, v2d_rotate, v2d_multiply } from "./../core/v2d"
-import { IB_FIRE1, IB_UP, IB_DOWN, IB_LEFT, IB_RIGHT, input_destroy, input_button_down } from "./../core/input"
-import { image_rgb, image_rectfill, image_pixelperfect_collision } from "./../core/image"
+import { INT_MAX, EPSILON, PI } from "./../core/global"
+import { v2d_t, v2d_new, v2d_add, v2d_subtract, v2d_rotate, v2d_multiply } from "./../core/v2d"
+import { input_t, IB_FIRE1, IB_UP, IB_DOWN, IB_LEFT, IB_RIGHT, input_destroy, input_button_down } from "./../core/input"
+import { IF_HFLIP, IF_NONE, image_rgb, image_rectfill, image_pixelperfect_collision } from "./../core/image"
 import { video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H, VIDEO_SCALE } from "./../core/video"
 import { timer_get_delta } from "./../core/timer"
-import { sprite_get_image } from "./../core/sprite"
+import { animation_t, sprite_get_image } from "./../core/sprite"
 import { clip, bounding_box, swap, circular_collision } from "./../core/util"
-import { BRK_NONE, BRK_OBSTACLE, BRK_CLOUD, BRICKBEHAVIOR_MAXARGS, BRB_DEFAULT, BRB_CIRCULAR, BRB_BREAKABLE, BRB_FALL, BRS_IDLE, BRS_DEAD, BRS_ACTIVE, BRICK_MAXVALUES, BRB_FALL_TIME } from "./brick"
+import { brick_t, brick_list_t, BRK_NONE, BRK_OBSTACLE, BRK_CLOUD, BRICKBEHAVIOR_MAXARGS, BRB_DEFAULT, BRB_CIRCULAR, BRB_BREAKABLE, BRB_FALL, BRS_IDLE, BRS_DEAD, BRS_ACTIVE, BRICK_MAXVALUES, BRB_FALL_TIME } from "./brick"
 
 const MAGIC_DIFF          = -2;
 const SIDE_CORNERS_HEIGHT = 0.5;
@@ -20,42 +19,79 @@ let is_rightwall_disabled = false;
 let is_floor_disabled = false;
 let is_ceiling_disabled = false;
 
+export interface actor_t {
+  spawn_point:v2d_t,
+  position:v2d_t,
+  angle:number,
+  speed:v2d_t,
+  maxspeed:number,
+  acceleration:number,
+  jump_strength:number,
+  is_jumping:boolean,
+  ignore_horizontal:boolean,
+  input:input_t,
+
+  animation:animation_t,
+  animation_frame:number,
+  animation_speed_factor:number,
+  mirror:number,
+  visible:number,
+  alpha:number,
+  hot_spot:v2d_t,
+
+  carried_by:actor_t,
+  carry_offset:v2d_t,
+  carrying:actor_t
+}
+
+/**
+ * actor_create()
+ * Creates an actor
+ */
 export const actor_create = () => {
-  let act = {};
+  let act = {
+    spawn_point: v2d_new(0,0),
+    position: v2d_new(0,0),
+    angle: 0.0,
+    speed: v2d_new(0,0),
+    maxspeed: 0.0,
+    acceleration: 0.0,
+    jump_strength: 0.0,
+    is_jumping: false,
+    ignore_horizontal: false,
+    //input: null,
 
-  act.spawn_point = v2d_new(0,0);
-  act.position = v2d_new(act.spawn_point.x, act.spawn_point.y);
-  act.angle = 0.0;
-  act.speed = v2d_new(0,0);
-  act.maxspeed = 0.0;
-  act.acceleration = 0.0;
-  act.jump_strength = 0.0;
-  act.is_jumping = false;
-  act.ignore_horizontal = false;
-  act.input = null;
+    //animation: null,
+    animation_frame: 0.0,
+    animation_speed_factor: 1.0,
+    mirror: 0,
+    visible: true,
+    alpha: 1.0,
+    hot_spot: v2d_new(0,0),
 
-  act.animation = null;
-  act.animation_frame = 0.0;
-  act.animation_speed_factor = 1.0;
-  act.mirror = false;
-  act.visible = true;
-  act.alpha = 1.0;
-  act.hot_spot = v2d_new(0,0);
-
-  act.carried_by = null;
-  act.carry_offset = v2d_new(0,0);
-  act.carrying = null;
+    //carried_by: null,
+    carry_offset: v2d_new(0,0),
+    //carrying: null
+  };
 
   return act;
 }
 
-export const actor_destroy = (act) => {
+/**
+ * actor_destroy()
+ * Destroys an actor
+ */
+export const actor_destroy = (act:actor_t) => {
   if(act.input)
     input_destroy(act.input);
   act = null;
 }
 
-export const actor_render = (act, camera_position) => {
+/**
+ * actor_render()
+ * Default rendering function
+ */
+export const actor_render = (act:actor_t, camera_position:v2d_t) => {
   if (!camera_position || !act) return;
 
   let diff = MAGIC_DIFF;
@@ -84,12 +120,12 @@ export const actor_render = (act, camera_position) => {
     if (act.mirror) {
       flipHorizontally(
         video_get_backbuffer(),
-        parseInt((act.position.x-(camera_position.x-VIDEO_SCREEN_W/2)),10)
+        act.position.x-(camera_position.x-VIDEO_SCREEN_W/2)
       );
     }
 
-    let x = parseInt((act.position.x-(camera_position.x-VIDEO_SCREEN_W/2)),10);
-    let y = parseInt((act.position.y-(camera_position.y-VIDEO_SCREEN_H/2)),10);
+    let x = act.position.x-(camera_position.x-VIDEO_SCREEN_W/2);
+    let y = act.position.y-(camera_position.y-VIDEO_SCREEN_H/2);
     let angle = act.mirror ? act.angle : -act.angle;
     
     if (act.angle) {
@@ -104,8 +140,8 @@ export const actor_render = (act, camera_position) => {
       img.sy, //  The y coordinate where to start clipping
       img.swidth, // The width of the clipped image
       img.sheight, // The height of the clipped image
-      parseInt((act.position.x-act.hot_spot.x-(camera_position.x-VIDEO_SCREEN_W/2)),10), // The x coordinate where to place the image on the canvas
-      parseInt((act.position.y-act.hot_spot.y-(camera_position.y-VIDEO_SCREEN_H/2)),10), // The y coordinate where to place the image on the canvas
+      ~~(act.position.x-act.hot_spot.x-(camera_position.x-VIDEO_SCREEN_W/2)), // The x coordinate where to place the image on the canvas
+      ~~(act.position.y-act.hot_spot.y-(camera_position.y-VIDEO_SCREEN_H/2)), // The y coordinate where to place the image on the canvas
       img.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
       img.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
     );
@@ -119,18 +155,19 @@ export const actor_render = (act, camera_position) => {
     if (act.mirror) {
       flipHorizontally(
         video_get_backbuffer(),
-        parseInt((act.position.x-(camera_position.x-VIDEO_SCREEN_W/2)),10)
+        act.position.x-(camera_position.x-VIDEO_SCREEN_W/2)
       );
     }
   }
 }
 
-export const actor_render_repeat_xy = (act, camera_position, repeat_x, repeat_y) => {
+/**
+ * actor_render_repeat_xy()
+ * Rendering / repeat xy
+ */
+export const actor_render_repeat_xy = (act:actor_t, camera_position:v2d_t, repeat_x:number, repeat_y:number) => {
 
-  let i, j, w, h;
-  let img;
-
-  let final_pos = {};
+  let final_pos = v2d_new(0,0);
 
   if(act.visible && act.animation) {
       
@@ -148,17 +185,17 @@ export const actor_render_repeat_xy = (act, camera_position, repeat_x, repeat_y)
         act.animation_frame = act.animation.frame_count-1;
     }
 
-    img = actor_image(act);
+    let img = actor_image(act);
     if (!img) return false;
 
     final_pos.x = act.position.x%(repeat_x?img.width:INT_MAX) - act.hot_spot.x-(camera_position.x-VIDEO_SCREEN_W/2) - (repeat_x?img.width:0);
     final_pos.y = act.position.y%(repeat_y?img.height:INT_MAX) - act.hot_spot.y-(camera_position.y-VIDEO_SCREEN_H/2) - (repeat_y?img.height:0);
 
     /* render */
-    w = repeat_x ? (VIDEO_SCREEN_W/img.width + 3) : 1;
-    h = repeat_y ? (VIDEO_SCREEN_H/img.height + 3) : 1;
-    for(i=0; i<w; i++) {
-      for(j=0; j<h; j++) {
+    let w = repeat_x ? (VIDEO_SCREEN_W/img.width + 3) : 1;
+    let h = repeat_y ? (VIDEO_SCREEN_H/img.height + 3) : 1;
+    for(let i=0; i<w; i++) {
+      for(let j=0; j<h; j++) {
          video_get_backbuffer().drawImage(
           img.data,
           img.sx, // The x coordinate where to start clipping
@@ -175,7 +212,11 @@ export const actor_render_repeat_xy = (act, camera_position, repeat_x, repeat_y)
   }
 }
 
-export const actor_move = (act, delta_space) => {
+/**
+ * actor_move()
+ * Uses the orientation angle to move an actor
+ */
+export const actor_move = (act:actor_t, delta_space:v2d_t) => {
   if (!delta_space) delta_space = { x: 0, y: 0 };
   delta_space.x = delta_space.x || 0;
   delta_space.y = delta_space.y || 0;
@@ -186,21 +227,40 @@ export const actor_move = (act, delta_space) => {
 
 /* animation */
 
-export const actor_image = (act) => {
-  return sprite_get_image(act.animation, parseInt(act.animation_frame,10));
+/**
+ * actor_image()
+ * Returns the current image of the
+ * animation of this actor
+ */
+export const actor_image = (act:actor_t) => {
+  return sprite_get_image(act.animation, ~~act.animation_frame);
 }
 
-export const actor_change_animation_frame = (act, frame) => {
+/**
+ * actor_change_animation_frame()
+ * Changes the animation frame
+ */
+export const actor_change_animation_frame = (act:actor_t, frame:number) => {
   act.animation_frame = clip(frame, 0, act.animation.frame_count);
   return act;
 }
 
-export const actor_change_animation_speed_factor = (act, factor) => {
+/**
+ * actor_change_animation_speed_factor()
+ * Changes the speed factor of the current animation
+ * The default factor is 1.0 (i.e., 100% of the original
+ * animation speed)
+ */
+export const actor_change_animation_speed_factor = (act:actor_t, factor:number) => {
   act.animation_speed_factor = Math.max(0.0, factor);
   return act;
 }
 
-export const actor_change_animation = (act, anim) => {
+/**
+ * actor_change_animation()
+ * Changes the animation of an actor
+ */
+export const actor_change_animation = (act:actor_t, anim:animation_t) => {
   if (!act || !anim) return false;
   if(act.animation != anim) {
     act.animation = anim;
@@ -211,20 +271,39 @@ export const actor_change_animation = (act, anim) => {
   return act;
 }
 
-export const actor_animation_finished = (act) => {
+/**
+ * actor_animation_finished()
+ * Returns true if the current animation has finished
+ */
+export const actor_animation_finished = (act:actor_t) => {
   let frame = act.animation_frame + (act.animation.fps * act.animation_speed_factor) * timer_get_delta();
   return (!act.animation.repeat && frame > act.animation.frame_count-1);
 }
 
 /* collision detection */
 
-export const actor_collision = (a, b) => {
+/**
+ * actor_collision()
+ * Check collisions
+ */
+export const actor_collision = (a:actor_t, b:actor_t) => {
 
-  let j = 0;
   let right = 0;
-  let corner = [];
-  corner[0] = [];
-  corner[1] = [];
+
+  let corner:any = [];
+ 
+  corner[0] = [
+    v2d_new(0,0),
+    v2d_new(0,0),
+    v2d_new(0,0),
+    v2d_new(0,0)
+  ];
+  corner[1] = [
+    v2d_new(0,0),
+    v2d_new(0,0),
+    v2d_new(0,0),
+    v2d_new(0,0)
+  ];
 
   corner[0][0] = v2d_subtract(a.position, v2d_rotate(a.hot_spot, -a.angle)); // a's topleft 
   corner[0][1] = v2d_add( corner[0][0] , v2d_rotate(v2d_new(actor_image(a).width, 0), -a.angle) ); // a's topright 
@@ -234,26 +313,41 @@ export const actor_collision = (a, b) => {
   corner[1][1] = v2d_add( corner[1][0] , v2d_rotate(v2d_new(actor_image(b).width, 0), 0) ); // b's topright 
   corner[1][2] = v2d_add( corner[1][0] , v2d_rotate(v2d_new(actor_image(b).width, actor_image(b).height), 0) ); // b's bottomright 
   corner[1][3] = v2d_add( corner[1][0] , v2d_rotate(v2d_new(0, actor_image(b).height), 0) ); // b's bottomleft 
-  right += Math.abs(a.angle)<EPSILON||Math.abs(a.angle-PI/2)<EPSILON||Math.abs(a.angle-PI)<EPSILON||Math.abs(a.angle-3*PI/2)<EPSILON;
-  right += Math.abs(0)<EPSILON||Math.abs(0-PI/2)<EPSILON||Math.abs(0-PI)<EPSILON||Math.abs(0-3*PI/2)<EPSILON;
+ 
+  // this part is where sonic is not able to get the ring at the top when upside down, this does something to make the collision detection smaller
+  // don't change this or it breaks loops
+  if (Math.abs(a.angle)<EPSILON||Math.abs(a.angle-PI/2)<EPSILON||Math.abs(a.angle-PI)<EPSILON||Math.abs(a.angle-3*PI/2)<EPSILON) {
+    right++;
+  }
+  if(Math.abs(b.angle)<EPSILON||Math.abs(b.angle-PI/2)<EPSILON||Math.abs(b.angle-PI)<EPSILON||Math.abs(b.angle-3*PI/2)<EPSILON) {
+    right++;
+  }
 
   //console.log(right)
 
+  // don't change this or it breaks loops
   if(right) {
     let r = [];
     let swaped = [];        
-    for(j=0; j<2; j++) {
+    for(let j=0; j<2; j++) {
       r[j] = [];
-      r[j][0] = Math.min(corner[j][0].x, corner[j][1].x);
-      r[j][1] = Math.min(corner[j][0].y, corner[j][1].y);
-      r[j][2] = Math.max(corner[j][2].x, corner[j][3].x);
-      r[j][3] = Math.max(corner[j][2].y, corner[j][3].y);
-      if(r[j][0] > r[j][2]) {
+
+      let r1 = Math.min(corner[j][0].x, corner[j][1].x);
+      let r2 = Math.min(corner[j][0].y, corner[j][1].y);
+      let r3 = Math.max(corner[j][2].x, corner[j][3].x);
+      let r4 = Math.max(corner[j][2].y, corner[j][3].y);
+
+      r[j][0] = r1;
+      r[j][1] = r2;
+      r[j][2] = r3;
+      r[j][3] = r4;
+
+      if(r1 > r3) {
         swaped = swap(r[j][0], r[j][2]);
         r[j][0] = swaped[0];
-        r[j][2] = swaped[1]
+        r[j][2] = swaped[1];
       }
-      if(r[j][1] > r[j][3]) {
+      if(r2 > r4) {
         swaped = swap(r[j][1], r[j][3]);
         r[j][1] = swaped[0];
         r[j][3] = swaped[1];
@@ -265,17 +359,23 @@ export const actor_collision = (a, b) => {
     let center = [];
     let radius = [ Math.max(actor_image(a).width,actor_image(a).height) , Math.max(actor_image(b).width,actor_image(b).height) ];
     //console.log(radius)
-    for(j=0; j<2; j++)
+    for(let j=0; j<2; j++)
         center[j] = v2d_multiply(v2d_add(corner[j][0], corner[j][2]), 0.5);
     return circular_collision(center[0], radius[0], center[1], radius[1]);
   }
 }
 
-export const actor_orientedbox_collision = (a, b) => {
-  let a_pos = {}, b_pos = {};
-  let a_size = {}, b_size = {};
-  let a_spot = [];
-  let b_spot = []; // rotated spots
+/**
+ * actor_orientedbox_collision()
+ * Is a colliding with b? (oriented bounding box detection)
+ */
+export const actor_orientedbox_collision = (a:actor_t, b:actor_t) => {
+  let a_pos = v2d_new(0,0);
+  let b_pos = v2d_new(0,0);
+  let a_size = v2d_new(0,0);
+  let b_size = v2d_new(0,0);
+  let a_spot:v2d_t[] = [];
+  let b_spot:v2d_t[] = []; // rotated spots
 
   a_spot = calculate_rotated_boundingbox(this, a, a_spot);
   b_spot = calculate_rotated_boundingbox(this, b, b_spot);
@@ -298,15 +398,19 @@ export const actor_orientedbox_collision = (a, b) => {
   return false;
 }
 
-export const actor_pixelperfect_collision = (a, b) => {
+/**
+ * actor_pixelperfect_collision()
+ * Is a colliding with b? (pixel perfect detection)
+ */
+export const actor_pixelperfect_collision = (a:actor_t, b:actor_t) => {
   if(Math.abs(a.angle) < EPSILON && Math.abs(b.angle) < EPSILON) {
     if(actor_collision(a, b)) {
       let x1, y1, x2, y2;
 
-      x1 = parseInt((a.position.x - a.hot_spot.x),10);
-      y1 = parseInt((a.position.y - a.hot_spot.y),10);
-      x2 = parseInt((b.position.x - b.hot_spot.x),10);
-      y2 = parseInt((b.position.y - b.hot_spot.y),10);
+      x1 = a.position.x - a.hot_spot.x;
+      y1 = a.position.y - a.hot_spot.y;
+      x2 = b.position.x - b.hot_spot.x;
+      y2 = b.position.y - b.hot_spot.y;
 
       return image_pixelperfect_collision(actor_image(a), actor_image(b), x1, y1, x2, y2);
     }
@@ -344,8 +448,8 @@ export const actor_pixelperfect_collision = (a, b) => {
       image_clear(image_a, video_get_maskcolor());
       image_clear(image_b, video_get_maskcolor());
 
-      image_draw_rotated(actor_image(a), image_a, ac.x, ac.y, parseInt(a.hot_spot.x,10), parseInt(a.hot_spot.y,10), a.angle, a.mirror);
-      image_draw_rotated(actor_image(b), image_b, bc.x, bc.y, parseInt(b.hot_spot.x,10), parseInt(b.hot_spot.y,10), b.angle, b.mirror);
+      image_draw_rotated(actor_image(a), image_a, ac.x, ac.y, a.hot_spot.x, a.hot_spot.y, a.angle, a.mirror);
+      image_draw_rotated(actor_image(b), image_b, bc.x, bc.y, b.hot_spot.x, b.hot_spot.y, b.angle, b.mirror);
 
       collided = actor_image_pixelperfect_collision(image_a, image_b, pos_a.x, pos_a.y, pos_b.x, pos_b.y);
 
@@ -359,7 +463,11 @@ export const actor_pixelperfect_collision = (a, b) => {
   }
 }
 
-export const actor_brick_collision = (act, brk) => {
+/**
+ * actor_brick_collision()
+ * Actor collided with a brick?
+ */
+export const actor_brick_collision = (act:actor_t, brk:brick_t) => {
   let topleft = v2d_subtract(act.position, v2d_rotate(act.hot_spot, act.angle));
   let bottomright = v2d_add( topleft, v2d_rotate(v2d_new(actor_image(act).w, actor_image(act).h), act.angle) );
   let a = [ topleft.x, topleft.y, bottomright.x, bottomright.y ];
@@ -370,7 +478,15 @@ export const actor_brick_collision = (act, brk) => {
 
 /* sensors */
 
-export const actor_render_corners = (act, sqrsize, diff, camera_position) => {
+/**
+ * actor_render_corners()
+ * Renders the corners (sensors) of the actor.
+ *
+ * Let X be the original collision detector spot. So:
+ * diff = distance between the real collision detector spot and X
+ * sqrsize = size of the collision detector
+ */
+export const actor_render_corners = (act:actor_t, sqrsize:number, diff:number, camera_position:v2d_t) => {
   let c = [];
   let offset = v2d_subtract(camera_position, v2d_new(VIDEO_SCREEN_W/2, VIDEO_SCREEN_H/2));
   let frame_width = actor_image(act).width;
@@ -402,13 +518,21 @@ export const actor_render_corners = (act, sqrsize, diff, camera_position) => {
   image_rectfill(video_get_backbuffer(), cd_down[0], cd_down[1], cd_down[2], cd_down[3], c[0]);
   image_rectfill(video_get_backbuffer(), cd_left[0], cd_left[1], cd_left[2], cd_left[3], c[0]);
   image_rectfill(video_get_backbuffer(), cd_right[0], cd_right[1], cd_right[2], cd_right[3], c[0]);
-  image_rectfill(video_get_backbuffer(), cd_downleft[0], cd_downleft[1], cd_downleft[2], cd_downleft[3], image.rgb(0,255,0));
-  image_rectfill(video_get_backbuffer(), cd_downright[0], cd_downright[1], cd_downright[2], cd_downright[3], image.rgb(255,0,0));
+  image_rectfill(video_get_backbuffer(), cd_downleft[0], cd_downleft[1], cd_downleft[2], cd_downleft[3], image_rgb(0,255,0));
+  image_rectfill(video_get_backbuffer(), cd_downright[0], cd_downright[1], cd_downright[2], cd_downright[3], image_rgb(255,0,0));
   image_rectfill(video_get_backbuffer(), cd_upright[0], cd_upright[1], cd_upright[2], cd_upright[3], c[1]);
   image_rectfill(video_get_backbuffer(), cd_upleft[0], cd_upleft[1], cd_upleft[2], cd_upleft[3], c[1]);
 }
 
-export const actor_corners = (act, sqrsize, diff, brick_list, up, upright, right, downright, down, downleft, left, upleft) => {
+/**
+ * actor_corners()
+ * Get actor's corners
+ *
+ * Let X be the original collision detector spot. So:
+ * diff = distance between the real collision detector spot and X
+ * sqrsize = size of the collision detector
+ */
+export const actor_corners = (act:actor_t, sqrsize:number, diff:number, brick_list:brick_list_t, up:brick_t, upright:brick_t, right:brick_t, downright:brick_t, down:brick_t, downleft:brick_t, left:brick_t, upleft:brick_t) => {
   let frame_width = actor_image(act).width;
   let frame_height = actor_image(act).height;
 
@@ -425,7 +549,12 @@ export const actor_corners = (act, sqrsize, diff, brick_list, up, upright, right
   return actor_corners_ex(act, sqrsize, vup, vupright, vright, vdownright, vdown, vdownleft, vleft, vupleft, brick_list, up, upright, right, downright, down, downleft, left, upleft);
 }
 
-export const actor_corners_ex = (act, sqrsize, vup, vupright, vright, vdownright, vdown, vdownleft, vleft, vupleft, brick_list, up, upright, right, downright, down, downleft, left, upleft) => {
+/**
+ * actor_corners_ex()
+ * Like actor_corners(), but this procedure allows to specify the
+ * collision detectors positions'
+ */
+export const actor_corners_ex = (act:actor_t, sqrsize:number, vup:v2d_t, vupright:v2d_t, vright:v2d_t, vdownright:v2d_t, vdown:v2d_t, vdownleft:v2d_t, vleft:v2d_t, vupleft:v2d_t, brick_list:brick_list_t, up:brick_t, upright:brick_t, right:brick_t, downright:brick_t, down:brick_t, downleft:brick_t, left:brick_t, upleft:brick_t) => {
   let cd_up         = [ vup.x-sqrsize , vup.y-sqrsize , vup.x+sqrsize , vup.y+sqrsize ];
   let cd_down       = [ vdown.x-sqrsize , vdown.y-sqrsize , vdown.x+sqrsize , vdown.y+sqrsize ];
   let cd_left       = [ vleft.x-sqrsize , vleft.y-sqrsize , vleft.x+sqrsize , vleft.y+sqrsize ];
@@ -459,30 +588,58 @@ export const actor_corners_ex = (act, sqrsize, vup, vupright, vright, vdownright
   };      
 }
 
-export const actor_corners_set_floor_priority = (floor) => {
+/**
+ * actor_corners_set_floor_priority()
+ * Which one has the greatest priority: floor (TRUE) or wall (FALSE) ?
+ * Collision-detection routine. See also: brick_at()
+ */
+export const actor_corners_set_floor_priority = (floor:boolean) => {
   floor_priority = floor;
 }
 
+/**
+ * actor_corners_restore_floor_priority()
+ * Shortcut to actor_corners_set_floor_priority(TRUE);
+ * TRUE is the default value.
+ */
 export const actor_corners_restore_floor_priority = () => {
   actor_corners_set_floor_priority(true);
 }
 
-export const actor_corners_set_slope_priority = (slope) => {
+/**
+ * actor_corners_set_slope_priority()
+ * Which one has the greatest priority: slope (TRUE) or floor (FALSE) ?
+ * Collision-detection routine. See also: brick_at()
+ */
+export const actor_corners_set_slope_priority = (slope:boolean) => {
   slope_priority = slope;
 }
 
+/**
+ * actor_corners_restore_slope_priority()
+ * Shortcut to actor_corners_set_slope_priority(TRUE);
+ * TRUE is the default value.
+ */
 export const actor_corners_restore_slope_priority = () => {
   actor_corners_set_slope_priority(true);
 }
 
-export const actor_corners_disable_detection = (disable_leftwall, disable_rightwall, disable_floor, disable_ceiling) => {
+/**
+ * actor_corners_disable_detection()
+ * Disables the collision detection of a few bricks
+ */
+export const actor_corners_disable_detection = (disable_leftwall:boolean, disable_rightwall:boolean, disable_floor:boolean, disable_ceiling:boolean) => {
   is_leftwall_disabled = disable_leftwall;
   is_rightwall_disabled = disable_rightwall;
   is_floor_disabled = disable_floor;
   is_ceiling_disabled = disable_ceiling;
 }
 
-export const actor_get_collision_detectors = (act, diff, up, upright, right, downright, down, downleft, left, upleft) => {
+/**
+ * actor_get_collision_detectors()
+ * Gets the collision detectors of this actor
+ */
+export const actor_get_collision_detectors = (act:actor_t, diff:number, up:v2d_t, upright:v2d_t, right:v2d_t, downright:v2d_t, down:v2d_t, downleft:v2d_t, left:v2d_t, upleft:v2d_t) => {
   let frame_width = actor_image(act).width, frame_height = actor_image(act).height;
   let slope = !((Math.abs(act.angle)<EPSILON)||(Math.abs(act.angle-PI/2)<EPSILON)||(Math.abs(act.angle-PI)<EPSILON)||(Math.abs(act.angle-3*PI/2)<EPSILON));
   let feet = act.position;
@@ -515,7 +672,13 @@ export const actor_get_collision_detectors = (act, diff, up, upright, right, dow
 
 /* platform movement routines */
 
-export const actor_handle_clouds = (act, diff, up, upright, right, downright, down, downleft, left, upleft) => {
+/**
+ * actor_handle_clouds()
+ * Cloud programming (called inside platform
+ * movement methods). Clouds are also known
+ * as 'jump-through' platforms.
+ */
+export const actor_handle_clouds = (act:actor_t, diff:number, up:brick_t, upright:brick_t, right:brick_t, downright:brick_t, down:brick_t, downleft:brick_t, left:brick_t, upleft:brick_t) => {
   let i;
   let cloud_off = [ up, upright, right, left, upleft ];
 
@@ -554,12 +717,20 @@ export const actor_handle_clouds = (act, diff, up, upright, right, downright, do
   };
 }
 
-export const actor_handle_collision_detectors = (act, brick_list, up, upright, right, downright, down, downleft, left, upleft, brick_up, brick_upright, brick_right, brick_downright, brick_down, brick_downleft, brick_left, brick_upleft) => {
+/**
+ * actor_handle_collision_detectors()
+ * Uses the collision detectors to retrieve *brick_up, ..., *brick_upleft
+ */
+export const actor_handle_collision_detectors = (act:actor_t, brick_list:brick_list_t, up:v2d_t, upright:v2d_t, right:v2d_t, downright:v2d_t, down:v2d_t, downleft:v2d_t, left:v2d_t, upleft:v2d_t, brick_up:brick_t, brick_upright:brick_t, brick_right:brick_t, brick_downright:brick_t, brick_down:brick_t, brick_downleft:brick_t, brick_left:brick_t, brick_upleft:brick_t) => {
   let sqrsize = 2;
   return actor_corners_ex(act, sqrsize, up, upright, right, downright, down, downleft, left, upleft, brick_list, brick_up, brick_upright, brick_right, brick_downright, brick_down, brick_downleft, brick_left, brick_upleft);
 }
 
-export const actor_handle_carrying = (act, brick_down) => {
+/**
+ * actor_handle_carrying()
+ * If act is being carried, runs the corresponding logic
+ */
+export const actor_handle_carrying = (act:actor_t, brick_down:brick_t) => {
   const dt = timer_get_delta();
 
   /* I'm being carried */
@@ -567,7 +738,7 @@ export const actor_handle_carrying = (act, brick_down) => {
     let car = act.carried_by;
 
     /* what should I do? */
-    if((brick_down && brick_down.brick_ref.angle == 0 && parseInt(car.speed.y,10) >= 5)) {
+    if((brick_down && brick_down.brick_ref.angle == 0 && car.speed.y >= 5)) {
       /* put me down! */
       act.position = v2d_new(act.carried_by.position.x, act.carried_by.position.y);
       act.carried_by.carrying = null;
@@ -583,7 +754,11 @@ export const actor_handle_carrying = (act, brick_down) => {
   }
 }
 
-export const actor_handle_wall_collision = (act, feet, left, right, brick_left, brick_right) => {
+/**
+ * actor_handle_wall_collision()
+ * Handles wall collision
+ */
+export const actor_handle_wall_collision = (act:actor_t, feet:v2d_t, left:v2d_t, right:v2d_t, brick_left:brick_t, brick_right:brick_t) => {
   /* right wall */
   if(brick_right) {
     if(brick_right.brick_ref.angle % 90 == 0 && (act.speed.x > EPSILON || right.x > brick_right.x)) {
@@ -601,14 +776,22 @@ export const actor_handle_wall_collision = (act, feet, left, right, brick_left, 
   }
 }
 
-export const actor_handle_ceil_collision = (act, feet, up, brick_up) => {
+/**
+ * actor_handle_ceil_collision()
+ * Handles ceiling collision
+ */
+export const actor_handle_ceil_collision = (act:actor_t, feet:v2d_t, up:v2d_t, brick_up:brick_t) => {
   if(brick_up && brick_up.brick_ref.angle % 90 == 0 && act.speed.y < -EPSILON) {
     act.position.y = (brick_up.y+brick_up.brick_ref.image.height) + (feet.y-up.y);
     act.speed.y = 10;
   }
 }
 
-export const actor_handle_floor_collision = (act, diff, natural_angle, ds, feet, friction, brick_downleft, brick_down, brick_downright) => {
+/**
+ * actor_handle_floor_collision()
+ * Floor collision
+ */
+export const actor_handle_floor_collision = (act:actor_t, diff:number, natural_angle:number, ds:v2d_t, feet:v2d_t, friction:number, brick_downleft:brick_t, brick_down:brick_t, brick_downright:brick_t) => {
   const dt = timer_get_delta();
   let ang;
 
@@ -630,6 +813,7 @@ export const actor_handle_floor_collision = (act, diff, natural_angle, ds, feet,
 
     // (0-90) slope 
     else if(ang > 0 && ang < 90) {
+      console.log("brick_ref", brick_down.brick_ref)
       feet.y = brick_down.y + brick_down.brick_ref.image.height - (act.position.x-brick_down.x)*Math.tan(act.angle);
       act.position.y = feet.y+diff;
       if(!(act.mirror & IF_HFLIP))
@@ -740,7 +924,11 @@ export const actor_handle_floor_collision = (act, diff, natural_angle, ds, feet,
   }
 }
 
-export const actor_handle_slopes = (act, brick_down) => {
+/**
+ * actor_handle_slopes()
+ * slopes / speed issues
+ */
+export const actor_handle_slopes = (act:actor_t, brick_down:brick_t) => {
   let ang = brick_down.brick_ref.angle;
   const dt = timer_get_delta();
   let mytan, factor;
@@ -767,7 +955,11 @@ export const actor_handle_slopes = (act, brick_down) => {
   }
 }
 
-export const actor_handle_jumping = (act, diff, natural_angle, brick_down, brick_up) => {
+/**
+ * actor_handle_jumping()
+ * Handles the jumping logic
+ */
+export const actor_handle_jumping = (act:actor_t, diff:number, natural_angle:number, brick_down:brick_t, brick_up:brick_t) => {
   let ang = brick_down.brick_ref.angle;
 
   if(input_button_down(act.input, IB_FIRE1) && !input_button_down(act.input, IB_DOWN) && !brick_up) {
@@ -781,27 +973,27 @@ export const actor_handle_jumping = (act, diff, natural_angle, brick_down, brick
       act.speed.y = -0.7*act.jump_strength;
     }
     else if(ang == 90) {
-      actor.move(act, v2d_new(20*diff, 0));
+      actor_move(act, v2d_new(20*diff, 0));
       act.speed.x = Math.min(act.speed.x, -act.jump_strength);
       act.speed.y = -act.jump_strength/2;
     }
     else if(ang > 90 && ang < 180) {
-      actor.move(act, v2d_new(0, -20*diff));
+      actor_move(act, v2d_new(0, -20*diff));
       act.speed.x = Math.min(act.speed.x, -0.7*act.jump_strength);
       act.speed.y = act.jump_strength;
     }
     else if(ang == 180) {
-      actor.move(act, v2d_new(0, -20*diff));
+      actor_move(act, v2d_new(0, -20*diff));
       act.speed.x *= -1;
       act.speed.y = act.jump_strength;
     }
     else if(ang > 180 && ang < 270) {
-      actor.move(act, v2d_new(0, -20*diff));
+      actor_move(act, v2d_new(0, -20*diff));
       act.speed.x = Math.max(act.speed.x, 0.7*act.jump_strength);
       act.speed.y = act.jump_strength;
     }
     else if(ang == 270) {
-      actor.move(act, v2d_new(-20*diff, 0));
+      actor_move(act, v2d_new(-20*diff, 0));
       act.speed.x = Math.max(act.speed.x, act.jump_strength);
       act.speed.y = -act.jump_strength/2;
     }
@@ -812,7 +1004,11 @@ export const actor_handle_jumping = (act, diff, natural_angle, brick_down, brick
   }
 }
 
-export const actor_handle_acceleration = (act, friction, brick_down) => {
+/**
+ * actor_handle_acceleration()
+ * Handles x-axis acceleration
+ */
+export const actor_handle_acceleration = (act:actor_t, friction:number, brick_down:brick_t) => {
   const dt = timer_get_delta();
 
   if(input_button_down(act.input, IB_LEFT) && !input_button_down(act.input, IB_RIGHT)) {
@@ -860,15 +1056,24 @@ export const actor_handle_acceleration = (act, friction, brick_down) => {
 
 /* pre-defined movement routines */
 
-export const actor_platform_movement = (act, brick_list, gravity) => {
+/**
+ * actor_platform_movement()
+ * Basic platform movement. Returns
+ * a delta_space vector.
+ *
+ * Note: the actor's hot spot must
+ * be defined on its feet.
+ */
+export const actor_platform_movement = (act:actor_t, brick_list:brick_list_t, gravity:number) => {
+    
   let ds = v2d_new(0,0); // return value 
   const dt = timer_get_delta(); // delta_time 
   let natural_angle = 0; // default angle (gravity) 
   let max_y_speed = 480, friction = 0, gravity_factor = 1.0; // generic modifiers 
   let diff = MAGIC_DIFF; // magic hack 
   let feet = act.position; // actor's feet 
-  let up, upright, right, downright, down, downleft, left, upleft; // collision detectors (CDs) 
-  let brick_up, brick_upright, brick_right, brick_downright, brick_down, brick_downleft, brick_left, brick_upleft; // bricks detected by the CDs 
+  let up:v2d_t, upright:v2d_t, right:v2d_t, downright:v2d_t, down:v2d_t, downleft:v2d_t, left:v2d_t, upleft:v2d_t; // collision detectors (CDs) 
+  let brick_up:any, brick_upright:any, brick_right:any, brick_downright:any, brick_down:any, brick_downleft:any, brick_left:any, brick_upleft:any; // bricks detected by the CDs 
 
   // actor's collision detectors 
   let corners = actor_get_collision_detectors(act, diff, up, upright, right, downright, down, downleft, left, upleft);
@@ -944,7 +1149,13 @@ export const actor_platform_movement = (act, brick_list, gravity) => {
   return ds;
 }
 
-export const actor_particle_movement = (act, gravity) => {
+/**
+ * actor_particle_movement()
+ *
+ * Basic particle movement. Returns a
+ * delta_space vector.
+ */
+export const actor_particle_movement = (act:actor_t, gravity:number) => {
   const dt = timer_get_delta();
   let ds = v2d_new(0,0);
 
@@ -959,7 +1170,13 @@ export const actor_particle_movement = (act, gravity) => {
   return ds;
 }
 
-export const actor_eightdirections_movement = (act) => {
+/**
+ * actor_eightdirections_movement()
+ *
+ * Basic eight directions movement with acceleration.
+ * Returns a delta_space vector.
+ */
+export const actor_eightdirections_movement = (act:actor_t) => {
   const dt = timer_get_delta();
   let ds = v2d_new(0,0);
 
@@ -1001,7 +1218,17 @@ export const actor_eightdirections_movement = (act) => {
   return ds;
 }
 
-export const actor_bullet_movement = (act) => {
+/**
+ * actor_bullet_movement()
+ *
+ * Basic bullet movement. Returns a
+ * delta_space vector.
+ *
+ * Bullet movement is a horizontal movement without any gravity effect.  If
+ * a procedure uses this movement it is responsible for destroying the bullet
+ * upon collision.
+ */
+export const actor_bullet_movement = (act:actor_t) => {
   const dt = timer_get_delta();
   let ds = v2d_new(0,0);
 
@@ -1015,13 +1242,19 @@ export const actor_bullet_movement = (act) => {
   return ds;
 }
 
-const brick_at = (list, rect) => {
+/**
+ * brick_at(): given a list of bricks, returns
+ * one that collides with the rectangle 'rect'
+ * PS: this code ignores the bricks that are
+ * not obstacles */
+const brick_at = (list:brick_list_t, rect:number[]) => {
 
+  //console.log("brick_at", list, rect)
+  
   let ret = null;
   let p;
   let deg, inside_region, end = false;
   let x, y, mytan, line;
-  let br;
 
   /* main algorithm */
   for(p=list; p && !end; p=p.next) {
@@ -1103,7 +1336,7 @@ const brick_at = (list, rect) => {
             for(y=rect[1]; y<=rect[3] && !end; y++) {
               inside_region = false;
 
-              switch( parseInt((deg/90),10) % 4 ) {
+              switch(~~(deg/90) % 4 ) {
                 case 0: // 1st quadrant 
                   line = br[3] + mytan*(br[0]-x);
                   inside_region = (br[0] <= x && x <= br[2] && line <= y && y <= br[3]);
@@ -1136,7 +1369,11 @@ const brick_at = (list, rect) => {
   return ret;
 }
 
-const calculate_rotated_boundingbox = (z, act, spot) => {
+/**
+ * calculate_rotated_boundingbox()
+ * Calculates the rotated bounding box of a given actor
+ */
+const calculate_rotated_boundingbox = (z:number, act:actor_t, spot: v2d_t[]) => {
   let w, h, angle;
   let a, b, c, d, hs;
   let pos;
@@ -1161,14 +1398,14 @@ const calculate_rotated_boundingbox = (z, act, spot) => {
 }
 
 /* custom */
-const flipHorizontally = (context, around) => {
+const flipHorizontally = (context:any, around:number) => {
   context.translate(around, 0);
   context.scale(-1, 1);
   context.translate(-around, 0);
   return context;
 }
 
-const rotateContext = (context, x, y, ang) => {
+const rotateContext = (context:any, x:number, y:number, ang:number) => {
   context.translate(x, y);
   context.rotate(ang);
   context.translate(-x, -y);

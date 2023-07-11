@@ -1,4 +1,4 @@
-import { sprite_create } from "./../core/sprite"
+import { animation_t, spriteinfo_t, sprite_create, sprite_info_destroy } from "./../core/sprite"
 import { resourcemanager_getJsonFile } from "./../core/resourcemanager"
 import { timer_get_delta } from "./../core/timer"
 import { logfile_message } from "./../core/logfile"
@@ -25,15 +25,44 @@ export const BRS_ACTIVE            =  2; /* generic action */
 export const BRICK_MAXVALUES       =  3;
 export const BRB_FALL_TIME         =  1.0; /* time in seconds before a BRB_FALL gets destroyed */
 
+export interface brickdata_t {
+  data: spriteinfo_t,
+  image: any,
+  property: number,
+  behavior: number,
+  angle: number,
+  zindex: number,
+  behavior_arg: number[]
+}
+
+export interface brick_t {
+  brick_ref: brickdata_t,
+  x: number,
+  y: number,
+  enabled: boolean,
+  state: number,
+  value: number[],
+  animation_frame: number
+}
+
+export interface brick_list_t {
+  data: brick_t,
+  next: brick_list_t
+}
+
 /* private */
 const BRKDATA_MAX   =   10000;
 
 let brickdata_count = 0;
-let brickdata = [];
+let brickdata:brickdata_t[] = [];
 
-export const brick_load = (filename) => {
+/**
+ * brickdata_load()
+ * Loads all the brick data from a file
+ */
+export const brick_load = (filename:string) => {
   return new Promise(function (fulfill, reject){
-    logfile_message("brickdata_load('%s')", filename);
+    logfile_message(`brickdata_load('%s') ${filename}`);
     resourcemanager_getJsonFile(filename)
     .then(traverse)
     .then(function(bdata){
@@ -43,6 +72,10 @@ export const brick_load = (filename) => {
   });
 }
 
+/**
+ * brickdata_unload()
+ * Unloads brick data
+ */
 export const brick_unload = () => {
   let i;
 
@@ -55,18 +88,30 @@ export const brick_unload = () => {
   logfile_message("brickdata_unload() ok");
 }
 
-export const brick_get = (id) => {
+/**
+ * brickdata_get()
+ * Gets a brickdata_t* object
+ */
+export const brick_get = (id:number) => {
   //id = Math.min(id, 0, brickdata_count-1);
   return brickdata[id];
 }
 
+/**
+ * brickdata_size()
+ * How many bricks are loaded?
+ */
 export const brick_size = () => {
   return brickdata_count;
 }
 
 /* brick utilities */
 
-export const brick_animate = (brk) => {
+/**
+ * brick_animate()
+ * Animates a brick
+ */
+export const brick_animate = (brk:brick_t) => {
   const sprite = brk.brick_ref.data;
 
   if(sprite != null && sprite.animation_data.length) { // if brk is not a fake brick 
@@ -84,17 +129,25 @@ export const brick_animate = (brk) => {
       //    brk.animation_frame = parseInt((sprite.animation_data[0].fps * (timer.get_ticks() * 0.001)) % c,10);
 
       //f = Math.min(parseInt(brk.animation_frame,10), 0, c-1);
-      f = parseInt(brk.animation_frame,10);
+      f = ~~brk.animation_frame;
       brk.brick_ref.image = sprite.frame_data[ sprite.animation_data[0].data[f] ];
   }
   return brk;
 }
 
-export const brick_image = (brk) => {
+/**
+ * brick_image()
+ * Returns the image of an (animated?) brick
+ */
+export const brick_image = (brk:brick_t) => {
   return brk.brick_ref.image;
 }
 
-export const brick_get_property_name = (property) => {
+/**
+ * brick_get_property_name()
+ * Returns the name of a given brick property
+ */
+export const brick_get_property_name = (property:number) => {
   switch(property) {
     case BRK_NONE:
       return "PASSABLE";
@@ -110,7 +163,11 @@ export const brick_get_property_name = (property) => {
   }
 }
 
-export const brick_get_behavior_name = (behavior) => {
+/**
+ * brick_get_behavior_name()
+ * Returns the name of a given brick behavior
+ */
+export const brick_get_behavior_name = (behavior:number) => {
   switch(behavior) {
     case BRB_DEFAULT:
       return "DEFAULT";
@@ -129,38 +186,46 @@ export const brick_get_behavior_name = (behavior) => {
   }
 }
 
-const brickdata_new = () => {
-  let i;
-  let obj = {};
+const brickdata_new = ():brickdata_t => {
 
-  obj.data = null;
-  obj.image = null;
-  obj.property = BRK_NONE;
-  obj.angle = 0;
-  obj.behavior = BRB_DEFAULT;
-  obj.zindex = 0.5;
-  obj.behavior_arg = [];
+  const obj:brickdata_t = {
+    data: null,
+    image: null,
+    property: BRK_NONE,
+    angle: 0,
+    behavior: BRB_DEFAULT,
+    zindex: 0.5,
+    behavior_arg: []
+  };  
 
-  for(i=0; i<BRICKBEHAVIOR_MAXARGS; i++)
+  for(let i=0; i<BRICKBEHAVIOR_MAXARGS; i++)
     obj.behavior_arg[i] = 0.0;
 
   return obj;
 }
 
-const brickdata_delete = (obj) => {}
+const brickdata_delete = (obj:brickdata_t):brickdata_t => {
+  if(obj != null) {
+    if(obj.data != null)
+      sprite_info_destroy(obj.data);
+    //delete(obj);
+  }
 
-const validate_brickdata = (obj) => {
+  return null;
+}
+
+const validate_brickdata = (obj:brickdata_t) => {
   if(obj.data == null)
     logfile_message("Can't load bricks: all bricks must have a sprite!");
     //fatal_error("Can't load bricks: all bricks must have a sprite!");
 }
 
-const traverse = (stmt) => {
+const traverse = (stmt:any) => {
     let bricks = stmt.bricks;
     return Promise.all(bricks.map(traverse_brick_attributes))
 }
 
-const traverse_brick_attributes = (stmt) => {
+const traverse_brick_attributes = (stmt:any) => {
   return new Promise(function (fulfill, reject){
     let dat = brickdata_new();
     let type = stmt.type;
@@ -173,7 +238,7 @@ const traverse_brick_attributes = (stmt) => {
     } else if(type == "CLOUD") {
       dat.property = BRK_CLOUD;
     } else {
-      logfile_message("Can't read brick attributes: unknown brick type '%s'", type);
+      logfile_message(`Can't read brick attributes: unknown brick type ${type}`);
       //fatal_error("Can't read brick attributes: unknown brick type '%s'", type);
     }
 
@@ -192,7 +257,7 @@ const traverse_brick_attributes = (stmt) => {
     } else if(type == "FALL") {
       dat.behavior = BRB_FALL;
     } else {
-      logfile_message("Can't read brick attributes: unknown brick type '%s'", type);
+      logfile_message(`Can't read brick attributes: unknown brick type ${type}`);
       //fatal_error("Can't read brick attributes: unknown brick type '%s'", type);
     }
 
@@ -212,7 +277,7 @@ const traverse_brick_attributes = (stmt) => {
 
     // sprite 
     sprite_create(stmt.sprite)
-    .then(function(data){
+    .then(function(data:any){
       dat.data = data;
       dat.image = data.frame_data[0];
       brickdata_count++;

@@ -9,7 +9,7 @@ import { video_renderLoading } from "./video"
 
 const SPRITE_MAX_ANIM = 1000;
 
-interface animation_t {
+export interface animation_t {
   repeat: boolean,
   fps: number,
   frame_count: number,
@@ -18,7 +18,7 @@ interface animation_t {
   frame_data: any
 }
 
-interface spriteinfo_t {
+export interface spriteinfo_t {
   source_file: string,
   rect_x: number,
   rect_y: number,
