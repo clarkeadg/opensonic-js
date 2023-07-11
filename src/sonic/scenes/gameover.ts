@@ -8,10 +8,14 @@ import { quest_abort } from "./quest"
 import { font_create, font_set_text, font_render, font_destroy } from "./../entities/font"
 
 /* private data */
-let gameover_fnt = [];
-let gameover_buf;
-let gameover_timer;
+let gameover_fnt:any[] = [];
+let gameover_buf:any = null;
+let gameover_timer = 0;
 
+/**
+ * gameover_init()
+ * Initializes the game over screen
+ */
 export const gameover_init = () => {
   gameover_timer = 0;
 
@@ -27,6 +31,10 @@ export const gameover_init = () => {
   //image_blit(video.get_backbuffer(), gameover_buf, 0, 0, 0, 0, gameover_buf.width, gameover_buf.height);
 }
 
+/**
+ * gameover_update()
+ * Updates the game over screen
+ */
 export const gameover_update = () => {
   const dt = timer_get_delta();
 
@@ -51,6 +59,10 @@ export const gameover_update = () => {
     gameover_fnt[1].position.x = 168;
 }
 
+/**
+ * gameover_render()
+ * Renders the game over screen
+ */
 export const gameover_render = () => {
   video_clearDisplay();
 
@@ -61,6 +73,10 @@ export const gameover_render = () => {
   font_render(gameover_fnt[1], v);
 }
 
+/**
+ * gameover_release()
+ * Releases the game over screen
+ */
 export const gameover_release = () => {
   image_destroy(gameover_buf);
   font_destroy(gameover_fnt[1]);

@@ -148,7 +148,7 @@ const push_initial_scene = (cmd:any) => {
     });
   }*/
   else {
-    scenestack_push(storyboard_get_scene(SCENE_INTRO));
+    //scenestack_push(storyboard_get_scene(SCENE_INTRO));
     //scenestack_push(storyboard_get_scene(SCENE_LEVEL));
     //scenestack_push(storyboard_get_scene(SCENE_PAUSE));
     //scenestack_push(storyboard_get_scene(SCENE_GAMEOVER));
@@ -157,7 +157,7 @@ const push_initial_scene = (cmd:any) => {
     //scenestack_push(storyboard_get_scene(SCENE_MENU));
     //scenestack_push(storyboard_get_scene(SCENE_QUESTOVER));
     //scenestack_push(storyboard_get_scene(SCENE_CONFIRMBOX));
-    //scenestack_push(storyboard_get_scene(SCENE_LANGSELECT));
+    scenestack_push(storyboard_get_scene(SCENE_LANGSELECT));
     //scenestack_push(storyboard_get_scene(SCENE_CREDITS));
     //scenestack_push(storyboard_get_scene(SCENE_OPTIONS));
     //scenestack_push(storyboard_get_scene(SCENE_STAGESELECT));

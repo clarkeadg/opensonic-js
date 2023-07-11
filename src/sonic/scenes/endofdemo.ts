@@ -14,10 +14,15 @@ import { actor_create, actor_render, actor_destroy, actor_change_animation } fro
 const SCENE_TIMEOUT = 3;
 const RING_MAX = 10;
 
-let starttime;
-let fnt, title;
-let ring = [];
+let starttime = 0;
+let fnt:any = null;
+let title:any = null
+let ring:any[] = [];
 
+/**
+ * endofdemo_init()
+ * Initializes the scene
+ */
 export const endofdemo_init = () => {
   let i;
 
@@ -28,7 +33,7 @@ export const endofdemo_init = () => {
 
   title = font_create(4);
   font_set_text(title, lang_get("ENDOFDEMO_TITLE"));
-  title.position = v2d_new( (VIDEO_SCREEN_W - parseInt(font_get_charsize(title).x,10)*font_get_text(title)).length/2 , 5 );
+  title.position = v2d_new( (VIDEO_SCREEN_W - font_get_charsize(title).x*font_get_text(title))/2 , 5 );
 
   for(i=0; i<RING_MAX; i++) {
       ring[i] = actor_create();
@@ -39,9 +44,13 @@ export const endofdemo_init = () => {
   video_fadefx_in(image_rgb(0,0,0), 2.0);
 }
 
+/**
+ * endofdemo_update()
+ * Updates the scene
+ */
 export const endofdemo_update = () => {
   const now = timer_get_ticks();
-  let i, sec = Math.max(0, (SCENE_TIMEOUT - parseInt((now-starttime),10)) / 1000);
+  let i, sec = Math.max(0, (SCENE_TIMEOUT - (now-starttime)) / 1000);
 
   font_set_text(fnt, lang_get("ENDOFDEMO_TEXT"), GAME_TITLE, GAME_WEBSITE, sec);
 
@@ -58,6 +67,10 @@ export const endofdemo_update = () => {
     ring[i].position.y = ring[i].spawn_point.y + 10*Math.sin(PI * (now*0.001) + (2*PI/RING_MAX)*i);
 }
 
+/**
+ * endofdemo_render()
+ * Renders the scene
+ */
 export const endofdemo_render = () => {
   let i;
   let cam = v2d_new(VIDEO_SCREEN_W/2, VIDEO_SCREEN_H/2);
@@ -72,6 +85,10 @@ export const endofdemo_render = () => {
   font_render(fnt, cam);
 }
 
+/**
+ * endofdemo_release()
+ * Releases the scene
+ */
 export const endofdemo_release = () => {
   let i;
 
