@@ -1,0 +1,133 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>actor_platform_movement | opensonicjs</title><meta name="description" content="Documentation for opensonicjs"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container">
+<div class="table-cell" id="tsd-search" data-base="..">
+<div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
+<div class="field">
+<div id="tsd-toolbar-links"></div></div>
+<ul class="results">
+<li class="state loading">Preparing search index...</li>
+<li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">opensonicjs</a></div>
+<div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
+<div class="container container-main">
+<div class="col-content">
+<div class="tsd-page-title">
+<ul class="tsd-breadcrumb">
+<li><a href="../index.html">opensonicjs</a></li>
+<li><a href="../modules/entities_actor.html">entities/actor</a></li>
+<li><a href="entities_actor.actor_platform_movement.html">actor_platform_movement</a></li></ul>
+<h1>Function actor_platform_movement</h1></div>
+<section class="tsd-panel">
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="actor_platform_movement"><span class="tsd-kind-call-signature">actor_<wbr/>platform_<wbr/>movement</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">act</span>, <span class="tsd-kind-parameter">brick_list</span>, <span class="tsd-kind-parameter">gravity</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/core_v2d.v2d_t.html" class="tsd-signature-type tsd-kind-interface">v2d_t</a><a href="#actor_platform_movement" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>actor_platform_movement()
+Basic platform movement. Returns
+a delta_space vector.</p>
+<p>Note: the actor&#39;s hot spot must
+be defined on its feet.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">act</span>: <a href="../interfaces/entities_actor.actor_t.html" class="tsd-signature-type tsd-kind-interface">actor_t</a></h5></li>
+<li>
+<h5><span class="tsd-kind-parameter">brick_list</span>: <a href="../interfaces/entities_brick.brick_list_t.html" class="tsd-signature-type tsd-kind-interface">brick_list_t</a></h5></li>
+<li>
+<h5><span class="tsd-kind-parameter">gravity</span>: <span class="tsd-signature-type">number</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="../interfaces/core_v2d.v2d_t.html" class="tsd-signature-type tsd-kind-interface">v2d_t</a></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/clarkeadg/opensonic-js/blob/b118b12/src/sonic/entities/actor.ts#L1067">entities/actor.ts:1067</a></li></ul></aside></li></ul></section></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)" id="icon-chevronDown"></path></svg>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility">
+<h4 class="uppercase">Member Visibility</h4><form>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-private" name="private"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Private</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div>
+<div class="tsd-theme-toggle">
+<h4 class="uppercase">Theme</h4><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="../index.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-4"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-namespace)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z" fill="var(--color-text)"></path></g></svg><span>opensonicjs</span></a>
+<ul class="tsd-small-nested-navigation">
+<li><a href="../modules/core_audio.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/audio</span></a></li>
+<li><a href="../modules/core_commandline.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/commandline</span></a></li>
+<li><a href="../modules/core_engine.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/engine</span></a></li>
+<li><a href="../modules/core_global.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/global</span></a></li>
+<li><a href="../modules/core_hashtable.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/hashtable</span></a></li>
+<li><a href="../modules/core_image.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/image</span></a></li>
+<li><a href="../modules/core_input.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/input</span></a></li>
+<li><a href="../modules/core_lang.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/lang</span></a></li>
+<li><a href="../modules/core_logfile.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/logfile</span></a></li>
+<li><a href="../modules/core_osspec.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/osspec</span></a></li>
+<li><a href="../modules/core_preferences.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/preferences</span></a></li>
+<li><a href="../modules/core_quest.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/quest</span></a></li>
+<li><a href="../modules/core_resourcemanager.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/resourcemanager</span></a></li>
+<li><a href="../modules/core_scene.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/scene</span></a></li>
+<li><a href="../modules/core_screenshot.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/screenshot</span></a></li>
+<li><a href="../modules/core_soundfactory.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/soundfactory</span></a></li>
+<li><a href="../modules/core_sprite.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/sprite</span></a></li>
+<li><a href="../modules/core_storyboard.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/storyboard</span></a></li>
+<li><a href="../modules/core_timer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/timer</span></a></li>
+<li><a href="../modules/core_util.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/util</span></a></li>
+<li><a href="../modules/core_v2d.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/v2d</span></a></li>
+<li><a href="../modules/core_video.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/video</span></a></li>
+<li>
+<details class="tsd-index-accordion" open data-key="entities/actor"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="#icon-chevronDown"></use></svg><a href="../modules/entities_actor.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/actor</span></a></summary>
+<div class="tsd-accordion-details">
+<ul class="tsd-nested-navigation">
+<li><a href="../interfaces/entities_actor.actor_t.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-256"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)"></path></g></svg><span>actor_<wbr/>t</span></a></li>
+<li><a href="entities_actor.actor_animation_finished.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-64"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-function)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z" fill="var(--color-text)"></path></g></svg><span>actor_<wbr/>animation_<wbr/>finished</span></a></li>
+<li><a href="entities_actor.actor_brick_collision.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>brick_<wbr/>collision</span></a></li>
+<li><a href="entities_actor.actor_bullet_movement.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>bullet_<wbr/>movement</span></a></li>
+<li><a href="entities_actor.actor_change_animation.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>change_<wbr/>animation</span></a></li>
+<li><a href="entities_actor.actor_change_animation_frame.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>change_<wbr/>animation_<wbr/>frame</span></a></li>
+<li><a href="entities_actor.actor_change_animation_speed_factor.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>change_<wbr/>animation_<wbr/>speed_<wbr/>factor</span></a></li>
+<li><a href="entities_actor.actor_collision.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>collision</span></a></li>
+<li><a href="entities_actor.actor_corners.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>corners</span></a></li>
+<li><a href="entities_actor.actor_corners_disable_detection.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>corners_<wbr/>disable_<wbr/>detection</span></a></li>
+<li><a href="entities_actor.actor_corners_ex.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>corners_<wbr/>ex</span></a></li>
+<li><a href="entities_actor.actor_corners_restore_floor_priority.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>corners_<wbr/>restore_<wbr/>floor_<wbr/>priority</span></a></li>
+<li><a href="entities_actor.actor_corners_restore_slope_priority.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>corners_<wbr/>restore_<wbr/>slope_<wbr/>priority</span></a></li>
+<li><a href="entities_actor.actor_corners_set_floor_priority.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>corners_<wbr/>set_<wbr/>floor_<wbr/>priority</span></a></li>
+<li><a href="entities_actor.actor_corners_set_slope_priority.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>corners_<wbr/>set_<wbr/>slope_<wbr/>priority</span></a></li>
+<li><a href="entities_actor.actor_create.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>create</span></a></li>
+<li><a href="entities_actor.actor_destroy.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>destroy</span></a></li>
+<li><a href="entities_actor.actor_eightdirections_movement.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>eightdirections_<wbr/>movement</span></a></li>
+<li><a href="entities_actor.actor_get_collision_detectors.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>get_<wbr/>collision_<wbr/>detectors</span></a></li>
+<li><a href="entities_actor.actor_handle_acceleration.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>handle_<wbr/>acceleration</span></a></li>
+<li><a href="entities_actor.actor_handle_carrying.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>handle_<wbr/>carrying</span></a></li>
+<li><a href="entities_actor.actor_handle_ceil_collision.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>handle_<wbr/>ceil_<wbr/>collision</span></a></li>
+<li><a href="entities_actor.actor_handle_clouds.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>handle_<wbr/>clouds</span></a></li>
+<li><a href="entities_actor.actor_handle_collision_detectors.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>handle_<wbr/>collision_<wbr/>detectors</span></a></li>
+<li><a href="entities_actor.actor_handle_floor_collision.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>handle_<wbr/>floor_<wbr/>collision</span></a></li>
+<li><a href="entities_actor.actor_handle_jumping.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>handle_<wbr/>jumping</span></a></li>
+<li><a href="entities_actor.actor_handle_slopes.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>handle_<wbr/>slopes</span></a></li>
+<li><a href="entities_actor.actor_handle_wall_collision.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>handle_<wbr/>wall_<wbr/>collision</span></a></li>
+<li><a href="entities_actor.actor_image.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>image</span></a></li>
+<li><a href="entities_actor.actor_move.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>move</span></a></li>
+<li><a href="entities_actor.actor_orientedbox_collision.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>orientedbox_<wbr/>collision</span></a></li>
+<li><a href="entities_actor.actor_particle_movement.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>particle_<wbr/>movement</span></a></li>
+<li><a href="entities_actor.actor_pixelperfect_collision.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>pixelperfect_<wbr/>collision</span></a></li>
+<li><a href="entities_actor.actor_platform_movement.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>platform_<wbr/>movement</span></a></li>
+<li><a href="entities_actor.actor_render.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>render</span></a></li>
+<li><a href="entities_actor.actor_render_corners.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>render_<wbr/>corners</span></a></li>
+<li><a href="entities_actor.actor_render_repeat_xy.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>actor_<wbr/>render_<wbr/>repeat_<wbr/>xy</span></a></li></ul></div></details></li>
+<li><a href="../modules/entities_background.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/background</span></a></li>
+<li><a href="../modules/entities_brick.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/brick</span></a></li>
+<li><a href="../modules/entities_camera.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/camera</span></a></li>
+<li><a href="../modules/entities_item.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/item</span></a></li>
+<li><a href="../modules/entities_object_decorators_base_objectbasicmachine.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/base/objectbasicmachine</span></a></li>
+<li><a href="../modules/entities_object_decorators_base_objectdecorator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/base/objectdecorator</span></a></li>
+<li><a href="../modules/entities_object_decorators_base_objectmachine.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/base/objectmachine</span></a></li>
+<li><a href="../modules/main.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>main</span></a></li></ul></nav></div></div></div>
+<div class="tsd-generator">
+<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
+<div class="overlay"></div></body></html>
