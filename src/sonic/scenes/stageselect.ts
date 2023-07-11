@@ -19,7 +19,7 @@ import { soundfactory_get } from "./../core/soundfactory"
 import { font_set_text, font_get_text, font_render, font_destroy, font_create, font_get_charsize } from "./../entities/font"
 import { actor_render, actor_destroy, actor_create, actor_change_animation } from "./../entities/actor"
 import { player_set_lives, player_set_score, PLAYER_INITIAL_LIVES } from "./../entities/player"
-import { background_render_bg, background_render_fg, background_unload, background_load, background_update } from "./../entities/background"
+import { bgtheme_t, background_render_bg, background_render_fg, background_unload, background_load, background_update } from "./../entities/background"
 
 const stageFiles = [
   'data/levels/blue_ocean_1.json',
@@ -44,26 +44,31 @@ const OPTIONS_MUSICFILE       = "data/music/options.mp4";
 const STAGE_BGFILE            = "data/themes/levelselect.bg.json";
 const STAGE_MAXPERPAGE        = 8;
 
-let pagenum, maxpages       = 1;
-let title;
-let msg;
-let page;
-let icon;
-let input;
-let scene_time;
-let bgtheme;
+let pagenum = 1;
+let maxpages = 1;
+let title:any = null;
+let msg:any = null;
+let page:any = null;
+let icon:any = null;
+let input:any = null;
+let scene_time = 0.0;
+let bgtheme:bgtheme_t = null;
 
-let state;
-let stage_data = [];
+let state:any = null;
+let stage_data:any[] = [];
 let stage_count = 0;
 let option = 0;
-let stage_label = [];
+let stage_label:any[] = [];
 
 const STAGESTATE_NORMAL     = 0;
 const STAGESTATE_QUIT       = 1;
 const STAGESTATE_PLAY       = 2;
 const STAGESTATE_FADEIN     = 3;
 
+/**
+ * stageselect_init()
+ * Initializes the scene
+ */
 export const stageselect_init = () => {
 
   option = 0;
@@ -87,7 +92,7 @@ export const stageselect_init = () => {
   page.position.y = 40;
 
   background_load(STAGE_BGFILE)
-  .then(function(data){
+  .then(function(data:any){
     bgtheme = data;
   })
 
@@ -98,6 +103,10 @@ export const stageselect_init = () => {
   video_fadefx_in(image_rgb(0,0,0), 1.0);
 }
 
+/**
+ * stageselect_update()
+ * Updates the scene
+ */
 export const stageselect_update = () => {
   const dt = timer_get_delta();
   scene_time += dt;
@@ -125,7 +134,7 @@ export const stageselect_update = () => {
   }
   else if(!music_is_playing()) {
     const m = music_load(OPTIONS_MUSICFILE);
-    music_play(m, INFINITY);
+    music_play(m, true);
   }
 
    /* finite state machine */
@@ -142,7 +151,7 @@ export const stageselect_update = () => {
               sound_play( soundfactory_get("choose") );
           }
           if(input_button_pressed(input, IB_FIRE1) || input_button_pressed(input, IB_FIRE3)) {
-              logfile_message("Loading level \"%s\", \"%s\"", stage_data[option].name, stage_data[option].filepath);
+              logfile_message(`Loading level ${stage_data[option].name} ${stage_data[option].filepath}`);
               level_setfile(stage_data[option].filepath);
               sound_play( soundfactory_get("select") );
               state = STAGESTATE_PLAY;
@@ -187,6 +196,10 @@ export const stageselect_update = () => {
   }
 }
 
+/**
+ * stageselect_render()
+ * Renders the scene
+ */
 export const stageselect_render = () => {
   let i;
   const cam = v2d_new(VIDEO_SCREEN_W/2, VIDEO_SCREEN_H/2);
@@ -211,6 +224,10 @@ export const stageselect_render = () => {
   actor_render(icon, cam);
 }
 
+/**
+ * stageselect_release()
+ * Releases the scene
+ */
 export const stageselect_release = () => {
   unload_stage_list();
   bgtheme = background_unload(bgtheme);

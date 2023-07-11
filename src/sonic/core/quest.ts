@@ -69,7 +69,7 @@ export const quest_load = (abs_path:string):Promise<quest_t> => {
  * unload_quest()
  * Unloads a quest
  */
-export const quest_unload = ():null => {
+export const quest_unload = (qst:quest_t):null => {
   /*qst.file = null;
   qst.name = null;
   qst.author = null;

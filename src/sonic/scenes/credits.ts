@@ -2,7 +2,7 @@
 import { v2d_new } from "./../core/v2d"
 import { INFINITY } from "./../core/global"
 import { video_get_backbuffer, video_clearDisplay, video_fadefx_over, video_fadefx_is_fading, video_fadefx_in, video_fadefx_out, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
-import { music_play, music_is_playing, sound_play } from "./../core/audio"
+import { music_load, music_play, music_is_playing, sound_play } from "./../core/audio"
 import { lang_get } from "./../core/lang"
 import { input_destroy, input_button_pressed, input_create_user, IB_FIRE3, IB_FIRE4 } from "./../core/input"
 import { image_destroy, image_rgb, image_create } from "./../core/image"
@@ -10,7 +10,7 @@ import { timer_get_delta, timer_get_ticks } from "./../core/timer"
 import { scenestack_pop } from "./../core/scene"
 import { soundfactory_get } from "./../core/soundfactory"
 import { font_destroy, font_render, font_set_width, font_get_charsize, font_get_charspacing, font_set_text, font_get_text, font_create } from "./../entities/font"
-import { background_unload, background_render_fg, background_render_bg, background_update, background_load } from "./../entities/background"
+import { bgtheme_t, background_unload, background_render_fg, background_render_bg, background_update, background_load } from "./../entities/background"
 
 let credits_text = [
   "<color=ffff00>$CREDITS_ENGINE</color>\n\n",
@@ -63,18 +63,24 @@ let credits_text = [
   "Lainz:\n$CREDITS_LAINZ\n\n",
 
   "Jogait:\n$CREDITS_JOGAIT\n\n"
-];
+]
 
 const CREDITS_BGFILE       = "data/themes/credits.bg.json";
 const OPTIONS_MUSICFILE    = "data/music/options.mp4";
 
-let box;
-let quit;
-let title, text, back;
-let input;
-let line_count;
-let bgtheme;
+let box:any = null;
+let quit = false;
+let title:any = null;
+let text:any = null;
+let back:any = null;
+let input:any = null;
+let line_count = 0;
+let bgtheme:bgtheme_t = null;
 
+/**
+ * credits_init()
+ * Initializes the scene
+ */
 export const credits_init = () => {
   let p;
 
@@ -112,9 +118,8 @@ export const credits_init = () => {
       credits_text[i] = msg;
     }
   }
-  credits_text = credits_text.join("");
   //console.log(credits_text)
-  font_set_text(text, credits_text, "%s");
+  font_set_text(text, credits_text.join(""), "%s");
   font_set_width(text, 300);
   text.position.x = 10;
   text.position.y = VIDEO_SCREEN_H;
@@ -131,8 +136,8 @@ export const credits_init = () => {
   box = image_create(VIDEO_SCREEN_W, 30);
   //image_clear(box, image_rgb(0,0,0));
 
-  bgtheme = background_load(CREDITS_BGFILE)
-  .then(function(bgdata){
+  background_load(CREDITS_BGFILE)
+  .then(function(bgdata:any){
     bgtheme = bgdata;
     console.log(bgtheme);
     video_fadefx_in(image_rgb(0,0,0), 1.0);
@@ -141,6 +146,10 @@ export const credits_init = () => {
   video_fadefx_in(image_rgb(0,0,0), 1.0);
 }
 
+/**
+ * credits_update()
+ * Updates the scene
+ */
 export const credits_update = () => {
   const dt = timer_get_delta();
 
@@ -167,7 +176,7 @@ export const credits_update = () => {
   /* music */
   if(!music_is_playing()) {
     const m = music_load(OPTIONS_MUSICFILE);
-    music_play(m, INFINITY);
+    music_play(m, true);
   }
 
   /* fade-out */
@@ -180,6 +189,10 @@ export const credits_update = () => {
   }
 }
 
+/**
+ * credits_render()
+ * Renders the scene
+ */
 export const credits_render = () => {
   video_clearDisplay();
 
@@ -195,6 +208,10 @@ export const credits_render = () => {
   font_render(back, cam);
 }
 
+/**
+ * credits_release()
+ * Releases the scene
+ */
 export const credits_release = () => {
   bgtheme = background_unload(bgtheme);
   image_destroy(box);

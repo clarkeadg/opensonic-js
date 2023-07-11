@@ -1,6 +1,6 @@
 
 //import { IF_NONE } from "./../core/global"
-import { v2d_new } from "./../core/v2d"
+import { v2d_t, v2d_new } from "./../core/v2d"
 import { timer_get_delta } from "./../core/timer"
 import { video_clearDisplay, video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
 import { image_destroy } from "./../core/image"
@@ -15,18 +15,26 @@ import { font_render, font_create, font_destroy, font_set_text, font_set_width }
 const MAX_OPTIONS =  5;
 const NO_OPTION   = -1;
 
-let box, background;
-let boxpos;
-let textfnt;
-let optionfnt = [];
-let icon;
-let text;
-let option = [];
-let option_count;
+let box:any = null;
+let background:any = null;
+let boxpos:v2d_t = null
+let textfnt:any = null;
+let optionfnt:any[] = [];
+let icon:any = null;
+let text:any = null;
+let option:any[] = [];
+let option_count = 0;
 let current_option = NO_OPTION;
-let fxfade_in, fxfade_out;
-let input;
+let fxfade_in = false;
+let fxfade_out= false;
+let input:any = null;
 
+/**
+ * confirmbox_init()
+ * Initializes this scene. Please remember to
+ * call confirmbox_alert() before starting this
+ * scene!
+ */
 export const confirmbox_init = () => {
   let i;
 
@@ -57,6 +65,10 @@ export const confirmbox_init = () => {
   fxfade_out = false;
 }
 
+/**
+ * confirmbox_update()
+ * Updates the scene
+ */
 export const confirmbox_update = () => {
   let i;
   const dt = timer_get_delta(), speed = 5*VIDEO_SCREEN_H;
@@ -108,6 +120,10 @@ export const confirmbox_update = () => {
   }
 }
 
+/**
+ * confirmbox_render()
+ * Renders the scene
+ */
 export const confirmbox_render = () => {
   let i, k;
   const cam = v2d_new(VIDEO_SCREEN_W/2, VIDEO_SCREEN_H/2);
@@ -139,6 +155,10 @@ export const confirmbox_render = () => {
   actor_render(icon, cam);
 }
 
+/**
+ * confirmbox_release()
+ * Releases the scene
+ */
 export const confirmbox_release = () => {
   let i;
 
@@ -153,7 +173,12 @@ export const confirmbox_release = () => {
   image_destroy(background);
 }
 
-export const confirmbox_alert = (ptext, option1, option2) => {
+/**
+ * confirmbox_alert()
+ * Configures this scene (call me before initializing this scene!)
+ * PS: option2 may be NULL
+ */
+export const confirmbox_alert = (ptext:string, option1:string, option2:string) => {
   current_option = -1;
   text = ptext;
   option[0] = option1;
@@ -166,6 +191,13 @@ export const confirmbox_alert = (ptext, option1, option2) => {
     option_count = 1;
 }
 
+/**
+ * confirmbox_selected_option()
+ * Returns the selected option (1, 2, ..., n), or
+ * 0 if nothing has been selected.
+ * This must be called AFTER this scene
+ * gets released
+ */
 export const confirmbox_selected_option = () => {
   if(current_option != NO_OPTION) {
     let ret = current_option + 1;

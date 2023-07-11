@@ -15,7 +15,7 @@ import { resourcemanager_getJsonFiles } from "./../core/resourcemanager"
 import { soundfactory_get } from "./../core/soundfactory"
 import { font_create, font_get_charsize, font_get_text, font_set_text, font_render, font_destroy } from "./../entities/font"
 import { actor_create, actor_change_animation, actor_render, actor_destroy } from "./../entities/actor"
-import { background_load, background_update, background_render_bg, background_render_fg, background_unload } from "./../entities/background"
+import { bgtheme_t, background_load, background_update, background_render_bg, background_render_fg, background_unload } from "./../entities/background"
 
 const langFiles = [
   'data/languages/deutsch.json',
@@ -35,20 +35,25 @@ const LANG_BGFILE            = "data/themes/langselect.bg.json";
 const OPTIONS_MUSICFILE      = "data/music/options.mp4";
 
 let LANG_MAXPERPAGE        = 8;
-let pagenum, maxpages      = 1;
+let pagenum = 1;
+let maxpages      = 1;
 
-let quit;
-let lngcount;
-let title = [];
-let lngfnt = [];
-let page_label;
-let lngdata;
-let option;
-let icon;
-let input;
-let scene_time;
-let bgtheme;
+let quit = false
+let lngcount = 0;
+let title:any  = [];
+let lngfnt:any  = [];
+let page_label:any = null;
+let lngdata:any = null;
+let option = 0;
+let icon:any = null;
+let input:any = null;
+let scene_time = 0.0;
+let bgtheme:bgtheme_t = null;
 
+/**
+ * langselect_init()
+ * Initializes the scene
+ */
 export const langselect_init = () => {
   option = 0;
   quit = false;
@@ -73,8 +78,8 @@ export const langselect_init = () => {
   title[2].position.y = VIDEO_SCREEN_H-font_get_charsize(title[2]).y*1.5;
 
   /* background init */
-  bgtheme = background_load(LANG_BGFILE)
-  .then(function(bgdata){
+  background_load(LANG_BGFILE)
+  .then(function(bgdata:any){
     bgtheme = bgdata;
     video_fadefx_in(image_rgb(0,0,0), 1.0);
   });
@@ -87,6 +92,10 @@ export const langselect_init = () => {
   video_fadefx_in(image_rgb(0,0,0), 1.0);
 }
 
+/**
+ * langselect_update()
+ * Updates the scene
+ */
 export const langselect_update = () => {
 
   const dt = timer_get_delta();
@@ -114,7 +123,7 @@ export const langselect_update = () => {
     if(input_button_pressed(input, IB_FIRE1) || input_button_pressed(input, IB_FIRE3)) {
       if (!lngdata) return;
       let filepath = lngdata[option].filepath;
-      logfile_message("Loading language \"%s\", \"%s\"", lngdata[option].title, filepath);
+      logfile_message(`Loading language ${lngdata[option].title} ${filepath}`);
       lang_loadfile(DEFAULT_LANGUAGE_FILEPATH); /* just in case of missing strings... */
       lang_loadfile(filepath);
       save_preferences(filepath);
@@ -138,7 +147,7 @@ export const langselect_update = () => {
   /* music */
   if(!music_is_playing()) {
     const m = music_load(OPTIONS_MUSICFILE);
-    music_play(m, INFINITY);
+    music_play(m, true);
   }
 
   /* quit */
@@ -151,6 +160,10 @@ export const langselect_update = () => {
   }
 }
 
+/**
+ * langselect_render()
+ * Renders the scene
+ */
 export const langselect_render = () => {
   let i;
   const cam = v2d_new(VIDEO_SCREEN_W/2, VIDEO_SCREEN_H/2);
@@ -177,6 +190,10 @@ export const langselect_render = () => {
   actor_render(icon, cam);
 }
 
+/**
+ * langselect_release()
+ * Releases the scene
+ */
 export const langselect_release = () => {
   unload_lang_list();
   bgtheme = background_unload(bgtheme);
@@ -188,7 +205,7 @@ export const langselect_release = () => {
   input_destroy(input);
 }
 
-const save_preferences = (filepath) => {
+const save_preferences = (filepath:string) => {
   preferences_set_language(filepath);
 }
 
