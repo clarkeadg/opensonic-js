@@ -28,20 +28,14 @@ export interface background_t {
   strategy: bgstrategy_t
 }
 
-export interface bgstrategy_default_t {
-  base: bgstrategy_t
-}
+export interface bgstrategy_default_t extends bgstrategy_t {}
 
-export interface bgstrategy_linear_t {
-  background: background_t,
-  update: Function,
+export interface bgstrategy_linear_t extends bgstrategy_t {
   speed_x: number,
   speed_y: number
 }
 
-export interface bgstrategy_circular_t {
-  background: background_t,
-  update: Function,
+export interface bgstrategy_circular_t extends bgstrategy_t {
   timer: number,
   amplitude_x: number,
   amplitude_y: number,
@@ -80,8 +74,8 @@ export const background_unload = (bgtheme:bgtheme_t):bgtheme_t => {
 
   logfile_message("background_unload()");
 
-  //for(let i=0; i<bgtheme.length; i++)
-  //  bgtheme.data[i] = background_delete(bgtheme.data[i]);
+  for(let i=0; i<bgtheme.length; i++)
+    bgtheme.data[i] = background_delete(bgtheme.data[i]);
 
   return null;
 }
@@ -168,12 +162,14 @@ const bgstrategy_delete = (strategy:bgstrategy_t):bgstrategy_t => {
   return null;
 }
 
-const bgstrategy_default_new = (background:background_t):bgstrategy_t => {
-
+const bgstrategy_default_new = (background:background_t):bgstrategy_t => {  
+  
   const base:bgstrategy_t = {
     background: background,
     update: bgstrategy_default_update
   }
+
+  const me:bgstrategy_default_t = <bgstrategy_default_t>base;
 
   return base;
 }
@@ -182,50 +178,54 @@ const bgstrategy_default_update = (strategy:bgstrategy_t) => {
   ; /* empty */
 }
 
-const bgstrategy_linear_new = (background:background_t, speed_x:number, speed_y:number):bgstrategy_linear_t => {
+const bgstrategy_linear_new = (background:background_t, speed_x:number, speed_y:number):bgstrategy_t => {
   
-  const me:bgstrategy_linear_t = {
+  const base:bgstrategy_t = {
     background: background,
-    update: bgstrategy_linear_update,
-    speed_x: speed_x,
-    speed_y: speed_y
+    update: bgstrategy_linear_update
   }
 
-  return me;
+  const me:bgstrategy_linear_t = <bgstrategy_linear_t>base;
+
+  me.speed_x = speed_x;
+  me.speed_y = speed_y;
+
+  return base;
 }
 
-const bgstrategy_linear_update = (strategy:bgstrategy_linear_t) => {
+const bgstrategy_linear_update = (strategy:bgstrategy_t) => {
   
-  const me = strategy;
+  const me:bgstrategy_linear_t = <bgstrategy_linear_t>strategy;
   const bg = strategy.background;
-
   const dt = timer_get_delta();
 
   bg.actor.position.x += me.speed_x * dt;
   bg.actor.position.y += me.speed_y * dt;
 }
 
-const bgstrategy_circular_new = (background:background_t, amplitude_x:number, amplitude_y:number, angularspeed_x:number, angularspeed_y:number, initialphase_x:number, initialphase_y:number):bgstrategy_circular_t => {
+const bgstrategy_circular_new = (background:background_t, amplitude_x:number, amplitude_y:number, angularspeed_x:number, angularspeed_y:number, initialphase_x:number, initialphase_y:number):bgstrategy_t => {
   
-  const me:bgstrategy_circular_t = {
+  const base:bgstrategy_t = {
     background: background,
-    update: bgstrategy_circular_update,
-    timer: 0,
-    amplitude_x: amplitude_x,
-    amplitude_y: amplitude_y,
-    angularspeed_x: (2.0 * PI) * angularspeed_x,
-    angularspeed_y: (2.0 * PI) * angularspeed_y,
-    initialphase_x: (initialphase_x * PI) / 180.0,
-    initialphase_y: (initialphase_y * PI) / 180.0
+    update: bgstrategy_linear_update
   }
 
-  return me;
+  const me:bgstrategy_circular_t = <bgstrategy_circular_t>base;  
+
+  me.timer = 0;
+  me.amplitude_x = amplitude_x;
+  me.amplitude_y = amplitude_y;
+  me.angularspeed_x = (2.0 * PI) * angularspeed_x;
+  me.angularspeed_y = (2.0 * PI) * angularspeed_y;
+  me.initialphase_x = (initialphase_x * PI) / 180.0;
+  me.initialphase_y = (initialphase_y * PI) / 180.0;  
+
+  return base;
 }
 
 const bgstrategy_circular_update = (strategy:bgstrategy_circular_t) => {
-  const me = strategy;
-  const bg = strategy.background;
-  
+  const me:bgstrategy_circular_t = <bgstrategy_circular_t>strategy;
+  const bg = strategy.background;  
   const dt = timer_get_delta();
   let t, sx, cy;
 
