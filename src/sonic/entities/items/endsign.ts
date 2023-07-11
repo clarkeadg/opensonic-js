@@ -1,23 +1,30 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { sound_play } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
 import { sprite_get_animation } from "./../../core/sprite"
 import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_animation_finished, actor_pixelperfect_collision } from "./../actor"
 import { level_clear } from "./../../scenes/level"
 
-export const endsign_create = () => {
-  let item = {};
+export interface endsign_t extends item_t {
+  who: any
+}
 
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
+export const endsign_create = () => {
+  
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
 
   return item;
 }
 
-const init = (item) => {
-  let me = item;
+const init = (item:item_t) => {
+  const me:endsign_t = <endsign_t>item;
 
   item.obstacle = false;
   item.bring_to_back = false;
@@ -28,8 +35,8 @@ const init = (item) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_ENDSIGN", 0));
 }
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let me = item;
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+  const me:endsign_t = <endsign_t>item;
   let act = item.actor;
 
   if(me.who == null) {
@@ -57,11 +64,11 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   }
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
-const release = (item) => {
+const release = (item:item_t) => {
   actor_destroy(item.actor);
 } 
 

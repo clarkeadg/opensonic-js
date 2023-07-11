@@ -24,6 +24,7 @@ import { soundfactory_get } from "./../../core/soundfactory"
 import { level_add_to_score, level_create_item, level_player_id, level_override_music } from "./../../scenes/level"
 import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_collision } from "./../actor"
 import { player_set_lives, player_get_lives, player_set_rings, player_get_rings, player_attacking } from "./../player"
+import { icon_change_animation } from "./icon"
 
 export const lifebox_create = () => {
   return itembox_create(lifebox_strategy, 0);
@@ -194,7 +195,7 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
         if(item.state === IS_IDLE && itembox_player_collision(item, player) && player_attacking(player)) {
           console.log('ITEM BOX HIT')
           let icon = level_create_item(IT_ICON, v2d_add(act.position, v2d_new(0,-5)));
-          icon.change_animation(icon, me.anim_id);
+          icon_change_animation(icon, me.anim_id);
           level_create_item(IT_EXPLOSION, v2d_add(act.position, v2d_new(0,-20)));
           level_create_item(IT_CRUSHEDBOX, act.position);
 

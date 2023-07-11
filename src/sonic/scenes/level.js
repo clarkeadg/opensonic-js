@@ -43,6 +43,7 @@ import {
 import { camera_get_position, camera_set_position, camera_init, camera_update, camera_move_to, camera_release, camera_lock, camera_unlock } from "./../entities/camera"
 import { enemy_create, enemy_destroy, enemy_update, enemy_render, ES_DEAD } from "./../entities/enemy"
 import { font_create, font_destroy, font_set_width, font_set_text, font_get_text, font_render } from "./../entities/font"
+import { flyingtext_set_text } from "./../entities/items/flyingtext"
 import { item_create, item_update, item_render, item_destroy, IT_ANIMAL, IT_FLYINGTEXT, IS_IDLE, IS_DEAD } from "./../entities/item"
 import { 
   player_create,
@@ -1077,7 +1078,7 @@ export const level_add_to_score = (score) => {
   //sprintf(buf, "%d", score);
   flyingtext = level_create_item(IT_FLYINGTEXT, v2d_add(currentPlayer.actor.position, v2d_new(-9,0)));
   //flyingtext.set_text(flyingtext, buf);
-  flyingtext.set_text(flyingtext, score);
+  flyingtext_set_text(flyingtext, score);
 }
 
 export const level_size = () => {

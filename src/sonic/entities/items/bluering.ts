@@ -1,4 +1,6 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { sound_play } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
 import { sprite_get_animation } from "./../../core/sprite"
@@ -7,19 +9,24 @@ import { IS_DEAD } from "./../item"
 import { player_set_rings, player_get_rings } from "./../player"
 import { level_editmode, level_player } from "./../../scenes/level"
 
-export const bluering_create = () => {
-  let item = {};
+export interface bluering_t extends item_t {
+  is_disappearing: boolean
+}
 
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
+export const bluering_create = () => {
+  
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
 
   return item;
 }
 
-const init = (item) => {
-  let me = item;
+const init = (item:item_t) => {
+  const me:bluering_t = <bluering_t>item;
 
   item.obstacle = false;
   item.bring_to_back = true;
@@ -30,10 +37,10 @@ const init = (item) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_BLUERING", 0));
 }
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let player = level_player();
-  let me = item;
-  let act = item.actor;
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+  const player = level_player();
+  const me:bluering_t = <bluering_t>item;
+  const act = item.actor;
 
   act.visible = (player.got_glasses || level_editmode());
 
@@ -54,11 +61,11 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   }
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
-const release = (item) => {
+const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 

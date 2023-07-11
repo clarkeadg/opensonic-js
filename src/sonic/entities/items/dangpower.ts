@@ -1,27 +1,31 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { sprite_get_animation } from "./../../core/sprite"
 import { timer_get_delta } from "./../../core/timer"
 import { v2d_multiply, v2d_add } from "./../../core/v2d"
 import { actor_create, actor_render, actor_destroy, actor_collision, actor_change_animation } from "./../actor"
 import { IS_IDLE, IS_DEAD } from "./../item"
 
-export const dangerouspower_create = () => {
-  let item = {};
+export interface dangerouspower_t extends item_t {}
 
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
-  item.dangerouspower_set_speed = dangerouspower_set_speed;
+export const dangerouspower_create = () => {
+  
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
 
   return item;
 }
 
-export const dangerouspower_set_speed = (dangpower, speed) => {
-  dangpower.actor_speed = speed;
+export const dangerouspower_set_speed = (dangpower:item_t, speed:v2d_t) => {
+  dangpower.actor.speed = speed;
 }
 
-const init = (item) => {
+const init = (item:item_t) => {
   item.obstacle = false;
   item.bring_to_back = false;
   item.preserve = false;
@@ -30,8 +34,7 @@ const init = (item) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_DANGPOWER", 0));
 }
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let i;
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
   let sqrsize = 2, diff = -2;
   let dt = timer_get_delta();
   let act = item.actor;
@@ -43,7 +46,7 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   //  return;
 
   /* hit the player */
-  for(i=0; i<team_size; i++) {
+  for(let i=0; i<team_size; i++) {
     let player = team[i];
     if(player && !player.dying && actor_collision(act, player.actor)) {
       player.hit(player);
@@ -85,11 +88,11 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   act.position = v2d_add(act.position, ds);
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
-const release = (item) => {
+const release = (item:item_t) => {
   actor_destroy(item.actor);
 } 
 

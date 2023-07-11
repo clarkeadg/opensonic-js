@@ -1,4 +1,6 @@
-
+import { item_t, item_list_t } from "./../item"
+import { v2d_t } from "./../../core/v2d"
+import { brick_list_t } from "./../brick"
 import { image_create, image_clear } from "./../../core/image"
 import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_image } from "./../actor"
 import { sprite_get_animation } from "./../../core/sprite"
@@ -8,24 +10,28 @@ import { v2d_new } from "./../../core/v2d"
 import { IS_IDLE, IS_DEAD } from "./../item"
 import { level_create_particle } from "./../../scenes/level"
 
-export const icon_create = () => {
-  let item = {};
+export interface icon_t extends item_t {
+  elapsed_time: 0.0
+}
 
-  item.init = init;
-  item.release = release;
-  item.update = update;
-  item.render = render;
-  item.change_animation = icon_change_animation;
+export const icon_create = () => {
+  
+  const item:item_t = {
+    init,
+    release,
+    update,
+    render
+  }
 
   return item;
 }
 
-export const icon_change_animation = (item, anim_id) => {
+export const icon_change_animation = (item:item_t, anim_id:number) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_ICON", anim_id));
 }
 
-const init = (item) => {
-  let me = item;
+const init = (item:item_t) => {
+  const me:icon_t = <icon_t>item;
 
   item.obstacle = false;
   item.bring_to_back = false;
@@ -36,8 +42,8 @@ const init = (item) => {
   icon_change_animation(item, 0);
 }
 
-const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
-  let me = item;
+const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+  const me:icon_t = <icon_t>item;
   let act = item.actor;
   let dt = timer_get_delta();
 
@@ -49,8 +55,8 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   else if(me.elapsed_time >= 2.5) {
     /* death */
     let i, j;
-    let x = parseInt((act.position.x-act.hot_spot.x),10);
-    let y = parseInt((act.position.y-act.hot_spot.y),10);
+    let x = act.position.x-act.hot_spot.x;
+    let y = act.position.y-act.hot_spot.y;
     let img = actor_image(act)
     let particle;
 
@@ -68,11 +74,11 @@ const update = (item, team, team_size, brick_list, item_list, enemy_list) => {
   }
 }
 
-const render = (item, camera_position) => {
+const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
-const release = (item) => {
+const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
