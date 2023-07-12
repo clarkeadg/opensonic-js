@@ -90,7 +90,8 @@ export const enemy_create = (name:string) => {
 }
 
 export const enemy_destroy = (enemy:enemy_t):enemy_t => {
-
+  if (!enemy) return null;
+  
   /* tell my children I died */
   for(let it=enemy.children; it; it=it.next)
       it.data.parent = null;

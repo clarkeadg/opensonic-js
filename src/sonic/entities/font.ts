@@ -25,8 +25,8 @@ export interface font_t {
 
 /* private */
 let fontdata: any[] = [];
-let rgbksCache = {};
-let tintImageCache = {};
+let rgbksCache:any = {};
+let tintImageCache:any = {};
 
 export const font_init = () => {
   let i, j;
@@ -82,7 +82,11 @@ export const font_create = (type:number) => {
   return f;
 }
 
-export const font_destroy = (f:font_t) => {}
+export const font_destroy = (f:font_t) => {
+  if (f.text) {
+    f.text = null;
+  }
+}
 
 export const font_set_text = (f:font_t,  msg:string, ...replace: any[]) => {
   if (!f) return false;
@@ -221,9 +225,9 @@ export const font_render = (f:font_t, camera_position:v2d_t) => {
 
           i += 7;
           let colorCode = f.text.slice(i,i+6);
-          //r = hex2dec(colorCode.slice(0,2));
-          //g = hex2dec(colorCode.slice(2,4));
-          //b = hex2dec(colorCode.slice(4,6));
+          r = hex2dec(colorCode.slice(0,2));
+          g = hex2dec(colorCode.slice(2,4));
+          b = hex2dec(colorCode.slice(4,6));
           //console.log(colorCode, r, g, b)
 
           //color[top++] = image_rgb(r,g,b);
@@ -319,11 +323,11 @@ const render_char = (dest:any, img:any, x:number, y:number, color:any) => {
 
   let rgbks;
   let tintImg = img.data;
-
-  /*if (color && color.r) {
+  
+  if (color && color.r) {
     rgbks = generateRGBKs( img.data );
     tintImg = generateTintImage( img.data, rgbks, color.r, color.g, color.b );
-  }*/
+  }
 
   dest.drawImage(
     tintImg,
@@ -338,17 +342,12 @@ const render_char = (dest:any, img:any, x:number, y:number, color:any) => {
   );
 }
 
-/*const hex2dec = (digit:string):number => {
-  digit = digit.toLowerCase();
-  if(digit >= '0' && digit <= '9')
-    return digit-'0';
-  else if(digit >= 'a' && digit <= 'f')
-    return (digit-'a')+10;
-  else
-    return 255;
-}*/
+const hex2dec = (digit:string) => {
+  var result = /^#?([a-f\d]{2})$/i.exec(digit);
+  return result ? parseInt(result[1], 16) : null;
+}
 
-/*const generateRGBKs = (img:any) => {
+const generateRGBKs = (img:any) => {
     if (rgbksCache[img.src]) return rgbksCache[img.src];
 
     let w = img.width;
@@ -399,10 +398,12 @@ const render_char = (dest:any, img:any, x:number, y:number, color:any) => {
     rgbksCache[img.src] = rgbks;
 
     return rgbks;
-}*/
+}
 
-/*const generateTintImage = ( img:any, rgbks:any, red:any, green:any, blue:any ) => {
-  if (tintImageCache[img.src+"_"+red+"_"+green+"_"+blue]) return tintImageCache[img.src+"_"+red+"_"+green+"_"+blue];
+const generateTintImage = ( img:any, rgbks:any, red:number, green:number, blue:number ) => {
+  const cachheKey = red+"_"+green+"_"+blue;
+  //console.log("generateTintImage", cachheKey, img, rgbks, red, green, blue)
+  //if (tintImageCache[cachheKey]) return tintImageCache[cachheKey];
 
   let buff = document.createElement( "canvas" );
   buff.width  = img.width;
@@ -428,7 +429,7 @@ const render_char = (dest:any, img:any, x:number, y:number, color:any) => {
       ctx.drawImage( rgbks[2], 0, 0 );
   }
 
-  tintImageCache[img.src+"_"+red+"_"+green+"_"+blue] = buff;
+  //tintImageCache[cachheKey] = buff;
 
   return buff;
-}*/
+}
