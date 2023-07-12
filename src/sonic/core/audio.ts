@@ -3,7 +3,19 @@ import { INFINITY, DATA_ROOT } from "./global"
 import { resourcemanager_add_music, resourcemanager_add_sample } from "./resourcemanager"
 import { logfile_message } from "./logfile"
 
-let current_music:HTMLAudioElement = null;
+export interface music_t {
+  stream: any,
+  loops_left: number,
+  is_paused: boolean,
+  elapsed_time: number
+}
+
+export interface sound_t {
+  data: any,
+  voice_id: number
+}
+
+let current_music:any = null;
 
 /**
  * audio_init()
@@ -46,7 +58,7 @@ export const music_load = (path:string) => {
  * Plays the given music and loops [loop] times.
  * Set loop equal to INFINITY to make it loop forever.
  */
-export const music_play = (music:HTMLAudioElement, loop:boolean) => {
+export const music_play = (music:any, loop:boolean) => {
 
   if(music_is_playing())
     music_stop();
@@ -166,7 +178,7 @@ export const sound_load = (key:string, path:string) => {
  * sound_play()
  * Plays the given sample
  */
-export const sound_play = (sample:HTMLAudioElement) => {
+export const sound_play = (sample:any) => {
   sound_play_ex(sample);
 }
 
@@ -179,7 +191,7 @@ export const sound_play = (sample:HTMLAudioElement) => {
  * 1.0 = default frequency
  * 0 = no loops
  */
-export const sound_play_ex = (sample:HTMLAudioElement) => {
+export const sound_play_ex = (sample:any) => {
   if(sample && sample.play) {
     sample.play();
   }
@@ -189,7 +201,7 @@ export const sound_play_ex = (sample:HTMLAudioElement) => {
  * sound_stop()
  * Stops a sample
  */
-export const sound_stop = (sample:HTMLAudioElement) => {
+export const sound_stop = (sample:any) => {
   if (sample) {
     sample.pause();
   }
@@ -199,7 +211,7 @@ export const sound_stop = (sample:HTMLAudioElement) => {
  * sound_is_playing()
  * Checks if a given sound is playing or not
  */
-export const sound_is_playing = (sample:HTMLAudioElement) => {
+export const sound_is_playing = (sample:any) => {
   if(sample) {
     return !sample.paused
   } else {

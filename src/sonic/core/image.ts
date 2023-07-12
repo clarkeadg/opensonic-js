@@ -93,6 +93,19 @@ export const image_putpixel = (img:string, dest:any, x:number, y:number, color:s
   //putpixel(img.data, x, y, color);
 }
 
+/*
+ * image_line()
+ * Draws a line from (x1,y1) to (x2,y2) using the specified color
+ */
+export const image_line = (ctx:any, x1:any, y1:number, x2:number, y2:number, color:string) => {
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+
+  // Draw the Path
+  ctx.stroke();
+}
+
 /**
  * image_rgb()
  * Generates an uint32 color

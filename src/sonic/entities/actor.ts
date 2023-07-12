@@ -813,7 +813,6 @@ export const actor_handle_floor_collision = (act:actor_t, diff:number, natural_a
 
     // (0-90) slope 
     else if(ang > 0 && ang < 90) {
-      console.log("brick_ref", brick_down.brick_ref)
       feet.y = brick_down.y + brick_down.brick_ref.image.height - (act.position.x-brick_down.x)*Math.tan(act.angle);
       act.position.y = feet.y+diff;
       if(!(act.mirror & IF_HFLIP))
