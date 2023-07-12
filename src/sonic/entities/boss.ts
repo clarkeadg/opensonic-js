@@ -1,7 +1,6 @@
-
 import { random } from "./../core/util"
 import { IF_NONE, IF_HFLIP, PI } from "./../core/global"
-import { v2d_new, v2d_multiply, v2d_normalize } from "./../core/v2d"
+import { v2d_t, v2d_new, v2d_multiply, v2d_normalize } from "./../core/v2d"
 import { timer_get_delta, timer_get_ticks } from "./../core/timer"
 import { input_create_computer, input_simulate_button_down, IB_RIGHT, IB_LEFT } from "./../core/input"
 //import { image_draw } from "./../core/image"
@@ -11,7 +10,8 @@ import { sound_play } from "./../core/audio"
 import { soundfactory_get } from "./../core/soundfactory"
 import { IT_EXPLOSION, IT_DANGPOWER, IT_FIREBALL } from "./item"
 import { dangerouspower_set_speed } from "./items/dangpower"
-import { actor_create, actor_destroy, actor_image, actor_pixelperfect_collision, actor_change_animation, actor_move, actor_corners, actor_handle_clouds, actor_eightdirections_movement, actor_render, actor_animation_finished } from "./actor"
+import { brick_t, brick_list_t } from "./brick"
+import { actor_t, actor_create, actor_destroy, actor_image, actor_pixelperfect_collision, actor_change_animation, actor_move, actor_corners, actor_handle_clouds, actor_eightdirections_movement, actor_render, actor_animation_finished } from "./actor"
 import { level_kill_all_baddies, level_player, level_create_enemy, level_create_item, level_boss_battle } from "./../scenes/level"
 
 /* boss list */
@@ -34,23 +34,44 @@ const BD_LEFT            = 3;
 
 const BOSSDATA_MAXVALUES  = 10;
 
-export const boss_create = (type, spawn_point, rx, ry, rw, rh) => {
-  let i;
-  let act;
-  let boss = {};
+export interface boss_t {
+  type: number,
+  state: number,
+  direction: number,
+  actor: actor_t,
+  bring_to_front: boolean,
+  initial_hp: number,
+  hp: number,
+  value: number[],
+  rect_x: number,
+  rect_y: number,
+  rect_w: number,
+  rect_h: number
+}
 
-  boss.type = type;
-  boss.state = BS_IDLE;
-  boss.rect_x = rx;
-  boss.rect_y = ry;
-  boss.rect_w = rw;
-  boss.rect_h = rh;
-  boss.value = [];
-  for(i=0; i<BOSSDATA_MAXVALUES; i++)
+export const boss_create = (type:number, spawn_point:v2d_t, rx:number, ry:number, rw:number, rh:number) => {
+
+  const boss:boss_t = {
+    type: type,
+    state: BS_IDLE,
+    direction: 0,
+    actor: actor_create(),
+    bring_to_front: false,
+    initial_hp: 0,
+    hp: 0,
+    value: [],
+    rect_x: rx,
+    rect_y: ry,
+    rect_w: rw,
+    rect_h: rh    
+  };
+  
+  for(let i=0; i<BOSSDATA_MAXVALUES; i++) {
     boss.value[i] = 0;
+  }
 
-  boss.bring_to_front = false;
-  boss.actor = act = actor_create();
+  const act = boss.actor;
+
   act.spawn_point = v2d_new(spawn_point.x, spawn_point.y);
   act.position = v2d_new(spawn_point.x, spawn_point.y);
   act.input = input_create_computer();
@@ -81,12 +102,12 @@ export const boss_create = (type, spawn_point, rx, ry, rw, rh) => {
   return boss;
 }
 
-export const boss_destroy = (boss) => {
+export const boss_destroy = (boss:boss_t) => {
   actor_destroy(boss.actor);
   //free(boss);
 }
 
-export const boss_update = (boss, team, brick_list) => {
+export const boss_update = (boss:boss_t, team:any, brick_list:brick_list_t) => {
   let act = boss.actor;
   let up = null, upright = null, right = null, downright = null;
   let down = null, downleft = null, left = null, upleft = null;
@@ -151,18 +172,18 @@ export const boss_update = (boss, team, brick_list) => {
   }
 }
 
-export const boss_render = (boss, camera_position) => {
+export const boss_render = (boss:boss_t, camera_position:v2d_t) => {
   render_details(boss, camera_position, true);
   actor_render(boss.actor, camera_position);
   render_details(boss, camera_position, false);
 }
 
-export const boss_defeated = (boss) => {
+export const boss_defeated = (boss:boss_t) => {
   return (boss.state == BS_DEAD);
 }   
 
 
-const got_attacked = (boss, team) => {
+const got_attacked = (boss:boss_t, team:any) => {
   let i;
 
   for(i=0; i<team.length && boss.state != BS_DEAD; i++) {
@@ -182,7 +203,7 @@ const got_attacked = (boss, team) => {
   return false;
 }
 
-const render_details = (boss, camera_position, before_boss_render) => {
+const render_details = (boss:boss_t, camera_position:v2d_t, before_boss_render:boolean) => {
   let act = boss.actor;
   let t = timer_get_ticks() * 0.001;
 
@@ -212,7 +233,7 @@ const render_details = (boss, camera_position, before_boss_render) => {
 
 /* boss programming */
 
-const bossprog_simpleboss = (boss, team, brick_list, corners) => {
+const bossprog_simpleboss = (boss:boss_t, team:any, brick_list:brick_list_t, corners: brick_t[]) => {
   let player = level_player();
 
   const t = timer_get_ticks()*.001;
@@ -250,7 +271,7 @@ const bossprog_simpleboss = (boss, team, brick_list, corners) => {
     // throw enemies 
     if(t >= lastthrow + (2.0/boss.initial_hp)*boss.hp) {
       let en_type = [ 0, 3 ];
-      let en = level_create_enemy(en_type[ parseInt(random(2),10) ], act.position);
+      let en = level_create_enemy(en_type[ random(2) ], act.position);
       en.actor.speed.y = -150-(random(50));
       lastthrow = t;        
     }
@@ -271,7 +292,7 @@ const bossprog_simpleboss = (boss, team, brick_list, corners) => {
   }
 }
 
-const bossprog_mechashadow = (boss, team, brick_list, corners) => {
+const bossprog_mechashadow = (boss:boss_t, team:any, brick_list:brick_list_t, corners: brick_t[]) => {
   let player = level_player();
 
   let act = boss.actor;
@@ -295,7 +316,7 @@ const bossprog_mechashadow = (boss, team, brick_list, corners) => {
 
       /* animation */
       if(actor_animation_finished(act))
-        actor.change_animation(act, sprite_get_animation("SD_MECHASHADOW", 0));
+        actor_change_animation(act, sprite_get_animation("SD_MECHASHADOW", 0));
 
       /* shot! */
       if(t >= lastshot + 5.0) {
@@ -380,7 +401,7 @@ const bossprog_mechashadow = (boss, team, brick_list, corners) => {
   act.mirror = (boss.direction == BD_RIGHT) ? IF_NONE : IF_HFLIP;
 }
 
-const bossprog_simplebossex = (boss, team, brick_list, corners) => {
+const bossprog_simplebossex = (boss:boss_t, team:any, brick_list:brick_list_t, corners: brick_t[]) => {
   let player = level_player();
 
   const t = timer_get_ticks()*0.001;
@@ -418,7 +439,7 @@ const bossprog_simplebossex = (boss, team, brick_list, corners) => {
     /* throw enemies */
     if(t >= lastthrow + (2.0/boss.initial_hp)*boss.hp) {
       let en_type = [ "9", "6" ];
-      let en = level_create_enemy(en_type[ parseInt(random(2),10) ], act.position);
+      let en = level_create_enemy(en_type[ random(2) ], act.position);
       en.actor.speed.y = -150-(random(50));
       lastthrow = t;        
     }
@@ -448,7 +469,7 @@ const bossprog_simplebossex = (boss, team, brick_list, corners) => {
   }
 }
 
-const bossprog_mechashadowex = (boss, team, brick_list, corners) => {
+const bossprog_mechashadowex = (boss:boss_t, team:any, brick_list:brick_list_t, corners: brick_t[]) => {
   let player = level_player();
 
   let act = boss.actor;

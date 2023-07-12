@@ -64,7 +64,7 @@ const load = ():void => {
     }
   }
 
-  console.log("PREFERENCES",data);
+  //console.log("PREFERENCES",data);
 };
 
 /**
@@ -72,10 +72,10 @@ const load = ():void => {
  * Save settings to disk
  */
 const save = () => {
-  console.log('SAVE PREFERENCES')
+  //console.log('SAVE PREFERENCES')
   if (typeof window != "undefined") {
     for(let key in data) {
-      console.log('SAVE PREVERFENCE', key, data)
+      //console.log('SAVE PREVERFENCE', key, data)
       const value = data[key];
       window.localStorage.setItem(key, data[key]);
     }
