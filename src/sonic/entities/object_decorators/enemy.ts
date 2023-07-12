@@ -17,7 +17,7 @@ export interface objectdecorator_object_t extends objectdecorator_t {
   score: number
 }
 
-export const enemy_new = (decorated_machine:objectmachine_t, score:number) => {
+export const objectdecorator_enemy_new = (decorated_machine:objectmachine_t, score:number) => {
   const obj:objectmachine_t = {
     init,
     release,

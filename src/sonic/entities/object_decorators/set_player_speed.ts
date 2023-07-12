@@ -11,11 +11,11 @@ export interface objectdecorator_setplayerspeed_t extends objectdecorator_t {
   strategy: Function
 }
 
-export const setplayerxspeed_new = (decorated_machine:objectmachine_t, speed:number) => {
+export const objectdecorator_setplayerxspeed_new = (decorated_machine:objectmachine_t, speed:number) => {
   return make_decorator(decorated_machine, speed, set_xspeed);
 };
 
-export const setplayeryspeed_new = (decorated_machine:objectmachine_t, speed:number) => {
+export const objectdecorator_setplayeryspeed_new = (decorated_machine:objectmachine_t, speed:number) => {
   return make_decorator(decorated_machine, speed, set_yspeed);
 }
 

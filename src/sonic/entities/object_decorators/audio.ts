@@ -36,16 +36,16 @@ export interface setmusicvolumestrategy_t extends audiostrategy_t {
 
 export interface playlevelmusicstrategy_t extends audiostrategy_t {}
 
-export const playsample_new = (decorated_machine:objectmachine_t, sample_name:string, vol:number, pan:number, freq:number, loop:boolean) =>
+export const objectdecorator_playsample_new = (decorated_machine:objectmachine_t, sample_name:string, vol:number, pan:number, freq:number, loop:boolean) =>
   make_decorator(decorated_machine, playsamplestrategy_new(sample_name, vol, pan, freq, loop))
 
-export const playmusic_new = (decorated_machine:objectmachine_t, music_name:string, loop:boolean) =>
+export const objectdecorator_playmusic_new = (decorated_machine:objectmachine_t, music_name:string, loop:boolean) =>
   make_decorator(decorated_machine, playmusicstrategy_new(music_name, loop))
 
-export const playlevelmusic_new = (decorated_machine:objectmachine_t) =>
+export const objectdecorator_playlevelmusic_new = (decorated_machine:objectmachine_t) =>
   make_decorator(decorated_machine, playlevelmusicstrategy_new())
 
-export const setmusicvolume_new = (decorated_machine:objectmachine_t, vol:number) =>
+export const objectdecorator_setmusicvolume_new = (decorated_machine:objectmachine_t, vol:number) =>
   make_decorator(decorated_machine, setmusicvolumestrategy_new(vol))
 
 

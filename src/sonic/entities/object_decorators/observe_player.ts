@@ -16,22 +16,22 @@ export interface objectdecorator_observeplayer_t extends objectdecorator_t {
   strategy: observeplayerstrategy_t
 }
 
-export const observeplayer_new = (decorated_machine:objectmachine_t, player_name:string) => {
+export const objectdecorator_observeplayer_new = (decorated_machine:objectmachine_t, player_name:string) => {
   const object = decorated_machine.get_object_instance(decorated_machine);
   return make_decorator(decorated_machine, make_strategy(player_name, object, observe_player));
 }
 
-export const observecurrentplayer_new = (decorated_machine:objectmachine_t) => {
+export const objectdecorator_observecurrentplayer_new = (decorated_machine:objectmachine_t) => {
   let object = decorated_machine.get_object_instance(decorated_machine);
   return make_decorator(decorated_machine, make_strategy("foo", object, observe_current_player));
 }
 
-export const observeactiveplayer_new = (decorated_machine:objectmachine_t) => {
+export const objectdecorator_observeactiveplayer_new = (decorated_machine:objectmachine_t) => {
   let object = decorated_machine.get_object_instance(decorated_machine);
   return make_decorator(decorated_machine, make_strategy("bar", object, observe_active_player));
 }
 
-export const observeallplayers_new = (decorated_machine:objectmachine_t) => {
+export const objectdecorator_observeallplayers_new = (decorated_machine:objectmachine_t) => {
   let object = decorated_machine.get_object_instance(decorated_machine);
   return make_decorator(decorated_machine, make_strategy("boo", object, observe_all_players));
 }

@@ -13,7 +13,7 @@ export interface objectdecorator_changeclosestobjectstate_t extends objectdecora
   new_state_name: string
 }
 
-export const changeclosestobjectstate_new = (decorated_machine:objectmachine_t, object_name:string, new_state_name:string) => {
+export const objectdecorator_changeclosestobjectstate_new = (decorated_machine:objectmachine_t, object_name:string, new_state_name:string) => {
 
   const obj:objectmachine_t = {
     init,

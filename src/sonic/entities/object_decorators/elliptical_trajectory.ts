@@ -18,7 +18,7 @@ export interface objectdecorator_ellipticaltrajectory_t extends objectdecorator_
   initialphase_y: number,
 }
 
-export const ellipticaltrajectory_new = (decorated_machine:objectmachine_t, amplitude_x:number, amplitude_y:number, angularspeed_x:number, angularspeed_y:number, initialphase_x:number, initialphase_y:number) => {
+export const objectdecorator_ellipticaltrajectory_new = (decorated_machine:objectmachine_t, amplitude_x:number, amplitude_y:number, angularspeed_x:number, angularspeed_y:number, initialphase_x:number, initialphase_y:number) => {
 
   const obj:objectmachine_t = {
     init,

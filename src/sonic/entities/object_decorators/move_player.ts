@@ -12,7 +12,7 @@ export interface objectdecorator_moveplayer_t extends objectdecorator_t {
   speed: v2d_t
 }
 
-export const moveplayer_new = (decorated_machine:objectmachine_t, speed_x:number, speed_y:number) => {
+export const objectdecorator_moveplayer_new = (decorated_machine:objectmachine_t, speed_x:number, speed_y:number) => {
 
   const obj:objectmachine_t = {
     init,

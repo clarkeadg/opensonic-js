@@ -9,7 +9,7 @@ export interface objectdecorator_attachtoplayer_t extends objectdecorator_t {
   offset: v2d_t
 }
 
-export const attachtoplayer_new = (decorated_machine:objectmachine_t, offset_x:number, offset_y:number) => {
+export const objectdecorator_attachtoplayer_new = (decorated_machine:objectmachine_t, offset_x:number, offset_y:number) => {
 
   const obj:objectmachine_t = {
     init,

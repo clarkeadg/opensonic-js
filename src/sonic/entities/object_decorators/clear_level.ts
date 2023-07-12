@@ -8,7 +8,7 @@ import { item_list_t } from "./../item"
 
 export interface objectdecorator_clearlevel_t extends objectdecorator_t {}
 
-export const clearlevel_new = (decorated_machine:objectmachine_t) => {
+export const objectdecorator_clearlevel_new = (decorated_machine:objectmachine_t) => {
   const obj:objectmachine_t = {
     init,
     release,

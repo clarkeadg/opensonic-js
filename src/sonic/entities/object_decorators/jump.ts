@@ -10,7 +10,7 @@ export interface objectdecorator_jump_t extends objectdecorator_t {
   jump_strength: number
 }
 
-export const jump_new = (decorated_machine:objectmachine_t, jump_strength:number) => {
+export const objectdecorator_jump_new = (decorated_machine:objectmachine_t, jump_strength:number) => {
   const obj:objectmachine_t = {
     init,
     release,

@@ -12,10 +12,10 @@ export interface objectdecorator_look_t extends objectdecorator_t {
   look_strategy: Function
 }
 
-export const lookleft_new = (decorated_machine:objectmachine_t) => look_new(decorated_machine, look_left)
-export const lookright_new = (decorated_machine:objectmachine_t) => look_new(decorated_machine, look_right)
-export const lookatplayer_new = (decorated_machine:objectmachine_t) => look_new(decorated_machine, look_at_player)
-export const lookatwalkingdirection_new = (decorated_machine:objectmachine_t) => look_new(decorated_machine, look_at_walking_direction)
+export const objectdecorator_lookleft_new = (decorated_machine:objectmachine_t) => look_new(decorated_machine, look_left)
+export const objectdecorator_lookright_new = (decorated_machine:objectmachine_t) => look_new(decorated_machine, look_right)
+export const objectdecorator_lookatplayer_new = (decorated_machine:objectmachine_t) => look_new(decorated_machine, look_at_player)
+export const objectdecorator_lookatwalkingdirection_new = (decorated_machine:objectmachine_t) => look_new(decorated_machine, look_at_walking_direction)
 
 const look_new = (decorated_machine:objectmachine_t, look_strategy:Function) => {
 

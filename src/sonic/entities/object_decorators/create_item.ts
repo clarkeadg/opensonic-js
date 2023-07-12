@@ -12,7 +12,7 @@ export interface objectdecorator_createitem_t extends objectdecorator_t {
   offset: v2d_t
 }
 
-export const createitem_new = (decorated_machine:objectmachine_t, item_id:number, offset_x:number, offset_y:number) => {
+export const objectdecorator_createitem_new = (decorated_machine:objectmachine_t, item_id:number, offset_x:number, offset_y:number) => {
 
   const obj:objectmachine_t = {
     init,

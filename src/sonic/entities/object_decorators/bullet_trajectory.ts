@@ -11,7 +11,7 @@ export interface objectdecorator_bullettrajectory_t extends objectdecorator_t {
   speed: v2d_t
 }
 
-export const bullettrajectory_new = (decorated_machine:objectmachine_t, speed_x:number, speed_y:number) => {
+export const objectdecorator_bullettrajectory_new = (decorated_machine:objectmachine_t, speed_x:number, speed_y:number) => {
 
   const obj:objectmachine_t = {
     init,

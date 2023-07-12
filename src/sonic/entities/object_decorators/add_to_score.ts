@@ -10,7 +10,7 @@ export interface objectdecorator_addtoscore_t extends objectdecorator_t {
   score: number
 }
 
-export const addtoscore_new = (decorated_machine:any, score:number) => {
+export const objectdecorator_addtoscore_new = (decorated_machine:any, score:number) => {
   const obj:objectmachine_t = {
     init,
     release,

@@ -12,11 +12,11 @@ export interface objectdecorator_dialogbox_t extends objectdecorator_t {
   strategy: Function
 }
 
-export const showdialogbox_new = (decorated_machine:objectmachine_t, title:string, message:string) => {
+export const objectdecorator_showdialogbox_new = (decorated_machine:objectmachine_t, title:string, message:string) => {
   return make_decorator(decorated_machine, title, message, show_dialog_box);
 }
 
-export const hidedialogbox_new = (decorated_machine:objectmachine_t) => {
+export const objectdecorator_hidedialogbox_new = (decorated_machine:objectmachine_t) => {
   return make_decorator(decorated_machine, "dead", "beef", hide_dialog_box);
 }
 

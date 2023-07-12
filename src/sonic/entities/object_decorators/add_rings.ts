@@ -10,7 +10,7 @@ export interface objectdecorator_addrings_t extends objectdecorator_t {
   rings: number
 }
 
-export const addrings_new = (decorated_machine:objectmachine_t, rings:number) => {
+export const objectdecorator_addrings_new = (decorated_machine:objectmachine_t, rings:number) => {
   const obj:objectmachine_t = {
     init,
     release,

@@ -9,7 +9,7 @@ export interface objectdecorator_setalpha_t extends objectdecorator_t {
   alpha: number
 }
 
-export const setalpha_new = (decorated_machine:objectmachine_t, alpha:number) => {
+export const objectdecorator_setalpha_new = (decorated_machine:objectmachine_t, alpha:number) => {
 
   const obj:objectmachine_t = {
     init,

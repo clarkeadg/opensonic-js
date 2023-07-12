@@ -10,11 +10,11 @@ export interface objectdecorator_playermovement_t extends objectdecorator_t {
   enable: boolean
 }
 
-export const enableplayermovement_new = (decorated_machine:objectmachine_t) => {
+export const objectdecorator_enableplayermovement_new = (decorated_machine:objectmachine_t) => {
   return make_decorator(decorated_machine, true);
 }
 
-export const disableplayermovement_new = (decorated_machine:objectmachine_t) => {
+export const objectdecorator_disableplayermovement_new = (decorated_machine:objectmachine_t) => {
   return make_decorator(decorated_machine, false);
 }
 

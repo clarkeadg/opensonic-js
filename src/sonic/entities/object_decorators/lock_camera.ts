@@ -20,7 +20,7 @@ export interface objectdecorator_lockcamera_t extends objectdecorator_t {
   has_locked_somebody: boolean
 }
 
-export const lockcamera_new = (decorated_machine:objectmachine_t, x1:number, y1:number, x2:number, y2:number) => {
+export const objectdecorator_lockcamera_new = (decorated_machine:objectmachine_t, x1:number, y1:number, x2:number, y2:number) => {
 
   const obj:objectmachine_t = {
     init,

@@ -12,7 +12,7 @@ export interface objectdecorator_mosquitomovement_t extends objectdecorator_t {
   speed: number
 }
 
-export const mosquitomovement_new = (decorated_machine:objectmachine_t, speed:number) => {
+export const objectdecorator_mosquitomovement_new = (decorated_machine:objectmachine_t, speed:number) => {
 
   const obj:objectmachine_t = {
     init,

@@ -9,7 +9,7 @@ import { item_list_t } from "./../item"
 
 export interface objectdecorator_gravity_t extends objectdecorator_t {}
 
-export const gravity_new = (decorated_machine:objectmachine_t) => {
+export const objectdecorator_gravity_new = (decorated_machine:objectmachine_t) => {
   const obj:objectmachine_t = {
     init,
     release,

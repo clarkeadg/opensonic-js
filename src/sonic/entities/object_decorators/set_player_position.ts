@@ -11,7 +11,7 @@ export interface objectdecorator_setplayerposition_t extends objectdecorator_t {
   offset: v2d_t
 }
 
-export const setplayerposition_new = (decorated_machine:objectmachine_t, xpos:number, ypos:number) => {
+export const objectdecorator_setplayerposition_new = (decorated_machine:objectmachine_t, xpos:number, ypos:number) => {
 
   const obj:objectmachine_t = {
     init,

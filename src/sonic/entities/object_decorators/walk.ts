@@ -13,7 +13,7 @@ export interface objectdecorator_walk_t extends objectdecorator_t {
   direction: number
 }
 
-export const walk_new = (decorated_machine:objectmachine_t, speed:number) => {
+export const objectdecorator_walk_new = (decorated_machine:objectmachine_t, speed:number) => {
 
   const obj:objectmachine_t = {
     init,

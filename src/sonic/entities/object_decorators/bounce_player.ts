@@ -9,7 +9,7 @@ import { item_list_t } from "./../item"
 
 export interface objectdecorator_bounceplayer_t extends objectdecorator_t {}
 
-export const bounceplayer_new = (decorated_machine:objectmachine_t) => {
+export const objectdecorator_bounceplayer_new = (decorated_machine:objectmachine_t) => {
   const obj:objectmachine_t = {
     init,
     release,

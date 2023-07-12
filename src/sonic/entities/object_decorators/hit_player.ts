@@ -12,10 +12,10 @@ export interface objectdecorator_hitplayer_t extends objectdecorator_t {
   should_hit_the_player: Function
 }
 
-export const hitplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, hit_strategy)
-export const burnplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, burn_strategy)
-export const shockplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, shock_strategy)
-export const acidplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, acid_strategy)
+export const objectdecorator_hitplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, hit_strategy)
+export const objectdecorator_burnplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, burn_strategy)
+export const objectdecorator_shockplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, shock_strategy)
+export const objectdecorator_acidplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, acid_strategy)
 
 const make_decorator = (decorated_machine:objectmachine_t, strategy:Function) => {
 

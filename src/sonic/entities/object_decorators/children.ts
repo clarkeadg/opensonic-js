@@ -17,7 +17,7 @@ export interface objectdecorator_children_t extends objectdecorator_t {
   strategy: Function
 }
 
-export const createchild_new = (decorated_machine:objectmachine_t, object_name:string, offset_x:number, offset_y:number, child_name:string) => {
+export const objectdecorator_createchild_new = (decorated_machine:objectmachine_t, object_name:string, offset_x:number, offset_y:number, child_name:string) => {
 
   const obj:objectmachine_t = {
     init,
@@ -40,7 +40,7 @@ export const createchild_new = (decorated_machine:objectmachine_t, object_name:s
   return obj;
 }
 
-export const changechildstate_new = (decorated_machine:objectmachine_t, child_name:string, new_state_name:string) => {
+export const objectdecorator_changechildstate_new = (decorated_machine:objectmachine_t, child_name:string, new_state_name:string) => {
 
   const obj:objectmachine_t = {
     init,
@@ -63,7 +63,7 @@ export const changechildstate_new = (decorated_machine:objectmachine_t, child_na
   return obj;
 }
 
-export const changeparentstate_new = (decorated_machine:objectmachine_t, new_state_name:string) => {
+export const objectdecorator_changeparentstate_new = (decorated_machine:objectmachine_t, new_state_name:string) => {
 
   const obj:objectmachine_t = {
     init,

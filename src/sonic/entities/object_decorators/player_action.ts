@@ -10,9 +10,9 @@ export interface objectdecorator_playeraction_t extends objectdecorator_t {
   update: Function
 }
 
-export const springfyplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, springfy)
+export const objectdecorator_springfyplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, springfy)
 
-export const rollplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, roll)
+export const objectdecorator_rollplayer_new = (decorated_machine:objectmachine_t) => make_decorator(decorated_machine, roll)
 
 const make_decorator = (decorated_machine:objectmachine_t, update_strategy:Function) => {
 

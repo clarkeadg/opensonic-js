@@ -8,7 +8,7 @@ import { item_list_t } from "./../item"
 
 export interface objectdecorator_destroy_t extends objectdecorator_t {}
 
-export const destroy_new = (decorated_machine:objectmachine_t) => {
+export const objectdecorator_destroy_new = (decorated_machine:objectmachine_t) => {
   const obj:objectmachine_t = {
     init,
     release,

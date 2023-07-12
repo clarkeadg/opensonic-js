@@ -5,11 +5,11 @@ import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
 
 export interface objectdecorator_setobstacle_t extends objectdecorator_t {
-  is_obstacle: boolean,
+  is_obstacle: number,
   angle: number
 }
 
-export const setobstacle_new = (decorated_machine:objectmachine_t, is_obstacle:boolean, angle:number) => {
+export const objectdecorator_setobstacle_new = (decorated_machine:objectmachine_t, is_obstacle:number, angle:number) => {
 
   const obj:objectmachine_t = {
     init,

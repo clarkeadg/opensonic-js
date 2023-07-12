@@ -11,7 +11,7 @@ export interface objectdecorator_setanimation_t extends objectdecorator_t {
   anim: animation_t
 }
 
-export const setanimation_new = (decorated_machine:objectmachine_t, sprite_name:string, animation_id:number) => {
+export const objectdecorator_setanimation_new = (decorated_machine:objectmachine_t, sprite_name:string, animation_id:number) => {
 
   const obj:objectmachine_t = {
     init,
