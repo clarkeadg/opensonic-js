@@ -1,7 +1,6 @@
-
 import { logfile_message } from "./../core/logfile"
 import { clip, isspace } from "./../core/util"
-import { v2d_new } from "./../core/v2d"
+import { v2d_new, v2d_t } from "./../core/v2d"
 //import { image_rgb } from "./../core/image"
 import { lang_get } from "./../core/lang"
 import { sprite_get_image, sprite_get_animation } from "./../core/sprite"
@@ -13,8 +12,19 @@ const FONT_MAX            = 10; /* how many fonts do we have? */
 const FONT_STACKCAPACITY  = 32;
 const FONT_TEXTMAXLENGTH  = 20480;
 
+export interface font_t {
+  type: number,
+  text: string,
+  width: number,
+  position: v2d_t,
+  visible: boolean,
+  value: number[],
+  hspace: number,
+  vspace: number
+}
+
 /* private */
-let fontdata = [];
+let fontdata: any[] = [];
 let rgbksCache = {};
 let tintImageCache = {};
 
@@ -54,34 +64,33 @@ export const font_init = () => {
   logfile_message("font_init() ok");
 }
 
-export const font_create = (type) => {
-  let i;
-  let f = {};
+export const font_create = (type:number) => {
+  const f:font_t = {
+    type: clip(type, 0, FONT_MAX-1),
+    text: null,
+    width: 0,
+    visible: true,
+    hspace: 1, 
+    vspace: 1,
+    value: [],
+    position: v2d_new(0,0)
+  };
 
-  f.type = clip(type, 0, FONT_MAX-1);
-  f.text = null;
-  f.width = 0;
-  f.visible = true;
-  f.hspace = f.vspace = 1;
-  f.value = [];
-  f.position = v2d_new(0,0);
-  for(i=0; i<FONT_MAXVALUES; i++)
+  for(let i=0; i<FONT_MAXVALUES; i++)
     f.value[i] = 0;
 
   return f;
 }
 
-export const font_destroy = (f) => {}
+export const font_destroy = (f:font_t) => {}
 
-export const font_set_text = (f,  msg, ...replace) => {
+export const font_set_text = (f:font_t,  msg:string, ...replace: any[]) => {
   if (!f) return false;
-
-  let i;
 
   //console.log('FONT SET TEXT', f, msg, replace)
 
   //replace = Array.prototype.slice.call(arguments, 2);
-  for(i=0;i<replace.length;i++) {
+  for(let i=0;i<replace.length;i++) {
     replace[i] = ""+replace[i]+"";
   }
   //console.log(replace)
@@ -90,7 +99,7 @@ export const font_set_text = (f,  msg, ...replace) => {
 
   let textVariables = msg.match(/\$[A-Z_\d]\w+/g);
   if (textVariables) {
-    for(i=0;i<textVariables.length;i++) {
+    for(let i=0;i<textVariables.length;i++) {
       let t = textVariables[i].slice(1);
       //console.log(t)
       let t2 = lang_get(t);
@@ -104,7 +113,7 @@ export const font_set_text = (f,  msg, ...replace) => {
   textVariables = msg.match(/\%[s]+/g);
   //console.log(textVariables, replace)
   if (textVariables) {
-    for(i=0;i<textVariables.length;i++) {
+    for(let i=0;i<textVariables.length;i++) {
       if (replace[i]) {
         let t = replace[i].match(/\$[A-Z_\d]\w+/g);
         if (t) {
@@ -121,7 +130,7 @@ export const font_set_text = (f,  msg, ...replace) => {
   textVariables = msg.match(/\%[d]+/g);
   //console.log(textVariables)
   if (textVariables) {
-    for(i=0;i<textVariables.length;i++) {
+    for(let i=0;i<textVariables.length;i++) {
       if (replace[i]) {
         msg = msg.replace('%d', ""+replace[i]+"");
       }
@@ -132,23 +141,23 @@ export const font_set_text = (f,  msg, ...replace) => {
   return f;
 }
 
-export const font_get_text = (f) => {
+export const font_get_text = (f:font_t):string => {
   return f.text ? f.text : "";
 }
 
-export const font_get_charsize = (f) => {
+export const font_get_charsize = (f:font_t) => {
   return get_font_size(f);
 }
 
-export const font_get_charspacing = (f) => {
+export const font_get_charspacing = (f:font_t) => {
   return v2d_new(f.hspace, f.vspace);
 }
 
-export const font_set_width = (f, w) => {
+export const font_set_width = (f:font_t, w:number) => {
   f.width = Math.max(0, w);
 }
 
-export const font_render = (f, camera_position) => {
+export const font_render = (f:font_t, camera_position:v2d_t) => {
   //console.log(f, camera_position)
   let offx = 0;
   let offy = 0;
@@ -212,9 +221,9 @@ export const font_render = (f, camera_position) => {
 
           i += 7;
           let colorCode = f.text.slice(i,i+6);
-          r = hex2dec(colorCode.slice(0,2));
-          g = hex2dec(colorCode.slice(2,4));
-          b = hex2dec(colorCode.slice(4,6));
+          //r = hex2dec(colorCode.slice(0,2));
+          //g = hex2dec(colorCode.slice(2,4));
+          //b = hex2dec(colorCode.slice(4,6));
           //console.log(colorCode, r, g, b)
 
           //color[top++] = image_rgb(r,g,b);
@@ -273,11 +282,9 @@ export const font_render = (f, camera_position) => {
           render_char(
             video_get_backbuffer(),
             ch,
-            parseInt((f.position.x+offx-(camera_position.x-VIDEO_SCREEN_W/2)),10),
-            parseInt((f.position.y+offy-(camera_position.y-VIDEO_SCREEN_H/2)),10),
-            color[top-1].r,
-            color[top-1].g,
-            color[top-1].b
+            ~~f.position.x+offx-(camera_position.x-VIDEO_SCREEN_W/2),
+            ~~f.position.y+offy-(camera_position.y-VIDEO_SCREEN_H/2),
+            color[top-1]
           );
         } else {
           //console.log(w, f.hspace)
@@ -292,7 +299,7 @@ export const font_render = (f, camera_position) => {
   }
 }
 
-const get_font_size = (f) => {
+const get_font_size = (f:font_t) => {
   var i;
   var ch;
   if (f) {
@@ -307,15 +314,15 @@ const get_font_size = (f) => {
   return v2d_new(16,16);
 }
 
-const render_char = (dest, img, x, y, r, g, b) => {
+const render_char = (dest:any, img:any, x:number, y:number, color:any) => {
   //console.log('render_char', r)
 
   let rgbks;
   let tintImg = img.data;
 
-  /*if (r !== false) {
+  /*if (color && color.r) {
     rgbks = generateRGBKs( img.data );
-    tintImg = generateTintImage( img.data, rgbks, r, g, b );
+    tintImg = generateTintImage( img.data, rgbks, color.r, color.g, color.b );
   }*/
 
   dest.drawImage(
@@ -331,17 +338,17 @@ const render_char = (dest, img, x, y, r, g, b) => {
   );
 }
 
-const hex2dec = (digit) => {
+/*const hex2dec = (digit:string):number => {
   digit = digit.toLowerCase();
   if(digit >= '0' && digit <= '9')
     return digit-'0';
   else if(digit >= 'a' && digit <= 'f')
     return (digit-'a')+10;
   else
-    return 255; /* error */
-}
+    return 255;
+}*/
 
-const generateRGBKs = (img) => {
+/*const generateRGBKs = (img:any) => {
     if (rgbksCache[img.src]) return rgbksCache[img.src];
 
     let w = img.width;
@@ -392,9 +399,9 @@ const generateRGBKs = (img) => {
     rgbksCache[img.src] = rgbks;
 
     return rgbks;
-}
+}*/
 
-const generateTintImage = ( img, rgbks, red, green, blue ) => {
+/*const generateTintImage = ( img:any, rgbks:any, red:any, green:any, blue:any ) => {
   if (tintImageCache[img.src+"_"+red+"_"+green+"_"+blue]) return tintImageCache[img.src+"_"+red+"_"+green+"_"+blue];
 
   let buff = document.createElement( "canvas" );
@@ -424,4 +431,4 @@ const generateTintImage = ( img, rgbks, red, green, blue ) => {
   tintImageCache[img.src+"_"+red+"_"+green+"_"+blue] = buff;
 
   return buff;
-}
+}*/

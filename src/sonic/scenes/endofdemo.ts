@@ -33,7 +33,7 @@ export const endofdemo_init = () => {
 
   title = font_create(4);
   font_set_text(title, lang_get("ENDOFDEMO_TITLE"));
-  title.position = v2d_new( (VIDEO_SCREEN_W - font_get_charsize(title).x*font_get_text(title))/2 , 5 );
+  title.position = v2d_new( (VIDEO_SCREEN_W - font_get_charsize(title).x*font_get_text(title).length)/2 , 5 );
 
   for(i=0; i<RING_MAX; i++) {
       ring[i] = actor_create();
