@@ -33,7 +33,7 @@ default = 1.0f</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/clarkeadg/opensonic-js/blob/c1c1d1b/src/sonic/core/audio.ts#L107">core/audio.ts:107</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/clarkeadg/opensonic-js/blob/409d093/src/sonic/core/audio.ts#L119">core/audio.ts:119</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -56,6 +56,8 @@ default = 1.0f</p>
 <details class="tsd-index-accordion" open data-key="core/audio"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="#icon-chevronDown"></use></svg><a href="../modules/core_audio.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/audio</span></a></summary>
 <div class="tsd-accordion-details">
 <ul class="tsd-nested-navigation">
+<li><a href="../interfaces/core_audio.music_t.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-256"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)"></path></g></svg><span>music_<wbr/>t</span></a></li>
+<li><a href="../interfaces/core_audio.sound_t.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg><span>sound_<wbr/>t</span></a></li>
 <li><a href="core_audio.audio_init.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-64"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-function)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z" fill="var(--color-text)"></path></g></svg><span>audio_<wbr/>init</span></a></li>
 <li><a href="core_audio.audio_release.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>audio_<wbr/>release</span></a></li>
 <li><a href="core_audio.audio_update.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>audio_<wbr/>update</span></a></li>
@@ -95,15 +97,75 @@ default = 1.0f</p>
 <li><a href="../modules/core_video.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>core/video</span></a></li>
 <li><a href="../modules/entities_actor.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/actor</span></a></li>
 <li><a href="../modules/entities_background.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/background</span></a></li>
+<li><a href="../modules/entities_boss.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/boss</span></a></li>
 <li><a href="../modules/entities_brick.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/brick</span></a></li>
 <li><a href="../modules/entities_camera.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/camera</span></a></li>
+<li><a href="../modules/entities_enemy.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/enemy</span></a></li>
+<li><a href="../modules/entities_font.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/font</span></a></li>
 <li><a href="../modules/entities_item.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/item</span></a></li>
+<li><a href="../modules/entities_items_animal.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/animal</span></a></li>
+<li><a href="../modules/entities_items_animalprison.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/animalprison</span></a></li>
+<li><a href="../modules/entities_items_bigring.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/bigring</span></a></li>
+<li><a href="../modules/entities_items_bluering.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/bluering</span></a></li>
+<li><a href="../modules/entities_items_bumper.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/bumper</span></a></li>
+<li><a href="../modules/entities_items_checkpointorb.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/checkpointorb</span></a></li>
+<li><a href="../modules/entities_items_crushedbox.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/crushedbox</span></a></li>
+<li><a href="../modules/entities_items_danger.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/danger</span></a></li>
+<li><a href="../modules/entities_items_dangpower.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/dangpower</span></a></li>
+<li><a href="../modules/entities_items_dnadoor.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/dnadoor</span></a></li>
+<li><a href="../modules/entities_items_door.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/door</span></a></li>
+<li><a href="../modules/entities_items_endsign.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/endsign</span></a></li>
+<li><a href="../modules/entities_items_explosion.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/explosion</span></a></li>
+<li><a href="../modules/entities_items_falglasses.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/falglasses</span></a></li>
+<li><a href="../modules/entities_items_fireball.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/fireball</span></a></li>
+<li><a href="../modules/entities_items_flyingtext.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/flyingtext</span></a></li>
+<li><a href="../modules/entities_items_goalsign.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/goalsign</span></a></li>
+<li><a href="../modules/entities_items_icon.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/icon</span></a></li>
+<li><a href="../modules/entities_items_itembox.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/itembox</span></a></li>
+<li><a href="../modules/entities_items_loop.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/loop</span></a></li>
 <li><a href="../modules/entities_items_ring.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/ring</span></a></li>
+<li><a href="../modules/entities_items_spikes.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/spikes</span></a></li>
+<li><a href="../modules/entities_items_spring.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/spring</span></a></li>
+<li><a href="../modules/entities_items_switch.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/switch</span></a></li>
+<li><a href="../modules/entities_items_teleporter.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/teleporter</span></a></li>
+<li><a href="../modules/entities_items_util_itemutil.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/items/util/itemutil</span></a></li>
+<li><a href="../modules/entities_object_compiler.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>compiler</span></a></li>
 <li><a href="../modules/entities_object_decorators_add_rings.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/add_<wbr/>rings</span></a></li>
 <li><a href="../modules/entities_object_decorators_add_to_score.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/add_<wbr/>to_<wbr/>score</span></a></li>
+<li><a href="../modules/entities_object_decorators_attach_to_player.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/attach_<wbr/>to_<wbr/>player</span></a></li>
+<li><a href="../modules/entities_object_decorators_audio.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/audio</span></a></li>
 <li><a href="../modules/entities_object_decorators_base_objectbasicmachine.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/base/objectbasicmachine</span></a></li>
 <li><a href="../modules/entities_object_decorators_base_objectdecorator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/base/objectdecorator</span></a></li>
 <li><a href="../modules/entities_object_decorators_base_objectmachine.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/base/objectmachine</span></a></li>
+<li><a href="../modules/entities_object_decorators_bounce_player.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/bounce_<wbr/>player</span></a></li>
+<li><a href="../modules/entities_object_decorators_bullet_trajectory.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/bullet_<wbr/>trajectory</span></a></li>
+<li><a href="../modules/entities_object_decorators_change_closest_object_state.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/change_<wbr/>closest_<wbr/>object_<wbr/>state</span></a></li>
+<li><a href="../modules/entities_object_decorators_children.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/children</span></a></li>
+<li><a href="../modules/entities_object_decorators_clear_level.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/clear_<wbr/>level</span></a></li>
+<li><a href="../modules/entities_object_decorators_create_item.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/create_<wbr/>item</span></a></li>
+<li><a href="../modules/entities_object_decorators_destroy.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/destroy</span></a></li>
+<li><a href="../modules/entities_object_decorators_dialog_box.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/dialog_<wbr/>box</span></a></li>
+<li><a href="../modules/entities_object_decorators_elliptical_trajectory.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/elliptical_<wbr/>trajectory</span></a></li>
+<li><a href="../modules/entities_object_decorators_enemy.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/enemy</span></a></li>
+<li><a href="../modules/entities_object_decorators_gravity.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/gravity</span></a></li>
+<li><a href="../modules/entities_object_decorators_hit_player.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/hit_<wbr/>player</span></a></li>
+<li><a href="../modules/entities_object_decorators_jump.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/jump</span></a></li>
+<li><a href="../modules/entities_object_decorators_lock_camera.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/lock_<wbr/>camera</span></a></li>
+<li><a href="../modules/entities_object_decorators_look.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/look</span></a></li>
+<li><a href="../modules/entities_object_decorators_mosquito_movement.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/mosquito_<wbr/>movement</span></a></li>
+<li><a href="../modules/entities_object_decorators_move_player.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/move_<wbr/>player</span></a></li>
+<li><a href="../modules/entities_object_decorators_observe_player.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/observe_<wbr/>player</span></a></li>
+<li><a href="../modules/entities_object_decorators_on_event.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/on_<wbr/>event</span></a></li>
+<li><a href="../modules/entities_object_decorators_player_action.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/player_<wbr/>action</span></a></li>
+<li><a href="../modules/entities_object_decorators_player_movement.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/player_<wbr/>movement</span></a></li>
+<li><a href="../modules/entities_object_decorators_set_alpha.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/set_<wbr/>alpha</span></a></li>
+<li><a href="../modules/entities_object_decorators_set_animation.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/set_<wbr/>animation</span></a></li>
+<li><a href="../modules/entities_object_decorators_set_obstacle.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/set_<wbr/>obstacle</span></a></li>
+<li><a href="../modules/entities_object_decorators_set_player_animation.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/set_<wbr/>player_<wbr/>animation</span></a></li>
+<li><a href="../modules/entities_object_decorators_set_player_position.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/set_<wbr/>player_<wbr/>position</span></a></li>
+<li><a href="../modules/entities_object_decorators_set_player_speed.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/set_<wbr/>player_<wbr/>speed</span></a></li>
+<li><a href="../modules/entities_object_decorators_walk.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>decorators/walk</span></a></li>
+<li><a href="../modules/entities_object_vm.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>entities/object_<wbr/>vm</span></a></li>
 <li><a href="../modules/main.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>main</span></a></li>
 <li><a href="../modules/scenes_confirmbox.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/confirmbox</span></a></li>
 <li><a href="../modules/scenes_credits.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/credits</span></a></li>
@@ -111,10 +173,14 @@ default = 1.0f</p>
 <li><a href="../modules/scenes_gameover.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/gameover</span></a></li>
 <li><a href="../modules/scenes_intro.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/intro</span></a></li>
 <li><a href="../modules/scenes_langselect.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/langselect</span></a></li>
+<li><a href="../modules/scenes_menu.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/menu</span></a></li>
+<li><a href="../modules/scenes_options.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/options</span></a></li>
 <li><a href="../modules/scenes_pause.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/pause</span></a></li>
 <li><a href="../modules/scenes_quest.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/quest</span></a></li>
 <li><a href="../modules/scenes_questover.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/questover</span></a></li>
-<li><a href="../modules/scenes_stageselect.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/stageselect</span></a></li></ul></nav></div></div></div>
+<li><a href="../modules/scenes_stageselect.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/stageselect</span></a></li>
+<li><a href="../modules/scenes_util_editorgrp.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/util/editorgrp</span></a></li>
+<li><a href="../modules/scenes_util_grouptree.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>scenes/util/grouptree</span></a></li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div></body></html>
