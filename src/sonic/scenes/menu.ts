@@ -1,11 +1,11 @@
 
 import { quest_run } from "./quest"
-import { quest_load } from "./../core/quest"
-import { scenestack_pop, scenestack_push } from "./../core/scene"
+import { quest_t, quest_load } from "./../core/quest"
+import { scene_t, scenestack_pop, scenestack_push } from "./../core/scene"
 import { storyboard_get_scene, SCENE_OPTIONS, SCENE_QUEST } from "./../core/storyboard"
 import { GAME_WEBSITE, GAME_VERSION, GAME_SUB_VERSION, GAME_WIP_VERSION, PI } from "./../core/global"
 import { v2d_new } from "./../core/v2d"
-import { input_create_user, input_destroy, input_ignore, input_restore, input_button_pressed, IB_UP, IB_DOWN, IB_FIRE1, IB_FIRE3, IB_FIRE4 } from "./../core/input"
+import { input_t, input_create_user, input_destroy, input_ignore, input_restore, input_button_pressed, IB_UP, IB_DOWN, IB_FIRE1, IB_FIRE3, IB_FIRE4 } from "./../core/input"
 import { video_clearDisplay, video_get_backbuffer, video_fadefx_in, video_fadefx_out, video_fadefx_over, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
 import { image_rgb, image_blit } from "./../core/image"
 import { sound_play, music_load, music_play } from "./../core/audio"
@@ -14,9 +14,9 @@ import { lang_get, lang_getstring } from "./../core/lang"
 import { soundfactory_get } from "./../core/soundfactory"
 import { sprite_get_animation } from "./../core/sprite"
 
-import { actor_image, actor_animation_finished, actor_change_animation, actor_render, actor_destroy, actor_create } from "./../entities/actor"
-import { font_set_text, font_create, font_render, font_destroy } from "./../entities/font"
-import { background_update, background_render_bg, background_render_fg, background_load } from "./../entities/background"
+import { actor_t, actor_image, actor_animation_finished, actor_change_animation, actor_render, actor_destroy, actor_create } from "./../entities/actor"
+import { font_t, font_set_text, font_create, font_render, font_destroy } from "./../entities/font"
+import { bgtheme_t, background_update, background_render_bg, background_render_fg, background_load } from "./../entities/background"
 
 /* private data */
 const MENU_MUSICFILE        = "data/music/title.mp4";
@@ -32,39 +32,41 @@ const questFiles = [
 /* menu screens */
 const MENU_MAIN = 0;
 const MENU_QUEST = 1;
-let menu_screen;
-let input;
-let jump_to;
-let bgtheme;
+let menu_screen:number;
+let input:input_t;
+let jump_to:scene_t;
+let bgtheme:bgtheme_t;
 
 /* main menu */
 //let MENU_MAXOPTIONS = 4;
 let MENU_MAXOPTIONS = 3;
-let start_time;
-let control_restored;
+let start_time:number;
+let control_restored:boolean;
 let menu;
-let menuopt;
-let menufnt ;
-let menufoot;
-let surge_entering;
-let surge, surgebg, gametitle;
-let credit, version;
-let quit;
+let menuopt:number;
+let menufnt:any[];
+let menufoot:actor_t;
+let surge_entering:boolean;
+let surge:actor_t;
+let surgebg:actor_t;
+let gametitle:actor_t;
+let credit:font_t;
+let version:font_t;
+let quit:boolean;
 
 /* quest menu */
 const MENU_QUESTSPERPAGE = 14;
 
 let pagenum, maxpages       = 1;
-let qstselect = [];
-let qstdetail;
-let qstmenuopt;
-let qstcount;
-let qstfnt = [];
-let qstdata;
-let music;
+let qstselect:font_t[] = [];
+let qstdetail:font_t;
+let qstmenuopt:number;
+let qstcount:number;
+let qstfnt:font_t[] = [];
+let qstdata:any[];
+let music:any;
 
 export const menu_init = () => {
-  let i, j;
 
   /* initializing... */
   quit = false;
@@ -83,8 +85,8 @@ export const menu_init = () => {
 
 
   /* background init */
-  bgtheme = background_load(MENU_BGFILE)
-  .then(function(bgdata){
+   background_load(MENU_BGFILE)
+  .then(function(bgdata:any){
     bgtheme = bgdata;
     //console.log(bgtheme);
     video_fadefx_in(image_rgb(0,0,0), 1.0);
@@ -95,17 +97,17 @@ export const menu_init = () => {
   surge_entering = true;
 
   surge = actor_create();
-  surge = actor_change_animation(surge, sprite_get_animation("SD_TITLESURGE", 0));
+  actor_change_animation(surge, sprite_get_animation("SD_TITLESURGE", 0));
   surge.position.x = (VIDEO_SCREEN_W-actor_image(surge).width)/2 + 5;
   surge.position.y = -15;
 
   surgebg = actor_create();
-  surgebg = actor_change_animation(surgebg, sprite_get_animation("SD_TITLEBG", 0));
+  actor_change_animation(surgebg, sprite_get_animation("SD_TITLEBG", 0));
   surgebg.position.x = (VIDEO_SCREEN_W-actor_image(surgebg).width)/2;
   surgebg.position.y = surge.position.y+25;
 
   gametitle = actor_create();
-  gametitle = actor_change_animation(gametitle, sprite_get_animation("SD_TITLEGAMENAME", 0));
+  actor_change_animation(gametitle, sprite_get_animation("SD_TITLEGAMENAME", 0));
   gametitle.position.x = (VIDEO_SCREEN_W-actor_image(gametitle).width)/2;
   gametitle.position.y = surge.position.y+actor_image(surge).height-9;
 
@@ -120,7 +122,7 @@ export const menu_init = () => {
   /* main menu */
   menuopt = 0;
   menufoot = actor_create();
-  menufoot = actor_change_animation(menufoot, sprite_get_animation("SD_TITLEFOOT", 0));
+  actor_change_animation(menufoot, sprite_get_animation("SD_TITLEFOOT", 0));
 
   menu = [];
 
@@ -133,8 +135,8 @@ export const menu_init = () => {
   MENU_MAXOPTIONS = menu.length;
 
   menufnt = [];
-  for(i=0; i<2; i++) {
-    for(j=0; j<MENU_MAXOPTIONS; j++) {
+  for(let i=0; i<2; i++) {
+    for(let j=0; j<MENU_MAXOPTIONS; j++) {
       if (!menufnt[j]) menufnt[j] = [];
       menufnt[j][i] = font_create(i);
       menufnt[j][i].position = v2d_new((VIDEO_SCREEN_W/2) - (actor_image(surgebg).width/5), gametitle.position.y+65+10*j);
@@ -198,7 +200,7 @@ export const menu_update = () => {
           /* surge & stuff */
           if(surge_entering && actor_animation_finished(surge)) {
               surge_entering = false;
-              surge = actor_change_animation(surge, sprite_get_animation("SD_TITLESURGE", 1));
+              actor_change_animation(surge, sprite_get_animation("SD_TITLESURGE", 1));
               input_restore(input);
           }
           gametitle.visible = !surge_entering;
@@ -324,7 +326,7 @@ export const menu_render = () => {
             0,
             0,
             VIDEO_SCREEN_W - thumb.width - 25,
-            parseInt(qstfnt[0].position.y,10),
+            qstfnt[0].position.y,
             thumb.width,
             thumb.height
           );
@@ -373,7 +375,7 @@ export const menu_release = () => {
 }
 
 /* private functions */
-const select_option = (opt) => {
+const select_option = (opt:number) => {
   let abs_path = questFiles[0];
 
   switch(opt) {
@@ -436,7 +438,7 @@ const load_quest_list = () => {
   }
 }
 
-const qstmenuopt_getpage = (val) => {
+const qstmenuopt_getpage = (val:number) => {
   pagenum = Math.floor(val/MENU_QUESTSPERPAGE + 1)
   return pagenum;
 }
@@ -446,7 +448,7 @@ const qstmenuopt_getmaxpages = () => {
   return maxpages;
 }
 
-const game_start = (q) => {
+const game_start = (q:quest_t) => {
   quest_run(q, false);
   jump_to = storyboard_get_scene(SCENE_QUEST);
   //jump_to = storyboard_get_scene(SCENE_LEVEL);
