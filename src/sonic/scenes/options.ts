@@ -1,42 +1,42 @@
 
-import { grouptree_group_addchild, grouptree_group_create, grouptree_init_all, grouptree_update_all, grouptree_render_all, grouptree_group_label_init, grouptree_group_label_release, grouptree_group_label_update, grouptree_group_label_render } from "./util/grouptree"
+import { group_t, grouptree_group_addchild, grouptree_group_create, grouptree_init_all, grouptree_update_all, grouptree_render_all, grouptree_group_label_init, grouptree_group_label_release, grouptree_group_label_update, grouptree_group_label_render } from "./util/grouptree"
 
 import { INFINITY, PI } from "./../core/global"
-import { scenestack_pop, scenestack_push } from "./../core/scene"
+import { scene_t, scenestack_pop, scenestack_push } from "./../core/scene"
 import { storyboard_get_scene, SCENE_MENU, SCENE_LANGSELECT, SCENE_STAGESELECT, SCENE_CREDITS } from "./../core/storyboard"
 import { preferences_set_video_resolution, preferences_set_fullscreen, preferences_set_smooth_graphics, preferences_set_show_fps } from "./../core/preferences"
-import { v2d_new, v2d_add } from "./../core/v2d"
+import { v2d_t, v2d_new, v2d_add } from "./../core/v2d"
 import { video_changemode, video_show_fps, video_get_resolution, video_is_fullscreen, video_is_smooth, video_is_fps_visible, video_fadefx_in, video_fadefx_out, video_fadefx_is_fading, video_fadefx_over, VIDEO_SCREEN_W, VIDEO_SCREEN_H, VIDEORESOLUTION_1X, VIDEORESOLUTION_2X, VIDEORESOLUTION_MAX } from "./../core/video"
 import { image_rgb } from "./../core/image"
 import { sound_play, music_load, music_stop, music_play, music_is_playing } from "./../core/audio"
 import { soundfactory_get } from "./../core/soundfactory"
 import { lang_get } from "./../core/lang"
-import { input_create_user, input_destroy, input_button_pressed, IB_UP, IB_DOWN, IB_LEFT, IB_RIGHT, IB_FIRE1, IB_FIRE3, IB_FIRE4 } from "./../core/input"
+import { input_t, input_create_user, input_destroy, input_button_pressed, IB_UP, IB_DOWN, IB_LEFT, IB_RIGHT, IB_FIRE1, IB_FIRE3, IB_FIRE4 } from "./../core/input"
 import { sprite_get_animation } from "./../core/sprite"
 import { timer_get_delta } from "./../core/timer"
 
-import { font_create, font_render, font_destroy, font_set_text } from "./../entities/font"
-import { actor_create, actor_change_animation, actor_render, actor_destroy } from "./../entities/actor"
-import { background_load, background_update, background_render_bg, background_render_fg } from "./../entities/background"
+import { font_t, font_create, font_render, font_destroy, font_set_text } from "./../entities/font"
+import { actor_t, actor_create, actor_change_animation, actor_render, actor_destroy } from "./../entities/actor"
+import { bgtheme_t, background_load, background_update, background_render_bg, background_render_fg } from "./../entities/background"
 
 /* private data */
 const OPTIONS_BGFILE       = "data/themes/options.bg.json";
 const OPTIONS_MUSICFILE    = "data/music/options.mp4";
 
-let quit;
-let fadein;
-let title;
-let icon;
-let input;
-let jump_to;
-let scene_time;
-let bgtheme;
+let quit:boolean;
+let fadein:boolean;
+let title:font_t;
+let icon:actor_t;
+let input:input_t;
+let jump_to:scene_t;
+let scene_time:number;
+let bgtheme:any
 
 /* group tree */
 //const OPTIONS_MAX     = 8;
 const OPTIONS_MAX     = 5;
-let option;
-let root;
+let option:number;
+let root:group_t;
 
 export const options_init = () => {
   option = 0;
@@ -53,7 +53,7 @@ export const options_init = () => {
   title.position.y = 10;
 
   /* background init */
-  bgtheme = background_load(OPTIONS_BGFILE)
+  background_load(OPTIONS_BGFILE)
   .then(function(bgdata){
     bgtheme = bgdata;
     //console.log(bgtheme);
@@ -118,7 +118,7 @@ export const options_update = () => {
   }
   else if(!music_is_playing() && scene_time >= 0.2) {
     const m = music_load(OPTIONS_MUSICFILE);
-    music_play(m, INFINITY);
+    music_play(m, true);
   }
 
   /* quit */
@@ -169,7 +169,7 @@ export const options_release = () => {
 
 /* saves the user preferences */
 const save_preferences = () => {
-  preferences_set_video_resolution( video_get_resolution() );
+  //preferences_set_video_resolution( video_get_resolution() );
   preferences_set_fullscreen( video_is_fullscreen() );
   preferences_set_smooth_graphics( video_is_smooth() );
   preferences_set_show_fps( video_is_fps_visible() );
@@ -180,29 +180,29 @@ const save_preferences = () => {
 /* --------------------------------------- */
 
 /* <<abstract>> Fixed label */
-const group_fixedlabel_init = (g, lang_key) => {
+const group_fixedlabel_init = (g:group_t, lang_key:string) => {
   grouptree_group_label_init(g);
   //console.log('GROUP FIXED LABEL INIT',g)
   g.data = lang_key;
   font_set_text(g.font, lang_get(lang_key));
 }
 
-const group_fixedlabel_release = (g) => {
+const group_fixedlabel_release = (g:group_t) => {
   g.data = null
   grouptree_group_label_release(g);
 }
 
-const group_fixedlabel_update = (g) => {
+const group_fixedlabel_update = (g:group_t) => {
   grouptree_group_label_update(g);
   font_set_text(g.font, lang_get(g.data));
 }
 
-const group_fixedlabel_render = (g, camera_position) => {
+const group_fixedlabel_render = (g:group_t, camera_position:v2d_t) => {
   grouptree_group_label_render(g, camera_position);
 }
 
 /* <<abstract>> Highlightable label */
-const group_highlightable_init = (g, lang_key, option_index) => {
+const group_highlightable_init = (g:group_t, lang_key:string, option_index:number) => {
   let data;
 
   grouptree_group_label_init(g);
@@ -214,17 +214,17 @@ const group_highlightable_init = (g, lang_key, option_index) => {
   data.lang_key = lang_key;
 }
 
-const group_highlightable_release = (g) => {
+const group_highlightable_release = (g:group_t) => {
   g.data = null;
   grouptree_group_label_release(g);
 }
 
-const group_highlightable_is_highlighted = (g) => {
+const group_highlightable_is_highlighted = (g:group_t) => {
   const data = g.data;
   return (option == data.option_index);
 }
 
-const group_highlightable_update = (g) => {
+const group_highlightable_update = (g:group_t) => {
   const data = g.data;
 
   grouptree_group_label_update(g);
@@ -235,28 +235,28 @@ const group_highlightable_update = (g) => {
   }
 }
 
-const group_highlightable_render = (g, camera_position) => {
+const group_highlightable_render = (g:group_t, camera_position:v2d_t) => {
   grouptree_group_label_render(g, camera_position);
 }
 
 /* -------------------------- */
 
 /* Root node */
-const group_root_init = (g) => {
+const group_root_init = (g:group_t) => {
   grouptree_group_label_init(g);
   font_set_text(g.font, "");
   g.font.position = v2d_new(0, 25);
 }
 
-const group_root_release = (g) => {
+const group_root_release = (g:group_t) => {
   grouptree_group_label_release(g);
 }
 
-const group_root_update = (g) => {
+const group_root_update = (g:group_t) => {
   grouptree_group_label_update(g);
 }
 
-const group_root_render = (g, camera_position) => {
+const group_root_render = (g:group_t, camera_position:v2d_t) => {
   grouptree_group_label_render(g, camera_position);
 }
 
@@ -265,19 +265,19 @@ const group_root_create = () => {
 }
 
 /* "Graphics" label */
-const group_graphics_init = (g) => {
+const group_graphics_init = (g:group_t) => {
   group_fixedlabel_init(g, "OPTIONS_GRAPHICS");
 }
 
-const group_graphics_release = (g) => {
+const group_graphics_release = (g:group_t) => {
   group_fixedlabel_release(g);
 }
 
-const group_graphics_update = (g) => {
+const group_graphics_update = (g:group_t) => {
   group_fixedlabel_update(g);
 }
 
-const group_graphics_render = (g, camera_position) => {
+const group_graphics_render = (g:group_t, camera_position:v2d_t) => {
   group_fixedlabel_render(g, camera_position);
 }
 
@@ -286,19 +286,19 @@ const group_graphics_create = () => {
 }
 
 /* "Resolution" label */
-const group_resolution_init = (g) => {
+const group_resolution_init = (g:group_t) => {
   group_highlightable_init(g, "OPTIONS_RESOLUTION", 0);
 }
 
-const group_resolution_release = (g) => {
+const group_resolution_release = (g:group_t) => {
   group_highlightable_release(g);
 }
 
-const group_resolution_is_highlighted = (g) => {
+const group_resolution_is_highlighted = (g:group_t) => {
   return group_highlightable_is_highlighted(g);
 }
 
-const group_resolution_update = (g) => {
+const group_resolution_update = (g:group_t) => {
   /* base class */
   group_highlightable_update(g);
 
@@ -349,7 +349,7 @@ const group_resolution_update = (g) => {
   }
 }
 
-const group_resolution_render = (g, camera_position) => {
+const group_resolution_render = (g:group_t, camera_position:v2d_t) => {
   let f;
   let v = [];
 
@@ -391,19 +391,19 @@ const group_resolution_create = () => {
 }
 
 /* "Fullscreen" label */
-const group_fullscreen_init = (g) => {
+const group_fullscreen_init = (g:group_t) => {
   group_highlightable_init(g, "OPTIONS_FULLSCREEN", 1);
 }
 
-const group_fullscreen_release = (g) => {
+const group_fullscreen_release = (g:group_t) => {
   group_highlightable_release(g);
 }
 
-const group_fullscreen_is_highlighted = (g) => {
+const group_fullscreen_is_highlighted = (g:group_t) => {
   return group_highlightable_is_highlighted(g);
 }
 
-const group_fullscreen_update = (g) => {
+const group_fullscreen_update = (g:group_t) => {
   /* base class */
   group_highlightable_update(g);
 
@@ -430,7 +430,7 @@ const group_fullscreen_update = (g) => {
   }
 }
 
-const group_fullscreen_render = (g, camera_position) => {
+const group_fullscreen_render = (g:group_t, camera_position:v2d_t) => {
   let f;
   let v = [];
 
@@ -458,19 +458,19 @@ const group_fullscreen_create = () => {
 }
 
 /* "Smooth Graphics" label */
-const group_smooth_init = (g) => {
+const group_smooth_init = (g:group_t) => {
   group_highlightable_init(g, "OPTIONS_SMOOTHGFX", 2);
 }
 
-const group_smooth_release = (g) => {
+const group_smooth_release = (g:group_t) => {
   group_highlightable_release(g);
 }
 
-const group_smooth_is_highlighted = (g) => {
+const group_smooth_is_highlighted = (g:group_t) => {
   return group_highlightable_is_highlighted(g);
 }
 
-const group_smooth_update = (g) => {
+const group_smooth_update = (g:group_t) => {
   var resolution = (video_get_resolution() == VIDEORESOLUTION_1X) ? VIDEORESOLUTION_2X : video_get_resolution();
 
   /* base class */
@@ -499,7 +499,7 @@ const group_smooth_update = (g) => {
   }
 }
 
-const group_smooth_render = (g, camera_position) => {
+const group_smooth_render = (g:group_t, camera_position:v2d_t) => {
   let f;
   let v = [];
 
@@ -527,20 +527,20 @@ const group_smooth_create = () => {
 }
 
 /* "Show FPS" label */
-const group_fps_init = (g) => {
+const group_fps_init = (g:group_t) => {
   //group_highlightable_init(g, "OPTIONS_FPS", 3);
   group_highlightable_init(g, "OPTIONS_FPS", 0);
 }
 
-const group_fps_release = (g) => {
+const group_fps_release = (g:group_t) => {
   group_highlightable_release(g);
 }
 
-const group_fps_is_highlighted = (g) => {
+const group_fps_is_highlighted = (g:group_t) => {
   return group_highlightable_is_highlighted(g);
 }
 
-const group_fps_update = (g) => {
+const group_fps_update = (g:group_t) => {
   /* base class */
   group_highlightable_update(g);
 
@@ -567,7 +567,7 @@ const group_fps_update = (g) => {
   }
 }
 
-const group_fps_render = (g, camera_position) => {
+const group_fps_render = (g:group_t, camera_position:v2d_t) => {
   let f;
   let v = [];
 
@@ -595,19 +595,19 @@ const group_fps_create = () => {
 }
 
 /* "Game" label */
-const group_game_init = (g) => {
+const group_game_init = (g:group_t) => {
   group_fixedlabel_init(g, "OPTIONS_GAME");
 }
 
-const group_game_release = (g) => {
+const group_game_release = (g:group_t) => {
   group_fixedlabel_release(g);
 }
 
-const group_game_update = (g) => {
+const group_game_update = (g:group_t) => {
   group_fixedlabel_update(g);
 }
 
-const group_game_render = (g, camera_position) => {
+const group_game_render = (g:group_t, camera_position:v2d_t) => {
   group_fixedlabel_render(g, camera_position);
 }
 
@@ -616,20 +616,20 @@ const group_game_create = () => {
 }
 
 /* "Change Language" label */
-const group_changelanguage_init = (g) => {
+const group_changelanguage_init = (g:group_t) => {
   //group_highlightable_init(g, "OPTIONS_LANGUAGE", 4);
   group_highlightable_init(g, "OPTIONS_LANGUAGE", 1);
 }
 
-const group_changelanguage_release = (g) => {
+const group_changelanguage_release = (g:group_t) => {
   group_highlightable_release(g);
 }
 
-const group_changelanguage_is_highlighted = (g) => {
+const group_changelanguage_is_highlighted = (g:group_t) => {
   return group_highlightable_is_highlighted(g);
 }
 
-const group_changelanguage_update = (g) => {
+const group_changelanguage_update = (g:group_t) => {
   /* base class */
   group_highlightable_update(g);
 
@@ -644,7 +644,7 @@ const group_changelanguage_update = (g) => {
   }
 }
 
-const group_changelanguage_render = (g, camera_position) => {
+const group_changelanguage_render = (g:group_t, camera_position:v2d_t) => {
   group_highlightable_render(g, camera_position);
 }
 
@@ -653,20 +653,20 @@ const group_changelanguage_create = () => {
 }
 
 /* "Stage Select" label */
-const group_stageselect_init = (g) => {
+const group_stageselect_init = (g:group_t) => {
   //group_highlightable_init(g, "OPTIONS_STAGESELECT", 5);
   group_highlightable_init(g, "OPTIONS_STAGESELECT", 2);
 }
 
-const group_stageselect_release = (g) => {
+const group_stageselect_release = (g:group_t) => {
   group_highlightable_release(g);
 }
 
-const group_stageselect_is_highlighted = (g) => {
+const group_stageselect_is_highlighted = (g:group_t) => {
   return group_highlightable_is_highlighted(g);
 }
 
-const group_stageselect_update = (g) => {
+const group_stageselect_update = (g:group_t) => {
   /* base class */
   group_highlightable_update(g);
 
@@ -681,7 +681,7 @@ const group_stageselect_update = (g) => {
   }
 }
 
-const group_stageselect_render = (g, camera_position) => {
+const group_stageselect_render = (g:group_t, camera_position:v2d_t) => {
   group_highlightable_render(g, camera_position);
 }
 
@@ -690,20 +690,20 @@ const group_stageselect_create = () => {
 }
 
 /* "Credits" label */
-const group_credits_init = (g) => {
+const group_credits_init = (g:group_t) => {
   //group_highlightable_init(g, "OPTIONS_CREDITS", 6);
   group_highlightable_init(g, "OPTIONS_CREDITS", 3);
 }
 
-const group_credits_release = (g) => {
+const group_credits_release = (g:group_t) => {
   group_highlightable_release(g);
 }
 
-const group_credits_is_highlighted = (g) => {
+const group_credits_is_highlighted = (g:group_t) => {
   return group_highlightable_is_highlighted(g);
 }
 
-const group_credits_update = (g) => {
+const group_credits_update = (g:group_t) => {
   /* base class */
   group_highlightable_update(g);
 
@@ -718,7 +718,7 @@ const group_credits_update = (g) => {
   }
 }
 
-const group_credits_render = (g, camera_position) => {
+const group_credits_render = (g:group_t, camera_position:v2d_t) => {
   group_highlightable_render(g, camera_position);
 }
 
@@ -728,20 +728,20 @@ const group_credits_create = () => {
 
 
 /* "Back" label */
-const group_back_init = (g) => {
+const group_back_init = (g:group_t) => {
   //group_highlightable_init(g, "OPTIONS_BACK", 7);
   group_highlightable_init(g, "OPTIONS_BACK", 4);
 }
 
-const group_back_release = (g) => {
+const group_back_release = (g:group_t) => {
   group_highlightable_release(g);
 }
 
-const group_back_is_highlighted = (g) => {
+const group_back_is_highlighted = (g:group_t) => {
   return group_highlightable_is_highlighted(g);
 }
 
-const group_back_update = (g) => {
+const group_back_update = (g:group_t) => {
   /* base class */
   group_highlightable_update(g);
 
@@ -756,7 +756,7 @@ const group_back_update = (g) => {
   }
 }
 
-const group_back_render = (g, camera_position) => {
+const group_back_render = (g:group_t, camera_position:v2d_t) => {
   group_highlightable_render(g, camera_position);
 }
 
