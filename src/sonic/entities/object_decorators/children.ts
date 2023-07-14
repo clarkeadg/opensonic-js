@@ -8,6 +8,7 @@ import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
 import { enemy_add_child, enemy_get_child, enemy_get_parent } from "./../enemy"
 import { object_vm_set_current_state } from "./../object_vm"
+import { player_t } from "./../player"
 
 export interface objectdecorator_children_t extends objectdecorator_t {
   object_name: string,
@@ -101,7 +102,7 @@ const release = (obj:objectmachine_t) => {
   //free(obj);
 }
 
-const update = (obj:objectmachine_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
   const dec:objectdecorator_t = <objectdecorator_t>obj;
   const decorated_machine:objectmachine_t = dec.decorated_machine;
   const me:objectdecorator_children_t = <objectdecorator_children_t>obj;

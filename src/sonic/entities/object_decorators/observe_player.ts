@@ -5,6 +5,7 @@ import { objectdecorator_t, get_object_instance } from "./base/objectdecorator"
 import { enemy_observe_player, enemy_observe_current_player, enemy_observe_active_player, enemy_get_observed_player } from "./../enemy"
 import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
+import { player_t } from "./../player"
 
 export interface observeplayerstrategy_t {
   player_name: string,
@@ -80,7 +81,7 @@ const release = (obj:objectmachine_t) => {
   //free(obj);
 }
 
-const update = (obj:objectmachine_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
   const dec:objectdecorator_t = <objectdecorator_t>obj;
   const decorated_machine:objectmachine_t = dec.decorated_machine;
   const me:objectdecorator_observeplayer_t = <objectdecorator_observeplayer_t>obj;
@@ -97,7 +98,7 @@ const render = (obj:objectmachine_t, camera_position:v2d_t) => {
   decorated_machine.render(decorated_machine, camera_position);
 }  
 
-const observe_player = (strategy:observeplayerstrategy_t, team:any, team_size:number) => {
+const observe_player = (strategy:observeplayerstrategy_t, team:player_t[], team_size:number) => {
 
   let player = null;
 
@@ -112,15 +113,15 @@ const observe_player = (strategy:observeplayerstrategy_t, team:any, team_size:nu
   enemy_observe_player(strategy.object, player);
 }
 
-const observe_current_player = (strategy:observeplayerstrategy_t, team:any, team_size:number) => {
+const observe_current_player = (strategy:observeplayerstrategy_t, team:player_t[], team_size:number) => {
   enemy_observe_current_player(strategy.object);
 }
 
-const observe_active_player = (strategy:observeplayerstrategy_t, team:any, team_size:number) => {
+const observe_active_player = (strategy:observeplayerstrategy_t, team:player_t[], team_size:number) => {
   enemy_observe_active_player(strategy.object);
 }
 
-const observe_all_players = (strategy:observeplayerstrategy_t, team:any, team_size:number) => {
+const observe_all_players = (strategy:observeplayerstrategy_t, team:player_t[], team_size:number) => {
   const observed_player = enemy_get_observed_player(strategy.object);
 
   for(let i=0; i<team_size; i++) {

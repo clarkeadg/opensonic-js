@@ -6,6 +6,7 @@ import { animation_t, sprite_get_animation } from "./../../core/sprite"
 import { actor_change_animation } from "./../actor"
 import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
+import { player_t } from "./../player"
 
 export interface objectdecorator_setanimation_t extends objectdecorator_t {
   anim: animation_t
@@ -45,7 +46,7 @@ const release = (obj:objectmachine_t) => {
   //free(obj);
 }
 
-const update = (obj:objectmachine_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {  
+const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {  
   const dec:objectdecorator_t = <objectdecorator_t>obj;
   const decorated_machine:objectmachine_t = dec.decorated_machine;
 

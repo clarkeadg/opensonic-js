@@ -7,6 +7,7 @@ import { player_hit } from "./../player"
 import { SH_WATERSHIELD, SH_THUNDERSHIELD, SH_FIRESHIELD, SH_ACIDSHIELD } from "./../player"
 import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
+import { player_t } from "./../player"
 
 export interface objectdecorator_hitplayer_t extends objectdecorator_t {
   should_hit_the_player: Function
@@ -51,7 +52,7 @@ const release = (obj:objectmachine_t) => {
   //free(obj);
 }
 
-const update = (obj:objectmachine_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
   const dec:objectdecorator_t = <objectdecorator_t>obj;
   const decorated_machine:objectmachine_t = dec.decorated_machine;
   const me:objectdecorator_hitplayer_t = <objectdecorator_hitplayer_t>obj;
@@ -71,11 +72,11 @@ const render = (obj:objectmachine_t, camera_position:v2d_t) => {
   decorated_machine.render(decorated_machine, camera_position);
 } 
 
-const hit_strategy = (p:any) => true
+const hit_strategy = (p:player_t) => true
 
-const burn_strategy = (p:any) => p.shield_type != SH_FIRESHIELD && p.shield_type != SH_WATERSHIELD
+const burn_strategy = (p:player_t) => p.shield_type != SH_FIRESHIELD && p.shield_type != SH_WATERSHIELD
 
-const shock_strategy = (p:any) => p.shield_type != SH_THUNDERSHIELD
+const shock_strategy = (p:player_t) => p.shield_type != SH_THUNDERSHIELD
 
-const acid_strategy = (p:any) => p.shield_type != SH_ACIDSHIELD
+const acid_strategy = (p:player_t) => p.shield_type != SH_ACIDSHIELD
 

@@ -5,6 +5,7 @@ import { objectdecorator_t, get_object_instance } from "./base/objectdecorator"
 import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
 import { level_add_to_score } from "./../../scenes/level"
+import { player_t } from "./../player"
 
 export interface objectdecorator_addtoscore_t extends objectdecorator_t {
   score: number
@@ -43,7 +44,7 @@ const release = (obj:objectmachine_t) => {
   //free(obj);
 }
 
-const update = (obj:objectmachine_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
   const dec:objectdecorator_t = <objectdecorator_t>obj;
   const decorated_machine:objectmachine_t = dec.decorated_machine;
   const me:objectdecorator_addtoscore_t = <objectdecorator_addtoscore_t>obj;

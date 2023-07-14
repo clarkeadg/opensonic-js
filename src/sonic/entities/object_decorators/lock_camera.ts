@@ -9,6 +9,7 @@ import { IF_NONE } from "./../../core/global"
 import { image_create, image_draw, image_line, image_clear, image_rgb } from "./../../core/image"
 import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
+import { player_t } from "./../player"
 import { level_lock_camera } from "./../../scenes/level"
 
 export interface objectdecorator_lockcamera_t extends objectdecorator_t {
@@ -68,7 +69,7 @@ const release = (obj:objectmachine_t) => {
   //free(obj);
 }
 
-const update = (obj:objectmachine_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
   const dec:objectdecorator_t = <objectdecorator_t>obj;
   const decorated_machine:objectmachine_t = dec.decorated_machine;
   const me:objectdecorator_lockcamera_t = <objectdecorator_lockcamera_t>obj;
