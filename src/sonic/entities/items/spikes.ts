@@ -1,4 +1,6 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t } from "./../player"
 import { v2d_t } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { sound_play, sound_is_playing } from "./../../core/audio"
@@ -63,7 +65,7 @@ const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   const me:spikes_t = <spikes_t>item;
   const dt = timer_get_delta();
 
@@ -102,7 +104,7 @@ const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
-const hittest = (player:any, rect:number[]) => {
+const hittest = (player:player_t, rect:number[]) => {
   const a = [];
   const b = [];
   const pl = player.actor;
@@ -115,7 +117,7 @@ const hittest = (player:any, rect:number[]) => {
   return bounding_box(a, rect);
 }
 
-const floor_strategy = (spikes:item_t, player:any) => {
+const floor_strategy = (spikes:item_t, player:player_t) => {
   let b = [];
   let feet;
   let act = spikes.actor;
@@ -129,7 +131,7 @@ const floor_strategy = (spikes:item_t, player:any) => {
   return hittest(player, b) && feet < (act.position.y - act.hot_spot.y + actor_image(act).height/2);
 }
 
-const ceiling_strategy = (spikes:item_t, player:any) => {
+const ceiling_strategy = (spikes:item_t, player:player_t) => {
   let b = [];
   let act = spikes.actor;
 
@@ -141,7 +143,7 @@ const ceiling_strategy = (spikes:item_t, player:any) => {
   return hittest(player, b);
 }
 
-const leftwall_strategy = (spikes:item_t, player:any) => {
+const leftwall_strategy = (spikes:item_t, player:player_t) => {
   let b = [];
   let act = spikes.actor;
 
@@ -153,7 +155,7 @@ const leftwall_strategy = (spikes:item_t, player:any) => {
   return hittest(player, b);
 }
 
-const rightwall_strategy = (spikes:item_t, player:any) => {
+const rightwall_strategy = (spikes:item_t, player:player_t) => {
   let b = [];
   let act = spikes.actor;
 
@@ -164,5 +166,3 @@ const rightwall_strategy = (spikes:item_t, player:any) => {
 
   return hittest(player, b);
 }
-
-

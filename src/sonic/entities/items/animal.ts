@@ -1,4 +1,6 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t } from "./../player"
 import { v2d_t } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { actor_create, actor_move, actor_platform_movement, actor_render, actor_destroy, actor_change_animation, actor_corners, actor_handle_clouds } from "./../actor"
@@ -47,7 +49,7 @@ const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   const me:animal_t = <animal_t>item;
   const act = item.actor;
   let up, down, left, right;

@@ -1,5 +1,6 @@
-
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t } from "./../player"
 import { v2d_t } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { sound_play } from "./../../core/audio"
@@ -48,7 +49,7 @@ const init = (item:item_t) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_DOOR", 0));
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   const me:door_t = <door_t>item;
   let act = item.actor;
   let speed = 2000.0;

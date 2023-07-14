@@ -1,6 +1,7 @@
-
 import { brick_list_t } from "./../brick"
 import { item_t, item_list_t, IS_IDLE, IS_DEAD, IT_ICON, IT_EXPLOSION, IT_CRUSHEDBOX } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t } from "./../player"
 import { v2d_t, v2d_add, v2d_new } from "./../../core/v2d"
 import { sprite_get_animation } from "./../../core/sprite"
 import { sound_play, music_play, music_load } from "./../../core/audio"
@@ -67,78 +68,78 @@ export const windshieldbox_create = () => {
   return itembox_create(windshieldbox_strategy, 15);
 }
 
-const lifebox_strategy = (item:item_t, player:any) => {
+const lifebox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
   player_set_lives( player_get_lives()+1 );
   level_override_music( soundfactory_get("1up") );
 }
 
-const ringbox_strategy = (item:item_t, player:any) => {
+const ringbox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
   player_set_rings( player_get_rings()+10 );
   sound_play( soundfactory_get("ring") );
 }
 
-const starbox_strategy = (item:item_t, player:any) => {
+const starbox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
   player.invincible = true;
   player.invtimer = 0;
   music_play( music_load("data/music/invincible.mp4"), false );
 }
 
-const speedbox_strategy = (item:item_t, player:any) => {
+const speedbox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
   player.got_speedshoes = true;
   player.speedshoes_timer = 0;
   music_play( music_load("data/music/speed.mp4"), false );
 }
 
-const glassesbox_strategy = (item:item_t, player:any) => {
+const glassesbox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
   player.got_glasses = true;
 }
 
-const shieldbox_strategy = (item:item_t, player:any) => {
+const shieldbox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
   player.shield_type = SH_SHIELD;
   sound_play( soundfactory_get("shield") );
 }
 
-const fireshieldbox_strategy = (item:item_t, player:any) => {
+const fireshieldbox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
   player.shield_type = SH_FIRESHIELD;
   sound_play( soundfactory_get("fire shield") );
 }
 
-const thundershieldbox_strategy = (item:item_t, player:any) => {
+const thundershieldbox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
   player.shield_type = SH_THUNDERSHIELD;
   sound_play( soundfactory_get("thunder shield") );
 }
 
-const watershieldbox_strategy = (item:item_t, player:any) => {
+const watershieldbox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
   player.shield_type = SH_WATERSHIELD;
   sound_play( soundfactory_get("water shield") );
 }
 
-const acidshieldbox_strategy = (item:item_t, player:any) => {
+const acidshieldbox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
   player.shield_type = SH_ACIDSHIELD;
   sound_play( soundfactory_get("acid shield") );
 }
 
-const windshieldbox_strategy = (item:item_t, player:any) => {
+const windshieldbox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
   player.shield_type = SH_WINDSHIELD;
   sound_play( soundfactory_get("wind shield") );
 }
 
-const trapbox_strategy = (item:item_t, player:any) => {
+const trapbox_strategy = (item:item_t, player:player_t) => {
   player_hit(player);
 }
 
-const emptybox_strategy = (item:item_t, player:any) => {
+const emptybox_strategy = (item:item_t, player:player_t) => {
   level_add_to_score(100);
 } 
 
@@ -170,7 +171,7 @@ const init = (item:item_t) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_ITEMBOX", me.anim_id));
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
 
   const act = item.actor;
   const me:itembox_t = <itembox_t>item;
@@ -211,7 +212,7 @@ const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const itembox_player_collision = (box:item_t, player:any) => {
+const itembox_player_collision = (box:item_t, player:player_t) => {
   /* fake bricks are created on top of
    * the item boxes. Therefore, boxes need to
    * be adjusted in order to handle collisions
@@ -238,5 +239,3 @@ const itembox_player_collision = (box:item_t, player:any) => {
   /* done! */
   return collided;
 }
-
-

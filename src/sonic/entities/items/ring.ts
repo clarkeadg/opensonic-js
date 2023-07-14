@@ -2,6 +2,8 @@ import { sound_play } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
 import { brick_list_t } from "./../brick"
 import { item_t, item_list_t, IS_DEAD } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t } from "./../player"
 import { actor_t, actor_create, actor_render, actor_destroy, actor_change_animation, actor_animation_finished, actor_collision, actor_move, actor_platform_movement } from "./../actor"
 import { sprite_get_animation } from "./../../core/sprite"
 import { timer_get_delta, timer_get_ticks } from "./../../core/timer"
@@ -59,7 +61,7 @@ const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
 
   const dt = timer_get_delta();
   const me:ring_t = <ring_t>item;

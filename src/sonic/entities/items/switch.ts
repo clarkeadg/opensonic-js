@@ -1,4 +1,6 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t } from "./../player"
 import { v2d_t } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { door_open, door_close } from "./door"
@@ -46,7 +48,7 @@ const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   const me:switch_t = <switch_t>item;
   let door:item_t = null;
   let teleporter:item_t = null;
@@ -89,7 +91,7 @@ const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
-const handle_logic = (item:item_t, other:item_t, team:any, team_size:number, stepin:Function, stepout:Function) => {
+const handle_logic = (item:item_t, other:item_t, team:player_t[], team_size:number, stepin:Function, stepout:Function) => {
   let nobody_is_pressing_me = true;
   const me:switch_t = <switch_t>item;
   const act = item.actor;
@@ -119,11 +121,11 @@ const handle_logic = (item:item_t, other:item_t, team:any, team_size:number, ste
   }
 }
 
-const stepin_nothing = (door:item_t, who:any) => {}
+const stepin_nothing = (door:item_t, who:player_t) => {}
 
 const stepout_nothing = (door:item_t) => {}
 
-const stepin_door = (door:item_t, who:any) => {
+const stepin_door = (door:item_t, who:player_t) => {
   door_open(door);
 }
 
@@ -131,14 +133,14 @@ const stepout_door = (door:item_t) => {
   door_close(door);
 }
 
-const stepin_teleporter = (teleporter:item_t, who:any) => {
+const stepin_teleporter = (teleporter:item_t, who:player_t) => {
   teleporter_activate(teleporter, who);
 }
 
 const stepout_teleporter = (teleporter:item_t) => {}
 
 /* returns true if the player has pressed the switch (item) */
-const pressed_the_switch = (item:item_t, player:any) => {
+const pressed_the_switch = (item:item_t, player:player_t) => {
   if (!item) return false;
   if (!player) return false;
 

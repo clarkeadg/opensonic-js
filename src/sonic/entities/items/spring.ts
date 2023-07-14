@@ -1,4 +1,6 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t } from "./../player"
 import { v2d_t } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { EPSILON, IF_HFLIP } from "./../../core/global"
@@ -79,7 +81,7 @@ const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   const me:spring_t = <spring_t>item;
   const dt = timer_get_delta();
 
@@ -107,17 +109,17 @@ const render = (item:item_t, camera_position:v2d_t) => {
 }
 
 /* activates if you jump on it */
-const classicspring_strategy = (item:item_t, player:any) => {
+const classicspring_strategy = (item:item_t, player:player_t) => {
   if(player.actor.speed.y >= 1.0 && !player.actor.carrying && !player.actor.carried_by)
     activate_spring(<spring_t>item, player);
 }
 
 /* activates when touched */
-const volatilespring_strategy = (item:item_t, player:any) => {
+const volatilespring_strategy = (item:item_t, player:player_t) => {
   activate_spring(<spring_t>item, player);
 } 
 
-const springfy_player = (player:any, strength:v2d_t) => {
+const springfy_player = (player:player_t, strength:v2d_t) => {
   const dt = timer_get_delta();
   let same_signal = [];
   let different_signal = [];
@@ -151,7 +153,7 @@ const springfy_player = (player:any, strength:v2d_t) => {
   }
 }
 
-const activate_spring = (spring:spring_t, player:any) => {
+const activate_spring = (spring:spring_t, player:player_t) => {
   const item:item_t = <item_t>spring;
 
   spring.is_bumping = true;
@@ -168,5 +170,3 @@ const activate_spring = (spring:spring_t, player:any) => {
     spring.bang_timer = 0.0;
   }
 } 
-
-

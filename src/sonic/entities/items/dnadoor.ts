@@ -1,4 +1,6 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t } from "./../player"
 import { v2d_t } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { sprite_get_animation } from "./../../core/sprite"
@@ -68,7 +70,7 @@ const init = (item:item_t) => {
   actor_change_animation(item.actor, sprite_get_animation(sprite_name, anim_id));
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   const me:dnadoor_t = <dnadoor_t>item;
   const act = item.actor;
   let it;
@@ -84,7 +86,7 @@ const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t
   for(let i=0; i<team_size; i++) {
     let player = team[i];
     if (player) {
-      if(!player.dying && !player.actor_carrying && !player.actor_carried_by && hittest(player, item)) {
+      if(!player.dying && !player.actor.carrying && !player.actor.carried_by && hittest(player, item)) {
         if(player.type == me.authorized_player_type) {
           item.obstacle = false;
           perfect_collision = actor_pixelperfect_collision(act, player.actor);
@@ -134,7 +136,7 @@ const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const hittest = (player:any, dnadoor:item_t) => {
+const hittest = (player:player_t, dnadoor:item_t) => {
   const a = [];
   const b = [];
   const offset = 3;
@@ -153,5 +155,3 @@ const hittest = (player:any, dnadoor:item_t) => {
 
   return bounding_box(a, b);
 }
-
-

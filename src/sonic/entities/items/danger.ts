@@ -1,4 +1,6 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t, player_hit } from "./../player"
 import { v2d_t } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { sprite_get_animation } from "./../../core/sprite"
@@ -27,7 +29,7 @@ export const verticalfiredanger_create = () => {
   return danger_create("SD_VERTICALFIREDANGER", can_defend_against_fire);
 }
 
-const danger_create = (sprite_name:string, player_is_vulnerable:any) => {
+const danger_create = (sprite_name:string, player_is_vulnerable:Function) => {
   const item:item_t = {
     init,
     release,
@@ -58,7 +60,7 @@ const init = (item:item_t) => {
   actor_change_animation(item.actor, sprite_get_animation(me.sprite_name, 0));
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   const me:danger_t = <danger_t>item;
   const act = item.actor;
 
@@ -67,7 +69,7 @@ const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t
     if (player) {
       if(!player.dying && !player.blinking && !player.invincible && actor_collision(act, player.actor)) {
         if(me.player_is_vulnerable(player))
-          player.hit(player);
+          player_hit(player);
       }
     }
   }
@@ -83,12 +85,10 @@ const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const always_vulnerable = (player:any) => {
+const always_vulnerable = (player:player_t) => {
   return true;
 }
 
-const can_defend_against_fire = (player:any) => {
+const can_defend_against_fire = (player:player_t) => {
   return (player.shield_type != SH_FIRESHIELD);
 }
-
-

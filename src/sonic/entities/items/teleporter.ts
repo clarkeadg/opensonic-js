@@ -1,4 +1,6 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t } from "./../player"
 import { brick_list_t } from "./../brick"
 import { sound_play } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
@@ -29,7 +31,7 @@ export const teleporter_create = () => {
   return item;
 }
 
-export const teleporter_activate = (teleporter:item_t, who:any) => {
+export const teleporter_activate = (teleporter:item_t, who:player_t) => {
   const me:teleporter_t = <teleporter_t>teleporter;
   const act = teleporter.actor;
 
@@ -58,7 +60,7 @@ const init = (item:item_t) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_TELEPORTER", 0));
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   const me:teleporter_t = <teleporter_t>item;
   const act = item.actor;
   const dt = timer_get_delta();
@@ -102,7 +104,7 @@ const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const teleport_player_to = (player:any, position:v2d_t) => {
+const teleport_player_to = (player:player_t, position:v2d_t) => {
   if (!player) return;
   player.actor.position = position;
   player.actor.speed = v2d_new(0,0);
@@ -117,5 +119,3 @@ const teleport_player_to = (player:any, position:v2d_t) => {
   player.at_loopfloortop = false;
   player.bring_to_back = false;
 }
-
-

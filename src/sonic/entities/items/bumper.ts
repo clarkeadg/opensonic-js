@@ -1,4 +1,6 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t } from "./../player"
 import { v2d_t, v2d_add, v2d_subtract, v2d_multiply, v2d_normalize, v2d_magnitude } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { sound_play } from "./../../core/audio"
@@ -33,7 +35,7 @@ const init = (item:item_t) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_BUMPER", 0));
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   const me:bumper_t = <bumper_t>item;
   const act = item.actor;
 
@@ -67,7 +69,7 @@ const release = (item:item_t) => {
   actor_destroy(item.actor);
 }
 
-const bump = (bumper:item_t, player:any) => {
+const bump = (bumper:item_t, player:player_t) => {
   /* law of conservation of linear momentum */
   const ec = 1.0; /* (coefficient of restitution == 1.0) => elastic collision */
   const mass_player = 1.0;
@@ -76,19 +78,19 @@ const bump = (bumper:item_t, player:any) => {
   let v0, approximation_speed, separation_speed;
   let act = bumper.actor;
 
-  v0 = player.actor_speed; /* initial speed of the player */
+  v0 = player.actor.speed; /* initial speed of the player */
   v0.x = (v0.x < 0) ? Math.min(-300, v0.x) : Math.max(300, v0.x);
 
   approximation_speed = v2d_multiply(
     v2d_normalize(
-      v2d_subtract(act.position, player.actor_position)
+      v2d_subtract(act.position, player.actor.position)
     ),
     v2d_magnitude(v0)
   );
 
   separation_speed = v2d_multiply(approximation_speed, ec);
 
-  player.actor_speed = v2d_multiply(
+  player.actor.speed = v2d_multiply(
     v2d_add(
       v0,
       v2d_multiply(separation_speed, -mass_ratio)
@@ -107,5 +109,3 @@ const bump = (bumper:item_t, player:any) => {
   player.climbing = false;
   player.spring = false;
 }
-
-

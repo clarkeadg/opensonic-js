@@ -1,4 +1,6 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t, player_attacking, player_bounce } from "./../player"
 import { v2d_t } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { sound_play } from "./../../core/audio"
@@ -70,7 +72,7 @@ const release = (item:item_t) => {
   set_state(item, null);
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   const me:animalprison_t = <animalprison_t>item;
   me.state.handle(me.state, item, team, team_size);
 }
@@ -127,7 +129,7 @@ const state_broken_new = () => {
   return base;
 }
 
-const state_idle_handle = (state:state_t, item:item_t, team:any, team_size:number) => {
+const state_idle_handle = (state:state_t, item:item_t, team:player_t[], team_size:number) => {
   const s:state_idle_t = <state_idle_t>state;
   const act = item.actor;
 
@@ -138,7 +140,7 @@ const state_idle_handle = (state:state_t, item:item_t, team:any, team_size:numbe
       s.being_hit = true;
       actor_change_animation(act, sprite_get_animation("SD_ENDLEVEL", 1));
       sound_play( soundfactory_get("boss hit") );
-      player.bounce(player);
+      player_bounce(player);
       player.actor.speed.x *= -0.5;
 
       if(++(s.hit_count) >= 3) /* 3 hits and you're done */
@@ -153,7 +155,7 @@ const state_idle_handle = (state:state_t, item:item_t, team:any, team_size:numbe
   }
 }
 
-const state_exploding_handle = (state:state_t, item:item_t, team:any, team_size:number) => {
+const state_exploding_handle = (state:state_t, item:item_t, team:player_t[], team_size:number) => {
   const s:state_exploding_t = <state_exploding_t>state;
   const act = item.actor;
   const dt = timer_get_delta();
@@ -178,7 +180,7 @@ const state_exploding_handle = (state:state_t, item:item_t, team:any, team_size:
     set_state(item, state_releasing_new());
 }
 
-const state_releasing_handle = (state:state_t, item:item_t, team:any, team_size:number) => {
+const state_releasing_handle = (state:state_t, item:item_t, team:player_t[], team_size:number) => {
   const act = item.actor;
 
   /* release the animals! */
@@ -198,11 +200,11 @@ const state_releasing_handle = (state:state_t, item:item_t, team:any, team_size:
   set_state(item, state_broken_new());
 }
 
-const state_broken_handle = (state:state_t, item:item_t, team:any, team_size:number) => {
+const state_broken_handle = (state:state_t, item:item_t, team:player_t[], team_size:number) => {
   ; /* do nothing */
 }
 
-const got_hit_by_player = (item:item_t, player:any) => {
+const got_hit_by_player = (item:item_t, player:player_t) => {
   if (!item || !player) return;
 
   const a = [];
@@ -220,5 +222,5 @@ const got_hit_by_player = (item:item_t, player:any) => {
   b[2] = b[0] + actor_image(act).width - 10;
   b[3] = b[1] + actor_image(act).height/2;
 
-  return (player.attacking(player) && bounding_box(a,b) && actor_pixelperfect_collision(act,pl));
+  return (player_attacking(player) && bounding_box(a,b) && actor_pixelperfect_collision(act,pl));
 }

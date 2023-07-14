@@ -1,11 +1,13 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t, player_hit } from "./../player"
 import { v2d_t } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { sprite_get_animation } from "./../../core/sprite"
 import { timer_get_delta } from "./../../core/timer"
 import { v2d_multiply, v2d_add } from "./../../core/v2d"
 import { actor_create, actor_render, actor_destroy, actor_collision, actor_change_animation } from "./../actor"
-import { IS_IDLE, IS_DEAD } from "./../item"
+import { IS_DEAD } from "./../item"
 
 export interface dangerouspower_t extends item_t {}
 
@@ -34,7 +36,7 @@ const init = (item:item_t) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_DANGPOWER", 0));
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   let sqrsize = 2, diff = -2;
   let dt = timer_get_delta();
   let act = item.actor;
@@ -49,7 +51,7 @@ const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t
   for(let i=0; i<team_size; i++) {
     let player = team[i];
     if(player && !player.dying && actor_collision(act, player.actor)) {
-      player.hit(player);
+      player_hit(player);
       item.state = IS_DEAD;
     }
   }

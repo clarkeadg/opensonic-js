@@ -1,4 +1,6 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t } from "./../player"
 import { v2d_t } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { find_closest_item } from "./util/itemutil"
@@ -52,7 +54,7 @@ const release = (item:item_t) => {
   actor_destroy(item.actor);
 } 
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
   const me:loop_t = <loop_t>item;
   const act = item.actor;
 
@@ -76,19 +78,19 @@ const render = (item:item_t, camera_position:v2d_t) => {
   actor_render(item.actor, camera_position);
 }
 
-const is_player_at_closest_loopfloortop = (item:item_t, item_list:item_list_t, player:any) => {
+const is_player_at_closest_loopfloortop = (item:item_t, item_list:item_list_t, player:player_t) => {
   let obj = find_closest_item(item, item_list, IT_LOOPFLOORTOP, null);
   return (obj != null) ? actor_collision(player.actor, obj.actor) : false;
 }
 
-const loopright_strategy = (player:any) => {
+const loopright_strategy = (player:player_t) => {
   //console.log('loopright_strategy')
   player.disable_wall |= PLAYER_WALL_LEFT;
   player.entering_loop = true;
   player.bring_to_back = false;
 }
 
-const looptop_strategy = (player:any) => {
+const looptop_strategy = (player:player_t) => {
   //console.log('looptop_strategy')
   if(!player.flying) {
     let b = (player.actor.speed.x > 0);
@@ -98,14 +100,14 @@ const looptop_strategy = (player:any) => {
   }
 }
 
-const loopleft_strategy = (player:any) => {
+const loopleft_strategy = (player:player_t) => {
  // console.log('loopleft_strategy')
   player.disable_wall |= PLAYER_WALL_RIGHT;
   player.entering_loop = true;
   player.bring_to_back = true;
 }
 
-const loopnone_strategy = (player:any) => {
+const loopnone_strategy = (player:player_t) => {
   //console.log('loopnone_strategy')
   if(!player.entering_loop) {
     player.disable_wall = PLAYER_WALL_NONE;
@@ -113,7 +115,7 @@ const loopnone_strategy = (player:any) => {
   }
 }
 
-const loopfloor_strategy = (player:any) => {
+const loopfloor_strategy = (player:player_t) => {
   //console.log('loopfloor_strategy')
   if(!player.at_loopfloortop && !player.flying) {
     player.disable_wall |= PLAYER_WALL_BOTTOM;
@@ -122,7 +124,7 @@ const loopfloor_strategy = (player:any) => {
   }
 }
 
-const loopfloornone_strategy = (player:any) => {
+const loopfloornone_strategy = (player:player_t) => {
   //console.log('loopfloornone_strategy')
   if(!player.at_loopfloortop && !player.entering_loop && !player.flying) {
    // console.log('111111')
@@ -131,7 +133,7 @@ const loopfloornone_strategy = (player:any) => {
   }
 }
 
-const loopfloortop_strategy = (player:any) => {
+const loopfloortop_strategy = (player:player_t) => {
   //console.log('loopfloortop_strategy')
   if(!player.flying) {
     if(player.disable_wall & PLAYER_WALL_BOTTOM) {
@@ -147,6 +149,4 @@ const loopfloortop_strategy = (player:any) => {
       player.bring_to_back = true;
     }
   }
-}  
-
-
+} 

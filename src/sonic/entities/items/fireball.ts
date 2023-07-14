@@ -1,4 +1,6 @@
 import { item_t, item_list_t } from "./../item"
+import { enemy_list_t } from "./../enemy"
+import { player_t, player_hit } from "./../player"
 import { v2d_t, v2d_new } from "./../../core/v2d"
 import { brick_list_t, brick_t } from "./../brick"
 import { sound_play } from "./../../core/audio"
@@ -37,7 +39,7 @@ const init = (item:item_t) => {
   actor_change_animation(item.actor, sprite_get_animation("SD_FIREBALL", 0));
 }
 
-const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:any) => {
+const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) => {
 
   const act = item.actor;
   const me:fireball_t = <fireball_t>item;
@@ -48,7 +50,7 @@ const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t
     if(!player.dying && actor_collision(act, player.actor)) {
       item.state = IS_DEAD;
       if(player.shield_type != SH_FIRESHIELD)
-        player.hit(player);
+        player_hit(player);
     }
   }
 
