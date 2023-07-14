@@ -10,6 +10,7 @@ import { object_compiler_compile } from "./object_compiler"
 import { v2d_t } from "../core/v2d"
 import { brick_list_t } from "./brick"
 import { item_list_t } from "./item"
+import { player_t } from "./player"
 
 export enum enemystate_t {
   ES_IDLE = 0,
@@ -115,7 +116,7 @@ export const enemy_destroy = (enemy:enemy_t):enemy_t => {
   return null;
 };
 
-export const enemy_update = (enemy:enemy_t, team:any, team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
+export const enemy_update = (enemy:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   if (!enemy) return;
   const machine = object_vm_get_reference_to_current_state(enemy.vm);       
   machine.update(machine, team, team_size, brick_list, item_list, object_list);

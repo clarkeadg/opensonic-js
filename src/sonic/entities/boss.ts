@@ -11,6 +11,7 @@ import { soundfactory_get } from "./../core/soundfactory"
 import { IT_EXPLOSION, IT_DANGPOWER, IT_FIREBALL } from "./item"
 import { dangerouspower_set_speed } from "./items/dangpower"
 import { brick_t, brick_list_t } from "./brick"
+import { player_t, player_attacking, player_hit } from "./player"
 import { actor_t, actor_create, actor_destroy, actor_image, actor_pixelperfect_collision, actor_change_animation, actor_move, actor_corners, actor_handle_clouds, actor_eightdirections_movement, actor_render, actor_animation_finished } from "./actor"
 import { level_kill_all_baddies, level_player, level_create_enemy, level_create_item, level_boss_battle } from "./../scenes/level"
 
@@ -107,7 +108,7 @@ export const boss_destroy = (boss:boss_t) => {
   //free(boss);
 }
 
-export const boss_update = (boss:boss_t, team:any, brick_list:brick_list_t) => {
+export const boss_update = (boss:boss_t, team:player_t[], brick_list:brick_list_t) => {
   let act = boss.actor;
   let up = null, upright = null, right = null, downright = null;
   let down = null, downleft = null, left = null, upleft = null;
@@ -183,18 +184,18 @@ export const boss_defeated = (boss:boss_t) => {
 }   
 
 
-const got_attacked = (boss:boss_t, team:any) => {
+const got_attacked = (boss:boss_t, team:player_t[]) => {
   let i;
 
   for(i=0; i<team.length && boss.state != BS_DEAD; i++) {
     if (team[i]) {
       if(actor_pixelperfect_collision(boss.actor, team[i].actor)) {
-          if(team[i].attacking(team[i]) || team[i].invincible) {
-              return true;
+          if(player_attacking(team[i]) || team[i].invincible) {
+            return true;
           }
           else {
-              team[i].hit(team[i]);
-              return false;
+            player_hit(team[i]);
+            return false;
           }
       }
     }
@@ -233,7 +234,7 @@ const render_details = (boss:boss_t, camera_position:v2d_t, before_boss_render:b
 
 /* boss programming */
 
-const bossprog_simpleboss = (boss:boss_t, team:any, brick_list:brick_list_t, corners: brick_t[]) => {
+const bossprog_simpleboss = (boss:boss_t, team:player_t[], brick_list:brick_list_t, corners: brick_t[]) => {
   let player = level_player();
 
   const t = timer_get_ticks()*.001;
@@ -292,7 +293,7 @@ const bossprog_simpleboss = (boss:boss_t, team:any, brick_list:brick_list_t, cor
   }
 }
 
-const bossprog_mechashadow = (boss:boss_t, team:any, brick_list:brick_list_t, corners: brick_t[]) => {
+const bossprog_mechashadow = (boss:boss_t, team:player_t[], brick_list:brick_list_t, corners: brick_t[]) => {
   let player = level_player();
 
   let act = boss.actor;
@@ -401,7 +402,7 @@ const bossprog_mechashadow = (boss:boss_t, team:any, brick_list:brick_list_t, co
   act.mirror = (boss.direction == BD_RIGHT) ? IF_NONE : IF_HFLIP;
 }
 
-const bossprog_simplebossex = (boss:boss_t, team:any, brick_list:brick_list_t, corners: brick_t[]) => {
+const bossprog_simplebossex = (boss:boss_t, team:player_t[], brick_list:brick_list_t, corners: brick_t[]) => {
   let player = level_player();
 
   const t = timer_get_ticks()*0.001;
@@ -469,7 +470,7 @@ const bossprog_simplebossex = (boss:boss_t, team:any, brick_list:brick_list_t, c
   }
 }
 
-const bossprog_mechashadowex = (boss:boss_t, team:any, brick_list:brick_list_t, corners: brick_t[]) => {
+const bossprog_mechashadowex = (boss:boss_t, team:player_t[], brick_list:brick_list_t, corners: brick_t[]) => {
   let player = level_player();
 
   let act = boss.actor;

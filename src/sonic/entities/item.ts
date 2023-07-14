@@ -1,7 +1,9 @@
 
 import { v2d_t } from "../core/v2d"
 import { PLAYERS } from "./../scenes/level"
-
+import { player_t } from "./player"
+import { enemy_list_t } from "./enemy"
+import { brick_list_t } from "./brick"
 import { animal_create } from "./items/animal"
 import { animalprison_create } from "./items/animalprison"
 import { bigring_create } from "./items/bigring"
@@ -497,7 +499,7 @@ export const item_destroy = function(item:item_t):item_t {
  * item_update()
  * Runs every cycle of the game to update an item
  */
-export const item_update = function(item:item_t, team:any, team_size:number, brick_list:any, item_list:item_list_t, enemy_list:any) {
+export const item_update = function(item:item_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, enemy_list:enemy_list_t) {
   item.update(item, team, team_size, brick_list, item_list, enemy_list);
 }
 
