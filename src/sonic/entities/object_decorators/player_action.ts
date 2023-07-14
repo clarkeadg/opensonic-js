@@ -68,7 +68,7 @@ const render = (obj:objectmachine_t, camera_position:v2d_t) => {
   decorated_machine.render(decorated_machine, camera_position);
 } 
 
-const springfy = (player:any) => {
+const springfy = (player:player_t) => {
   player.spring = true;
   player.spin = false;
 
@@ -79,7 +79,7 @@ const springfy = (player:any) => {
   player.is_fire_jumping = false;
 }
 
-const roll = (player:any) => {
+const roll = (player:player_t) => {
   player.spin = true;
   player.spring = false;
 
