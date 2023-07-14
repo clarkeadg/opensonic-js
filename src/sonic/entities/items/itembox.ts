@@ -7,7 +7,7 @@ import { sound_play, music_play, music_load } from "./../../core/audio"
 import { soundfactory_get } from "./../../core/soundfactory"
 import { level_add_to_score, level_create_item, level_player_id, level_override_music } from "./../../scenes/level"
 import { actor_create, actor_render, actor_destroy, actor_change_animation, actor_collision } from "./../actor"
-import { player_hit, player_set_lives, player_get_lives, player_set_rings, player_get_rings, player_attacking, SH_SHIELD, SH_FIRESHIELD, SH_THUNDERSHIELD, SH_WATERSHIELD, SH_ACIDSHIELD, SH_WINDSHIELD } from "./../player"
+import { player_hit, player_set_lives, player_get_lives, player_set_rings, player_get_rings, player_attacking, player_bounce, SH_SHIELD, SH_FIRESHIELD, SH_THUNDERSHIELD, SH_WATERSHIELD, SH_ACIDSHIELD, SH_WINDSHIELD } from "./../player"
 import { icon_change_animation } from "./icon"
 
 export interface itembox_t extends item_t {
@@ -189,7 +189,7 @@ const update = (item:item_t, team:any, team_size:number, brick_list:brick_list_t
 
           sound_play( soundfactory_get("destroy") );
           if(player.actor.is_jumping)
-            player.bounce(player);
+            player_bounce(player);
 
           me.on_destroy(item, player);
           item.state = IS_DEAD;
