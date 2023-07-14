@@ -39,6 +39,8 @@ export interface brick_t {
   brick_ref: brickdata_t,
   x: number,
   y: number,
+  sx: number,
+  sy: number,
   enabled: boolean,
   state: number,
   value: number[],

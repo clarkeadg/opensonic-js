@@ -270,7 +270,7 @@ const bossprog_simpleboss = (boss:boss_t, team:any, brick_list:brick_list_t, cor
     //console.log(t, lastthrow, lastthrow + (2.0/boss.initial_hp)*boss.hp)
     // throw enemies 
     if(t >= lastthrow + (2.0/boss.initial_hp)*boss.hp) {
-      let en_type = [ 0, 3 ];
+      let en_type = [ "0", "3" ];
       let en = level_create_enemy(en_type[ random(2) ], act.position);
       en.actor.speed.y = -150-(random(50));
       lastthrow = t;        

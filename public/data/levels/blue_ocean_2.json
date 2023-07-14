@@ -4,7 +4,6 @@
     "theme":        "data/themes/ocean.bricks.json",
     "bgtheme":      "data/themes/oceanb.bg.json",
     "spawn_point":  { "x": 40, "y": 3000 },
-    "xspawn_point":  { "x": 9845, "y": 2444 },
     "music":        "data/music/crusader.mp4",
     "dialogbox": [],
     "bricklist": [

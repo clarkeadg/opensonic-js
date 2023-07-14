@@ -4,10 +4,6 @@
     "theme":        "data/themes/ocean.bricks.json",
     "bgtheme":      "data/themes/oceanf.bg.json",    
     "spawn_point":  { "x": 40, "y": 2550},
-    "Xspawn_point":  { "x": 300, "y": 2046},
-    "Xspawn_point":  { "x": 1785, "y": 1743},
-    "Xspawn_point":  { "x": 3295, "y": 966},
-    "Xspawn_point":  { "x": 7618, "y": 741},
     "music":        "data/music/crusader.mp4",    
     "bricklist": [
         { "id": 25, "xpos": 3102, "ypos": 2714 },

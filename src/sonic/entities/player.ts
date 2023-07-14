@@ -1,4 +1,4 @@
-import { actor_t, actor_change_animation_frame, actor_corners, actor_corners_disable_detection, actor_corners_set_floor_priority, actor_corners_restore_floor_priority, actor_corners_ex, actor_create, actor_move, actor_render, actor_change_animation, actor_animation_finished, actor_image, actor_handle_clouds, actor_change_animation_speed_factor } from "./actor"
+import { actor_t, actor_destroy, actor_change_animation_frame, actor_corners, actor_corners_disable_detection, actor_corners_set_floor_priority, actor_corners_restore_floor_priority, actor_corners_ex, actor_create, actor_move, actor_render, actor_change_animation, actor_animation_finished, actor_image, actor_handle_clouds, actor_change_animation_speed_factor } from "./actor"
 import { brick_t, brick_list_t, BRK_OBSTACLE, BRB_CIRCULAR, BRB_FALL, BRS_IDLE, BRS_ACTIVE } from "./brick"
 import { IT_RING } from "./item"
 import { ring_start_bouncing } from "./items/ring"
@@ -200,7 +200,15 @@ export const player_create = (type:number) => {
  * player_destroy()
  * Destroys a player
  */
-export const player_destroy = () => {}
+export const player_destroy = (player:player_t) => {
+  for(let i=0; i<player.invstar.length; i++)
+    actor_destroy(player.invstar[i]);
+
+  actor_destroy(player.glasses);
+  actor_destroy(player.actor);
+  //free(player->name);
+  //free(player);
+}
 
 /**
  * player_update()
