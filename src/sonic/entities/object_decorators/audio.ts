@@ -9,6 +9,7 @@ import { level_restore_music } from "./../../scenes/level"
 import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
 import { player_t } from "./../player"
+import { enemy_list_t } from "./../enemy"
 
 export interface audiostrategy_t {
   update: Function
@@ -68,7 +69,7 @@ const release = (obj:objectmachine_t) => {
   //free(obj);
 }
 
-const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   const dec:objectdecorator_t = <objectdecorator_t>obj;
   const decorated_machine:objectmachine_t = dec.decorated_machine;
   const me:objectdecorator_audio_t = <objectdecorator_audio_t>obj;

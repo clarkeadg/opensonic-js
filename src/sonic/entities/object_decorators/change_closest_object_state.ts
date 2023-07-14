@@ -1,4 +1,3 @@
-
 import { v2d_t } from "../../core/v2d"
 import { objectmachine_t } from "./base/objectmachine"
 import { objectdecorator_t, get_object_instance } from "./base/objectdecorator"
@@ -8,6 +7,7 @@ import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
 import { object_vm_set_current_state } from "./../object_vm"
 import { player_t } from "./../player"
+import { enemy_list_t } from "./../enemy"
 
 export interface objectdecorator_changeclosestobjectstate_t extends objectdecorator_t {
   object_name: string,
@@ -49,7 +49,7 @@ const release = (obj:objectmachine_t) => {
   //free(obj);
 }
 
-const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   const dec:objectdecorator_t = <objectdecorator_t>obj;
   const decorated_machine:objectmachine_t = dec.decorated_machine;
   const me:objectdecorator_changeclosestobjectstate_t = <objectdecorator_changeclosestobjectstate_t>obj;

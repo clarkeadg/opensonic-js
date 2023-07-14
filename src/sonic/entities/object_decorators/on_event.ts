@@ -9,7 +9,7 @@ import { brick_list_t, BRK_NONE, BRK_OBSTACLE } from "./../brick"
 import { item_list_t } from "./../item"
 import { actor_corners, actor_pixelperfect_collision, actor_image, actor_animation_finished } from "./../actor"
 import { player_t, SH_NONE, SH_SHIELD, SH_FIRESHIELD, SH_THUNDERSHIELD, SH_WATERSHIELD, SH_ACIDSHIELD, SH_WINDSHIELD, player_attacking } from "./../player"
-import { enemy_get_observed_player } from "./../enemy"
+import { enemy_get_observed_player, enemy_t, enemy_list_t } from "./../enemy"
 import { object_vm_set_current_state } from "./../object_vm"
 
 export interface objectdecorator_onevent_t extends objectdecorator_t {
@@ -158,7 +158,7 @@ const release = (obj:objectmachine_t) => {
   //free(obj);
 }
 
-const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   const dec:objectdecorator_t = <objectdecorator_t>obj;
   const decorated_machine:objectmachine_t = dec.decorated_machine;
   const me:objectdecorator_onevent_t = <objectdecorator_onevent_t>obj;
@@ -202,7 +202,7 @@ const ontimeout_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const ontimeout_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const ontimeout_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   const x:ontimeout_t = <ontimeout_t>event;
 
   x.timer += timer_get_delta();
@@ -239,7 +239,7 @@ const oncollision_release = (event:eventstrategy_t) => {
   //free(e.target_name);
 }
 
-const oncollision_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const oncollision_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   const x:oncollision_t = <oncollision_t>event;
 
   for(let it = object_list; it != null; it = it.next) {
@@ -274,7 +274,7 @@ const onanimationfinished_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const onanimationfinished_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const onanimationfinished_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   return actor_animation_finished(object.actor);
 }
 
@@ -302,7 +302,7 @@ const onrandomevent_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const onrandomevent_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const onrandomevent_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   var r = 100000 * (<onrandomevent_t>event).probability;
   return r > random(100000);
 }
@@ -329,7 +329,7 @@ const onplayercollision_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const onplayercollision_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const onplayercollision_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   const player = enemy_get_observed_player(object);
   return actor_pixelperfect_collision(object.actor, player.actor);
 }
@@ -356,7 +356,7 @@ const onplayerattack_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const onplayerattack_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const onplayerattack_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   const player = enemy_get_observed_player(object);
   return player_attacking(player) && actor_pixelperfect_collision(object.actor, player.actor);
 }
@@ -388,7 +388,7 @@ const onplayerrectcollision_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const onplayerrectcollision_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const onplayerrectcollision_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   const me:onplayerrectcollision_t = <onplayerrectcollision_t>event;
   const act = object.actor;
   const player = enemy_get_observed_player(object);
@@ -434,7 +434,7 @@ const onplayershield_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const onplayershield_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const onplayershield_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   const me:onplayershield_t = <onplayershield_t>event;
   const player = enemy_get_observed_player(object);
 
@@ -463,7 +463,7 @@ const onbrickcollision_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const onbrickcollision_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const onbrickcollision_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   let sqrsize = 1, diff = 0;
   const act = object.actor;
   let up, upright, right, downright, down, downleft, left, upleft;
@@ -504,7 +504,7 @@ const onfloorcollision_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const onfloorcollision_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const onfloorcollision_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   let sqrsize = 1, diff = 0;
   const act = object.actor;
   let up, upright, right, downright, down, downleft, left, upleft;
@@ -540,7 +540,7 @@ const onceilingcollision_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const onceilingcollision_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const onceilingcollision_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   let sqrsize = 1, diff = 0;
   const act = object.actor;
   let up, upright, right, downright, down, downleft, left, upleft;
@@ -576,7 +576,7 @@ const onleftwallcollision_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const onleftwallcollision_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const onleftwallcollision_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   let sqrsize = 1, diff = 0;
   const act = object.actor;
   let up, upright, right, downright, down, downleft, left, upleft;
@@ -611,7 +611,7 @@ const onrightwallcollision_release = (event:eventstrategy_t) => {
   ; /* empty */
 }
 
-const onrightwallcollision_should_trigger_event = (event:eventstrategy_t, object:any, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const onrightwallcollision_should_trigger_event = (event:eventstrategy_t, object:enemy_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   let sqrsize = 1, diff = 0;
   const act = object.actor;
   let up, upright, right, downright, down, downleft, left, upleft;

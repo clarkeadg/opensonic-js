@@ -1,4 +1,5 @@
 import { logfile_message, logfile_fatal_error } from "./../core/logfile"
+import { enemy_t } from "./enemy"
 import { object_vm_create_state, object_vm_set_current_state, object_vm_get_reference_to_current_state } from "./object_vm"
 import { objectmachine_t } from "./object_decorators/base/objectmachine"
 import { objectdecorator_addrings_new } from "./object_decorators/add_rings"
@@ -136,7 +137,7 @@ export const object_compiler_compile = (obj:any, script:any) => {
   return obj;
 }  
   
-function traverse_object(stmt:any, object:any) {
+function traverse_object(stmt:any, object:enemy_t) {
   let e = object;
   let id = stmt;
   let param_list = stmt;

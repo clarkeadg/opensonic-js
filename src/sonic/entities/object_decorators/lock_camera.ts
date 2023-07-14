@@ -1,8 +1,7 @@
-
 import { v2d_t } from "../../core/v2d"
 import { objectmachine_t } from "./base/objectmachine"
 import { objectdecorator_t, get_object_instance } from "./base/objectdecorator"
-import { enemy_get_observed_player } from "./../enemy"
+import { enemy_get_observed_player, enemy_list_t } from "./../enemy"
 import { bounding_box } from "./../../core/util"
 import { video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../../core/video"
 import { IF_NONE } from "./../../core/global"
@@ -69,7 +68,7 @@ const release = (obj:objectmachine_t) => {
   //free(obj);
 }
 
-const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   const dec:objectdecorator_t = <objectdecorator_t>obj;
   const decorated_machine:objectmachine_t = dec.decorated_machine;
   const me:objectdecorator_lockcamera_t = <objectdecorator_lockcamera_t>obj;

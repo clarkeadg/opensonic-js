@@ -146,7 +146,7 @@ export interface item_list_t {
  * Creates a new item
  */
 export const item_create = function(type:number):item_t {
-  let item:any = null;
+  let item:item_t = null;
 
   switch(type) {
     case IT_RING:

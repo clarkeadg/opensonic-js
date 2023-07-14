@@ -6,7 +6,7 @@ import { v2d_new, v2d_add } from "./../../core/v2d"
 import { level_create_enemy } from "./../../scenes/level"
 import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
-import { enemy_add_child, enemy_get_child, enemy_get_parent } from "./../enemy"
+import { enemy_add_child, enemy_get_child, enemy_get_parent, enemy_list_t } from "./../enemy"
 import { object_vm_set_current_state } from "./../object_vm"
 import { player_t } from "./../player"
 
@@ -102,7 +102,7 @@ const release = (obj:objectmachine_t) => {
   //free(obj);
 }
 
-const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:any) => {
+const update = (obj:objectmachine_t, team:player_t[], team_size:number, brick_list:brick_list_t, item_list:item_list_t, object_list:enemy_list_t) => {
   const dec:objectdecorator_t = <objectdecorator_t>obj;
   const decorated_machine:objectmachine_t = dec.decorated_machine;
   const me:objectdecorator_children_t = <objectdecorator_children_t>obj;
