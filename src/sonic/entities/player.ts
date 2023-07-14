@@ -1,7 +1,7 @@
-
-import { actor_change_animation_frame, actor_corners, actor_corners_disable_detection, actor_corners_set_floor_priority, actor_corners_restore_floor_priority, actor_corners_ex, actor_create, actor_move, actor_render, actor_change_animation, actor_animation_finished, actor_image, actor_handle_clouds, actor_change_animation_speed_factor } from "./actor"
-import { BRB_DEFAULT, BRB_CIRCULAR, BRB_BREAKABLE, BRB_FALL, BRS_IDLE, BRS_DEAD, BRS_ACTIVE } from "./brick"
+import { actor_t, actor_change_animation_frame, actor_corners, actor_corners_disable_detection, actor_corners_set_floor_priority, actor_corners_restore_floor_priority, actor_corners_ex, actor_create, actor_move, actor_render, actor_change_animation, actor_animation_finished, actor_image, actor_handle_clouds, actor_change_animation_speed_factor } from "./actor"
+import { brick_t, brick_list_t, BRK_OBSTACLE, BRB_CIRCULAR, BRB_FALL, BRS_IDLE, BRS_ACTIVE } from "./brick"
 import { IT_RING } from "./item"
+import { ring_start_bouncing } from "./items/ring"
 import { sound_play, sound_is_playing } from "./../core/audio"
 import { soundfactory_get } from "./../core/soundfactory"
 import { input_create_user, input_button_up, input_button_down, input_button_pressed, input_simulate_button_down, IB_UP, IB_DOWN, IB_LEFT, IB_RIGHT, IB_FIRE1 } from "./../core/input"
@@ -9,17 +9,12 @@ import { sprite_get_animation } from "./../core/sprite"
 import { image_create, image_clear } from "./../core/image"
 import { logfile_message } from "./../core/logfile"
 import { timer_get_delta, timer_get_ticks } from "./../core/timer"
-import { v2d_new, v2d_add, v2d_subtract, v2d_rotate, v2d_multiply, v2d_magnitude } from "./../core/v2d"
+import { v2d_t, v2d_new, v2d_add, v2d_subtract, v2d_rotate, v2d_multiply, v2d_magnitude } from "./../core/v2d"
 import { PI, IF_HFLIP, IF_NONE, EPSILON } from "./../core/global"
 import { random, clip, bounding_box, old_school_angle } from "./../core/util"
 import { level_editmode, level_brick_move_actor, level_override_music, level_gravity, level_size, level_create_particle, level_create_item } from "./../scenes/level"
 
 /* Constants */
-const NATURAL_ANGLE     =  0;
-const LOCKACCEL_NONE    =  0;
-const LOCKACCEL_LEFT    =  1;
-const LOCKACCEL_RIGHT   =  2;
-
 export const PLAYER_INITIAL_LIVES      =  5;
 export const PLAYER_MAX_INVSTAR        =  5;
 export const PLAYER_WALL_NONE          =  0;
@@ -47,89 +42,151 @@ export const SH_WATERSHIELD            =  4; /* water shield */
 export const SH_ACIDSHIELD             =  5; /* acid shield */
 export const SH_WINDSHIELD             =  6; /* wind shield */
 
+/* player structure */
+export interface player_t {
+  /* general */
+  name: string,
+  type: number,  
+  actor: actor_t,
+  disable_movement: boolean,
+  in_locked_area: boolean,
+  at_some_border: boolean,
+  
+  /* movement data */
+  spin: boolean,
+  spin_dash: boolean,
+  braking: boolean,
+  flying: boolean,
+  climbing: boolean,
+  landing: boolean,
+  spring: boolean,
+  is_fire_jumping: boolean, /* am i jumping because IB_FIRE1 was pressed? */
+  on_moveable_platform: boolean,
+  lock_accel: number,
+  flight_timer: number,
+  disable_jump_for: number, /* disable jumping for how long? */
+
+  /* got hurt? */
+  getting_hit: boolean, /* getting_hit gets FALSE if the player touches the ground */
+  blinking: boolean,
+  dying: boolean,
+  dead: boolean,
+  blink_timer: number, /* if the player is blinking, then it can't be hurt anymore */
+  death_timer: number,
+  
+  /* glasses */
+  got_glasses: boolean,
+  glasses: actor_t,
+
+  /* shields */
+  shield_type: number,
+  shield: actor_t,
+
+  /* invincibility */
+  invincible: boolean
+  invtimer: number,
+  invstar: actor_t[],
+
+  /* speed shoes */
+  got_speedshoes: boolean,
+  speedshoes_timer: number,
+
+  /* sonic loops (PLAYER_WALL_*) */
+  disable_wall: number,
+  entering_loop: boolean,
+  at_loopfloortop: boolean,
+  bring_to_back: boolean
+}
+
 /* private vars */
+const NATURAL_ANGLE     =  0;
+const LOCKACCEL_NONE    =  0;
+const LOCKACCEL_LEFT    =  1;
+const LOCKACCEL_RIGHT   =  2;
+let rings:number;
+let hundred_rings:number;
+let lives:number = 0;
+let score:number = 0;
 
-let rings;
-let hundred_rings;
-let lives = 0;
-let score = 0;
+/**
+ * player_create()
+ * Creates a player
+ */
+export const player_create = (type:number) => {
+  logfile_message(`player_create(${type})`);
 
-export const player_create = (type) => {
-  let i;
-  let p = {};
-
-  logfile_message("player_create(%d)", type);
-
-  switch(type) {
-      case PL_SONIC: p.name = "Surge"; break;
-      case PL_TAILS: p.name = "Neon"; break;
-      case PL_KNUCKLES: p.name = "Charge"; break;
-      default: p.name = "Unknown"; break;
+  const p:player_t = {
+    name: "Unknown",
+    type: type,
+    actor: actor_create(),
+    disable_movement: false,
+    in_locked_area: false,
+    at_some_border: false,
+    spin: false,
+    spin_dash: false,
+    braking: false,
+    flying: false,
+    climbing: false,
+    landing: false,
+    spring: false,
+    is_fire_jumping: false,
+    getting_hit: false,
+    dying: false,
+    dead: false,
+    blinking: false,
+    on_moveable_platform: false,
+    lock_accel: LOCKACCEL_NONE,
+    flight_timer: 0.0,
+    blink_timer: 0.0,
+    death_timer: 0.0,
+    disable_jump_for: 0.0,
+    glasses: actor_create(),
+    got_glasses: false,
+    shield: actor_create(),
+    shield_type: SH_NONE,
+    invincible: false,
+    invtimer: 0,
+    invstar: [],
+    got_speedshoes: false,
+    speedshoes_timer: 0,
+    disable_wall: PLAYER_WALL_NONE,
+    entering_loop: false,
+    at_loopfloortop: false,
+    bring_to_back: false
   }
-
-  p.type = type;
-  p.actor = actor_create();
-  p.disable_movement = false;
-  p.in_locked_area = false;
-  p.at_some_border = false;
-  p.attacking = player_attacking;
-  p.bounce = player_bounce;
-
-  p.spin = p.spin_dash = p.braking = p.flying = p.climbing = p.landing = p.spring = false;
-  p.is_fire_jumping = false;
-  p.getting_hit = p.dying = p.dead = p.blinking = false;
-  p.on_moveable_platform = false;
-  p.lock_accel = LOCKACCEL_NONE;
-  p.flight_timer = p.blink_timer = p.death_timer = 0.0;
-  p.disable_jump_for = 0.0;
-
-  p.glasses = actor_create();
-  p.got_glasses = true;
-
-  p.shield = actor_create();
-  p.shield_type = SH_NONE;
-
-  p.invincible = false;
-  p.invtimer = 0;
-  p.invstar = [];
-  for(i=0; i<PLAYER_MAX_INVSTAR; i++) {
+  
+  for(let i=0; i<PLAYER_MAX_INVSTAR; i++) {
     p.invstar[i] = actor_create();
-    p.invstar[i] = actor_change_animation(p.invstar[i], sprite_get_animation("SD_INVSTAR", 0));
-  }
-
-  p.got_speedshoes = false;
-  p.speedshoes_timer = 0;
-
-  p.disable_wall = PLAYER_WALL_NONE;
-  p.entering_loop = false;
-  p.at_loopfloortop = false;
-  p.bring_to_back = false;
+    actor_change_animation(p.invstar[i], sprite_get_animation("SD_INVSTAR", 0));
+  }  
 
   switch(p.type) {
     case PL_SONIC:
+      p.name = "Surge";
       p.actor.acceleration = 250;
       p.actor.maxspeed = 700;
       //p.actor.jump_strength = 400;
       p.actor.jump_strength = 450;
       p.actor.input = input_create_user();
-
-      p.actor = actor_change_animation( p.actor, sprite_get_animation(get_sprite_id(PL_SONIC), 0) );
+      actor_change_animation( p.actor, sprite_get_animation(get_sprite_id(PL_SONIC), 0) );
       break;
 
     case PL_TAILS:
+      p.name = "Neon";   
       p.actor.acceleration = 200;
       p.actor.maxspeed = 600;
       p.actor.jump_strength = 360;
       p.actor.input = input_create_user();
-      p.actor = actor_change_animation( p.actor, sprite_get_animation(get_sprite_id(PL_TAILS), 0) );
+      actor_change_animation( p.actor, sprite_get_animation(get_sprite_id(PL_TAILS), 0) );
       break;
 
     case PL_KNUCKLES:
+      p.name = "Charge";  
       p.actor.acceleration = 200;
       p.actor.maxspeed = 600;
       p.actor.jump_strength = 360;
       p.actor.input = input_create_user();
-      p.actor = actor_change_animation( p.actor, sprite_get_animation(get_sprite_id(PL_KNUCKLES), 0) );
+      actor_change_animation( p.actor, sprite_get_animation(get_sprite_id(PL_KNUCKLES), 0) );
       break;     
   }
 
@@ -139,11 +196,19 @@ export const player_create = (type) => {
   return p;
 }
 
+/**
+ * player_destroy()
+ * Destroys a player
+ */
 export const player_destroy = () => {}
 
-export const player_update = (player, team, brick_list) => {
+/**
+ * player_update()
+ * Updates the player
+ */
+export const player_update = (player:player_t, team:player_t[], brick_list:brick_list_t) => {
 
-  let act = player.actor;
+  const act = player.actor;
 
   //console.log(act.position.x, act.position.y)
 
@@ -158,16 +223,20 @@ export const player_update = (player, team, brick_list) => {
 
   if(player.disable_movement) {
     if(player.spin)
-      player.actor = actor_change_animation(player.actor, sprite_get_animation(get_sprite_id(player.type), 3));
+      actor_change_animation(player.actor, sprite_get_animation(get_sprite_id(player.type), 3));
     else if(player.spring)
-      player.actor = actor_change_animation(player.actor, sprite_get_animation(get_sprite_id(player.type), 13));
+      actor_change_animation(player.actor, sprite_get_animation(get_sprite_id(player.type), 13));
   } else {
     actor_move(act, player_platform_movement(player, team, brick_list, level_gravity()));
   }
   return player;
 }
 
-export const player_render = (player, camera_position) => {
+/**
+ * player_render()
+ * Rendering function
+ */
+export const player_render = (player:player_t, camera_position:v2d_t) => {
 
   if (!player) return;
 
@@ -330,8 +399,15 @@ export const player_render = (player, camera_position) => {
   //actor_render_corners(player, 2, -2, camera_position);
 }
 
-/* this is the big kahuna that does all the player movement tricky stuff */
-export const player_platform_movement = (player, team, brick_list, gravity) => {
+/**
+ * player_platform_movement()
+ * Platform movement. Returns
+ * a delta_space vector.
+ *
+ * Note: the actor's hot spot must
+ * be defined on its feet.
+ */
+export const player_platform_movement = (player:player_t, team:player_t[], brick_list:brick_list_t, gravity:number) => {
 
   let act = player.actor;
   let sprite_id = get_sprite_id(player.type);
@@ -419,7 +495,7 @@ export const player_platform_movement = (player, team, brick_list, gravity) => {
     player.blinking = false;
     player.death_timer += dt;
     player.dead = (player.death_timer >= 2.5);
-    act = actor_change_animation(act, sprite_get_animation(sprite_id, 8));
+    actor_change_animation(act, sprite_get_animation(sprite_id, 8));
     return v2d_new(0, act.speed.y*dt + 0.5*gravity*dt*dt);
   }
   else if(player.dead)
@@ -482,7 +558,7 @@ export const player_platform_movement = (player, team, brick_list, gravity) => {
       act.carried_by.carrying = null;
       act.carried_by = null;
     }
-    else if((brick_down && brick_down.brick_ref.angle == 0 && parseInt(car.speed.y,10) >= 5) || player.getting_hit || player.dying || player.dead) { /* what should I do? */
+    else if((brick_down && brick_down.brick_ref.angle == 0 && car.speed.y >= 5) || player.getting_hit || player.dying || player.dead) { /* what should I do? */
       /* put me down! */
       act.position = v2d_new(act.carried_by.position.x, act.carried_by.position.y);
       act.carried_by.carrying = null;
@@ -494,7 +570,7 @@ export const player_platform_movement = (player, team, brick_list, gravity) => {
       act.speed = v2d_new(0,0);
       act.mirror = car.mirror;
       act.angle = 0;
-      act = actor_change_animation(act, sprite_get_animation(sprite_id, 25));
+      actor_change_animation(act, sprite_get_animation(sprite_id, 25));
       act.position = v2d_subtract(v2d_add(car.position, offset), act.carry_offset);
       return v2d_new(0,0);
     }
@@ -528,7 +604,7 @@ export const player_platform_movement = (player, team, brick_list, gravity) => {
 
   /* disable spring mode */
   if(player.spring) {
-    if((brick_down && parseInt(act.speed.y,10) >= 0) || player.flying || player.climbing)
+    if((brick_down && act.speed.y >= 0) || player.flying || player.climbing)
       player.spring = false;
   }
 
@@ -945,7 +1021,7 @@ export const player_platform_movement = (player, team, brick_list, gravity) => {
 
         // (0-90) slope
         else if(ang > 0 && ang < 90) {
-          feet.y = parseInt(brick_tmp.y + brick_tmp.brick_ref.image.height - (act.position.x-brick_tmp.x)*Math.tan(act.angle),10);
+          feet.y = brick_tmp.y + brick_tmp.brick_ref.image.height - (act.position.x-brick_tmp.x)*Math.tan(act.angle);
           if(act.speed.x<0) feet.y += 2.0;
           act.position.y = feet.y+diff;
           if(!(act.mirror & IF_HFLIP)) friction = 0.2;
@@ -1078,7 +1154,7 @@ export const player_platform_movement = (player, team, brick_list, gravity) => {
     }
     else if(input_button_down(act.input, IB_RIGHT) && !input_button_down(act.input, IB_LEFT) && !player.spin && !player.braking && !player.landing && !player.getting_hit && player.lock_accel != LOCKACCEL_RIGHT && !at_right_border) {
         if(!act.ignore_horizontal && (act.is_jumping || player.spring || is_walking || !input_button_down(act.input, IB_DOWN))) {
-            act.mirror = false;
+            act.mirror = 0;
             friction = (act.speed.x < 0) ? -1.0 : friction;
             if(act.speed.x <= maxspeed*1.1)
                 act.speed.x = Math.min(act.speed.x + (1.0-friction)*act.acceleration*dt, maxspeed);
@@ -1176,7 +1252,7 @@ export const player_platform_movement = (player, team, brick_list, gravity) => {
 
                 // pick up: let's carry someone...
                 for(i=0; i<team.length && act.carrying == null; i++) {
-                    if(team[i] != player && parseInt(act.speed.y,10) <= 0) {
+                    if(team[i] != player && act.speed.y <= 0) {
                         let ra = [ team[i].actor.position.x+actor_image(team[i].actor).width*0.3, team[i].actor.position.y, team[i].actor.position.x+actor_image(team[i].actor).width*0.7, team[i].actor.position.y+actor_image(team[i].actor).height*0.2 ];
                         let rb = [ act.position.x+actor_image(act).width*0.3, act.position.y+actor_image(act).height*0.7, act.position.x+actor_image(act).width*0.7, act.position.y+actor_image(act).height ];
                         let collision = bounding_box(ra, rb);
@@ -1211,7 +1287,7 @@ export const player_platform_movement = (player, team, brick_list, gravity) => {
         if(player.flying) {
             let turning = (input_button_down(act.input, IB_LEFT) && act.speed.x > 0) || (input_button_down(act.input, IB_RIGHT) && act.speed.x < 0);
             let floor = (brick_down && Math.abs(brick_down.brick_ref.angle*PI/180.0 - NATURAL_ANGLE) < EPSILON);
-            turning += (act.animation == sprite_get_animation(sprite_id, 21)) && !actor_animation_finished(act);
+            turning = (act.animation == sprite_get_animation(sprite_id, 21)) && !actor_animation_finished(act);
 
             // i'm flying...
             if(!floor && act.animation != sprite_get_animation(sprite_id, 19) && !player.landing) {
@@ -1348,7 +1424,7 @@ export const player_platform_movement = (player, team, brick_list, gravity) => {
   /* almost done... */
   player.at_some_border = false;
   if(animation) {
-    act = actor_change_animation(act, animation);
+    actor_change_animation(act, animation);
   }
   if(Math.abs(act.speed.x) < 4) {
     player.braking = false;
@@ -1365,9 +1441,14 @@ export const player_platform_movement = (player, team, brick_list, gravity) => {
   return ds;
 }
 
-export const player_hit = (player) => {
+/**
+ * player_hit()
+ * Hits a player. If it has no rings, then
+ * it must die
+ */
+export const player_hit = (player:player_t) => {
   let act = player.actor;
-  let ring;
+  let ring
   let i;
   let get_hit = false;
 
@@ -1384,12 +1465,12 @@ export const player_hit = (player) => {
       get_hit = true;
       for(i=0; i<Math.min(player_get_rings(), 15); i++) {
         ring = level_create_item(IT_RING, act.position);
+        ring_start_bouncing(ring);
 
         // start bouncing
-        ring.is_moving = true;
-        ring.actor.speed.x = ring.actor.maxspeed * ((random(100))-50)/100;
-        ring.actor.speed.y = -ring.actor.jump_strength + (random(ring.actor.jump_strength));
-
+        //ring.is_moving = true;
+        //ring.actor.speed.x = ring.actor.maxspeed * ((random(100))-50)/100;
+        //ring.actor.speed.y = -ring.actor.jump_strength + (random(ring.actor.jump_strength));
       }
       player_set_rings(0);
       sound_play(soundfactory_get("ringless"));
@@ -1413,7 +1494,11 @@ export const player_hit = (player) => {
   }
 }
 
-export const player_kill = (player) => {
+/**
+ * player_kill()
+ * Kills a player
+ */
+export const player_kill = (player:player_t) => {
   if(!player.dying) {
     drop_glasses(player);
     player.shield_type = SH_NONE;
@@ -1431,7 +1516,11 @@ export const player_kill = (player) => {
   }
 }
 
-export const player_bounce = (player) => {
+/**
+ * player_bounce()
+ * Bounces
+ */
+export const player_bounce = (player:player_t) => {
   input_simulate_button_down(player.actor.input, IB_FIRE1);
   player.spring = false;
   player.actor.speed.y = -player.actor.jump_strength;
@@ -1440,30 +1529,56 @@ export const player_bounce = (player) => {
   player.flying = false;
 }
 
-export const player_attacking = (player) => {
+/**
+ * player_attacking()
+ * Returns TRUE if a given player is attacking;
+ * FALSE otherwise
+ */
+export const player_attacking = (player:player_t) => {
   let jump = sprite_get_animation(get_sprite_id(player.type), 3);
   return player.spin || player.spin_dash ||
     (player.actor.animation == jump) ||
     (player.type == PL_KNUCKLES && (player.landing || player.flying));
 }
 
+/**
+ * player_get_rings()
+ * Returns the amount of rings
+ * the player has got so far
+ */
 export const player_get_rings = () => {
   return rings;
 }
 
+/**
+ * player_get_lives()
+ * How many lives does the player have?
+ */
 export const player_get_lives = () => {
   return lives;
 }
 
+/**
+ * player_get_score()
+ * Returns the score
+ */
 export const player_get_score = () => {
   return score;
 }
 
-export const player_get_sprite_name = (player) => {
+/**
+ * player_get_sprite_name()
+ * Returns the name of the sprite used by the player
+ */
+export const player_get_sprite_name = (player:player_t) => {
   return get_sprite_id(player.type);
 }
 
-export const player_set_rings = (r) => {
+/**
+ * player_set_rings()
+ * Sets a new amount of rings
+ */
+export const player_set_rings = (r:number) => {
   rings = clip(r, 0, 9999);
 
   /* (100+) * k rings (k integer) = new life! */
@@ -1474,15 +1589,23 @@ export const player_set_rings = (r) => {
   }
 }
 
-export const player_set_lives = (l) => {
+/**
+ * player_set_lives()
+ * Sets the number of lives
+ */
+export const player_set_lives = (l:number) => {
   lives = l;
 }
 
-export const player_set_score = (s) => {
+/**
+ * player_set_score()
+ * Sets the score
+ */
+export const player_set_score = (s:number) => {
   score = s;
 }
 
-const get_sprite_id = (player_type) => {
+const get_sprite_id = (player_type:number) => {
   switch(player_type) {
     case PL_SONIC:
       return "SD_SONIC";
@@ -1498,16 +1621,17 @@ const get_sprite_id = (player_type) => {
   }
 }
 
-const update_glasses = (p) => {
+const update_glasses = (p:player_t) => {
   //console.log(p)
   if (!p) return;
   if (!p.actor) return;
-  let frame_id = 0, hflip = p.actor.mirror & IF_HFLIP;
+  let frame_id = 0;
+  let hflip = p.actor.mirror & IF_HFLIP;
   let visible = true;
   let ang = old_school_angle(p.actor.angle);
   let gpos = v2d_new(0,0);
   let top = v2d_subtract(p.actor.position,v2d_rotate(v2d_new(0,p.actor.hot_spot.y),-ang));
-  let anim = p.actor.animation;
+  const anim = p.actor.animation;
 
   switch(p.type) {
 
@@ -1519,7 +1643,7 @@ const update_glasses = (p) => {
       }
       else if(anim == sprite_get_animation(get_sprite_id(PL_SONIC), 1)) {
         // walking
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: frame_id = 2; gpos = v2d_new(5,23); break;
           case 1: frame_id = 2; gpos = v2d_new(4,25); break;
           case 2: frame_id = 1; gpos = v2d_new(7,25); break;
@@ -1538,7 +1662,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_SONIC), 5)) {
         // look up
         frame_id = 3;
-        if(parseInt(p.actor.animation_frame,10) == 0)
+        if(~~p.actor.animation_frame == 0)
           gpos = v2d_new(0,19);
         else
           gpos = v2d_new(-1,21);
@@ -1546,7 +1670,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_SONIC), 7)) {
         // braking
         frame_id = 1;
-        if(parseInt(p.actor.animation_frame,10) < 2)
+        if(~~p.actor.animation_frame < 2)
           gpos = v2d_new(8,26);
         else
           gpos = v2d_new(10,28);
@@ -1554,7 +1678,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_SONIC), 10)) {
         // almost falling / ledge
         frame_id = 1;
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: gpos = v2d_new(1,22); break;
           case 1: gpos = v2d_new(-1,23); break;
           case 2: gpos = v2d_new(1,23); break;
@@ -1603,7 +1727,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_TAILS), 1)) {
         // walking
         frame_id = 2;
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: gpos = v2d_new(2,33); break;
           case 1: gpos = v2d_new(3,33); break;
           case 2: gpos = v2d_new(8,33); break;
@@ -1617,7 +1741,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_TAILS), 2)) {
         // running
         frame_id = 2;
-        if(parseInt(p.actor.animation_frame,10) == 0)
+        if(~~p.actor.animation_frame == 0)
           gpos = v2d_new(7,35);
         else
           gpos = v2d_new(6,34);
@@ -1635,7 +1759,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_TAILS), 7)) {
         // braking
         frame_id = 1;
-        if(parseInt(p.actor.animation_frame,10) == 0)
+        if(~~p.actor.animation_frame == 0)
           gpos = v2d_new(2,33);
         else
           gpos = v2d_new(4,33);
@@ -1643,7 +1767,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_TAILS), 10)) {
         // almost falling / ledge
         frame_id = 4;
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: gpos = v2d_new(5,33); break;
           case 1: gpos = v2d_new(6,33); break;
         }
@@ -1671,7 +1795,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_TAILS), 15)) {
         // waiting
         frame_id = 4;
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: case 8: case 9: case 10: gpos = v2d_new(5,34); break;
           default: gpos = v2d_new(5,33); break;
         }
@@ -1684,7 +1808,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_TAILS), 19)) {
         // tired of flying
         frame_id = 1;
-        if(parseInt(p.actor.animation_frame,10) == 0)
+        if(~~p.actor.animation_frame == 0)
           gpos = v2d_new(9,39);
         else
           gpos = v2d_new(9,40);
@@ -1711,7 +1835,7 @@ const update_glasses = (p) => {
       }
       else if(anim == sprite_get_animation(get_sprite_id(PL_KNUCKLES), 1)) {
         // walking
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: frame_id = 1; gpos = v2d_new(5,29); break;
           case 1: frame_id = 2; gpos = v2d_new(5,29); break;
           case 2: frame_id = 2; gpos = v2d_new(8,29); break;
@@ -1730,7 +1854,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_KNUCKLES), 4)) {
         // crouch down
         frame_id = 1;
-        if(parseInt(p.actor.animation_frame,10) == 0)
+        if(~~p.actor.animation_frame == 0)
           gpos = v2d_new(0,31);
         else
           gpos = v2d_new(0,40);
@@ -1738,7 +1862,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_KNUCKLES), 5)) {
         // look up
         frame_id = 1;
-        if(parseInt(p.actor.animation_frame,10) == 0)
+        if(~~p.actor.animation_frame == 0)
           gpos = v2d_new(0,21);
         else
           gpos = v2d_new(-1,21);
@@ -1751,7 +1875,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_KNUCKLES), 10)) {
         // almost falling / ledge
         frame_id = 1;
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: gpos = v2d_new(9,30); break;
           case 1: gpos = v2d_new(8,27); break;
         }
@@ -1773,7 +1897,7 @@ const update_glasses = (p) => {
       }
       else if(anim == sprite_get_animation(get_sprite_id(PL_KNUCKLES), 14)) {
         // pushing
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: frame_id = 1; gpos = v2d_new(5,29); break;
           case 1: frame_id = 2; gpos = v2d_new(5,29); break;
           case 2: frame_id = 2; gpos = v2d_new(8,29); break;
@@ -1792,7 +1916,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_KNUCKLES), 16)) {
         // no more climbing
         frame_id = 1;
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: gpos = v2d_new(6,23); break;
           case 1: gpos = v2d_new(5,20); break;
           case 2: gpos = v2d_new(0,22); break;
@@ -1801,7 +1925,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_KNUCKLES), 17)) {
         // climbing
         frame_id = 3;
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: gpos = v2d_new(-1,22); break;
           case 1: gpos = v2d_new(-2,20); break;
           case 2: gpos = v2d_new(0,21); break;
@@ -1813,7 +1937,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_KNUCKLES), 18)) {
         // end of flight
         frame_id = 1;
-        if(parseInt(p.actor.animation_frame,10) == 0)
+        if(~~p.actor.animation_frame == 0)
           gpos = v2d_new(6,23);
         else
           gpos = v2d_new(5,20);
@@ -1831,7 +1955,7 @@ const update_glasses = (p) => {
       else if(anim == sprite_get_animation(get_sprite_id(PL_KNUCKLES), 21)) {
         // flying - turn
         frame_id = 4;
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: gpos = v2d_new(-8,41); break;
           case 1: gpos = v2d_new(0,43); break;
           case 2: gpos = v2d_new(10,41); break;
@@ -1844,7 +1968,7 @@ const update_glasses = (p) => {
       }
       else if(anim == sprite_get_animation(get_sprite_id(PL_KNUCKLES), 23)) {
         // climbing - reached the top
-        switch(parseInt(p.actor.animation_frame,10)) {
+        switch(~~p.actor.animation_frame) {
           case 0: frame_id = 3; gpos = v2d_new(7,17); break;
           case 1: frame_id = 3; gpos = v2d_new(11,15); break;
           case 2: frame_id = 0; gpos = v2d_new(12,13); break;
@@ -1863,7 +1987,7 @@ const update_glasses = (p) => {
   //console.log('UPDATE GLASSES',p.glasses)
 
   gpos.x *= hflip ? -1 : 1;
-  p.glasses = actor_change_animation(p.glasses, sprite_get_animation("SD_GLASSES", frame_id));
+  actor_change_animation(p.glasses, sprite_get_animation("SD_GLASSES", frame_id));
   p.glasses.position = v2d_add(top, v2d_rotate(gpos, -ang));
   p.glasses.angle = ang;
   p.glasses.mirror = p.actor.mirror;
@@ -1871,7 +1995,7 @@ const update_glasses = (p) => {
   return p;
 }
 
-const drop_glasses = (p) => {
+const drop_glasses = (p:player_t) => {
   /*if(p.got_glasses) {
       let pos = v2d_add(p.actor.position, v2d_new(0,-27));
       let item = level_create_item(IT_FALGLASSES, pos);
@@ -1880,7 +2004,7 @@ const drop_glasses = (p) => {
   }*/
 }
 
-const update_shield = (p) => {
+const update_shield = (p:player_t) => {
   let sh = p.shield;
   let act = p.actor;
   let off = v2d_new(0,0);
@@ -1890,52 +2014,53 @@ const update_shield = (p) => {
     case SH_SHIELD:
       off = v2d_new(0,-22);
       sh.position = v2d_add(act.position, v2d_rotate(off, -old_school_angle(act.angle)));
-      sh = actor_change_animation(sh, sprite_get_animation("SD_SHIELD", 0));
+      actor_change_animation(sh, sprite_get_animation("SD_SHIELD", 0));
       break;
 
     case SH_FIRESHIELD:
       off = v2d_new(0,-22);
       sh.position = v2d_add(act.position, v2d_rotate(off, -old_school_angle(act.angle)));
-      sh = actor_change_animation(sh, sprite_get_animation("SD_FIRESHIELD", 0));
+      actor_change_animation(sh, sprite_get_animation("SD_FIRESHIELD", 0));
       break;
 
     case SH_THUNDERSHIELD:
       off = v2d_new(0,-22);
       sh.position = v2d_add(act.position, v2d_rotate(off, -old_school_angle(act.angle)));
-      sh = actor_change_animation(sh, sprite_get_animation("SD_THUNDERSHIELD", 0));
+      actor_change_animation(sh, sprite_get_animation("SD_THUNDERSHIELD", 0));
       break;
 
     case SH_WATERSHIELD:
       off = v2d_new(0,-22);
       sh.position = v2d_add(act.position, v2d_rotate(off, -old_school_angle(act.angle)));
-      sh = actor_change_animation(sh, sprite_get_animation("SD_WATERSHIELD", 0));
+      actor_change_animation(sh, sprite_get_animation("SD_WATERSHIELD", 0));
       break;
 
     case SH_ACIDSHIELD:
       off = v2d_new(0,-22);
       sh.position = v2d_add(act.position, v2d_rotate(off, -old_school_angle(act.angle)));
-      sh = actor_change_animation(sh, sprite_get_animation("SD_ACIDSHIELD", 0));
+      actor_change_animation(sh, sprite_get_animation("SD_ACIDSHIELD", 0));
       break;
 
     case SH_WINDSHIELD:
       off = v2d_new(0,-22);
       sh.position = v2d_add(act.position, v2d_rotate(off, -old_school_angle(act.angle)));
-      sh = actor_change_animation(sh, sprite_get_animation("SD_WINDSHIELD", 0));
+      actor_change_animation(sh, sprite_get_animation("SD_WINDSHIELD", 0));
       break;
   }
 }
 
-// this doesnt get set to falss when sonic leaves the loop
-const inside_loop = (p) => {
+/* is the player inside a loop? */
+const inside_loop = (p:player_t) => {
   //console.log('INSIDE LOOP',p.disable_wall != PLAYER_WALL_NONE)
   return (p.disable_wall !== PLAYER_WALL_NONE);
 }
 
-const stickyphysics_hack = (player, brick_list, brick_downleft, brick_down, brick_downright) => {
+/* the player won't leave the floor unless necessary */
+const stickyphysics_hack = (player:player_t, brick_list:brick_list_t, brick_downleft:brick_t, brick_down:brick_t, brick_downright:brick_t) => {
   let act = player.actor;
   let oldy = act.position.y;
 
-  let rs = {};
+  let rs:any = {};
   rs.brick_downleft = brick_downleft;
   rs.brick_down = brick_down;
   rs.brick_downright = brick_downright;
@@ -1961,7 +2086,8 @@ const stickyphysics_hack = (player, brick_list, brick_downleft, brick_down, bric
   return;
 }
 
-const got_crushed = (p, brick_up, brick_right, brick_down, brick_left) => {
+/* aaaargh!! the player is being crushed! */
+const got_crushed = (p:player_t, brick_up:brick_t, brick_right:brick_t, brick_down:brick_t, brick_left:brick_t) => {
   let sx, sy, t;
 
   if(p.climbing)

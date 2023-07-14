@@ -14,10 +14,10 @@ const SIDE_CORNERS_HEIGHT = 0.5;
 /* private */
 let floor_priority = true; /* default behavior: priority(floor) > priority(wall) */
 let slope_priority = true; /* default behavior: priority(slope) > priority(floor) */
-let is_leftwall_disabled = false;
-let is_rightwall_disabled = false;
-let is_floor_disabled = false;
-let is_ceiling_disabled = false;
+let is_leftwall_disabled = 0;
+let is_rightwall_disabled = 0;
+let is_floor_disabled = 0;
+let is_ceiling_disabled = 0;
 
 export interface actor_t {
   spawn_point:v2d_t,
@@ -628,7 +628,7 @@ export const actor_corners_restore_slope_priority = () => {
  * actor_corners_disable_detection()
  * Disables the collision detection of a few bricks
  */
-export const actor_corners_disable_detection = (disable_leftwall:boolean, disable_rightwall:boolean, disable_floor:boolean, disable_ceiling:boolean) => {
+export const actor_corners_disable_detection = (disable_leftwall:number, disable_rightwall:number, disable_floor:number, disable_ceiling:number) => {
   is_leftwall_disabled = disable_leftwall;
   is_rightwall_disabled = disable_rightwall;
   is_floor_disabled = disable_floor;

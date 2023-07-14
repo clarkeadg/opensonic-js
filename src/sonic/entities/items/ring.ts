@@ -29,7 +29,7 @@ export const ring_create = ():item_t => {
   return item;
 }
 
-export const start_bouncing = (ring:item_t) => {
+export const ring_start_bouncing = (ring:item_t) => {
   const me:ring_t = <ring_t>ring;
 
   me.is_moving = true;
