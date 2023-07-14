@@ -38,7 +38,7 @@ export interface enemy_t {
   vm: objectvm_t,
   parent: enemy_t,
   children: object_children_t,
-  observed_player: any
+  observed_player: player_t
 }
 
 export interface enemy_list_t {

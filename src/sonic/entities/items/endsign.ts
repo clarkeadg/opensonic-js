@@ -10,7 +10,7 @@ import { actor_create, actor_render, actor_destroy, actor_change_animation, acto
 import { level_clear } from "./../../scenes/level"
 
 export interface endsign_t extends item_t {
-  who: any
+  who: player_t
 }
 
 export const endsign_create = () => {

@@ -1,10 +1,11 @@
 
 import { logfile_message } from "./../core/logfile"
+import { enemy_t } from "./enemy"
 import { objectmachine_t } from "./object_decorators/base/objectmachine"
 import { objectbasicmachine_new } from "./object_decorators/base/objectbasicmachine"
 
 export interface objectvm_t {
-  owner: any,
+  owner: enemy_t,
   state_list: objectmachine_list_t,
   reference_to_current_state: objectmachine_t
 }

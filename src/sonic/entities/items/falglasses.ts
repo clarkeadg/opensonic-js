@@ -24,7 +24,7 @@ export const falglasses_create = () => {
   return item;
 }
 
-export const falglasses_set_speed = (item:item_t, speed:number) => {
+export const falglasses_set_speed = (item:item_t, speed:v2d_t) => {
   if(item.actor != null)
     item.actor.speed = speed;
 };

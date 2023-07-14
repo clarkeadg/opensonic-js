@@ -47,7 +47,7 @@ const init = (item:item_t) => {
   item.preserve = true;
   item.actor = actor_create();
 
-  item.actor = actor_change_animation(item.actor, sprite_get_animation(me.sprite_name, 0));
+  actor_change_animation(item.actor, sprite_get_animation(me.sprite_name, 0));
 }
 
 const release = (item:item_t) => {

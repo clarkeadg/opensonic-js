@@ -9,7 +9,7 @@ import { enemy_t, enemy_list_t } from "./../enemy"
 
 export interface observeplayerstrategy_t {
   player_name: string,
-  object: any,
+  object: enemy_t,
   run: Function
 }
 
