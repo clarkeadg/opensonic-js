@@ -43,7 +43,7 @@ export const audio_release = () => {};
  */
 export const music_load = (path:string) => {
 
-  logfile_message(`music_load('%s') ${path}`);
+  logfile_message(`music_load("${path}")`);
 
   const audioElement:HTMLAudioElement = new Audio();
   audioElement.src = path;

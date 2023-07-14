@@ -398,7 +398,7 @@ export const editor_update = () => {
     let iti;
     let ite;
 
-    console.log(pick_object, delete_object, editor_cursor_objtype, EDT_BRICK)
+    //console.log(pick_object, delete_object, editor_cursor_objtype, EDT_BRICK)
 
     switch(editor_cursor_objtype) {
       /* brick */
@@ -557,7 +557,7 @@ export const editor_want_to_activate = () => {
 }
 
 const editor_save = () => {
-  console.log('SAVE')
+  //console.log('SAVE')
   let file = level_getfile();
   level_save(file);
   sound_play( soundfactory_get("level saved") );
@@ -627,9 +627,9 @@ const editor_object_info = (objtype, objid) => {
     case EDT_BRICK: {
       x = brick_get(objid);
       /*if(x && x.image)
-          console.log(buf, "angle: %d\nsize: %dx%d\nproperty: %s\nbehavior: %s\nzindex: %.2lf", x.angle, x.image.width, x.image.height, brick_get_property_name(x.property), brick_get_behavior_name(x.behavior), x.zindex);
+          //console.log(buf, "angle: %d\nsize: %dx%d\nproperty: %s\nbehavior: %s\nzindex: %.2lf", x.angle, x.image.width, x.image.height, brick_get_property_name(x.property), brick_get_behavior_name(x.behavior), x.zindex);
       else
-          console.log(buf, "WARNING: missing brick");*/
+          //console.log(buf, "WARNING: missing brick");*/
       break;
     }
 
@@ -953,7 +953,7 @@ const editor_action_release = () => {
 }
 
 const editor_action_register = (action) => {
-  console.log('REGISTER', action)
+  //console.log('REGISTER', action)
 
   /* ugly, but these fancy group stuff
   * shouldn't be availiable on the interface */
@@ -1067,7 +1067,7 @@ const editor_action_redo = () => {
 }
 
 const editor_action_commit = (action) => {
-  console.log('COMMIT', action)
+  //console.log('COMMIT', action)
   if(action.type == EDA_NEWOBJECT) {
     /* new object */
     switch(action.obj_type) {

@@ -64,7 +64,7 @@ let brickdata:brickdata_t[] = [];
  */
 export const brick_load = (filename:string) => {
   return new Promise(function (fulfill, reject){
-    logfile_message(`brickdata_load('%s') ${filename}`);
+    logfile_message(`brickdata_load("${filename}")`);
     resourcemanager_getJsonFile(filename)
     .then(traverse)
     .then(function(bdata){

@@ -89,7 +89,7 @@ export const credits_init = () => {
   input = input_create_user();
 
   title = font_create(4);
-  console.log(title)
+  //console.log(title)
   font_set_text(title, lang_get("CREDITS_TITLE"));
   //title.position.x = (VIDEO_SCREEN_W - strlen(font_get_text(title))*font_get_charsize(title).x)/2;
   //title.position.x = (VIDEO_SCREEN_W - font_get_text(title).length*font_get_charsize(title).x)/2;
@@ -139,7 +139,7 @@ export const credits_init = () => {
   background_load(CREDITS_BGFILE)
   .then(function(bgdata:any){
     bgtheme = bgdata;
-    console.log(bgtheme);
+    //console.log(bgtheme);
     video_fadefx_in(image_rgb(0,0,0), 1.0);
   });
 

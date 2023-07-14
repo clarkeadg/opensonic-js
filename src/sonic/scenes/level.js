@@ -188,7 +188,7 @@ let dialogregion = [];
 
 export const level_setfile = (level) => {
   file = level;
-  logfile_message("level_setfile('%s')", level);
+  logfile_message(`level_setfile("${level}")`);
 }
 
 export const level_getfile = () => {
@@ -287,7 +287,7 @@ export const level_save = (filepath) => {
   // save file
   let filename = filepath.split('/');
   filename = filename[filename.length-1];
-  console.log('saveFile', filepath, levelData);
+  //console.log('saveFile', filepath, levelData);
 
   //let json = JSON.stringify(levelData);
   //let blob = new Blob([json], {type: "application/json"});
@@ -431,7 +431,7 @@ export const level_update = () => {
     }
 
     if(currentPlayer && currentPlayer.actor && input_button_pressed(currentPlayer.actor.input, IB_FIRE4) && !block_quit) {
-      console.log('QUIT')
+      //console.log('QUIT')
       let op = [];
 
       //image_blit(video_get_backbuffer(), quit_level_img, 0, 0, 0, 0, quit_level_img.w, quit_level_img.h);
@@ -2236,7 +2236,7 @@ const traverse_level = (data) => {
 
   if (data.boss) {
     boss = boss_create(data.boss.id, v2d_new(data.boss.x,data.boss.y), data.boss.rx, data.boss.ry, data.boss.rw, data.boss.rh);
-    console.log("BOSS",boss)
+    //console.log("BOSS",boss)
   }
 
   for(i=0;i<data.dialogbox.length;i++) {

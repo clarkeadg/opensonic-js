@@ -107,7 +107,7 @@ export const sprite_init = () => {
     resourcemanager_getJsonFiles(spriteFiles)
     .then(function(data:any){
 
-      console.log('GOT ALL SPRITE JSON FILES')
+      //console.log('GOT ALL SPRITE JSON FILES')
 
       // merge data
       for(i=0;i<data.length;i++) {
@@ -342,12 +342,12 @@ const load_sprite_images = (spr:spriteinfo_t) => {
 
     /*
     var sheet = image.load(spr.source_file);
-    console.log(sheet)
+    //console.log(sheet)
     spr.frame_count = parseInt((spr.rect_w / spr.frame_w) * (spr.rect_h / spr.frame_h),10);
     spr.frame_data = [];
     sheet.addEventListener("load",function(){
       spr = setupCanvasSprite(spr,sheet);
-      console.log(spr)
+      //console.log(spr)
       fulfill(spr);
     });
     */

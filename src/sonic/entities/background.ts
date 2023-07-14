@@ -50,10 +50,10 @@ export interface bgstrategy_circular_t extends bgstrategy_t {
  * Loads a background theme from a .bg file
  */
 export const background_load = (file:string) => {
-  console.log("background_load", file)
+  //console.log("background_load", file)
   return new Promise(function (fulfill, reject){
 
-    logfile_message(`background_load(${file})`);
+    logfile_message(`background_load("${file}")`);
 
     resourcemanager_getJsonFile(file)
     .then(traverse)

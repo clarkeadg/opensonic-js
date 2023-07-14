@@ -48,7 +48,7 @@ export const lang_release = ():void => {
 export const lang_loadfile = (filepath:string):Promise<strings_t> => {
   return new Promise(function (fulfill, reject){
 
-    logfile_message(`lang_loadfile(\"%s\")... ${filepath}`);
+    logfile_message(`lang_loadfile("${filepath}")...`);
 
     resourcemanager_getJsonFile(filepath)
     .then(function(data:any){

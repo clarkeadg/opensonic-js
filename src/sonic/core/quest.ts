@@ -42,7 +42,7 @@ export const quest_load = (abs_path:string):Promise<quest_t> => {
       show_ending: false
     };
 
-    logfile_message(`quest_load('%s') ${abs_path}`);
+    logfile_message(`quest_load("${abs_path}")`);
 
     /* default values */
     

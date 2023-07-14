@@ -43,7 +43,7 @@ export const resourcemanager_getJsonFile = (file:string) => {
         try {
           rs = JSON.parse(rawFile.responseText);
         } catch(e) {
-          console.log('error parsing json',file)
+          //console.log('error parsing json',file)
         }
         dataCache[file] = rs;
         //console.log('FULFILL PROMOSE', rs)

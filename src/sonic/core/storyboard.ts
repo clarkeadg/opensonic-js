@@ -74,7 +74,7 @@ export const storyboard_release = () => {
  */
 export const storyboard_get_scene = (id:number) => {
   //const scene_id = STORYBOARD_CAPACITY-1;
-  console.log('GET SCENE', id)
+  //console.log('GET SCENE', id)
   return storyboard[id];
 }
 

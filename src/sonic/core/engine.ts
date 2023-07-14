@@ -41,7 +41,7 @@ export const engine_init = (options:any) => {
 
   init_basic_stuff();
   const cmd = commandline_parse(options);
-  console.log('COMMAND LINE', cmd)
+  //console.log('COMMAND LINE', cmd)
 
   init_managers(cmd);
 

@@ -71,12 +71,12 @@ export const video_init = (window_title:string, resolution:number, smooth:boolea
   cx.imageSmoothingEnabled = false;
   cx.mozImageSmoothingEnabled = false;
 
-  console.log('PIXEL RATIO',window.devicePixelRatio)
-  console.log('VIDEO_SCREEN_W',VIDEO_SCREEN_W);
-  console.log('VIDEO_SCREEN_H',VIDEO_SCREEN_H);
-  console.log('CANVAS',canvas.width, canvas.height);
-  console.log('WINDOW',window.innerWidth);
-  console.log('SCALE',CanvasScaleX);
+  //console.log('PIXEL RATIO',window.devicePixelRatio)
+  //console.log('VIDEO_SCREEN_W',VIDEO_SCREEN_W);
+  //console.log('VIDEO_SCREEN_H',VIDEO_SCREEN_H);
+  //console.log('CANVAS',canvas.width, canvas.height);
+  //console.log('WINDOW',window.innerWidth);
+  //console.log('SCALE',CanvasScaleX);
 
   video_buffer = cx;
   video_clearDisplay();

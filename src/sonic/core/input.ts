@@ -163,13 +163,13 @@ export const input_init = () => {
   ignore_joystick = false;
 
   canGamepad = osspec_canGamepad();
-  console.log('canGamepad', canGamepad)
+  //console.log('canGamepad', canGamepad)
 
   enableVirtualJoystick = osspec_isTouch();
 
   if (enableVirtualJoystick) {
 
-    console.log('21111',video_get_canvas())
+    //console.log('21111',video_get_canvas())
 
     /* bottom left virtual joystick */
     joystick = new VirtualJoystick({

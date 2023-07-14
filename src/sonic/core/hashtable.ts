@@ -13,7 +13,7 @@ export const hashtable_spriteinfo_t_add = (sprites:any, key:string, data:any) =>
 };
 
 export const hashtable_spriteinfo_t_find = (sprites:any, sprite_name:string,) => {
-  console.log(hash.sprites,sprite_name)
+  //(hash.sprites,sprite_name)
   return hash.sprites[sprite_name];
 };
 
