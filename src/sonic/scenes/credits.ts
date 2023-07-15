@@ -9,7 +9,7 @@ import { image_destroy, image_rgb, image_create } from "./../core/image"
 import { timer_get_delta, timer_get_ticks } from "./../core/timer"
 import { scenestack_pop } from "./../core/scene"
 import { soundfactory_get } from "./../core/soundfactory"
-import { font_destroy, font_render, font_set_width, font_get_charsize, font_get_charspacing, font_set_text, font_get_text, font_create } from "./../entities/font"
+import { font_t, font_destroy, font_render, font_set_width, font_get_charsize, font_get_charspacing, font_set_text, font_get_text, font_create } from "./../entities/font"
 import { bgtheme_t, background_unload, background_render_fg, background_render_bg, background_update, background_load } from "./../entities/background"
 
 let credits_text = [
@@ -70,9 +70,9 @@ const OPTIONS_MUSICFILE    = "data/music/options.mp4";
 
 let box:any = null;
 let quit = false;
-let title:any = null;
-let text:any = null;
-let back:any = null;
+let title:font_t = null;
+let text:font_t = null;
+let back:font_t = null;
 let input:any = null;
 let line_count = 0;
 let bgtheme:bgtheme_t = null;

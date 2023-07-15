@@ -10,7 +10,7 @@ import { sound_play } from "./../core/audio"
 import { scenestack_pop } from "./../core/scene"
 import { soundfactory_get } from "./../core/soundfactory"
 import { actor_destroy, actor_render, actor_create, actor_change_animation } from "./../entities/actor"
-import { font_render, font_create, font_destroy, font_set_text, font_set_width } from "./../entities/font"
+import { font_t, font_render, font_create, font_destroy, font_set_text, font_set_width } from "./../entities/font"
 
 const MAX_OPTIONS =  5;
 const NO_OPTION   = -1;
@@ -18,10 +18,10 @@ const NO_OPTION   = -1;
 let box:any = null;
 let background:any = null;
 let boxpos:v2d_t = null
-let textfnt:any = null;
+let textfnt:font_t = null;
 let optionfnt:any[] = [];
 let icon:any = null;
-let text:any = null;
+let text:string = null;
 let option:any[] = [];
 let option_count = 0;
 let current_option = NO_OPTION;

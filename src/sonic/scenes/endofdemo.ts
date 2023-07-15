@@ -8,16 +8,16 @@ import { lang_get } from "./../core/lang"
 import { timer_get_ticks } from "./../core/timer"
 import { scenestack_pop, scenestack_push } from "./../core/scene"
 import { storyboard_get_scene, SCENE_QUESTOVER } from "./../core/storyboard"
-import { font_create, font_render, font_destroy, font_set_text, font_get_text, font_get_charsize } from "./../entities/font"
-import { actor_create, actor_render, actor_destroy, actor_change_animation } from "./../entities/actor"
+import { font_t, font_create, font_render, font_destroy, font_set_text, font_get_text, font_get_charsize } from "./../entities/font"
+import { actor_t, actor_create, actor_render, actor_destroy, actor_change_animation } from "./../entities/actor"
 
 const SCENE_TIMEOUT = 3;
 const RING_MAX = 10;
 
 let starttime = 0;
-let fnt:any = null;
-let title:any = null
-let ring:any[] = [];
+let fnt:font_t = null;
+let title:font_t = null
+let ring:actor_t[] = [];
 
 /**
  * endofdemo_init()

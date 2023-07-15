@@ -17,11 +17,12 @@ export interface objectmachine_list_t {
 }
 
 /* creates a new virtual machine */
-export const object_vm_create = (owner:any) => {
-  const vm:objectvm_t = <objectvm_t>owner;
-  vm.owner = owner;
-  vm.state_list = null;
-  vm.reference_to_current_state = null;
+export const object_vm_create = (owner:enemy_t) => {
+  const vm:objectvm_t = {
+    owner: owner,
+    state_list: null,
+    reference_to_current_state: null
+  }
   return vm;
 }
 
@@ -60,7 +61,7 @@ export const object_vm_set_current_state = (vm:objectvm_t, name:string) => {
   return vm;
 }
 
-const objectmachine_list_new = (list:objectmachine_list_t, name:string, owner:any) => {
+const objectmachine_list_new = (list:objectmachine_list_t, name:string, owner:enemy_t) => {
   const l:objectmachine_list_t = {
     name: name,
     data: objectbasicmachine_new(owner),

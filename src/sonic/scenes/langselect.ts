@@ -13,7 +13,7 @@ import { IB_UP, IB_DOWN, IB_FIRE1, IB_FIRE3, IB_FIRE4, input_destroy, input_crea
 import { timer_get_delta } from "./../core/timer"
 import { resourcemanager_getJsonFiles } from "./../core/resourcemanager"
 import { soundfactory_get } from "./../core/soundfactory"
-import { font_create, font_get_charsize, font_get_text, font_set_text, font_render, font_destroy } from "./../entities/font"
+import { font_t, font_create, font_get_charsize, font_get_text, font_set_text, font_render, font_destroy } from "./../entities/font"
 import { actor_create, actor_change_animation, actor_render, actor_destroy } from "./../entities/actor"
 import { bgtheme_t, background_load, background_update, background_render_bg, background_render_fg, background_unload } from "./../entities/background"
 
@@ -40,7 +40,7 @@ let maxpages      = 1;
 
 let quit = false
 let lngcount = 0;
-let title:any  = [];
+let title:font_t[]  = [];
 let lngfnt:any  = [];
 let page_label:any = null;
 let lngdata:any = null;

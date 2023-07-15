@@ -7,7 +7,7 @@ import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
 import { object_vm_set_current_state } from "./../object_vm"
 import { player_t } from "./../player"
-import { enemy_list_t } from "./../enemy"
+import { enemy_t, enemy_list_t } from "./../enemy"
 
 export interface objectdecorator_changeclosestobjectstate_t extends objectdecorator_t {
   object_name: string,
@@ -71,7 +71,7 @@ const render = (obj:objectmachine_t, camera_position:v2d_t) => {
   decorated_machine.render(decorated_machine, camera_position);
 } 
 
-const find_closest_object = (me:any, list:any, desired_name:string, distance:number) => {
+const find_closest_object = (me:enemy_t, list:enemy_list_t, desired_name:string, distance:number) => {
   let min_dist = INFINITY_FLT;
   let it;
   let ret = null;

@@ -1,14 +1,13 @@
-
 import { v2d_new } from "./../core/v2d"
 import { scenestack_pop } from "./../core/scene"
 import { image_destroy, image_rgb } from "./../core/image"
 import { video_fadefx_over, video_fadefx_out, video_clearDisplay, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
 import { timer_get_delta } from "./../core/timer"
 import { quest_abort } from "./quest"
-import { font_create, font_set_text, font_render, font_destroy } from "./../entities/font"
+import { font_t, font_create, font_set_text, font_render, font_destroy } from "./../entities/font"
 
 /* private data */
-let gameover_fnt:any[] = [];
+let gameover_fnt:font_t[] = [];
 let gameover_buf:any = null;
 let gameover_timer = 0;
 
