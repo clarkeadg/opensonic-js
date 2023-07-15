@@ -51,7 +51,7 @@ export const lang_loadfile = (filepath:string):Promise<strings_t> => {
     logfile_message(`lang_loadfile("${filepath}")...`);
 
     resourcemanager_getJsonFile(filepath)
-    .then(function(data:any){
+    .then(function(data:strings_t){
       strings = data;
       fulfill(data);
     });
