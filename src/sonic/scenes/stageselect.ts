@@ -1,6 +1,4 @@
-
 import { level_setfile } from "./level"
-
 import { scenestack_pop, scenestack_push } from "./../core/scene"
 import { storyboard_get_scene, SCENE_LEVEL } from "./../core/storyboard"
 import { v2d_new } from "./../core/v2d"
@@ -15,9 +13,8 @@ import { sprite_get_animation } from "./../core/sprite"
 import { resourcemanager_getJsonFiles } from "./../core/resourcemanager"
 import { timer_get_delta } from "./../core/timer"
 import { soundfactory_get } from "./../core/soundfactory"
-
-import { font_set_text, font_get_text, font_render, font_destroy, font_create, font_get_charsize } from "./../entities/font"
-import { actor_render, actor_destroy, actor_create, actor_change_animation } from "./../entities/actor"
+import { font_t, font_set_text, font_get_text, font_render, font_destroy, font_create, font_get_charsize } from "./../entities/font"
+import { actor_render, actor_destroy, actor_create, actor_change_animation, actor_t } from "./../entities/actor"
 import { player_set_lives, player_set_score, PLAYER_INITIAL_LIVES } from "./../entities/player"
 import { bgtheme_t, background_render_bg, background_render_fg, background_unload, background_load, background_update } from "./../entities/background"
 
@@ -46,10 +43,10 @@ const STAGE_MAXPERPAGE        = 8;
 
 let pagenum = 1;
 let maxpages = 1;
-let title:any = null;
-let msg:any = null;
-let page:any = null;
-let icon:any = null;
+let title:font_t = null;
+let msg:font_t = null;
+let page:font_t = null;
+let icon:actor_t = null;
 let input:any = null;
 let scene_time = 0.0;
 let bgtheme:bgtheme_t = null;
@@ -58,7 +55,7 @@ let state:any = null;
 let stage_data:any[] = [];
 let stage_count = 0;
 let option = 0;
-let stage_label:any[] = [];
+let stage_label:font_t[] = [];
 
 const STAGESTATE_NORMAL     = 0;
 const STAGESTATE_QUIT       = 1;

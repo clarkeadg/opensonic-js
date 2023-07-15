@@ -202,8 +202,8 @@ export const actor_render_repeat_xy = (act:actor_t, camera_position:v2d_t, repea
           img.sy, //  The y coordinate where to start clipping
           img.swidth, // The width of the clipped image
           img.sheight, // The height of the clipped image
-          final_pos.x + i*img.width, // The x coordinate where to place the image on the canvas
-          final_pos.y + j*img.height, // The y coordinate where to place the image on the canvas
+          ~~(final_pos.x + i*img.width), // The x coordinate where to place the image on the canvas
+          ~~(final_pos.y + j*img.height), // The y coordinate where to place the image on the canvas
           img.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
           img.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
         );    

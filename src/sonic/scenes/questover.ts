@@ -12,13 +12,13 @@ import { input_destroy, input_button_pressed, input_create_user, IB_FIRE1 } from
 import { lang_get } from "./../core/lang"
 import { timer_get_ticks } from "./../core/timer"
 import { actor_t, actor_create, actor_render, actor_change_animation, actor_destroy } from "./../entities/actor"
-import { font_get_charsize, font_set_text, font_get_text, font_create, font_destroy, font_render } from "./../entities/font"
+import { font_t, font_get_charsize, font_set_text, font_get_text, font_create, font_destroy, font_render } from "./../entities/font"
 import { player_get_score } from "./../entities/player"
 
 const QUESTOVER_MUSICFILE = "data/music/invincible.mp4";
 let starttime = 0;
-let fnt:any = null;
-let title:any = null;
+let fnt:font_t = null;
+let title:font_t = null;
 let sonic:actor_t = null;
 let input:any = null;
 let quit:boolean = false;
