@@ -1,4 +1,3 @@
-
 import { confirmbox_alert, confirmbox_selected_option } from "./confirmbox"
 import { editor_init, editor_is_enabled, editor_want_to_activate, editor_enable, editor_update, editor_render, editor_release } from "./editor"
 import { music_load, music_play, music_pause, music_stop, music_set_volume, music_get_volume, music_is_playing, sound_play } from "./../core/audio"
@@ -15,12 +14,15 @@ import { soundfactory_get } from "./../core/soundfactory"
 import { sprite_get_animation, sprite_get_image } from "./../core/sprite"
 import { timer_get_delta, timer_get_ticks } from "./../core/timer"
 import { bounding_box, clip, random } from "./../core/util"
-import { v2d_new, v2d_add, v2d_subtract } from "./../core/v2d"
+import { v2d_t, v2d_new, v2d_add, v2d_subtract } from "./../core/v2d"
 import { video_fadefx_over, video_fadefx_out, video_get_backbuffer, video_clearDisplay, VIDEO_SCALE, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
-import { actor_create, actor_destroy, actor_change_animation, actor_render, actor_image } from "./../entities/actor"
-import { background_load, background_update, background_render_bg, background_render_fg } from "./../entities/background"
-import { boss_create, boss_destroy, boss_update, boss_render, boss_defeated } from "./../entities/boss"
+import { actor_t, actor_create, actor_destroy, actor_change_animation, actor_render, actor_image } from "./../entities/actor"
+import { bgtheme_t, background_load, background_update, background_render_bg, background_render_fg } from "./../entities/background"
+import { boss_t, boss_create, boss_destroy, boss_update, boss_render, boss_defeated } from "./../entities/boss"
 import { 
+  brick_t,
+  brick_list_t,
+  brickdata_t,
   brick_size,
   brick_get,
   brick_load,
@@ -41,11 +43,12 @@ import {
   BRS_ACTIVE
 } from "./../entities/brick"
 import { camera_get_position, camera_set_position, camera_init, camera_update, camera_move_to, camera_release, camera_lock, camera_unlock } from "./../entities/camera"
-import { enemy_create, enemy_destroy, enemy_update, enemy_render, ES_DEAD } from "./../entities/enemy"
-import { font_create, font_destroy, font_set_width, font_set_text, font_get_text, font_render } from "./../entities/font"
+import { enemy_list_t, enemy_create, enemy_destroy, enemy_update, enemy_render, ES_DEAD } from "./../entities/enemy"
+import { font_t, font_create, font_destroy, font_set_width, font_set_text, font_get_text, font_render } from "./../entities/font"
 import { flyingtext_set_text } from "./../entities/items/flyingtext"
-import { item_create, item_update, item_render, item_destroy, IT_ANIMAL, IT_FLYINGTEXT, IS_IDLE, IS_DEAD } from "./../entities/item"
+import { item_list_t, item_create, item_update, item_render, item_destroy, IT_ANIMAL, IT_FLYINGTEXT, IS_IDLE, IS_DEAD } from "./../entities/item"
 import { 
+  player_t,
   player_create,
   player_update, 
   player_render, 
@@ -72,6 +75,28 @@ import {
   PL_KNUCKLES
 } from "./../entities/player"
 import { quest_abort, quest_setvalue, quest_getvalue } from "./quest"
+
+export interface particle_t {
+  image: any,
+  position: v2d_t,
+  speed: v2d_t,
+  destroy_on_brick: boolean
+}
+
+export interface particle_list_t {
+  data: particle_t,
+  next: particle_list_t
+}
+
+export interface dialogregion_t {
+  rect_x: number,
+  rect_y: number,
+  rect_w: number,
+  rect_h: number,
+  title: string,
+  message: string,
+  disabled: boolean
+}
 
 export const PLAYERS = [
   0, // sonic
@@ -111,99 +136,115 @@ let file = "data/levels/blue_ocean_1.json";
 //let file = "data/levels/superboss_1.json";
 //let file = "data/levels/superboss_2.json";
 
-let name;
-let musicfile;
-let theme;
-let bgtheme;
-let grouptheme;
-let author;
-let version;
-let act;
+let name:string;
+let musicfile:string;
+let theme:string;
+let bgtheme:string;
+let grouptheme:string;
+let author:string;
+let version:string;
+let act:number;
 let requires = [];
 let readonly;
 
 /* internal data */
-let gravity;
-let level_width;
-let level_height;
-let level_timer;
-let brick_list = null;
-let item_list = [];
-let enemy_list = [];
-let particle_list = [];
-let spawn_point;
-let music;
-let override_music;
-let block_music;
-let quit_level;
-let quit_level_img;
-let backgroundtheme;
+let gravity:number;
+let level_width:number;
+let level_height:number;
+let level_timer:number;
+let brick_list:brick_list_t;
+let item_list:item_list_t;
+let enemy_list:enemy_list_t;
+let particle_list:particle_list_t;
+let spawn_point:v2d_t;
+let music:any;
+let override_music:any;
+let block_music:boolean;
+let quit_level:boolean;
+let quit_level_img:any;
+let backgroundtheme:any;
 
 /* player data */
-let team = []; /* players */
-let currentPlayer; /* reference to the current player */
-let player_id; /* current player id (0, 1 or 2) */
+let team:player_t[]; /* players */
+let currentPlayer:player_t; /* reference to the current player */
+let player_id:number; /* current player id (0, 1 or 2) */
 /* camera */
 let camera_focus = {
-  position: {
-    x: 0,
-    y: 0
-  }
+  position: v2d_new(0,0)
 }
 
 /* boss */
-let boss;
-let player_inside_boss_area;
-let boss_fight_activated;
+let boss:boss_t;
+let player_inside_boss_area:boolean;
+let boss_fight_activated:boolean;
 
 /* gui / hud */
-let maingui, lifegui;
-let lifefnt;
-let mainfnt = [];
+let maingui:actor_t;
+let lifegui:actor_t;
+let lifefnt:font_t;
+let mainfnt:font_t[] = [];
 
 /* end of act (reached the goal) */
-let level_cleared;
-let actclear_starttime, actclear_endtime, actclear_sampletimer;
-let actclear_prepare_next_level, actclear_goto_next_level, actclear_played_song;
-let actclear_ringbonus = [];
-let actclear_secretbonus, actclear_totalbonus;
-let actclear_teamname, actclear_gotthrough
-let actclear_bonusfnt = [];
-let actclear_levelact
-let actclear_bonus = [];
+let level_cleared:boolean;
+let actclear_starttime:number;
+let actclear_endtime:number;
+let actclear_sampletimer:number;
+let actclear_prepare_next_level:boolean;
+let actclear_goto_next_level:boolean;
+let actclear_played_song:boolean;
+let actclear_ringbonus:number;
+let actclear_secretbonus:number;
+let actclear_totalbonus:number;
+let actclear_teamname:font_t;
+let actclear_gotthrough:font_t;
+let actclear_bonusfnt:font_t[] = [];
+let actclear_levelact:actor_t;
+let actclear_bonus:actor_t[] = [];
 
 /* opening animation */
-let levelop, levelact;
-let leveltitle;
+let levelop:actor_t;
+let levelact:actor_t;
+let leveltitle:font_t;
 
 /* dialog box */
-let dlgbox_active;
-let dlgbox_starttime;
-let dlgbox;
-let dlgbox_title, dlgbox_message;
-let dialogregion_size;
-let dialogregion = [];
+let dlgbox_active:boolean;
+let dlgbox_starttime:number;
+let dlgbox:actor_t;
+let dlgbox_title:font_t;
+let dlgbox_message:font_t;
+let dialogregion_size:number;
+let dialogregion:dialogregion_t[] = [];
 
 /* use this before pushing the level scene into the stack */
 
-export const level_setfile = (level) => {
+/**
+ * level_setfile()
+ * Call this before initializing this scene. This
+ * function tells the scene what level it must
+ * load... then it gets initialized.
+ */
+export const level_setfile = (level:any) => {
   file = level;
-  logfile_message(`level_setfile("${level}")`);
+  logfile_message(`level_setfile('#{level}')`);
 }
 
+/**
+ * level_getfile()
+ * get level file
+ */
 export const level_getfile = () => {
   return file;
 }
 
-/*
+/**
  * level_save()
  * Saves the current level to a file
  */
-export const level_save = (filepath) => {
+export const level_save = (filepath:string) => {
 
   let i, c, itb, iti, ite;
 
-  let levelData = {
+  let levelData:any = {
     name:         name,
     act:          act,
     theme:        theme,
@@ -237,8 +278,8 @@ export const level_save = (filepath) => {
   for(itb=brick_list; itb; itb=itb.next) {
     bricks.push({
       id:     get_brick_id(itb.data),
-      xpos:   itb.data.sx,
-      ypos:   itb.data.sy
+      xpos:   itb.data.x,
+      ypos:   itb.data.y
 
     })
   }
@@ -271,7 +312,7 @@ export const level_save = (filepath) => {
   levelData.enemylist = enemies;
 
   // dialog regions
-  let dialogs = [];
+  let dialogs:any = [];
   for(i=0,c=dialogregion.length;i<c;i++) {
     dialogs.push({
       xpos:     dialogregion[i].rect_x,
@@ -285,7 +326,7 @@ export const level_save = (filepath) => {
   levelData.dialogbox = dialogs;
 
   // save file
-  let filename = filepath.split('/');
+  let filename:any = filepath.split('/');
   filename = filename[filename.length-1];
   //console.log('saveFile', filepath, levelData);
 
@@ -299,6 +340,10 @@ export const level_save = (filepath) => {
 
 /* scene methods */
 
+/**
+ * level_init()
+ * Initializes the scene
+ */
 export const level_init = () => {
   let i;
 
@@ -307,7 +352,7 @@ export const level_init = () => {
   /* main init */
   logfile_message("level_init()");
   brick_list = null;
-  item_list = [];
+  item_list = null;
   team = [];
   gravity = 800;
   level_width = level_height = 0;
@@ -333,26 +378,18 @@ export const level_init = () => {
 
     /* loading players */
     logfile_message("Creating players...");
-
-    for(i=0;i<PLAYERS.length;i++) {
-      let Pl = player_create(PLAYERS[i]);
-      Pl.hit = player_hit;
-      Pl.kill = player_kill;
-      Pl.set_rings = player_set_rings;
-      Pl.get_rings = player_get_rings;
-      Pl.got_glasses = false;
-      team.push(Pl);
+    for(let i = 0; i<PLAYERS.length;i++) {
+      team[i] = player_create(PLAYERS[i]);
     }
-
+    //team[0] = player_create(PL_SONIC);
+    //team[1] = player_create(PL_TAILS);
+    //team[2] = player_create(PL_KNUCKLES);
     spawn_players();
-
     player_id = 0;
     currentPlayer = team[player_id];
-
     camera_init();
-    camera_set_position(currentPlayer.actor.position);
+    camera_set_position(v2d_new(currentPlayer.actor.position.x,currentPlayer.actor.position.y));
     level_set_camera_focus(currentPlayer.actor);
-
     player_set_rings(0);
     player_inside_boss_area = false;
     boss_fight_activated = false;
@@ -361,10 +398,10 @@ export const level_init = () => {
     logfile_message("Loading hud...");
     maingui = actor_create();
     maingui.position = v2d_new(16, 7);
-    maingui = actor_change_animation(maingui, sprite_get_animation("SD_MAINGUI", 0));
+    actor_change_animation(maingui, sprite_get_animation("SD_MAINGUI", 0));
     lifegui = actor_create();
     lifegui.position = v2d_new(16, VIDEO_SCREEN_H-23);
-    lifegui = actor_change_animation(lifegui, sprite_get_animation("SD_LIFEGUI", 0));
+    actor_change_animation(lifegui, sprite_get_animation("SD_LIFEGUI", 0));
     lifefnt = font_create(0);
     lifefnt.position = v2d_add(lifegui.position, v2d_new(32,11));
     for(i=0; i<3; i++) {
@@ -375,10 +412,10 @@ export const level_init = () => {
     /* level opening */
     levelop = actor_create();
     levelop.position = v2d_new(0,-240);
-    levelop = actor_change_animation(levelop, sprite_get_animation("SD_LEVELOP", 0));
+    actor_change_animation(levelop, sprite_get_animation("SD_LEVELOP", 0));
     levelact = actor_create();
     levelact.position = v2d_new(260,250);
-    levelact = actor_change_animation(levelact, sprite_get_animation("SD_LEVELACT", act-1));
+    actor_change_animation(levelact, sprite_get_animation("SD_LEVELACT", act-1));
     leveltitle = font_create(3);
     leveltitle.position = v2d_new(330,50);
     font_set_text(leveltitle, "%s", name.toUpperCase());
@@ -389,8 +426,8 @@ export const level_init = () => {
     actclear_gotthrough = font_create(7);
     actclear_levelact = actor_create();
     for(i=0; i<ACTCLEAR_BONUSMAX; i++) {
-        actclear_bonusfnt[i] = font_create(2);
-        actclear_bonus[i] = actor_create();
+      actclear_bonusfnt[i] = font_create(2);
+      actclear_bonus[i] = actor_create();
     }
 
     /* dialog box */
@@ -398,12 +435,17 @@ export const level_init = () => {
     dlgbox_starttime = 0;
     dlgbox = actor_create();
     dlgbox.position.y = VIDEO_SCREEN_H;
-    dlgbox = actor_change_animation(dlgbox, sprite_get_animation("SD_DIALOGBOX", 0));
+    actor_change_animation(dlgbox, sprite_get_animation("SD_DIALOGBOX", 0));
     dlgbox_title = font_create(8);
     dlgbox_message = font_create(8);
-  });
+  });  
 }
 
+/**
+ * level_update()
+ * Updates the scene (this one runs
+ * every cycle of the program)
+ */
 export const level_update = () => {
 
   level_timer+= timer_get_delta();
@@ -488,13 +530,14 @@ export const level_update = () => {
     }
 
     /* gui */
-    maingui = actor_change_animation(maingui, sprite_get_animation("SD_MAINGUI", player_get_rings()>0 ? 0 : 1));
-    lifegui = actor_change_animation(lifegui, sprite_get_animation("SD_LIFEGUI", player_id));
-    lifefnt = font_set_text(lifefnt, "%d", player_get_lives());
+    actor_change_animation(maingui, sprite_get_animation("SD_MAINGUI", player_get_rings()>0 ? 0 : 1));
+    actor_change_animation(lifegui, sprite_get_animation("SD_LIFEGUI", player_id));
+    font_set_text(lifefnt, "%d", player_get_lives());
     font_set_text(mainfnt[0], "%d", player_get_score());
-    let s = parseInt(level_timer%60,10);
-    if (s < 10) s = "0"+s;
-    font_set_text(mainfnt[1], "%s", parseInt(level_timer/60,10) +":"+ s );
+    let minutes = ~~(level_timer/60);
+    let s = ~~(level_timer%60);
+    let seconds = (s < 10) ? "0"+s : s;   
+    font_set_text(mainfnt[1], "%s", minutes+":"+seconds );
     font_set_text(mainfnt[2], "%d", player_get_rings());
 
     /* level opening */
@@ -558,9 +601,9 @@ export const level_update = () => {
 
             /* counters (bonus) */
             total = actclear_totalbonus - (actclear_ringbonus + actclear_secretbonus);
-            font_set_text(actclear_bonusfnt[0], "%d", parseInt(actclear_ringbonus,10));
-            font_set_text(actclear_bonusfnt[1], "%d", parseInt(actclear_secretbonus,10));
-            font_set_text(actclear_bonusfnt[ACTCLEAR_BONUSMAX-1], "%d", parseInt(total,10));
+            font_set_text(actclear_bonusfnt[0], "%d", ~~actclear_ringbonus);
+            font_set_text(actclear_bonusfnt[1], "%d", ~~actclear_secretbonus);
+            font_set_text(actclear_bonusfnt[ACTCLEAR_BONUSMAX-1], "%d", ~~total);
 
             /* reached the goal song */
             if(!actclear_played_song) {
@@ -640,25 +683,27 @@ export const level_update = () => {
           //console.log('555')
           item_update(inode.data, team, 3, major_bricks, item_list, enemy_list);
           if(inode.data.obstacle) { // is this item an obstacle?
-              // we'll create a fake brick here
-              let bn1, bn2;
-              let offset = 1;
-              let v = v2d_add(inode.data.actor.hot_spot, v2d_new(0,-offset));
-              let img = actor_image(inode.data.actor);
-              let fake = create_fake_brick(img.width, img.height-offset, v2d_subtract(inode.data.actor.position,v), 0);
-              fake.brick_ref.zindex = inode.data.bring_to_back ? 0.4 : 0.5;
+              
+            // we'll create a fake brick here
+            let offset = 1;
+            let v = v2d_add(inode.data.actor.hot_spot, v2d_new(0,-offset));
+            let img = actor_image(inode.data.actor);
+            let fake = create_fake_brick(img.width, img.height-offset, v2d_subtract(inode.data.actor.position,v), 0);
+            fake.brick_ref.zindex = inode.data.bring_to_back ? 0.4 : 0.5;
 
-              // add to the fake bricks list
-              bn1 = {};
-              bn1.next = fake_bricks;
-              bn1.data = fake;
-              fake_bricks = bn1;
+            // add to the fake bricks list
+            const bn1:brick_list_t = {
+              next: fake_bricks,
+              data: fake
+            };            
+            fake_bricks = bn1;
 
-              // add to the major bricks list
-              bn2 = {};
-              bn2.next = major_bricks;
-              bn2.data = fake;
-              major_bricks = bn2;
+            // add to the major bricks list
+            const bn2:brick_list_t = {
+              next: major_bricks,
+              data: fake
+            };
+            major_bricks = bn2;
           }
         } else {
           // this item is outside the screen...
@@ -686,29 +731,30 @@ export const level_update = () => {
             // is this object an obstacle?
             if(enode.data.obstacle) {
                 // we'll create a fake brick here
-                let bn1, bn2;
                 let offset = 1;
                 let v = v2d_add(enode.data.actor.hot_spot, v2d_new(0,-offset));
                 let img = actor_image(enode.data.actor);
                 let fake = create_fake_brick(img.width, img.height-offset, v2d_subtract(enode.data.actor.position,v), enode.data.obstacle_angle);
 
                 // add to the fake bricks list
-                bn1 = {};
-                bn1.next = fake_bricks;
-                bn1.data = fake;
+                const bn1:brick_list_t = {
+                  next: fake_bricks,
+                  data: fake
+                };            
                 fake_bricks = bn1;
 
                 // add to the major bricks list
-                bn2 = {};
-                bn2.next = major_bricks;
-                bn2.data = fake;
+                const bn2:brick_list_t = {
+                  next: major_bricks,
+                  data: fake
+                };
                 major_bricks = bn2;
             }
         }
         else {
           // this object is outside the screen...
           if(!enode.data.preserve)
-            enode.data.state = IS_DEAD;
+            enode.data.state = ES_DEAD;
           else if(!inside_screen(enode.data.actor.spawn_point.x, enode.data.actor.spawn_point.y, w, h, DEFAULT_MARGIN))
             enode.data.actor.position = v2d_new(enode.data.actor.spawn_point.x, enode.data.actor.spawn_point.y);
         }
@@ -933,7 +979,7 @@ export const level_update = () => {
           brick_down.value[1] += timer_get_delta(); // timer
           if(brick_down.value[1] >= BRB_FALL_TIME) {
               let bi, bj, bw, bh;
-              let right_oriented = (parseInt(brick_down.brick_ref.behavior_arg[2],10) != 0);
+              let right_oriented = (brick_down.brick_ref.behavior_arg[2] != 0);
               let brkimg = brick_down.brick_ref.image;
 
               // particles
@@ -986,8 +1032,11 @@ export const level_update = () => {
       //console.log('PLAYER INSIDE BOSS AREA')
       camera_move_to(v2d_add(offv, v2d_new(0, -90)), 0.17);
     }
-    else if(!got_dying_player)
-      camera_move_to(camera_focus.position, 0.10);
+    else if(!got_dying_player) {
+      if (camera_focus) {
+        camera_move_to(camera_focus.position, 0.10);
+      }
+    }
 
     //console.log( camera_get_position())
 
@@ -1002,6 +1051,10 @@ export const level_update = () => {
   update_music();
 }
 
+/**
+ * level_render()
+ * Rendering function
+ */
 export const level_render = () => {
   video_clearDisplay();
 
@@ -1017,6 +1070,10 @@ export const level_render = () => {
   render_hud();
 }
 
+/**
+ * level_release()
+ * Releases the scene
+ */
 export const level_release = () => {
   var i;
 
@@ -1026,7 +1083,7 @@ export const level_release = () => {
   //particle.release();
   level_unload();
   for(i=0; i<team.length; i++)
-      player_destroy(team[i]);
+    player_destroy(team[i]);
   camera_release();
   editor_release();
 
@@ -1057,19 +1114,37 @@ export const level_release = () => {
 
 /* useful stuff */
 
+/**
+ * level_editmode()
+ * Is the level editor activated?
+ */
 export const level_editmode = () => {
   return editor_is_enabled();
 }
 
+/**
+ * level_player()
+ * Returns the current player
+ */
 export const level_player = () => {
   return currentPlayer;
 }
 
+/**
+ * level_player_id()
+ * Returns the ID of the current player
+ */
 export const level_player_id = () => {
   return player_id;
 }
 
-export const level_add_to_score = (score) => {
+/**
+ * level_add_to_score()
+ * Adds a value to the player's score.
+ * It also creates a flying text that
+ * shows that score.
+ */
+export const level_add_to_score = (score:number) => {
   let flyingtext;
 
   score = Math.max(0, score);
@@ -1078,24 +1153,41 @@ export const level_add_to_score = (score) => {
   //sprintf(buf, "%d", score);
   flyingtext = level_create_item(IT_FLYINGTEXT, v2d_add(currentPlayer.actor.position, v2d_new(-9,0)));
   //flyingtext.set_text(flyingtext, buf);
-  flyingtext_set_text(flyingtext, score);
+  flyingtext_set_text(flyingtext, ""+score);
 }
 
+/**
+ * level_size()
+ * Returns the size of the level
+ */
 export const level_size = () => {
   return v2d_new(level_width, level_height);
 }
 
-export const level_override_music = (sample) => {
+/**
+ * level_override_music()
+ * Stops the music while the given sample is playing.
+ * After it gets finished, the music gets played again.
+ */
+export const level_override_music = (sample:any) => {
   if(music) music_stop();
   override_music = sample;
   sound_play(override_music);
 }
 
-export const level_set_spawn_point = (newpos) => {
+/**
+ * level_set_spawn_point()
+ * Defines a new spawn point
+ */
+export const level_set_spawn_point = (newpos:v2d_t) => {
   spawn_point = v2d_new(newpos.x, newpos.y);
 }
 
-export const level_clear = (end_sign) => {
+/**
+ * level_clear()
+ * Call this when the player clears this level
+ */
+export const level_clear = (end_sign:actor_t) => {
   let i;
 
   if(level_cleared)
@@ -1128,13 +1220,13 @@ export const level_clear = (end_sign) => {
   level_hide_dialogbox();
 
   /* initializing resources... */
-  actclear_teamname = font_set_text(actclear_teamname, "TEAM SONIC");
+  font_set_text(actclear_teamname, "TEAM SONIC");
   actclear_teamname.position = v2d_new(-500, 20);
 
-  actclear_gotthrough = font_set_text(actclear_gotthrough, "GOT THROUGH");
+  font_set_text(actclear_gotthrough, "GOT THROUGH");
   actclear_gotthrough.position = v2d_new(-500, 46);
 
-  actclear_levelact = actor_change_animation(actclear_levelact, sprite_get_animation("SD_LEVELACT", act-1));
+  actor_change_animation(actclear_levelact, sprite_get_animation("SD_LEVELACT", act-1));
   actclear_levelact.position = v2d_new(820, 25);
 
   for(i=0; i<ACTCLEAR_BONUSMAX; i++) {
@@ -1142,17 +1234,25 @@ export const level_clear = (end_sign) => {
     actclear_bonusfnt[i].position = v2d_new(820, 120+i*20);
   }
 
-  actclear_bonus[0] = actor_change_animation(actclear_bonus[0], sprite_get_animation("SD_RINGBONUS", 0));
-  actclear_bonus[1] = actor_change_animation(actclear_bonus[1], sprite_get_animation("SD_SECRETBONUS", 0));
-  actclear_bonus[ACTCLEAR_BONUSMAX-1] = actor_change_animation(actclear_bonus[ACTCLEAR_BONUSMAX-1], sprite_get_animation("SD_TOTAL", 0));
+  actor_change_animation(actclear_bonus[0], sprite_get_animation("SD_RINGBONUS", 0));
+  actor_change_animation(actclear_bonus[1], sprite_get_animation("SD_SECRETBONUS", 0));
+  actor_change_animation(actclear_bonus[ACTCLEAR_BONUSMAX-1], sprite_get_animation("SD_TOTAL", 0));
 }
 
-export const level_add_to_secret_bonus = (value) => {
+/**
+ * level_add_to_secret_bonus()
+ * Adds a value to the secret bonus
+ */
+export const level_add_to_secret_bonus = (value:number) => {
   actclear_secretbonus += value;
   actclear_totalbonus += value;
 }
 
-export const level_call_dialogbox = (title, message) => {
+/**
+ * level_call_dialogbox()
+ * Calls a dialog box
+ */
+export const level_call_dialogbox = (title:string, message:string,) => {
   if(dlgbox_active && !font_get_text(dlgbox_title) && !font_get_text(dlgbox_message) )
     return;
 
@@ -1163,14 +1263,26 @@ export const level_call_dialogbox = (title, message) => {
   font_set_width(dlgbox_message, 260);
 }
 
+/**
+ * level_hide_dialogbox()
+ * Hides the current dialog box (if any)
+ */
 export const level_hide_dialogbox = () => {
   dlgbox_active = false;
 }
 
+/**
+ * level_boss_battle()
+ * Is/was the player fighting against the level boss (if any)?
+ */
 export const level_boss_battle = () => {
   return boss_fight_activated;
 }
 
+/**
+ * level_kill_all_baddies()
+ * Kills all the baddies on the level
+ */
 export const level_kill_all_baddies = () => {
   let it;
   let en;
@@ -1184,7 +1296,8 @@ export const level_kill_all_baddies = () => {
   }
 }
 
-export const level_lock_camera = (x1, y1, x2, y2) => {
+/* camera facade */
+export const level_lock_camera = (x1:number, y1:number, x2:number, y2:number) => {
   camera_lock(x1+VIDEO_SCREEN_W/2, y1+VIDEO_SCREEN_H/2, x2-VIDEO_SCREEN_W/2, y2-VIDEO_SCREEN_H/2);
 }
 
@@ -1192,70 +1305,106 @@ export const level_unlock_camera = () => {
   camera_unlock();
 }
 
+/* music */
 export const level_restore_music = () => {
   if(music != null)
     music_stop();
 }
 
+/**
+ * level_gravity()
+ * Returns the gravity of the level
+ */
 export const level_gravity = () => {
   return gravity;
 }
 
-export const level_create_brick = (type, position) => {
-  let i;
-  let node;
+/**
+ * level_create_brick()
+ * Creates and adds a brick to the level. This function
+ * returns a pointer to the created brick.
+ */
+export const level_create_brick = (type:number, position:v2d_t) => {
 
-  node = {};
-  node.data = {};
-
-  //console.log(type, position);
-
-  node.data.brick_ref = brick_get(type);
-  node.data.animation_frame = 0;
-  node.data.x = node.data.sx = parseInt(position.x,10);
-  node.data.y = node.data.sy = parseInt(position.y,10);
-  node.data.enabled = true;
-  node.data.state = BRS_IDLE;
-  node.data.value = [];
-  for(i=0; i<BRICK_MAXVALUES; i++)
-    node.data.value[i] = 0;
+  const b:brick_t = {
+    brick_ref: brick_get(type),
+    x: position.x,
+    y: position.y,
+    sx: position.x,
+    sy: position.y,
+    enabled: true,
+    state: BRS_IDLE,
+    value: [],
+    animation_frame: 0
+  }
+  for(let i=0; i<BRICK_MAXVALUES; i++)
+    b.value[i] = 0;
+  
+  const node:brick_list_t = {
+    data: b,
+    next: null
+  }
 
   insert_brick_sorted(node);
   return node.data;
 }
 
-export const level_create_item = (type, position) => {
+/**
+ * level_create_item()
+ * Creates and adds an item to the level. Returns the
+ * created item.
+ */
+export const level_create_item = (type:number, position:v2d_t) => {
 
-  let node = {};
-  node.data = item_create(type);
-  if (node.data) {
-    node.data.actor.spawn_point = v2d_new(position.x, position.y);
-    node.data.actor.position = v2d_new(position.x, position.y);
+  const node:item_list_t = {
+    data: item_create(type),
+    next: null
   }
+
+  node.data.actor.spawn_point = v2d_new(position.x, position.y);
+  node.data.actor.position = v2d_new(position.x, position.y);  
   node.next = item_list;
   item_list = node;
 
   return node.data;
 }
 
-export const level_create_enemy = (name, position) => {
-  let node;
+/**
+ * level_create_enemy()
+ * Creates and adds an enemy to the level. Returns the
+ * created enemy.
+ */
+export const level_create_enemy = (name:string, position:v2d_t) => {
+  
+  const node:enemy_list_t = {
+    data: enemy_create(name),
+    next: null
+  }
 
-  let pos = v2d_new(position.x, position.y);
-
-  node = {};
-  node.data = enemy_create(name);
-  node.data.actor.spawn_point = v2d_new(pos.x, pos.y);
-  node.data.actor.position = v2d_new(pos.x, pos.y);
+  node.data.actor.spawn_point = position;
+  node.data.actor.position = position;
   node.next = enemy_list;
   enemy_list = node;
 
   return node.data;
 }
 
-export const level_create_particle = (image, position, speed, destroy_on_brick) => {
-  let p;
-  let node;
+/**
+ * level_create_particle()
+ * Creates a new particle.
+ */
+export const level_create_particle = (image:any, position:v2d_t, speed:v2d_t, destroy_on_brick:boolean) => {
+  const p:particle_t = {
+    image: image,
+    position: position,
+    speed: speed,
+    destroy_on_brick: destroy_on_brick
+  };
+
+  const node:particle_list_t = {
+    data: p,
+    next: particle_list
+  }
 
   /* no, you can't create a new particle! */
   if(editor_is_enabled()) {
@@ -1263,19 +1412,15 @@ export const level_create_particle = (image, position, speed, destroy_on_brick) 
       return;
   }
 
-  p = {};
-  p.image = image;
-  p.position = position;
-  p.speed = speed;
-  p.destroy_on_brick = destroy_on_brick;
-
-  node = {};
-  node.data = p;
-  node.next = particle_list;
   particle_list = node;
 }
 
-export const level_brick_move_actor = (brick, act) => {
+/**
+ * level_brick_move_actor()
+ * If the given brick moves, then the actor
+ * must move too. Returns a delta_speed vector
+ */
+export const level_brick_move_actor = (brick:brick_t, act:actor_t) => {
   let t, rx, ry, sx, sy, ph;
 
   if(!brick)
@@ -1299,7 +1444,11 @@ export const level_brick_move_actor = (brick, act) => {
   }
 }
 
-export const level_create_animal = (position) => {
+/**
+ * level_create_animal()
+ * Creates a random animal
+ */
+export const level_create_animal = (position:v2d_t) => {
   let animal = level_create_item(IT_ANIMAL, position);
   return animal;
 }
@@ -1312,7 +1461,7 @@ export const level_get_brick_list = () => {
   return brick_list;
 }
 
-export const level_get_brick_id = (b) => {
+export const level_get_brick_id = (b:brick_t) => {
   return get_brick_id(b);
 }
 
@@ -1320,6 +1469,11 @@ export const level_spawn_players = () => {
   spawn_players();
 }
 
+/**
+ * level_unload()
+ * Call manually after level_load() whenever
+ * this level has to be released or changed
+ */
 const level_unload = () => {
   let node, next;
   let inode, inext;
@@ -1378,7 +1532,7 @@ const level_unload = () => {
   logfile_message("level_unload() ok");
 }
 
-const get_brick_id = (b) => {
+const get_brick_id = (b:brick_t) => {
   let i;
 
   for(i=0; i<brick_size(); i++) {
@@ -1399,7 +1553,7 @@ const level_restart = () => {
 /* Render */
 
 const render_entities = () => {
-  let major_bricks, p;
+  let major_bricks;
   let inode;
   let enode;
 
@@ -1407,8 +1561,8 @@ const render_entities = () => {
   major_bricks = brick_list_clip();
 
   /* render bricks - background */
-  let brickImage = {};
-  for(p=major_bricks; p; p=p.next) {
+  let brickImage:any = {};
+  for(let p=major_bricks; p; p=p.next) {
     if(p.data) {
       let ref = p.data.brick_ref;
       if(ref.zindex < 0.5) {
@@ -1420,8 +1574,8 @@ const render_entities = () => {
             brickImage.sy, //  The y coordinate where to start clipping
             brickImage.swidth, // The width of the clipped image
             brickImage.sheight, // The height of the clipped image
-            p.data.x-(parseInt(camera_get_position().x,10)-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
-            p.data.y-(parseInt(camera_get_position().y,10)-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
+            p.data.x-(camera_get_position().x-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
+            p.data.y-(camera_get_position().y-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
             brickImage.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
             brickImage.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
           );
@@ -1433,7 +1587,7 @@ const render_entities = () => {
   render_players(true);
 
   /* render bricks - platform level (back) */
-  for(p=major_bricks; p; p=p.next) {
+  for(let p=major_bricks; p; p=p.next) {
     if(p.data) {
       let ref = p.data.brick_ref;
       if(Math.abs(ref.zindex-0.5) < EPSILON && ref.property != BRK_OBSTACLE) {
@@ -1445,8 +1599,8 @@ const render_entities = () => {
             brickImage.sy, //  The y coordinate where to start clipping
             brickImage.swidth, // The width of the clipped image
             brickImage.sheight, // The height of the clipped image
-            p.data.x-(parseInt(camera_get_position().x,10)-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
-            p.data.y-(parseInt(camera_get_position().y,10)-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
+            p.data.x-(camera_get_position().x-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
+            p.data.y-(camera_get_position().y-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
             brickImage.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
             brickImage.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
           );
@@ -1462,7 +1616,7 @@ const render_entities = () => {
   }
 
   /* render bricks - platform level (front) */
-  for(p=major_bricks; p; p=p.next) {
+  for(let p=major_bricks; p; p=p.next) {
     if(p.data) {
       let ref = p.data.brick_ref;
        if(Math.abs(ref.zindex-0.5) < EPSILON && ref.property == BRK_OBSTACLE) {
@@ -1474,8 +1628,8 @@ const render_entities = () => {
             brickImage.sy, //  The y coordinate where to start clipping
             brickImage.swidth, // The width of the clipped image
             brickImage.sheight, // The height of the clipped image
-            p.data.x-(parseInt(camera_get_position().x,10)-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
-            p.data.y-(parseInt(camera_get_position().y,10)-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
+            p.data.x-(camera_get_position().x-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
+            p.data.y-(camera_get_position().y-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
             brickImage.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
             brickImage.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
           );
@@ -1509,7 +1663,7 @@ const render_entities = () => {
   particle_render_all();
 
   /* render bricks - foreground */
-  for(p=major_bricks; p; p=p.next) {
+  for(let p=major_bricks; p; p=p.next) {
     if(p.data) {
       let ref = p.data.brick_ref;
        if(ref.zindex > 0.5) {
@@ -1521,8 +1675,8 @@ const render_entities = () => {
             brickImage.sy, //  The y coordinate where to start clipping
             brickImage.swidth, // The width of the clipped image
             brickImage.sheight, // The height of the clipped image
-            p.data.x-(parseInt(camera_get_position().x,10)-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
-            p.data.y-(parseInt(camera_get_position().y,10)-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
+            p.data.x-(camera_get_position().x-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
+            p.data.y-(camera_get_position().y-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
             brickImage.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
             brickImage.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
           );
@@ -1534,7 +1688,7 @@ const render_entities = () => {
   brick_list_unclip(major_bricks);
 }
 
-const render_players = (bring_to_back) => {
+const render_players = (bring_to_back:boolean) => {
   if (!currentPlayer) return;
 
   let i;
@@ -1671,7 +1825,7 @@ const render_powerups = () => {
   }
 }
 
-const render_dlgbox = (camera_position) => {
+const render_dlgbox = (camera_position:v2d_t) => {
   actor_render(dlgbox, camera_position);
   font_render(dlgbox_title, camera_position);
   font_render(dlgbox_message, camera_position);
@@ -1683,19 +1837,19 @@ const particle_init = () => {
 }
 
 // this gets caught in infinite loop when I spin dash
-const particle_update_all = (brick_list) => {
-  const dt = timer_get_delta(), g = gravity;
-  let got_brick, inside_area;
+const particle_update_all = (brick_list:brick_list_t) => {
+  const dt = timer_get_delta();
+  const g = gravity;
+  let got_brick;
+  let inside_area;
   let it;
   let prev = null;
   let next;
-  let p;
 
   for(it=particle_list; it; it=next) {
 
-    p = it.data;
+    const p:any = it.data;
     if (p) {
-      
       //next = it.next;
       inside_area = inside_screen(p.position.x, p.position.y, p.position.x+p.image.width, p.position.y+p.image.height, DEFAULT_MARGIN);
 
@@ -1740,14 +1894,17 @@ const particle_update_all = (brick_list) => {
 }
 
 const particle_render_all = () => {
-  let it;
-  let p;
   let topleft = v2d_new(camera_get_position().x-VIDEO_SCREEN_W/2, camera_get_position().y-VIDEO_SCREEN_H/2);
 
-  for(it=particle_list; it; it=it.next) {
-    p = it.data;
+  for(let it=particle_list; it; it=it.next) {
+    const p:any = it.data;
     if(p) {
-      image_draw(p.image, video_get_backbuffer(), parseInt((p.position.x-topleft.x),10), parseInt((p.position.y-topleft.y),10), IF_NONE);
+      image_draw(
+        p.image,
+        video_get_backbuffer(),
+        p.position.x-topleft.x,
+        p.position.y-topleft.y
+      );
     }
   }
 }
@@ -1756,17 +1913,14 @@ const particle_render_all = () => {
 
 const update_level_size = () => {
 
-  let max_x, max_y;
-  let p;
+  let max_x = 0;
+  let max_y = 0;
 
-  max_x = max_y = -INFINITY;
-
-  for(p=brick_list; p; p=p.next) {
-    //console.log(p)
-      if(p.data && p.data.brick_ref && p.data.brick_ref.property != 'BRK_NONE') {
-          max_x = Math.max(max_x, p.data.sx + brick_image(p.data).width);
-          max_y = Math.max(max_y, p.data.sy + brick_image(p.data).height);
-      }
+  for(let p=brick_list; p; p=p.next) {
+    if(p.data && p.data.brick_ref && p.data.brick_ref.property != BRK_NONE) {
+      max_x = Math.max(max_x, p.data.sx + brick_image(p.data).width);
+      max_y = Math.max(max_y, p.data.sy + brick_image(p.data).height);
+    }
   }
 
   level_width = Math.max(max_x, VIDEO_SCREEN_W);
@@ -1845,7 +1999,7 @@ const update_dialogregions = () => {
 
 /* Player Utils */
 
-const level_change_player = (id) => {
+const level_change_player = (id:number) => {
   currentPlayer.spin_dash = currentPlayer.braking = false;
   player_id = id;
   if (team[player_id]) {
@@ -1859,8 +2013,8 @@ const spawn_players = () => {
   let i, v;
 
   for(i=0; i<team.length; i++) {
-    v = (parseInt(spawn_point.x,10) <= level_width/2) ? 2-i : i;
-    team[i].actor.mirror = (parseInt(spawn_point.x,10) <= level_width/2) ? IF_NONE : IF_HFLIP;
+    v = (spawn_point.x <= level_width/2) ? 2-i : i;
+    team[i].actor.mirror = (spawn_point.x <= level_width/2) ? IF_NONE : IF_HFLIP;
     team[i].actor.spawn_point.x = team[i].actor.position.x = spawn_point.x + 15*v;
     team[i].actor.spawn_point.y = team[i].actor.position.y = spawn_point.y;
   }
@@ -1868,34 +2022,36 @@ const spawn_players = () => {
 
 /* Brick Utils */
 
-const create_fake_brick = (width, height, position, angle) => {
-  let i;
-  let b = {};
-  let d = {};
+const create_fake_brick = (width:number, height:number, position:v2d_t, angle:number) => {
+  
+  const d:brickdata_t = {
+    data: null,
+    image: image_create(width, height),
+    angle: angle,
+    property: BRK_OBSTACLE,
+    behavior: BRB_DEFAULT,
+    zindex: 0.5,
+    behavior_arg: []
+  }
+  for(let i=0; i<BRICKBEHAVIOR_MAXARGS; i++)
+    d.behavior_arg[i] = 0;
 
-  d.data = null;
-  d.image = image_create(width, height);
-  d.angle = angle;
-  d.property = BRK_OBSTACLE;
-  d.behavior = BRB_DEFAULT;
-  d.zindex = 0.5;
-  d.behavior_arg = [];
-  for(i=0; i<BRICKBEHAVIOR_MAXARGS; i++)
-      d.behavior_arg[i] = 0;
-
-  b.brick_ref = d;
-  b.animation_frame = 0;
-  b.enabled = true;
-  b.x = b.sx = parseInt(position.x,10);
-  b.y = b.sy = parseInt(position.y,10);
-  b.value = [];
-  for(i=0; i<BRICK_MAXVALUES; i++)
-      b.value[i] = 0;
+  const b:brick_t = {
+    brick_ref: d,
+    x: position.x,
+    y: position.y,
+    sx: position.x,
+    sy: position.y,
+    enabled: true,
+    state: 0,
+    value: [],
+    animation_frame: 0
+  };
 
   return b;
 }
 
-const brick_sort_cmp = (a, b) => {
+const brick_sort_cmp = (a:brick_t, b:brick_t) => {
   //console.log(a, b)
   let ra = a.brick_ref, rb = b.brick_ref;
   if (!ra || !rb) return false;
@@ -1929,19 +2085,19 @@ const brick_sort_cmp = (a, b) => {
   }
 }
 
-const insert_brick_sorted = (b) => {
+const insert_brick_sorted = (b:brick_list_t) => {
   /* b,p are unitary linked list nodes */
   let p;
 
   /* note that brick_list_clip() will reverse
    * part of this list later */
   if(brick_list) {
-    if(brick_sort_cmp(b.data, brick_list.data) >= 0) {
+    if(brick_sort_cmp(b.data, brick_list.data)) {
       b.next = brick_list;
       brick_list = b;
     } else {
       p = brick_list;
-      while(p.next && brick_sort_cmp(p.next.data, b.data) > 0)
+      while(p.next && brick_sort_cmp(p.next.data, b.data))
         p = p.next;
       b.next = p.next;
       p.next = b;
@@ -1953,40 +2109,27 @@ const insert_brick_sorted = (b) => {
 }
 
 const brick_list_clip = () => {
-  let list = [], p, q;
+  let list:brick_list_t = null;
   let bx, by, bw, bh;
 
-  //console.log(brick_list)
-
   /* initial clipping */
-  //for(var j=0;j<brick_list.length; j++) {
-  for(p=brick_list; p; p=p.next) {
-    //var p = brick_list[j];
-    if (p.data && p.data.brick_ref && p.data.brick_ref.image) {
-      bx = Math.min(p.data.x, p.data.sx);
-      by = Math.min(p.data.y, p.data.sy);
-      bw = p.data.brick_ref.image.width;
-      bh = p.data.brick_ref.image.height;
-      if(inside_screen(bx,by,bw,bh,DEFAULT_MARGIN*2) || p.data.brick_ref.behavior == BRB_CIRCULAR) {
-          q = {};
-          q.data = p.data;
-          q.next = list;
-          list = q;
-
-          //console.log('INSIDE SXCREEN',q)
-          //list.push(q);
-      }
+  for(let p=brick_list; p; p=p.next) {
+    bx = Math.min(p.data.x, p.data.sx);
+    by = Math.min(p.data.y, p.data.sy);
+    bw = p.data.brick_ref.image.width;
+    bh = p.data.brick_ref.image.height;
+    if(inside_screen(bx,by,bw,bh,DEFAULT_MARGIN*2) || p.data.brick_ref.behavior == BRB_CIRCULAR) {
+      const q:brick_list_t = {
+        data: p.data,
+        next: list
+      };
+      list = q;
     }
   }
-
-  //console.log(list)
-
-  //return brick_list;
-
   return list;
 }
 
-const brick_list_unclip = (list) => {
+const brick_list_unclip = (list:brick_list_t) => {
   let next;
 
   while(list) {
@@ -1997,23 +2140,23 @@ const brick_list_unclip = (list) => {
 }
 
 const item_list_clip = () => {
-  let list = null, p, q;
+  let list:item_list_t = null;
   let ix, iy, iw, ih;
-  let img;
 
-  for(p=item_list; p; p=p.next) {
+  for(let p=item_list; p; p=p.next) {
     if (p.data) {
-      img = actor_image(p.data.actor);
+      const img = actor_image(p.data.actor);
       if (img) {
-        ix = parseInt(p.data.actor.position.x,10);
-        iy = parseInt(p.data.actor.position.y,10);
+        ix = ~~p.data.actor.position.x;
+        iy = ~~p.data.actor.position.y;
         iw = img.width;
         ih = img.height;
         if(inside_screen(ix,iy,iw,ih,DEFAULT_MARGIN)) {
-            q = {};
-            q.data = p.data;
-            q.next = list;
-            list = q;
+          const q:item_list_t = {
+            data: p.data,
+            next: list
+          };
+          list = q;
         }
       }
     }
@@ -2022,7 +2165,7 @@ const item_list_clip = () => {
   return list;
 }
 
-const item_list_unclip = (list) => {
+const item_list_unclip = (list:item_list_t) => {
   let next;
 
   while(list) {
@@ -2110,7 +2253,7 @@ const remove_dead_bricks = () => {
   }
 }
 
-const destroy_fake_brick = (b) => {
+const destroy_fake_brick = (b:brick_t) => {
   image_destroy(b.brick_ref.image);
   b.brick_ref = null;
   b = null;
@@ -2118,7 +2261,7 @@ const destroy_fake_brick = (b) => {
 
 //var logOnce = false;
 
-const brick_move = (brick) => {
+const brick_move = (brick:brick_t) => {
   let t, rx, ry, sx, sy, ph;
 
   if(!brick)
@@ -2145,16 +2288,12 @@ const brick_move = (brick) => {
 
 /* Camera Utils */
 
-export const level_set_camera_focus = (act) => {
-  camera_focus = {
-    position: {
-      x: act.position.x,
-      y: act.position.y
-    }
-  }
+export const level_set_camera_focus = (act:actor_t) => {
+  camera_focus.position.x = act.position.x;
+  camera_focus.position.y = act.position.y;
 }
 
-const inside_screen = (x, y, w, h, margin) => {
+const inside_screen = (x:number, y:number, w:number, h:number, margin:number) => {
   //var cam = level_editmode() ? editor_camera : camera_get_position();
   let cam = camera_get_position();
   let a = [ x, y, x+w, y+h ];
@@ -2176,7 +2315,7 @@ const got_boss = () => {
 }
 
 /* load */
-const level_load = (filepath) => {
+const level_load = (filepath:string) => {
 
   /* default values */
   name = "Untitled";
@@ -2196,7 +2335,7 @@ const level_load = (filepath) => {
   readonly = false;
 
   return new Promise(function (fulfill, reject){
-    logfile_message("level_load(\"%s\")", filepath);
+    logfile_message(`level_load("${filepath}")`);
     resourcemanager_getJsonFile(filepath)
     .then(traverse_level)
     .then(function(){
@@ -2212,12 +2351,12 @@ const level_load = (filepath) => {
 
       logfile_message("level_load() ok");
 
-      fulfill();
+      fulfill(null);
     });
   });
 }
 
-const traverse_level = (data) => {
+const traverse_level = (data:any) => {
   //console.log(data)
 
   theme = data.theme;
@@ -2241,14 +2380,16 @@ const traverse_level = (data) => {
 
   for(i=0;i<data.dialogbox.length;i++) {
     //let d = &(dialogregion[dialogregion_size++]);
-    let d = {};
-    d.disabled = false;
-    d.rect_x = data.dialogbox[i].xpos;
-    d.rect_y = data.dialogbox[i].ypos;
-    d.rect_w = data.dialogbox[i].width;
-    d.rect_h = data.dialogbox[i].height;
-    d.title = lang_get(data.dialogbox[i].title);
-    d.message = lang_get(data.dialogbox[i].message);
+    let d:dialogregion_t = {
+      disabled: false,
+      rect_x: data.dialogbox[i].xpos,
+      rect_y: data.dialogbox[i].ypos,
+      rect_w: data.dialogbox[i].width,
+      rect_h: data.dialogbox[i].height,
+      title: lang_get(data.dialogbox[i].title),
+      message: lang_get(data.dialogbox[i].message)
+    };
+    
     dialogregion.push(d);
     dialogregion_size = dialogregion.length;
   }
@@ -2277,12 +2418,11 @@ const traverse_level = (data) => {
 
         /* items */
         for(i=0;i<data.itemlist.length;i++) {
-          item_list[i] = level_create_item(data.itemlist[i].id, v2d_new(data.itemlist[i].xpos,data.itemlist[i].ypos));
+          level_create_item(data.itemlist[i].id, v2d_new(data.itemlist[i].xpos,data.itemlist[i].ypos));
         }
 
-        fulfill();
+        fulfill(backgroundtheme);
       });
     });
   });
 }
-

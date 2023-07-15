@@ -218,8 +218,6 @@ export const player_update = (player:player_t, team:player_t[], brick_list:brick
 
   const act = player.actor;
 
-  //console.log(act.position.x, act.position.y)
-
   if(player.blinking) {
     player.blink_timer += timer_get_delta();
     act.visible = (timer_get_ticks() % 250) < 125;
@@ -661,7 +659,7 @@ export const player_platform_movement = (player:player_t, team:player_t[], brick
       }
     }
 
-  if(act.position.x >= level_size().x - (actor_image(act).width - act.hot_spot.x)) {
+    if(act.position.x >= level_size().x - (actor_image(act).width - act.hot_spot.x)) {
       player.spin = false;
       at_right_border = true;
 

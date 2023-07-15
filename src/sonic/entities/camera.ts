@@ -163,8 +163,7 @@ export const camera_get_position = ():v2d_t => {
  * sets a new position
  */
 export const camera_set_position = (position:v2d_t) => {
-  const pos = v2d_new(position.x,position.y);
-  camera.dest = camera.position = pos;
+  camera.dest = camera.position = position;
 }
 
 const define_boundaries = (x1:number, y1:number, x2:number, y2:number) => {
