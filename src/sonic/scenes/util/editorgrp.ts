@@ -6,7 +6,9 @@ export enum editorgrp_entity_type {
   EDITORGRP_ENTITY_BRICK = 0,
   EDITORGRP_ENTITY_ITEM,
   EDITORGRP_ENTITY_ENEMY
-} 
+}
+
+export const { EDITORGRP_ENTITY_BRICK, EDITORGRP_ENTITY_ITEM, EDITORGRP_ENTITY_ENEMY } = editorgrp_entity_type;
 
 export interface editorgrp_entity_t {
   type: editorgrp_entity_type, 

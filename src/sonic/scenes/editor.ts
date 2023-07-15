@@ -1,9 +1,9 @@
-
 import { sound_play } from "./../core/audio"
 import { soundfactory_get } from "./../core/soundfactory"
 import { EPSILON } from "./../core/global"
 import { image_load, image_blit, image_create, image_rgb, image_clear, image_putpixel, image_destroy } from "./../core/image"
 import { 
+  input_t,
   input_create_keyboard,
   input_create_mouse, 
   input_destroy, 
@@ -43,10 +43,11 @@ import { logfile_message } from "./../core/logfile"
 import { sprite_get_image, sprite_get_animation } from "./../core/sprite"
 import { timer_get_delta, timer_get_ticks } from "./../core/timer"
 import { clip, bounding_box } from "./../core/util"
-import { v2d_new, v2d_add, v2d_subtract, v2d_magnitude } from "./../core/v2d"
+import { v2d_t, v2d_new, v2d_add, v2d_subtract, v2d_magnitude } from "./../core/v2d"
 import { video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H, VIDEORESOLUTION_EDT, video_get_resolution, video_is_smooth, video_is_fullscreen, video_changemode } from "./../core/video"
 import { actor_image } from "./../entities/actor"
 import { 
+  brick_list_t,
   brick_get,
   brick_get_property_name, 
   brick_get_behavior_name, 
@@ -60,9 +61,11 @@ import {
   BRS_ACTIVE
 } from "./../entities/brick"
 import { camera_get_position, camera_set_position } from "./../entities/camera"
-import { enemy_get_list_of_names, enemy_create, enemy_destroy } from "./../entities/enemy"
-import { font_create, font_destroy, font_get_charsize, font_set_text, font_get_text, font_render } from "./../entities/font"
+import { enemy_list_t, ES_DEAD, enemy_get_list_of_names, enemy_create, enemy_destroy } from "./../entities/enemy"
+import { font_create, font_destroy, font_get_charsize, font_set_text, font_get_text, font_render, font_t } from "./../entities/font"
 import { 
+  item_list_t,
+  IS_DEAD,
   item_create,
   item_destroy,
   IT_RING,
@@ -148,15 +151,53 @@ import {
   IT_ACIDSHIELDBOX,
   IT_WINDSHIELDBOX
 } from "./../entities/item"
-import { editorgrp_get_group, editorgrp_init, editorgrp_release, editorgrp_group_count } from "./util/editorgrp"
+import { EDITORGRP_ENTITY_BRICK, EDITORGRP_ENTITY_ITEM, EDITORGRP_ENTITY_ENEMY, editorgrp_get_group, editorgrp_init, editorgrp_release, editorgrp_group_count } from "./util/editorgrp"
 import { level_get_brick_list, level_get_brick_id, level_render_entities, level_getfile, level_save, level_create_brick, level_create_item, level_create_enemy, level_set_spawn_point, level_spawn_players } from "./level"
+
+export enum editor_object_type {
+  EDT_BRICK = 1,
+  EDT_ITEM,
+  EDT_ENEMY,
+  EDT_GROUP
+}
+
+export enum editor_action_type {
+  EDA_NEWOBJECT = 1,
+  EDA_DELETEOBJECT,
+  EDA_CHANGESPAWN,
+  EDA_RESTORESPAWN
+}
+
+export interface editor_action_t {
+  type: editor_action_type,
+  obj_type: editor_object_type,
+  obj_id: number,
+  obj_position: v2d_t,
+  obj_old_position: v2d_t
+}
+
+export interface editor_action_list_t {
+  action: editor_action_t,
+  in_group: boolean,
+  group_key: number,
+  prev: editor_action_list_t,
+  next: editor_action_list_t
+}
+
+const { EDT_BRICK, EDT_ITEM, EDT_ENEMY, EDT_GROUP } = editor_object_type;
+const { EDA_NEWOBJECT, EDA_DELETEOBJECT, EDA_CHANGESPAWN, EDA_RESTORESPAWN } = editor_action_type;
 
 const EDITOR_BGFILE      = "data/images/editorbg.png";
 
-const EDT_BRICK   = 1;
-const EDT_ITEM    = 2;
-const EDT_ENEMY   = 3;
-const EDT_GROUP   = 4;
+const EDITORGRP_ENTITY_TO_EDT = (t:number) => {
+  if (t == EDITORGRP_ENTITY_BRICK) {
+    return EDT_BRICK;
+  }
+  if (t == EDITORGRP_ENTITY_ITEM) {
+    return EDT_ITEM;
+  }
+  return EDT_ENEMY;
+}
 
 let editor_enabled = false;
 
@@ -176,18 +217,19 @@ const editor_keybmap2 = [
   KEY_P
 ];
 
-let editor_previous_video_resolution;
-let editor_previous_video_smooth;
-let editor_bgimage;
-let editor_mouse;
-let editor_keyboard, editor_keyboard2;
-let editor_camera = {};
-let editor_cursor = {};
-let editor_object_type, editor_cursor_objtype;
+let editor_previous_video_resolution:number;
+let editor_previous_video_smooth:boolean;
+let editor_bgimage:any;
+let editor_mouse:input_t;
+let editor_keyboard:input_t;
+let editor_keyboard2:input_t;
+let editor_camera:v2d_t;
+let editor_cursor:v2d_t;
+let editor_cursor_objtype:number;
 let editor_cursor_objid = 0;
 let editor_cursor_itemid = 0;
-let editor_cursor_font;
-let editor_properties_font;
+let editor_cursor_font:font_t;
+let editor_properties_font:font_t;
 
 let editor_item_list = [
   IT_RING, IT_LIFEBOX, IT_RINGBOX, IT_STARBOX, IT_SPEEDBOX, IT_GLASSESBOX, IT_TRAPBOX,
@@ -209,26 +251,26 @@ let editor_item_list = [
   -1 /* -1 represents the end of this list */
 ];
 
-let editor_item_list_size;
-let editor_enemy_name;
-let editor_enemy_name_length;
+let editor_item_list_size:number;
+let editor_enemy_name:string[];
+let editor_enemy_name_length:number;
 
-const EDA_NEWOBJECT      = 1;
-const EDA_DELETEOBJECT   = 2;
-const EDA_CHANGESPAWN    = 3;
-const EDA_RESTORESPAWN   = 4;
-
-let editor_action_buffer;
-let editor_action_buffer_head;
-let editor_action_buffer_cursor;
+let editor_action_buffer:editor_action_list_t;
+let editor_action_buffer_head:editor_action_list_t;
+let editor_action_buffer_cursor:editor_action_list_t;
 
 /* grid */
 const EDITOR_GRID_W = 1;
 const EDITOR_GRID_H = 1;
 
-let editor_grid_enabled = 0;
+let editor_grid_enabled = false;
 
-let brick_list;
+let brick_list:brick_list_t;
+let item_list:item_list_t;
+let enemy_list:enemy_list_t;
+
+let spawn_point = v2d_new(0,0);
+
 
 export const editor_init = () => {
   logfile_message("editor_init()");
@@ -252,6 +294,9 @@ export const editor_init = () => {
   editor_mouse = input_create_mouse();
   editor_cursor_font = font_create(8);
   editor_properties_font = font_create(8);
+
+  /*Misc*/
+  editor_camera = camera_get_position();
 
   /* groups */
   editorgrp_init();
@@ -294,8 +339,8 @@ export const editor_enable = () => {
   /* activating the editor */
   editor_action_init();
   editor_enabled = true;
-  editor_camera.x = parseInt(camera_get_position().x,10);
-  editor_camera.y = parseInt(camera_get_position().y,10);
+  editor_camera.x = ~~camera_get_position().x;
+  editor_camera.y = ~~camera_get_position().y;
   editor_cursor = v2d_new(VIDEO_SCREEN_W/2, VIDEO_SCREEN_H/2);
   //video_showmessage("Welcome to the Level Editor! Read readme.html to know how to use it.");
 
@@ -485,9 +530,9 @@ export const editor_update = () => {
   editor_scroll();
 
   /* cursor coordinates */
-  font_set_text(editor_cursor_font, "%d,%d", parseInt(editor_grid_snap(editor_cursor).x,10), parseInt(editor_grid_snap(editor_cursor).y,10));
-  editor_cursor_font.position.x = clip(parseInt(editor_cursor.x,10), 10, VIDEO_SCREEN_W-w*font_get_text(editor_cursor_font).length-10);
-  editor_cursor_font.position.y = clip(parseInt(editor_cursor.y-3*h,10), 10, VIDEO_SCREEN_H-10);
+  font_set_text(editor_cursor_font, "%d,%d", editor_grid_snap(editor_cursor).x, editor_grid_snap(editor_cursor).y);
+  editor_cursor_font.position.x = clip(~~editor_cursor.x,10, VIDEO_SCREEN_W-w*font_get_text(editor_cursor_font).length-10);
+  editor_cursor_font.position.y = clip(~~editor_cursor.y-3*h, 10, VIDEO_SCREEN_H-10);
 
   /* object properties */
   editor_properties_font.position = v2d_new(10, 10);
@@ -535,8 +580,8 @@ export const editor_render = () => {
     video_get_backbuffer(),
     cursor_arrow.sx,
     cursor_arrow.sy,
-    parseInt(editor_cursor.x,10),
-    parseInt(editor_cursor.y,10),
+    ~~editor_cursor.x,
+    ~~editor_cursor.y,
     cursor_arrow.width,
     cursor_arrow.height
   );
@@ -588,8 +633,8 @@ const editor_scroll = () => {
     editor_camera.x += camera_speed*dt;
 
   /* make sure it doesn't go off the bounds */
-  editor_camera.x = parseInt(Math.max(editor_camera.x, VIDEO_SCREEN_W/2),10);
-  editor_camera.y = parseInt(Math.max(editor_camera.y, VIDEO_SCREEN_H/2),10);
+  editor_camera.x = ~~Math.max(editor_camera.x, VIDEO_SCREEN_W/2);
+  editor_camera.y = ~~Math.max(editor_camera.y, VIDEO_SCREEN_H/2);
   camera_set_position(editor_camera);
 }
 
@@ -599,7 +644,7 @@ const editor_render_background = () => {
   //image_draw_scaled(editor_bgimage, video_get_backbuffer(), 0, 0, v2d_new(x,y), IF_NONE);
 }
 
-const editor_object_category = (objtype) => {
+const editor_object_category = (objtype:editor_object_type) => {
   switch(objtype) {
     case EDT_BRICK:
       return "brick";
@@ -617,7 +662,7 @@ const editor_object_category = (objtype) => {
   return "unknown";
 }
 
-const editor_object_info = (objtype, objid) => {
+const editor_object_info = (objtype:editor_object_type, objid:number) => {
   //static char buf[128];
   //strcpy(buf, "");
   let buf = "";
@@ -763,7 +808,7 @@ const editor_previous_object = () => {
   }
 }
 
-const editor_item_list_get_index = (item_id) => {
+const editor_item_list_get_index = (item_id:number) => {
   let i;
 
   for(i=0; i<editor_item_list_size; i++) {
@@ -774,11 +819,11 @@ const editor_item_list_get_index = (item_id) => {
   return -1;
 }
 
-const editor_is_valid_item = (item_id) => {
+const editor_is_valid_item = (item_id:number) => {
   return (editor_item_list_get_index(item_id) != -1);
 }
 
-const editor_draw_object = (obj_type, obj_id, position) => {
+const editor_draw_object = (obj_type:editor_object_type, obj_id:number, position:v2d_t) => {
   let cursor = null;
   let offset = v2d_new(0, 0);
 
@@ -830,15 +875,15 @@ const editor_draw_object = (obj_type, obj_id, position) => {
       video_get_backbuffer(),
       cursor.sx,
       cursor.sy,
-      parseInt(position.x-offset.x,10),
-      parseInt(position.y-offset.y,10),
+      ~~position.x-offset.x,
+      ~~position.y-offset.y,
       cursor.swidth,
       cursor.sheight
     );
   }
 }
 
-const editor_enemy_name2key = (name) => {
+const editor_enemy_name2key = (name:string) => {
   let i;
 
   for(i=0; i<editor_enemy_name_length; i++) {
@@ -850,10 +895,9 @@ const editor_enemy_name2key = (name) => {
   return -1; /* not found */
 }
 
-const editor_enemy_key2name = (key) => {
-  //key = clip(key, 0, editor_enemy_name_length-1);
-  //return editor_enemy_name[key];
-  return null;
+const editor_enemy_key2name = (key:number) => {
+  key = clip(key, 0, editor_enemy_name_length-1);
+  return editor_enemy_name[key];
 }
 
 const editor_grid_init = () => {
@@ -904,43 +948,51 @@ const editor_grid_size = () => {
     return v2d_new(8,8);
 }
 
-const editor_grid_snap = (position) => {
+const editor_grid_snap = (position:v2d_t) => {
   let topleft = v2d_subtract(editor_camera, v2d_new(VIDEO_SCREEN_W/2, VIDEO_SCREEN_H/2));
 
   let w = EDITOR_GRID_W;
   let h = EDITOR_GRID_H;
-  let cx = parseInt(topleft.x % w,10);
-  let cy = parseInt(topleft.y % h,10);
+  let cx = ~~(topleft.x % w);
+  let cy = ~~(topleft.y % h);
 
-  let xpos = -cx + parseInt((position.x / w),10) * w;
-  let ypos = -cy + parseInt((position.y / h),10) * h;
+  let xpos = -cx + ((position.x / w) * w);
+  let ypos = -cy + ((position.y / h) * h);
 
   return v2d_add(topleft, v2d_new(xpos, ypos));
 }
 
-const editor_action_entity_new = (is_new_object, obj_type, obj_id, obj_position) => {
-  let o = {};
-  o.type = is_new_object ? EDA_NEWOBJECT : EDA_DELETEOBJECT;
-  o.obj_type = obj_type;
-  o.obj_id = obj_id;
-  o.obj_position = obj_position;
+const editor_action_entity_new = (is_new_object:boolean, obj_type:editor_object_type, obj_id:number, obj_position:v2d_t) => {
+  const o:editor_action_t = {
+    type: is_new_object ? EDA_NEWOBJECT : EDA_DELETEOBJECT,
+    obj_type: obj_type,
+    obj_id: obj_id,
+    obj_position: obj_position,
+    obj_old_position: obj_position
+  };  
   return o;
 }
 
-const editor_action_spawnpoint_new = (is_changing, obj_position, obj_old_position) => {
-  let o = {};
-  o.type = is_changing ? EDA_CHANGESPAWN : EDA_RESTORESPAWN;
-  o.obj_position = obj_position;
-  o.obj_old_position = obj_old_position;
+const editor_action_spawnpoint_new = (is_changing:boolean, obj_position:v2d_t, obj_old_position:v2d_t) => {
+  const o:editor_action_t = {
+    type: is_changing ? EDA_CHANGESPAWN : EDA_RESTORESPAWN,
+    obj_type: null,
+    obj_id: null,
+    obj_position: obj_position,
+    obj_old_position: obj_old_position
+  }
   return o;
 }
 
 const editor_action_init = () => {
   /* linked list */
-  editor_action_buffer_head = {};
-  editor_action_buffer_head.in_group = false;
-  editor_action_buffer_head.prev = null;
-  editor_action_buffer_head.next = null;
+  editor_action_buffer_head = {
+    action: null,
+    in_group: false,
+    group_key: null,
+    prev: null,
+    next: null
+  };  
   editor_action_buffer = editor_action_buffer_head;
   editor_action_buffer_cursor = editor_action_buffer_head;
 }
@@ -952,7 +1004,7 @@ const editor_action_release = () => {
   editor_action_buffer_cursor = null;
 }
 
-const editor_action_register = (action) => {
+const editor_action_register = (action:editor_action_t) => {
   //console.log('REGISTER', action)
 
   /* ugly, but these fancy group stuff
@@ -961,12 +1013,16 @@ const editor_action_register = (action) => {
   let group_key;
 
   if(action.obj_type != EDT_GROUP) {
-    let c, it, node;
+    let c, it;
 
     /* creating new node */
-    node = {};
-    node.action = action;
-    node.in_group = registering_group;
+    let node:editor_action_list_t = {
+      action: action,
+      in_group: registering_group,
+      group_key: null,
+      prev: null,
+      next: null
+    };
     if(node.in_group)
       node.group_key = group_key;
 
@@ -1005,7 +1061,7 @@ const editor_action_register = (action) => {
   }
 }
 
-const editor_action_delete_list = (list) => {
+const editor_action_delete_list = (list:editor_action_list_t):editor_action_list_t => {
   let p, next;
 
   p = list;
@@ -1066,7 +1122,7 @@ const editor_action_redo = () => {
     //video_showmessage("Already at newest change.");
 }
 
-const editor_action_commit = (action) => {
+const editor_action_commit = (action:editor_action_t) => {
   //console.log('COMMIT', action)
   if(action.type == EDA_NEWOBJECT) {
     /* new object */
@@ -1163,4 +1219,3 @@ const editor_action_commit = (action) => {
     level_spawn_players();
   }
 }
-
