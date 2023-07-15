@@ -51,7 +51,7 @@ export const isInArray = (value:string, array: string[]):boolean => {
  * Return a random number
  */
 export const random = (n:number):number => {
-  return clip(Math.random() * n,1,n);
+  return ~~clip(Math.random() * n, 0, n);
 }
 
 /**
