@@ -20,7 +20,7 @@ export interface objectdecorator_audio_t extends objectdecorator_t {
 }
 
 export interface playsamplestrategy_t extends audiostrategy_t {
-  sfx: any,
+  sfx: sound_t,
   vol: number,
   pan: number,
   freq: number,
@@ -28,7 +28,7 @@ export interface playsamplestrategy_t extends audiostrategy_t {
 }
 
 export interface playmusicstrategy_t extends audiostrategy_t {
-  mus: any,
+  mus: music_t,
   loop: boolean
 }
 
