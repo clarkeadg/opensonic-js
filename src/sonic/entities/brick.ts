@@ -280,7 +280,7 @@ const traverse_brick_attributes = (stmt:data_theme_bricks_t) => {
 
     // sprite 
     sprite_create(stmt.sprite)
-    .then(function(data:any){
+    .then(function(data:spriteinfo_t){
       dat.data = data;
       dat.image = data.frame_data[0];
       brickdata_count++;
