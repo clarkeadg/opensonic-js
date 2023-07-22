@@ -243,7 +243,7 @@ const traverse = (data:any) => {
   return Promise.all(bg.map(traverse_background_attributes));
 }
 
-const traverse_background_attributes = (data:any, bgdata:any) => {
+const traverse_background_attributes = (data:any) => {
   return new Promise(function (fulfill, reject){
     let bg = background_new();
 

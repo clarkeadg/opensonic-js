@@ -158,7 +158,7 @@ export const sprite_get_animation = (sprite_name:string, anim_id:number) => {
  * Receives an animation and the desired frame number.
  * Returns an image.
  */
-export const sprite_get_image = (anim:any, frame_id:number) => {
+export const sprite_get_image = (anim:animation_t, frame_id:number) => {
   if (!anim) return 0;
   //frame_id = Math.min(frame_id, 0, anim.frame_count-1);
   return anim.frame_data[anim.data[frame_id]];
@@ -176,7 +176,7 @@ export const sprite_create = (tree:any) => {
  * spriteinfo_destroy()
  * Destroys a spriteinfo_t object
  */
-export const sprite_info_destroy = (info:any) => {
+export const sprite_info_destroy = (info:spriteinfo_t) => {
   let i;
 
   if(info.source_file != null)
@@ -209,7 +209,7 @@ const createCanvas = (imgUrl:string, spr:spriteinfo_t) => {
  * animation_delete()
  * Deletes an existing animation_t instance
  */
-const animation_delete = (anim:any):null => {
+const animation_delete = (anim:animation_t):null => {
   if(anim != null) {
     if(anim.data != null)
       anim.data = null;
@@ -222,7 +222,7 @@ const animation_delete = (anim:any):null => {
  * validate_sprite()
  * Validates the sprite
  */
-const validate_sprite = (spr:any) => {
+const validate_sprite = (spr:spriteinfo_t) => {
   let i, j, n;
 
   //console.log(spr)
@@ -280,7 +280,7 @@ const spriteinfo_create = (tree:any) => {
     sprite = validate_sprite(sprite);
     //fulfill();
     load_sprite_images(sprite)
-    .then(function(loadedSprite){
+    .then(function(loadedSprite:spriteinfo_t){
       //console.log('SPRITE LOADED',loadedSprite)
       sprite = fix_sprite_animations(loadedSprite);
       register_sprite(tree.name, sprite)
@@ -385,7 +385,7 @@ const setupCanvasSprite = (spr:spriteinfo_t, sheet:any) => {
   return spr;
 }
 
-const fix_sprite_animations = (spr:any) => {
+const fix_sprite_animations = (spr:spriteinfo_t) => {
   for(let i=0; i<spr.animation_count; i++) {
     spr.animation_data[i].frame_data = spr.frame_data;
     spr.animation_data[i].hot_spot = spr.hot_spot;
@@ -405,7 +405,7 @@ const traverse = (data:any) => {
  * traverse_sprite_attributes()
  * Sprite attributes traversal
  */
-const traverse_sprite_attributes = (sprite:any, s:any) => {
+const traverse_sprite_attributes = (sprite:spriteinfo_t, s:any) => {
 
   /* source_file */
   sprite.source_file = DATA_ROOT + s.source_file;
@@ -442,7 +442,7 @@ const traverse_sprite_attributes = (sprite:any, s:any) => {
  * traverse_animation_attributes()
  * Animation attributes traversal
  */
-const traverse_animation_attributes = (anim:animation_t, animation:any) => {
+const traverse_animation_attributes = (anim:animation_t, animation:animation_t) => {
   //console.log(anim, animation);
 
   anim.repeat = animation.repeat;
