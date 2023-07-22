@@ -25,6 +25,18 @@ export const BRS_ACTIVE            =  2; /* generic action */
 export const BRICK_MAXVALUES       =  3;
 export const BRB_FALL_TIME         =  1.0; /* time in seconds before a BRB_FALL gets destroyed */
 
+export interface bricktheme_t {
+  bricks: any
+}
+
+export interface bricktheme_data_t {
+  type: string,
+  behavior: any,
+  angle: number,
+  zindex: number
+  sprite: any
+}
+
 export interface brickdata_t {
   data: spriteinfo_t,
   image: any,
@@ -222,12 +234,11 @@ const validate_brickdata = (obj:brickdata_t) => {
     //fatal_error("Can't load bricks: all bricks must have a sprite!");
 }
 
-const traverse = (stmt:any) => {
-    let bricks = stmt.bricks;
-    return Promise.all(bricks.map(traverse_brick_attributes))
+const traverse = (stmt:bricktheme_t) => {
+  return Promise.all(stmt.bricks.map(traverse_brick_attributes))
 }
 
-const traverse_brick_attributes = (stmt:any) => {
+const traverse_brick_attributes = (stmt:bricktheme_data_t) => {
   return new Promise(function (fulfill, reject){
     let dat = brickdata_new();
     let type = stmt.type;

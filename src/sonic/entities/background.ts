@@ -9,6 +9,26 @@ import { resourcemanager_getJsonFile } from "./../core/resourcemanager"
 import { isArray } from "./../core/util"
 import { actor_t, actor_create, actor_destroy, actor_render_repeat_xy } from "./actor"
 
+export interface bgtheme_data_t {
+  bg: bgdata_t[]
+}
+
+export interface bgdata_t {
+  initial_position: {
+    xpos: number,
+    ypos: number
+  },
+  scroll_speed: {
+    xspeed: number,
+    yspeed: number
+  },
+  behavior: any,
+  repeat_x: boolean,
+  repeat_y: boolean,
+  zindex: number,
+  sprite: any
+}
+
 export interface bgtheme_t {
   data: background_t[],
   length: number
@@ -238,12 +258,11 @@ const bgstrategy_circular_update = (strategy:bgstrategy_circular_t) => {
   bg.actor.position.y += (me.angularspeed_y * me.amplitude_y * cy) * dt;
 }
 
-const traverse = (data:any) => {
-  const bg = data.bg;
-  return Promise.all(bg.map(traverse_background_attributes));
+const traverse = (data:bgtheme_data_t) => {
+  return Promise.all(data.bg.map(traverse_background_attributes));
 }
 
-const traverse_background_attributes = (data:any) => {
+const traverse_background_attributes = (data:bgdata_t) => {
   return new Promise(function (fulfill, reject){
     let bg = background_new();
 
