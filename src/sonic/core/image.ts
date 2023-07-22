@@ -50,7 +50,7 @@ export const image_load = (url:string) => {
  * image_rectfill()
  * Draws a filled rectangle
  */
-export const image_rectfill = (ctx:any, x1:number, y1:number, x2:number, y2:number, color:string) => {
+export const image_rectfill = (ctx:CanvasRenderingContext2D, x1:number, y1:number, x2:number, y2:number, color:string) => {
   ctx.fillStyle = color;
   ctx.fillRect(x1,y1,x2-x1,y2-y1);
 };
@@ -60,7 +60,7 @@ export const image_rectfill = (ctx:any, x1:number, y1:number, x2:number, y2:numb
  * Draws an image onto the destination surface
  * at the specified position
  */
-export const image_draw = (src:string, dest:any, x:number, y:number) => {
+export const image_draw = (src:ImageData, dest:CanvasRenderingContext2D, x:number, y:number) => {
   dest.putImageData(src, x, y);
 };
 
@@ -68,7 +68,7 @@ export const image_draw = (src:string, dest:any, x:number, y:number) => {
  * image_blit()
  * Blits a surface onto another
  */
-export const image_blit = (src:string, dest:any, source_x:number, source_y:number, dest_x:number, dest_y:number, width:number, height:number) => {
+export const image_blit = (src:CanvasImageSource, dest:CanvasRenderingContext2D, source_x:number, source_y:number, dest_x:number, dest_y:number, width:number, height:number) => {
   if (!src || !dest) return false;
   dest.drawImage(
     src,
@@ -87,7 +87,7 @@ export const image_blit = (src:string, dest:any, source_x:number, source_y:numbe
  * image_putpixel()
  * Plots a pixel into the given image
  */
-export const image_putpixel = (img:ImageData, dest:any, x:number, y:number, color:string) => {
+export const image_putpixel = (img:ImageData, dest:CanvasRenderingContext2D, x:number, y:number, color:string) => {
   dest.fillStyle = color;
   dest.fillRect(x,y,x+1,y+1);
   //putpixel(img.data, x, y, color);
@@ -97,7 +97,7 @@ export const image_putpixel = (img:ImageData, dest:any, x:number, y:number, colo
  * image_line()
  * Draws a line from (x1,y1) to (x2,y2) using the specified color
  */
-export const image_line = (ctx:any, x1:any, y1:number, x2:number, y2:number, color:string) => {
+export const image_line = (ctx:CanvasRenderingContext2D, x1:number, y1:number, x2:number, y2:number, color:string) => {
   ctx.beginPath();
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
@@ -118,7 +118,7 @@ export const image_rgb = (r:number, g:number, b:number) => {
  * image_clear()
  * Clears an given image with some color
  */
-export const image_clear = (img:any, r:number, g:number, b:number) => {
+export const image_clear = (img:ImageData, r:number, g:number, b:number) => {
   for (let i=0; i<img.data.length; i+= 4) {
     img.data[i]     = r; // red
     img.data[i+1]   = g; // green
@@ -130,7 +130,7 @@ export const image_clear = (img:any, r:number, g:number, b:number) => {
  * image_pixelperfect_collision()
  * Pixel perfect collision detection
  */
-export const image_pixelperfect_collision = (img1:any, img2:any, x1:number, y1:number, x2:number, y2:number):boolean => {
+export const image_pixelperfect_collision = (img1:ImageData, img2:ImageData, x1:number, y1:number, x2:number, y2:number):boolean => {
 
   // # hack
   return true;
@@ -173,13 +173,13 @@ export const image_pixelperfect_collision = (img1:any, img2:any, x1:number, y1:n
  * Destroys an image. This is called automatically
  * while unloading the resource manager.
  */
-export const image_destroy = (img:any) => {
+export const image_destroy = (img:ImageData) => {
   if (!img) return;
   
-  if(img.data != null) {
+  //if(img.data != null) {
     //destroy_bitmap(img.data);
     //img.data = null;
-  }
+  //}
 
   img = null;
 }
