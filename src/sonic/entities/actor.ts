@@ -1072,7 +1072,7 @@ export const actor_platform_movement = (act:actor_t, brick_list:brick_list_t, gr
   let diff = MAGIC_DIFF; // magic hack 
   let feet = act.position; // actor's feet 
   let up:v2d_t, upright:v2d_t, right:v2d_t, downright:v2d_t, down:v2d_t, downleft:v2d_t, left:v2d_t, upleft:v2d_t; // collision detectors (CDs) 
-  let brick_up:any, brick_upright:any, brick_right:any, brick_downright:any, brick_down:any, brick_downleft:any, brick_left:any, brick_upleft:any; // bricks detected by the CDs 
+  let brick_up:brick_t, brick_upright:brick_t, brick_right:brick_t, brick_downright:brick_t, brick_down:brick_t, brick_downleft:brick_t, brick_left:brick_t, brick_upleft:brick_t; // bricks detected by the CDs 
 
   // actor's collision detectors 
   let corners = actor_get_collision_detectors(act, diff, up, upright, right, downright, down, downleft, left, upleft);
@@ -1088,14 +1088,14 @@ export const actor_platform_movement = (act:actor_t, brick_list:brick_list_t, gr
 
   corners = actor_handle_collision_detectors(act, brick_list, up, upright, right, downright, down, downleft, left, upleft, brick_up, brick_upright, brick_right, brick_downright, brick_down, brick_downleft, brick_left, brick_upleft);
   //console.log(corners)
-  brick_up = corners.up;
-  brick_upright = corners.upright;
-  brick_right = corners.right;
-  brick_downright = corners.downright;
-  brick_down = corners.down;
-  brick_downleft = corners.downleft;
-  brick_left = corners.left;
-  brick_upleft = corners.upleft;
+  brick_up = <brick_t>corners.up;
+  brick_upright = <brick_t>corners.upright;
+  brick_right = <brick_t>corners.right;
+  brick_downright = <brick_t>corners.downright;
+  brick_down = <brick_t>corners.down;
+  brick_downleft = <brick_t>corners.downleft;
+  brick_left = <brick_t>corners.left;
+  brick_upleft = <brick_t>corners.upleft;
 
   // clouds 
   let cloudBricks = actor_handle_clouds(act, diff, brick_up, brick_upright, brick_right, brick_downright, brick_down, brick_downleft, brick_left, brick_upleft);
