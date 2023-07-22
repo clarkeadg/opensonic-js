@@ -1,10 +1,10 @@
 
 /* Scene struct */
 export interface scene_t {
-  init():void,
-  update():void,
-  render():void,
-  release():void
+  init:Function,
+  update:Function,
+  render:Function,
+  release:Function
 }
 
 const SCENESTACK_CAPACITY = 16;

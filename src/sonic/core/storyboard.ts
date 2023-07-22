@@ -78,7 +78,7 @@ export const storyboard_get_scene = (id:number) => {
   return storyboard[id];
 }
 
-const scene_create = (init:any, update:any, render:any, release:any):scene_t => {
+const scene_create = (init:Function, update:Function, render:Function, release:Function):scene_t => {
   const scene:scene_t = {
     init,
     update,
