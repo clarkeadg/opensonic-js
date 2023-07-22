@@ -5,10 +5,7 @@ import { logfile_message } from "./logfile"
 
 export interface music_t extends HTMLAudioElement {}
 
-export interface sound_t {
-  data: any,
-  voice_id: number
-}
+export interface sound_t extends HTMLAudioElement {}
 
 let current_music:music_t = null;
 
@@ -173,7 +170,7 @@ export const sound_load = (key:string, path:string) => {
  * sound_play()
  * Plays the given sample
  */
-export const sound_play = (sample:any) => {
+export const sound_play = (sample:sound_t) => {
   sound_play_ex(sample);
 }
 
@@ -186,7 +183,7 @@ export const sound_play = (sample:any) => {
  * 1.0 = default frequency
  * 0 = no loops
  */
-export const sound_play_ex = (sample:any) => {
+export const sound_play_ex = (sample:sound_t) => {
   if(sample && sample.play) {
     sample.play();
   }
@@ -196,7 +193,7 @@ export const sound_play_ex = (sample:any) => {
  * sound_stop()
  * Stops a sample
  */
-export const sound_stop = (sample:any) => {
+export const sound_stop = (sample:sound_t) => {
   if (sample) {
     sample.pause();
   }
@@ -206,7 +203,7 @@ export const sound_stop = (sample:any) => {
  * sound_is_playing()
  * Checks if a given sound is playing or not
  */
-export const sound_is_playing = (sample:any) => {
+export const sound_is_playing = (sample:sound_t) => {
   if(sample) {
     return !sample.paused
   } else {
