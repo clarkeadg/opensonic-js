@@ -5,7 +5,7 @@ import { v2d_t } from "./../../core/v2d"
 import { brick_list_t } from "./../brick"
 import { door_open, door_close } from "./door"
 import { teleporter_activate } from "./teleporter"
-import { find_closest_item } from "./util/itemutil"
+import { item_distance_t, find_closest_item } from "./util/itemutil"
 import { IT_DOOR, IT_TELEPORTER } from "./../item"
 import { sound_play } from "./../../core/audio"
 import { sprite_get_animation } from "./../../core/sprite"
@@ -53,8 +53,8 @@ const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick
   let door:item_t = null;
   let teleporter:item_t = null;
   
-  let d1:any = {};
-  let d2:any = {};
+  let d1:item_distance_t = { dist: 0 };
+  let d2:item_distance_t = { dist: 0 };
 
   // I have no partner
   me.partner = null;
