@@ -1,6 +1,21 @@
 import { music_t, sound_t } from "./audio"
+import { image_t } from "./image"
+import { images_t, musics_t, samples_t } from "./resourcemanager"
+import { spriteinfo_t, sprites_t } from "./sprite"
 
-let hash:any = {};
+export interface hashtable_t {
+  sprites: sprites_t,
+  images: images_t,
+  samples: samples_t,
+  musics: musics_t
+}
+
+let hash:hashtable_t = {
+  sprites: {},
+  images: {},
+  samples: {},
+  musics: {}
+};
 
 /* sprites */
 
@@ -9,11 +24,11 @@ export const hashtable_spriteinfo_t_create = () => {
   return hash.sprites;
 };
 
-export const hashtable_spriteinfo_t_add = (sprites:any, key:string, data:any) => {
+export const hashtable_spriteinfo_t_add = (sprites:sprites_t, key:string, data:spriteinfo_t) => {
   hash.sprites[key] = data;
 };
 
-export const hashtable_spriteinfo_t_find = (sprites:any, sprite_name:string,) => {
+export const hashtable_spriteinfo_t_find = (sprites:sprites_t, sprite_name:string,) => {
   //(hash.sprites,sprite_name)
   return hash.sprites[sprite_name];
 };
@@ -29,7 +44,7 @@ export const hashtable_image_t_create = () => {
   return hash.images;
 };
 
-export const hashtable_image_t_add = (images:any, key:string, data:any) => {
+export const hashtable_image_t_add = (images:images_t, key:string, data:image_t) => {
   images[key] = data;
 };
 
@@ -40,11 +55,11 @@ export const hashtable_sound_t_create = () => {
   return hash.samples;
 };
 
-export const hashtable_sound_t_add = (samples:any, key:string, data:sound_t) => {
+export const hashtable_sound_t_add = (samples:samples_t, key:string, data:sound_t) => {
   samples[key] = data;
 };
 
-export const hashtable_sound_t_find = (samples:any, sample_name:string,) => {
+export const hashtable_sound_t_find = (samples:samples_t, sample_name:string,) => {
   return hash.samples[sample_name];
 };
 
@@ -55,6 +70,6 @@ export const hashtable_music_t_create = () => {
   return hash.musics;
 };
 
-export const hashtable_music_t_add = (musics:any, key:string, data:music_t) => {
+export const hashtable_music_t_add = (musics:musics_t, key:string, data:music_t) => {
   musics[key] = data;
 };

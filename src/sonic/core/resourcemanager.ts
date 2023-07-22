@@ -12,11 +12,28 @@ import {
   hashtable_music_t_add
 } from "./hashtable"
 import { music_t, sound_t } from "./audio"
+import { image_t } from "./image"
 
-let images:any = {};
-let samples:any = {};
-let musics:any = {};
-let dataCache:any = {};
+export interface images_t {
+  [key: string]: image_t
+}
+
+export interface samples_t {
+  [key: string]: sound_t
+}
+
+export interface musics_t {
+  [key: string]: music_t
+}
+
+export interface data_cache_t {
+  [key: string]: any
+}
+
+let images:images_t;
+let samples:samples_t;
+let musics:musics_t;
+let dataCache:data_cache_t = {};
 
 export const resourcemanager_getJsonFiles = (files:string[]) => {
   return Promise.all(files.map(resourcemanager_getJsonFile));
@@ -60,7 +77,7 @@ export const resourcemanager_init = () => {
   musics = hashtable_music_t_create();
 };
 
-export const resourcemanager_add_image = (key:string, data:any) => {
+export const resourcemanager_add_image = (key:string, data:image_t) => {
   hashtable_image_t_add(images, key, data);
 };
 

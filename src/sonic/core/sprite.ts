@@ -33,7 +33,11 @@ export interface spriteinfo_t {
   animation_data: any
 }
 
-let sprites:any = {};
+export interface sprites_t {
+  [key: string]: spriteinfo_t
+}
+
+let sprites:sprites_t = {};
 
 // test
 const showSheets = false;
