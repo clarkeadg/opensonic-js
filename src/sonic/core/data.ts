@@ -74,7 +74,10 @@ export interface data_object_t {
   state: {
     name: string,
     list: any[]
-  }
+  },
+  destroy_if_far_from_play_area: boolean,
+  always_active: boolean,
+  hide_unless_in_editor_mode: boolean
 }
 
 export interface data_quest_t {

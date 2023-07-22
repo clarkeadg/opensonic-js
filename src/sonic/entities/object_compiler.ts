@@ -1,4 +1,5 @@
 import { logfile_message, logfile_fatal_error } from "./../core/logfile"
+import { data_objects_t, data_object_t } from "./../core/data"
 import { enemy_t } from "./enemy"
 import { object_vm_create_state, object_vm_set_current_state, object_vm_get_reference_to_current_state } from "./object_vm"
 import { objectmachine_t } from "./object_decorators/base/objectmachine"
@@ -137,7 +138,7 @@ export const object_compiler_compile = (obj:any, script:any) => {
   return obj;
 }  
   
-function traverse_object(stmt:any, object:enemy_t) {
+function traverse_object(stmt:data_object_t, object:enemy_t) {
   let e = object;
   let id = stmt;
   let param_list = stmt;
@@ -148,7 +149,7 @@ function traverse_object(stmt:any, object:enemy_t) {
   if (e.state === 0) {
     let state_name = stmt.state.name;
     let state_code = e.state;
-    e.vm.state_list = object_vm_create_state(e.vm, stmt.state.list);
+    e.vm.state_list = object_vm_create_state(e.vm, stmt.state.list[0][0]);
     e.vm = object_vm_set_current_state(e.vm, state_name);
     machine_ref = object_vm_get_reference_to_current_state(e.vm);
 
