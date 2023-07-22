@@ -1514,21 +1514,6 @@
         { "id": 5, "xpos": 26, "ypos": 1713 },
         { "id": 51, "xpos": 693, "ypos": 2157 }
     ],
-    "1enemylist": [
-        { "id": 8, "xpos": 831, "ypos": 2046 }
-    ],
-    "2enemylist": [
-        { "id": 2, "xpos": 831, "ypos": 2046 },
-        { "id": 2, "xpos": 2943, "ypos": 1028 },
-        { "id": 2, "xpos": 7820, "ypos": 420 },
-        { "id": 2, "xpos": 2122, "ypos": 777 },
-        { "id": 2, "xpos": 1745, "ypos": 1198 },
-        { "id": 2, "xpos": 1931, "ypos": 1056 },
-        { "id": 2, "xpos": 1722, "ypos": 1473 },
-        { "id": 2, "xpos": 6167, "ypos": 712 },
-        { "id": 2, "xpos": 3075, "ypos": 979 },
-        { "id": 2, "xpos": 2371, "ypos": 1925 }
-    ],
     "enemylist": [
         { "id": 2, "xpos": 831, "ypos": 2046 },
         { "id": 0, "xpos": 2943, "ypos": 1028 },

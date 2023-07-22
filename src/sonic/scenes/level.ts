@@ -2,6 +2,7 @@ import { confirmbox_alert, confirmbox_selected_option } from "./confirmbox"
 import { editor_init, editor_is_enabled, editor_want_to_activate, editor_enable, editor_update, editor_render, editor_release } from "./editor"
 import { music_t, sound_t, music_load, music_play, music_pause, music_stop, music_set_volume, music_get_volume, music_is_playing, sound_play } from "./../core/audio"
 //import { fileSaver_saveAs } from "./../core/filesaver"
+import { data_level_t, data_level_boss_t, data_level_bricklist_t, data_level_itemlist_t, data_level_enemylist_t, data_level_dialogbox_t } from "./../core/data"
 import { EPSILON, PI, IF_NONE, IF_HFLIP, INFINITY } from "./../core/global"
 import { image_t, image_create, image_destroy, image_blit, image_draw, image_rgb } from "./../core/image"
 import { input_button_pressed, input_is_ignored, input_ignore, input_restore, IB_FIRE2, IB_FIRE3, IB_FIRE4 } from "./../core/input"
@@ -244,7 +245,7 @@ export const level_save = (filepath:string) => {
 
   let i, c, itb, iti, ite;
 
-  let levelData:any = {
+  let levelData:data_level_t = {
     name:         name,
     act:          act,
     theme:        theme,
@@ -262,7 +263,7 @@ export const level_save = (filepath:string) => {
   // boss?
   //console.log('boss', got_boss(), boss)
   if (got_boss()) {
-    levelData.boss = {
+    const bossData:data_level_boss_t = {
       id:        boss.type,
       x:         boss.actor.spawn_point.x,
       y:         boss.actor.spawn_point.y,
@@ -270,18 +271,19 @@ export const level_save = (filepath:string) => {
       ry:        boss.rect_y,
       rw:        boss.rect_w,
       rh:        boss.rect_h
-    };
+    }
+    levelData.boss = bossData;
   }
 
   // brick list
   let bricks = [];
   for(itb=brick_list; itb; itb=itb.next) {
-    bricks.push({
+    const brickData:data_level_bricklist_t = {
       id:     get_brick_id(itb.data),
       xpos:   itb.data.x,
       ypos:   itb.data.y
-
-    })
+    }
+    bricks.push(brickData)
   }
   levelData.bricklist = bricks;
 
@@ -289,11 +291,12 @@ export const level_save = (filepath:string) => {
   let items = [];
   for(iti=item_list; iti; iti=iti.next) {
     if (iti.data) {
-      items.push({
+      const itemData:data_level_itemlist_t = {
         id:     iti.data.type,
         xpos:   iti.data.actor.spawn_point.x,
         ypos:   iti.data.actor.spawn_point.y
-      })
+      }
+      items.push(itemData)
     }
   }
   levelData.itemlist = items;
@@ -302,26 +305,28 @@ export const level_save = (filepath:string) => {
   let enemies = [];
   for(ite=enemy_list; ite; ite=ite.next) {
     if(ite.data && ite.data.created_from_editor) {
-      enemies.push({
-        id:     ite.data.name,
+      const enemyData:data_level_enemylist_t = {
+        id:     ~~ite.data.name,
         xpos:   ite.data.actor.spawn_point.x,
         ypos:   ite.data.actor.spawn_point.y
-      })
+      }
+      enemies.push(enemyData)
     }
   }
   levelData.enemylist = enemies;
 
   // dialog regions
-  let dialogs:any = [];
+  let dialogs = [];
   for(i=0,c=dialogregion.length;i<c;i++) {
-    dialogs.push({
+    const dialogData:data_level_dialogbox_t = {
       xpos:     dialogregion[i].rect_x,
       ypos:     dialogregion[i].rect_y,
       width:    dialogregion[i].rect_w,
       height:   dialogregion[i].rect_h,
       title:    dialogregion[i].title,
       message:  dialogregion[i].message
-    })
+    }
+    dialogs.push(dialogData)
   }
   levelData.dialogbox = dialogs;
 
@@ -2356,7 +2361,7 @@ const level_load = (filepath:string) => {
   });
 }
 
-const traverse_level = (data:any) => {
+const traverse_level = (data:data_level_t) => {
   //console.log(data)
 
   theme = data.theme;
@@ -2396,7 +2401,7 @@ const traverse_level = (data:any) => {
   //console.log('DIALOG BOXES',dialogregion)
 
   for(i=0;i<data.enemylist.length;i++) {
-    level_create_enemy(data.enemylist[i].id, v2d_new(data.enemylist[i].xpos,data.enemylist[i].ypos));
+    level_create_enemy(""+data.enemylist[i].id, v2d_new(data.enemylist[i].xpos,data.enemylist[i].ypos));
   }
 
   return new Promise(function (fulfill, reject){

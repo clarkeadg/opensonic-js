@@ -13,12 +13,28 @@ export interface data_level_t {
   act: number,
   theme: string,
   bgtheme: string,
+  grouptheme?: string,
   spawn_point: v2d_t,
   music: string,
+  boss?: data_level_boss_t,
   bricklist: data_level_bricklist_t[],
   itemlist: data_level_itemlist_t[],
   enemylist: data_level_enemylist_t[],
-  dialogbox: data_level_dialogbox_t[]
+  dialogbox: data_level_dialogbox_t[],
+  author?: string,
+  version?: string,
+  requires?: any[],
+  readonly?: boolean
+}
+
+export interface data_level_boss_t {
+  id: number,
+  x: number,
+  y: number,
+  rx: number,
+  ry: number,
+  rw: number,
+  rh: number
 }
 
 export interface data_level_bricklist_t {

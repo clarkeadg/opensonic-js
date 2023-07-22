@@ -1,4 +1,5 @@
 import { data_theme_t, data_theme_bricks_t } from "./../core/data"
+import { image_t } from "./../core/image"
 import { animation_t, spriteinfo_t, sprite_create, sprite_info_destroy } from "./../core/sprite"
 import { resourcemanager_getJsonFile } from "./../core/resourcemanager"
 import { timer_get_delta } from "./../core/timer"
@@ -28,7 +29,7 @@ export const BRB_FALL_TIME         =  1.0; /* time in seconds before a BRB_FALL 
 
 export interface brickdata_t {
   data: spriteinfo_t,
-  image: any,
+  image: image_t,
   property: number,
   behavior: number,
   angle: number,

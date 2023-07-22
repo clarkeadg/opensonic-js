@@ -1069,7 +1069,6 @@
         { "id": 26, "xpos": 4139, "ypos": 2303 },
         { "id": 21, "xpos": 3615, "ypos": 2656 }
     ],
-    "enemylist1": [],
     "enemylist": [
         { "id": 4, "xpos": 2651, "ypos": 2063 },
         { "id": 2, "xpos": 7542, "ypos": 1721 },
