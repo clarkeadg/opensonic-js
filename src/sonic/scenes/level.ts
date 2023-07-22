@@ -1,9 +1,9 @@
 import { confirmbox_alert, confirmbox_selected_option } from "./confirmbox"
 import { editor_init, editor_is_enabled, editor_want_to_activate, editor_enable, editor_update, editor_render, editor_release } from "./editor"
-import { music_load, music_play, music_pause, music_stop, music_set_volume, music_get_volume, music_is_playing, sound_play, music_t } from "./../core/audio"
+import { music_t, sound_t, music_load, music_play, music_pause, music_stop, music_set_volume, music_get_volume, music_is_playing, sound_play } from "./../core/audio"
 //import { fileSaver_saveAs } from "./../core/filesaver"
 import { EPSILON, PI, IF_NONE, IF_HFLIP, INFINITY } from "./../core/global"
-import { image_create, image_destroy, image_blit, image_draw, image_rgb } from "./../core/image"
+import { image_t, image_create, image_destroy, image_blit, image_draw, image_rgb } from "./../core/image"
 import { input_button_pressed, input_is_ignored, input_ignore, input_restore, IB_FIRE2, IB_FIRE3, IB_FIRE4 } from "./../core/input"
 import { lang_get, lang_getstring } from "./../core/lang"
 import { logfile_message } from "./../core/logfile"
@@ -161,7 +161,7 @@ let music:music_t;
 let override_music:music_t;
 let block_music:boolean;
 let quit_level:boolean;
-let quit_level_img:any;
+let quit_level_img:image_t;
 let backgroundtheme:bgtheme_t;
 
 /* player data */
@@ -223,7 +223,7 @@ let dialogregion:dialogregion_t[] = [];
  * function tells the scene what level it must
  * load... then it gets initialized.
  */
-export const level_setfile = (level:any) => {
+export const level_setfile = (level:string) => {
   file = level;
   logfile_message(`level_setfile('#{level}')`);
 }
@@ -326,8 +326,8 @@ export const level_save = (filepath:string) => {
   levelData.dialogbox = dialogs;
 
   // save file
-  let filename:any = filepath.split('/');
-  filename = filename[filename.length-1];
+  const filenames:string[] = filepath.split('/');
+  const filename:string = filenames[filenames.length-1];
   //console.log('saveFile', filepath, levelData);
 
   //let json = JSON.stringify(levelData);
@@ -361,7 +361,7 @@ export const level_init = () => {
   override_music = null;
   level_cleared = false;
   quit_level = false;
-  quit_level_img = '';//image_create(video_get_backbuffer().w, video_get_backbuffer().h);
+  quit_level_img = null;//image_create(video_get_backbuffer().w, video_get_backbuffer().h);
   actclear_starttime = actclear_endtime = actclear_sampletimer = 0;
   actclear_ringbonus = actclear_secretbonus = actclear_totalbonus = 0;
   actclear_prepare_next_level = actclear_goto_next_level = false;
@@ -1169,7 +1169,7 @@ export const level_size = () => {
  * Stops the music while the given sample is playing.
  * After it gets finished, the music gets played again.
  */
-export const level_override_music = (sample:any) => {
+export const level_override_music = (sample:sound_t) => {
   if(music) music_stop();
   override_music = sample;
   sound_play(override_music);
@@ -1393,7 +1393,7 @@ export const level_create_enemy = (name:string, position:v2d_t) => {
  * level_create_particle()
  * Creates a new particle.
  */
-export const level_create_particle = (image:any, position:v2d_t, speed:v2d_t, destroy_on_brick:boolean) => {
+export const level_create_particle = (image:image_t, position:v2d_t, speed:v2d_t, destroy_on_brick:boolean) => {
   const p:particle_t = {
     image: image,
     position: position,
@@ -1848,7 +1848,7 @@ const particle_update_all = (brick_list:brick_list_t) => {
 
   for(it=particle_list; it; it=next) {
 
-    const p:any = it.data;
+    const p:particle_t = it.data;
     if (p) {
       //next = it.next;
       inside_area = inside_screen(p.position.x, p.position.y, p.position.x+p.image.width, p.position.y+p.image.height, DEFAULT_MARGIN);
@@ -1897,7 +1897,7 @@ const particle_render_all = () => {
   let topleft = v2d_new(camera_get_position().x-VIDEO_SCREEN_W/2, camera_get_position().y-VIDEO_SCREEN_H/2);
 
   for(let it=particle_list; it; it=it.next) {
-    const p:any = it.data;
+    const p:particle_t = it.data;
     if(p) {
       image_draw(
         p.image,
