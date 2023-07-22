@@ -14,7 +14,7 @@ import { sprite_get_image, sprite_get_animation } from "./../core/sprite"
 import { timer_get_delta } from "./../core/timer"
 
 /* private data */
-let pause_buf:any = null;
+let pause_buf:ImageData = null;
 let pause_input:input_t = null;
 let pause_ready = false;
 let pause_quit = false
