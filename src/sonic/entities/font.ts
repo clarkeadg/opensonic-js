@@ -23,6 +23,13 @@ export interface font_t {
   vspace: number
 }
 
+export interface color_t {
+  disabled: boolean,
+  r: number,
+  g: number,
+  b: number
+}
+
 /* private */
 let fontdata: any[] = [];
 let rgbksCache:any = {};
@@ -168,12 +175,14 @@ export const font_render = (f:font_t, camera_position:v2d_t) => {
   let w, h;
   let p;
   let ch;
-  let color = [];
+  let color: color_t[] = [];
   let i = 0;
   let top = 0;
   let wordwrap;
 
-  color[top++] = { r: false, g: 0, b: 0 };
+  const newColor:color_t = { disabled: true, r: 0, g: 0, b: 0 };
+
+  color[top++] = newColor;
   let fontSize = get_font_size(f);
   //console.log(fontSize)
   w = fontSize.x;
@@ -225,17 +234,17 @@ export const font_render = (f:font_t, camera_position:v2d_t) => {
 
           i += 7;
           let colorCode = f.text.slice(i,i+6);
-          r = hex2dec(colorCode.slice(0,2));
-          g = hex2dec(colorCode.slice(2,4));
-          b = hex2dec(colorCode.slice(4,6));
+          const fontColor:color_t = {
+            disabled: false,
+            r: hex2dec(colorCode.slice(0,2)),
+            g: hex2dec(colorCode.slice(2,4)),
+            b: hex2dec(colorCode.slice(4,6))
+          }
+          
           //console.log(colorCode, r, g, b)
 
           //color[top++] = image_rgb(r,g,b);
-          color[top++] = {
-            r: r,
-            g: g,
-            b: b
-          }
+          color[top++] = fontColor;
 
           i += 7;
           p = f.text[i];
@@ -318,13 +327,13 @@ const get_font_size = (f:font_t) => {
   return v2d_new(16,16);
 }
 
-const render_char = (dest:any, img:any, x:number, y:number, color:any) => {
+const render_char = (dest:CanvasRenderingContext2D, img:any, x:number, y:number, color:color_t) => {
   //console.log('render_char', r)
 
   let rgbks;
   let tintImg = img.data;
   
-  if (color && color.r) {
+  if (color && !color.disabled) {
     rgbks = generateRGBKs( img.data );
     tintImg = generateTintImage( img.data, rgbks, color.r, color.g, color.b );
   }
@@ -347,7 +356,7 @@ const hex2dec = (digit:string) => {
   return result ? parseInt(result[1], 16) : null;
 }
 
-const generateRGBKs = (img:any) => {
+const generateRGBKs = (img:HTMLImageElement) => {
     if (rgbksCache[img.src]) return rgbksCache[img.src];
 
     let w = img.width;
@@ -400,7 +409,7 @@ const generateRGBKs = (img:any) => {
     return rgbks;
 }
 
-const generateTintImage = ( img:any, rgbks:any, red:number, green:number, blue:number ) => {
+const generateTintImage = ( img:HTMLImageElement, rgbks:any, red:number, green:number, blue:number ) => {
   const cachheKey = red+"_"+green+"_"+blue;
   //console.log("generateTintImage", cachheKey, img, rgbks, red, green, blue)
   //if (tintImageCache[cachheKey]) return tintImageCache[cachheKey];

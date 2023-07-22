@@ -68,7 +68,7 @@ let credits_text = [
 const CREDITS_BGFILE       = "data/themes/credits.bg.json";
 const OPTIONS_MUSICFILE    = "data/music/options.mp4";
 
-let box:any;
+let box:ImageData;
 let quit = false;
 let title:font_t;
 let text:font_t;

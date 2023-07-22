@@ -16,7 +16,7 @@ const MAX_OPTIONS =  5;
 const NO_OPTION   = -1;
 
 let box:any;
-let background:any;
+let background:ImageData;
 let boxpos:v2d_t
 let textfnt:font_t;
 let optionfnt:any[] = [];
