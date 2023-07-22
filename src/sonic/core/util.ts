@@ -82,7 +82,7 @@ export const circular_collision = (a:v2d_t, r_a:number, b:v2d_t, r_b:number):boo
   return (v2d_magnitude(v2d_subtract(a,b)) <= r_a + r_b );
 }
 
-export const swap = (a:any,b:any) => {
+export const swap = (a:v2d_t[],b:v2d_t[]) => {
   return swap_ex(a, b, a.length)
 }
 
@@ -116,7 +116,7 @@ export const old_school_angle = (angle:number):number => {
  * Swaps two variables. Use the
  * swap() macro instead of this.
  */
-const swap_ex = (a:any, b:any, size:number) => {
+const swap_ex = (a:v2d_t[], b:v2d_t[], size:number) => {
   const sa = a;
   const sb = b
   let i, c;
