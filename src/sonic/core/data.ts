@@ -73,12 +73,14 @@ export interface data_object_t {
   requires: string,
   state: {
     name: string,
-    list: any[]
+    list: data_object_state_list_t[]
   },
   destroy_if_far_from_play_area: boolean,
   always_active: boolean,
   hide_unless_in_editor_mode: boolean
 }
+
+export interface data_object_state_list_t extends Array<any> {}
 
 export interface data_quest_t {
   name: string,

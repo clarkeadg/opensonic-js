@@ -1,5 +1,5 @@
 import { logfile_message, logfile_fatal_error } from "./../core/logfile"
-import { data_objects_t, data_object_t } from "./../core/data"
+import { data_objects_t, data_object_t, data_object_state_list_t } from "./../core/data"
 import { enemy_t } from "./enemy"
 import { object_vm_create_state, object_vm_set_current_state, object_vm_get_reference_to_current_state } from "./object_vm"
 import { objectmachine_t } from "./object_decorators/base/objectmachine"
@@ -36,11 +36,16 @@ import { objectdecorator_setplayerposition_new } from "./object_decorators/set_p
 import { objectdecorator_setplayerxspeed_new, objectdecorator_setplayeryspeed_new } from "./object_decorators/set_player_speed"
 import { objectdecorator_walk_new } from "./object_decorators/walk"
 
+export interface object_compiler_stack_t {
+  stmt:data_object_state_list_t,
+  machine:objectmachine_t
+}
+
 const DEFAULT_STATE                  = "main";
 const STACKMAX                       =  1024;
 
 let stacksize:number = 0;
-let stack:any = {};
+let stack:object_compiler_stack_t[] = [];
 let command_table = [
   /* basic actions */
   { "command": "set_animation", "action": set_animation },
@@ -133,7 +138,7 @@ let command_table = [
   { "command": null, "action": null }
 ];
 
-export const object_compiler_compile = (obj:any, script:any) => {
+export const object_compiler_compile = (obj:enemy_t, script:data_object_t) => {
   obj = traverse_object(script, obj);
   return obj;
 }  
@@ -179,11 +184,12 @@ function traverse_object(stmt:data_object_t, object:enemy_t) {
   return e;
 } 
 
-function push_object_state(stmt:any, machine:any) {
+function push_object_state(stmt:data_object_state_list_t, machine:objectmachine_t) {
   if(stacksize < STACKMAX) {
-    stack[stacksize] = {};
-    stack[stacksize].stmt = stmt;
-    stack[stacksize].machine = machine;
+    stack[stacksize] = {
+      stmt,
+      machine
+    };
     stacksize++;
   }
   else
@@ -193,7 +199,7 @@ function push_object_state(stmt:any, machine:any) {
 }
 
 // this is where the decorators get added!
-function traverse_object_state(stmt:any, machine:any) {
+function traverse_object_state(stmt:data_object_state_list_t, machine:objectmachine_t) {
 
   let param_list = stmt;
   let i, n, p;
