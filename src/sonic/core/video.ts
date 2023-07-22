@@ -42,7 +42,7 @@ let CanvasScaleY = 1;
  * video_init()
  * Initializes the video manager
  */
-export const video_init = (window_title:string, resolution:number, smooth:boolean, fullscreen:boolean, color_depth: string, show_fps:boolean) => {
+export const video_init = (window_title:string, resolution:number, smooth:boolean, fullscreen:boolean, color_depth: number, show_fps:boolean) => {
 
   video_changemode(resolution, smooth, fullscreen);
 

@@ -1,9 +1,9 @@
-
 import { audio_init, audio_update } from "./audio"
 import { commandline_parse } from "./commandline"
 import { input_init, input_update, input_render } from "./input"
 import { lang_init } from "./lang"
 import { preferences_init } from "./preferences"
+import { quest_load } from "./quest"
 import { resourcemanager_init } from "./resourcemanager"
 import { scenestack_init, scenestack_top, scenestack_push  } from "./scene"
 import { screenshot_init, screenshot_update } from "./screenshot"
@@ -32,12 +32,23 @@ import { player_set_lives, player_set_score, PLAYER_INITIAL_LIVES } from "./../e
 import { enemy_objects_init } from "./../entities/enemy"
 import { font_init } from "./../entities/font"
 
+export interface engine_options_t {
+  video_resolution?: number,
+  smooth_graphics?: boolean,
+  fullscreen?: boolean,
+  show_fps?: boolean,
+  color_depth?: number,
+  level?: string,
+  quest?: string
+  language?: string
+}
+
 /**
  * engine_init()
  * Initializes all the subsystems of
  * the game engine
  */
-export const engine_init = (options:any) => {
+export const engine_init = (options:engine_options_t) => {
 
   init_basic_stuff();
   const cmd = commandline_parse(options);
@@ -94,7 +105,7 @@ const init_basic_stuff = () => {
  * init_managers()
  * Initializes the managers
  */
-const init_managers = (cmd:any) => {
+const init_managers = (cmd:engine_options_t) => {
   timer_init();
   video_init(get_window_title(), cmd.video_resolution, cmd.smooth_graphics, cmd.fullscreen, cmd.color_depth, cmd.show_fps);
   audio_init();
@@ -106,7 +117,7 @@ const init_managers = (cmd:any) => {
  * init_accessories()
  * Initializes the accessories
  */
-const init_accessories = (cmd:any,cb:Function) => {
+const init_accessories = (cmd:engine_options_t,cb:Function) => {
   soundfactory_init();
   enemy_objects_init();
   storyboard_init();
@@ -130,13 +141,13 @@ const init_game_data = () => {
  * push_initial_scene()
  * Decides which scene should be pushed into the scene stack
  */
-const push_initial_scene = (cmd:any) => {
-  if(cmd.custom_level) {
-      level_setfile(cmd.custom_level_path);
+const push_initial_scene = (cmd:engine_options_t) => {
+  if(cmd.level) {
+      level_setfile(cmd.level);
       scenestack_push(storyboard_get_scene(SCENE_LEVEL));
   }
-  /*else if(cmd.custom_quest) {
-    Quest.load(cmd.custom_quest_path)
+  /*else if(cmd.quest) {
+    quest_load(cmd.quest)
     .then(function(q){
       //quest.run(q, true);
       scenestack_push(storyboard_get_scene(SCENE_QUEST));
