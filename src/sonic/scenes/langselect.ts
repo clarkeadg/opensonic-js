@@ -42,7 +42,7 @@ let quit = false
 let lngcount = 0;
 let title:font_t[]  = [];
 let lngfnt:any  = [];
-let page_label:any;
+let page_label:font_t;
 let lngdata:any;
 let option = 0;
 let icon:actor_t;
