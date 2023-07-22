@@ -98,6 +98,13 @@ export interface player_t {
   bring_to_back: boolean
 }
 
+/* stickyphysics_hack */
+export interface stickyphysics_t {
+  brick_downleft: brick_t,
+  brick_down: brick_t,
+  brick_downright: brick_t
+}
+
 /* private vars */
 const NATURAL_ANGLE     =  0;
 const LOCKACCEL_NONE    =  0;
@@ -2063,13 +2070,14 @@ const inside_loop = (p:player_t) => {
 
 /* the player won't leave the floor unless necessary */
 const stickyphysics_hack = (player:player_t, brick_list:brick_list_t, brick_downleft:brick_t, brick_down:brick_t, brick_downright:brick_t) => {
-  let act = player.actor;
-  let oldy = act.position.y;
+  const act = player.actor;
+  const oldy = act.position.y;
 
-  let rs:any = {};
-  rs.brick_downleft = brick_downleft;
-  rs.brick_down = brick_down;
-  rs.brick_downright = brick_downright;
+  const rs:stickyphysics_t = {
+    brick_downleft: brick_downleft,
+    brick_down: brick_down,
+    brick_downright: brick_downright
+  };  
 
   if(null == brick_down && !act.is_jumping && !player.is_fire_jumping && !player.flying && !player.climbing && !player.landing && !player.spring && !player.getting_hit && !player.dead && !player.dying) {
       let i;
