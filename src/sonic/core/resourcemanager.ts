@@ -27,7 +27,7 @@ export interface musics_t {
 }
 
 export interface data_cache_t {
-  [key: string]: any
+  [key: string]: images_t|samples_t|musics_t
 }
 
 let images:images_t;

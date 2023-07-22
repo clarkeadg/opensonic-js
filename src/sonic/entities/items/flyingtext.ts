@@ -6,11 +6,11 @@ import { brick_list_t } from "./../brick"
 import { sprite_get_animation } from "./../../core/sprite"
 import { timer_get_delta } from "./../../core/timer"
 import { actor_create, actor_destroy, actor_change_animation } from "./../actor"
-import { font_create, font_render, font_destroy, font_set_text } from "./../font"
+import { font_t, font_create, font_render, font_destroy, font_set_text } from "./../font"
 import { IS_DEAD } from "./../item"
 
 export interface flyingtext_t extends item_t {
-  font: any,
+  font: font_t,
   elapsed_time: 0.0
 }
 

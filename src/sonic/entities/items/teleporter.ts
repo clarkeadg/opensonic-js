@@ -16,7 +16,7 @@ export interface teleporter_t extends item_t {
   is_disabled: boolean,
   is_active: boolean,
   timer: number,
-  who: any
+  who: player_t
 }
 
 export const teleporter_create = () => {

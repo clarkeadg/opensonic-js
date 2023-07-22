@@ -1,4 +1,4 @@
-
+import { engine_options_t } from "./engine"
 import { logfile_message } from "./logfile"
 import { 
   preferences_get_video_resolution,
@@ -8,17 +8,13 @@ import {
   preferences_get_language
 } from "./preferences"
 
-export interface cmd_t {
-  [key: string]: any
-}
-
 /**
  * commandline_parse()
  * Parses the command line arguments
  */
-export const commandline_parse = (options:cmd_t) => {
+export const commandline_parse = (options:engine_options_t) => {
 
-  let cmd:cmd_t = {};
+  let cmd:engine_options_t = {};
 
   /* preferences */
   cmd.video_resolution = preferences_get_video_resolution();
@@ -38,28 +34,14 @@ export const commandline_parse = (options:cmd_t) => {
   cmd.language = options.language ? options.language : cmd.language;
 
   // url parameters overide
-  cmd.video_resolution = getParameterByName('video_resolution') ? getParameterByName('video_resolution') : cmd.video_resolution;
-  cmd.smooth_graphics = getParameterByName('smooth_graphics') ? getParameterByName('smooth_graphics') : cmd.smooth_graphics;
-  cmd.fullscreen = getParameterByName('fullscreen') ? getParameterByName('fullscreen') : cmd.fullscreen;
-  cmd.show_fps = getParameterByName('show_fps') ? getParameterByName('show_fps') : cmd.show_fps;
-  cmd.color_depth = getParameterByName('color_depth') ? getParameterByName('color_depth') : cmd.color_depth;
+  cmd.video_resolution = getParameterByName('video_resolution') ? +getParameterByName('video_resolution') : cmd.video_resolution;
+  cmd.smooth_graphics = getParameterByName('smooth_graphics') ? true : cmd.smooth_graphics;
+  cmd.fullscreen = getParameterByName('fullscreen') ? true : cmd.fullscreen;
+  cmd.show_fps = getParameterByName('show_fps') ? true : cmd.show_fps;
+  cmd.color_depth = getParameterByName('color_depth') ? +getParameterByName('color_depth') : cmd.color_depth;
   cmd.level = getParameterByName('level') ? getParameterByName('level') : cmd.level;
   cmd.quest = getParameterByName('quest') ? getParameterByName('quest') : cmd.quest;
   cmd.language = getParameterByName('language') ? getParameterByName('language') : cmd.language;
-
-  if (cmd.level) {
-    cmd.custom_level = true;
-    cmd.custom_level_path = cmd.level;
-  } else {
-    cmd.custom_level = false;
-  }
-
-  if (cmd.quest) {
-    cmd.custom_quest = true;
-    cmd.custom_quest_path = cmd.quest;
-  } else {
-    cmd.custom_quest = false;
-  }
 
   return cmd;
 }

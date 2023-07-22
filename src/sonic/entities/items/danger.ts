@@ -10,7 +10,7 @@ import { level_editmode } from "./../../scenes/level"
 
 export interface danger_t extends item_t {
   sprite_name: string,
-  player_is_vulnerable: any
+  player_is_vulnerable: Function
 }
 
 export const horizontaldanger_create = () => {

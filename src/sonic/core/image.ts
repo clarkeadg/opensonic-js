@@ -9,7 +9,7 @@ export const IF_VFLIP = 2;
 export interface image_t extends ImageData {}
 
 interface cache_t {
-  [key: string]: any
+  [key: string]: HTMLImageElement
 }
 
 let cache:cache_t = {};
