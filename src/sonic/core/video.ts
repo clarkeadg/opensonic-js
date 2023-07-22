@@ -12,9 +12,8 @@ export const VIDEO_SCREEN_W           = 480;
 export const VIDEO_SCREEN_H           = 271;
 
 /* Private vars */
-let canvas:any;
-let cx:any;
-let video_buffer:any;
+let canvas:HTMLCanvasElement;
+let video_buffer:CanvasRenderingContext2D;
 let video_resolution:number;
 let video_smooth = false;
 let video_fullscreen = false;
@@ -47,19 +46,22 @@ export const video_init = (window_title:string, resolution:number, smooth:boolea
 
   video_changemode(resolution, smooth, fullscreen);
 
-  video_show_fps(show_fps);  
+  video_show_fps(show_fps);
 
-  canvas = document.getElementById('canvas');
-  if (canvas) {
+  let canvasElement = document.getElementById('canvas');
+
+  if (canvasElement) {
     //console.log('111111111')
-    cx = canvas.getContext("2d");
+    canvas = <HTMLCanvasElement>canvasElement;
+    video_buffer = canvas.getContext("2d");
     CanvasScaleX = canvas.width / VIDEO_SCREEN_W;
     CanvasScaleY = canvas.height / VIDEO_SCREEN_H;
-    cx.scale( canvas.width / VIDEO_SCREEN_W, canvas.height / VIDEO_SCREEN_H);
+    video_buffer.scale( canvas.width / VIDEO_SCREEN_W, canvas.height / VIDEO_SCREEN_H);
   } else {
     //console.log('222222222')
-    canvas = document.createElement("canvas");
-    cx = canvas.getContext("2d");
+    canvasElement = <HTMLCanvasElement>document.createElement("canvas");
+    canvas = <HTMLCanvasElement>canvasElement;
+    video_buffer = canvas.getContext("2d");
     canvas.width = VIDEO_SCREEN_W;
     canvas.height = VIDEO_SCREEN_H;
     document.body.appendChild(canvas);
@@ -68,8 +70,7 @@ export const video_init = (window_title:string, resolution:number, smooth:boolea
   CanvasScaleX = VIDEO_SCREEN_W / window.innerWidth;
   CanvasScaleY = CanvasScaleX;
 
-  cx.imageSmoothingEnabled = false;
-  cx.mozImageSmoothingEnabled = false;
+  video_buffer.imageSmoothingEnabled = false;
 
   //console.log('PIXEL RATIO',window.devicePixelRatio)
   //console.log('VIDEO_SCREEN_W',VIDEO_SCREEN_W);
@@ -78,7 +79,6 @@ export const video_init = (window_title:string, resolution:number, smooth:boolea
   //console.log('WINDOW',window.innerWidth);
   //console.log('SCALE',CanvasScaleX);
 
-  video_buffer = cx;
   video_clearDisplay();
 }
 
@@ -158,7 +158,7 @@ export const video_render = () => {
   if(video_is_fps_visible()) {
     video_get_backbuffer().font = "14px Arial";
     video_get_backbuffer().fillStyle = "white";
-    video_get_backbuffer().fillText(timer_get_fps(),VIDEO_SCREEN_W-30,20);
+    video_get_backbuffer().fillText(""+timer_get_fps(),VIDEO_SCREEN_W-30,20);
   }
 }
 
@@ -208,8 +208,8 @@ export const video_fadefx_is_fading = () => {
 }
 
 export const video_clearDisplay = (rgb?:string) => {
-  cx.fillStyle = rgb ? rgb : "rgb(0, 0, 0)";
-  cx.fillRect(0, 0, canvas.width, canvas.height);
+  video_buffer.fillStyle = rgb ? rgb : "rgb(0, 0, 0)";
+  video_buffer.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 export const video_renderLoading = (text:string, percent:number) => {
@@ -387,7 +387,7 @@ export const video_get_window_size = () => {
   return v2d_new(width, height);
 }
 
-export const video_getMousePos = (canvas:any, evt:any) => {
+export const video_getMousePos = (canvas:HTMLCanvasElement, evt:MouseEvent) => {
   const rect = canvas.getBoundingClientRect();
   return {
     x: evt.clientX - rect.left,
@@ -395,7 +395,7 @@ export const video_getMousePos = (canvas:any, evt:any) => {
   };
 }
 
-const flipHorizontally = (context:any, around:number) => {
+const flipHorizontally = (context:CanvasRenderingContext2D, around:number) => {
   context.translate(around, 0);
   context.scale(-1, 1);
   context.translate(-around, 0);

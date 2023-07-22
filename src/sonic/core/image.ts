@@ -87,7 +87,7 @@ export const image_blit = (src:string, dest:any, source_x:number, source_y:numbe
  * image_putpixel()
  * Plots a pixel into the given image
  */
-export const image_putpixel = (img:string, dest:any, x:number, y:number, color:string) => {
+export const image_putpixel = (img:ImageData, dest:any, x:number, y:number, color:string) => {
   dest.fillStyle = color;
   dest.fillRect(x,y,x+1,y+1);
   //putpixel(img.data, x, y, color);
