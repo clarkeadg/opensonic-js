@@ -1,4 +1,4 @@
-
+import { data_theme_t, data_theme_bg_t } from "./../core/data"
 import { PI } from "./../core/global"
 import { v2d_t, v2d_new, v2d_subtract } from "./../core/v2d"
 import { spriteinfo_t, sprite_info_destroy, sprite_create } from "./../core/sprite"
@@ -8,26 +8,6 @@ import { timer_get_delta } from "./../core/timer"
 import { resourcemanager_getJsonFile } from "./../core/resourcemanager"
 import { isArray } from "./../core/util"
 import { actor_t, actor_create, actor_destroy, actor_render_repeat_xy } from "./actor"
-
-export interface bgtheme_data_t {
-  bg: bgdata_t[]
-}
-
-export interface bgdata_t {
-  initial_position: {
-    xpos: number,
-    ypos: number
-  },
-  scroll_speed: {
-    xspeed: number,
-    yspeed: number
-  },
-  behavior: any,
-  repeat_x: boolean,
-  repeat_y: boolean,
-  zindex: number,
-  sprite: any
-}
 
 export interface bgtheme_t {
   data: background_t[],
@@ -258,11 +238,11 @@ const bgstrategy_circular_update = (strategy:bgstrategy_circular_t) => {
   bg.actor.position.y += (me.angularspeed_y * me.amplitude_y * cy) * dt;
 }
 
-const traverse = (data:bgtheme_data_t) => {
+const traverse = (data:data_theme_t) => {
   return Promise.all(data.bg.map(traverse_background_attributes));
 }
 
-const traverse_background_attributes = (data:bgdata_t) => {
+const traverse_background_attributes = (data:data_theme_bg_t) => {
   return new Promise(function (fulfill, reject){
     let bg = background_new();
 

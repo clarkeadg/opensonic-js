@@ -1,3 +1,4 @@
+import { data_theme_t, data_theme_bricks_t } from "./../core/data"
 import { animation_t, spriteinfo_t, sprite_create, sprite_info_destroy } from "./../core/sprite"
 import { resourcemanager_getJsonFile } from "./../core/resourcemanager"
 import { timer_get_delta } from "./../core/timer"
@@ -24,18 +25,6 @@ export const BRS_ACTIVE            =  2; /* generic action */
 /* misc */
 export const BRICK_MAXVALUES       =  3;
 export const BRB_FALL_TIME         =  1.0; /* time in seconds before a BRB_FALL gets destroyed */
-
-export interface bricktheme_t {
-  bricks: any
-}
-
-export interface bricktheme_data_t {
-  type: string,
-  behavior: any,
-  angle: number,
-  zindex: number
-  sprite: any
-}
 
 export interface brickdata_t {
   data: spriteinfo_t,
@@ -79,7 +68,7 @@ export const brick_load = (filename:string) => {
     logfile_message(`brickdata_load("${filename}")`);
     resourcemanager_getJsonFile(filename)
     .then(traverse)
-    .then(function(bdata){
+    .then(function(bdata:brickdata_t[]){
       brickdata = bdata;
     })
     .then(fulfill);
@@ -234,11 +223,11 @@ const validate_brickdata = (obj:brickdata_t) => {
     //fatal_error("Can't load bricks: all bricks must have a sprite!");
 }
 
-const traverse = (stmt:bricktheme_t) => {
+const traverse = (stmt:data_theme_t) => {
   return Promise.all(stmt.bricks.map(traverse_brick_attributes))
 }
 
-const traverse_brick_attributes = (stmt:bricktheme_data_t) => {
+const traverse_brick_attributes = (stmt:data_theme_bricks_t) => {
   return new Promise(function (fulfill, reject){
     let dat = brickdata_new();
     let type = stmt.type;

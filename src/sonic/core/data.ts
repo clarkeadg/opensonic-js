@@ -110,7 +110,7 @@ export interface data_theme_bg_t {
     xspeed: number,
     yspeed: number
   },
-  behavior: string,
+  behavior: any, // string | array
   repeat_x: boolean,
   repeat_y: boolean,
   zindex: number,
@@ -135,7 +135,7 @@ export interface data_theme_bg_t {
 
 export interface data_theme_bricks_t {
   type: string,
-  behavior: string,
+  behavior: any, // string | array
   angle: number,
   zindex: number
   sprite: {
