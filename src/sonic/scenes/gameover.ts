@@ -8,7 +8,7 @@ import { font_t, font_create, font_set_text, font_render, font_destroy } from ".
 
 /* private data */
 let gameover_fnt:font_t[] = [];
-let gameover_buf:any = null;
+let gameover_buf:ImageData = null;
 let gameover_timer = 0;
 
 /**

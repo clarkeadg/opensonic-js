@@ -41,6 +41,15 @@ const OPTIONS_MUSICFILE       = "data/music/options.mp4";
 const STAGE_BGFILE            = "data/themes/levelselect.bg.json";
 const STAGE_MAXPERPAGE        = 8;
 
+enum state_e {
+  STAGESTATE_NORMAL = 0,
+  STAGESTATE_QUIT,
+  STAGESTATE_PLAY,
+  STAGESTATE_FADEIN
+}
+
+export const { STAGESTATE_NORMAL, STAGESTATE_QUIT, STAGESTATE_PLAY, STAGESTATE_FADEIN } = state_e;
+
 let pagenum = 1;
 let maxpages = 1;
 let title:font_t = null;
@@ -51,16 +60,11 @@ let input:any = null;
 let scene_time = 0.0;
 let bgtheme:bgtheme_t = null;
 
-let state:any = null;
+let state:state_e;
 let stage_data:any[] = [];
 let stage_count = 0;
 let option = 0;
 let stage_label:font_t[] = [];
-
-const STAGESTATE_NORMAL     = 0;
-const STAGESTATE_QUIT       = 1;
-const STAGESTATE_PLAY       = 2;
-const STAGESTATE_FADEIN     = 3;
 
 /**
  * stageselect_init()

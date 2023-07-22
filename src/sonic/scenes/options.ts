@@ -30,7 +30,7 @@ let icon:actor_t;
 let input:input_t;
 let jump_to:scene_t;
 let scene_time:number;
-let bgtheme:any
+let bgtheme:bgtheme_t
 
 /* group tree */
 //const OPTIONS_MAX     = 8;
@@ -54,7 +54,7 @@ export const options_init = () => {
 
   /* background init */
   background_load(OPTIONS_BGFILE)
-  .then(function(bgdata){
+  .then(function(bgdata:any){
     bgtheme = bgdata;
     //console.log(bgtheme);
   });
