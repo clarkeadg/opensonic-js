@@ -78,7 +78,7 @@ import {
 import { quest_abort, quest_setvalue, quest_getvalue } from "./quest"
 
 export interface particle_t {
-  image: any,
+  image: image_t,
   position: v2d_t,
   speed: v2d_t,
   destroy_on_brick: boolean

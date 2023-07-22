@@ -5,7 +5,7 @@ import { enemy_get_observed_player, enemy_list_t } from "./../enemy"
 import { bounding_box } from "./../../core/util"
 import { video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../../core/video"
 import { IF_NONE } from "./../../core/global"
-import { image_create, image_draw, image_line, image_clear, image_rgb } from "./../../core/image"
+import { image_create, image_draw, image_line, image_clear, image_rgb, image_t } from "./../../core/image"
 import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
 import { player_t } from "./../player"
@@ -16,7 +16,7 @@ export interface objectdecorator_lockcamera_t extends objectdecorator_t {
   y1: number,
   x2: number,
   y2: number,
-  cute_image: any,
+  cute_image: image_t,
   has_locked_somebody: boolean
 }
 

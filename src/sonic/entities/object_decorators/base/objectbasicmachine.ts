@@ -7,7 +7,7 @@ import { actor_render } from "./../../actor"
 import { objectmachine_t } from "./objectmachine"
 
 export interface objectbasicmachine_t extends objectmachine_t {
-  object: any
+  object: enemy_t
 }
 
 export const objectbasicmachine_new = (object:enemy_t):objectmachine_t => {  
