@@ -54,7 +54,7 @@ export const options_init = () => {
 
   /* background init */
   background_load(OPTIONS_BGFILE)
-  .then(function(bgdata:any){
+  .then(function(bgdata:bgtheme_t){
     bgtheme = bgdata;
     //console.log(bgtheme);
   });

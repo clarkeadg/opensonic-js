@@ -86,7 +86,7 @@ export const menu_init = () => {
 
   /* background init */
    background_load(MENU_BGFILE)
-  .then(function(bgdata:any){
+  .then(function(bgdata:bgtheme_t){
     bgtheme = bgdata;
     //console.log(bgtheme);
     video_fadefx_in(image_rgb(0,0,0), 1.0);

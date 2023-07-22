@@ -79,7 +79,7 @@ export const langselect_init = () => {
 
   /* background init */
   background_load(LANG_BGFILE)
-  .then(function(bgdata:any){
+  .then(function(bgdata:bgtheme_t){
     bgtheme = bgdata;
     video_fadefx_in(image_rgb(0,0,0), 1.0);
   });

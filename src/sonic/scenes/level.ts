@@ -162,7 +162,7 @@ let override_music:any;
 let block_music:boolean;
 let quit_level:boolean;
 let quit_level_img:any;
-let backgroundtheme:any;
+let backgroundtheme:bgtheme_t;
 
 /* player data */
 let team:player_t[]; /* players */
@@ -2412,7 +2412,7 @@ const traverse_level = (data:any) => {
       //loadBackground(data.bgtheme)
       //console.log('LOAD BACKGROUND',data.bgtheme)
       background_load(data.bgtheme)
-      .then(function(bgdata){
+      .then(function(bgdata:bgtheme_t){
         backgroundtheme = bgdata;
         //console.log('BACKGROUND LOADED',backgroundtheme)
 

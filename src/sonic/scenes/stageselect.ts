@@ -93,7 +93,7 @@ export const stageselect_init = () => {
   page.position.y = 40;
 
   background_load(STAGE_BGFILE)
-  .then(function(data:any){
+  .then(function(data:bgtheme_t){
     bgtheme = data;
   })
 
