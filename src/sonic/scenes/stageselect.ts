@@ -8,7 +8,7 @@ import { video_fadefx_over, video_fadefx_in, video_fadefx_out, video_fadefx_is_f
 import { image_rgb } from "./../core/image"
 import { sound_play, music_stop, music_load, music_play, music_is_playing } from "./../core/audio"
 import { lang_get } from "./../core/lang"
-import { input_create_user, input_destroy, input_button_pressed, IB_DOWN, IB_UP, IB_FIRE1, IB_FIRE3, IB_FIRE4 } from "./../core/input"
+import { input_t, input_create_user, input_destroy, input_button_pressed, IB_DOWN, IB_UP, IB_FIRE1, IB_FIRE3, IB_FIRE4 } from "./../core/input"
 import { sprite_get_animation } from "./../core/sprite"
 import { resourcemanager_getJsonFiles } from "./../core/resourcemanager"
 import { timer_get_delta } from "./../core/timer"
@@ -52,13 +52,13 @@ export const { STAGESTATE_NORMAL, STAGESTATE_QUIT, STAGESTATE_PLAY, STAGESTATE_F
 
 let pagenum = 1;
 let maxpages = 1;
-let title:font_t = null;
-let msg:font_t = null;
-let page:font_t = null;
-let icon:actor_t = null;
-let input:any = null;
+let title:font_t;
+let msg:font_t;
+let page:font_t;
+let icon:actor_t;
+let input:input_t;
 let scene_time = 0.0;
-let bgtheme:bgtheme_t = null;
+let bgtheme:bgtheme_t;
 
 let state:state_e;
 let stage_data:any[] = [];

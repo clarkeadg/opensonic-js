@@ -8,7 +8,7 @@ import { video_fadefx_in, video_fadefx_out, video_fadefx_over, video_clearDispla
 import { image_rgb } from "./../core/image"
 import { sprite_get_animation } from "./../core/sprite"
 import { music_load, music_play } from "./../core/audio"
-import { input_destroy, input_button_pressed, input_create_user, IB_FIRE1 } from "./../core/input"
+import { input_t, input_destroy, input_button_pressed, input_create_user, IB_FIRE1 } from "./../core/input"
 import { lang_get } from "./../core/lang"
 import { timer_get_ticks } from "./../core/timer"
 import { actor_t, actor_create, actor_render, actor_change_animation, actor_destroy } from "./../entities/actor"
@@ -17,10 +17,10 @@ import { player_get_score } from "./../entities/player"
 
 const QUESTOVER_MUSICFILE = "data/music/invincible.mp4";
 let starttime = 0;
-let fnt:font_t = null;
-let title:font_t = null;
-let sonic:actor_t = null;
-let input:any = null;
+let fnt:font_t;
+let title:font_t;
+let sonic:actor_t;
+let input:input_t;
 let quit:boolean = false;
 
 /**

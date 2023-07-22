@@ -5,29 +5,29 @@ import { timer_get_delta } from "./../core/timer"
 import { video_clearDisplay, video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
 import { image_destroy } from "./../core/image"
 import { sprite_get_image, sprite_get_animation } from "./../core/sprite"
-import { input_destroy, input_create_user, input_button_pressed, IB_LEFT, IB_RIGHT, IB_FIRE1, IB_FIRE3 } from "./../core/input"
+import { input_t, input_destroy, input_create_user, input_button_pressed, IB_LEFT, IB_RIGHT, IB_FIRE1, IB_FIRE3 } from "./../core/input"
 import { sound_play } from "./../core/audio"
 import { scenestack_pop } from "./../core/scene"
 import { soundfactory_get } from "./../core/soundfactory"
-import { actor_destroy, actor_render, actor_create, actor_change_animation } from "./../entities/actor"
+import { actor_destroy, actor_render, actor_create, actor_change_animation, actor_t } from "./../entities/actor"
 import { font_t, font_render, font_create, font_destroy, font_set_text, font_set_width } from "./../entities/font"
 
 const MAX_OPTIONS =  5;
 const NO_OPTION   = -1;
 
-let box:any = null;
-let background:any = null;
-let boxpos:v2d_t = null
-let textfnt:font_t = null;
+let box:any;
+let background:any;
+let boxpos:v2d_t
+let textfnt:font_t;
 let optionfnt:any[] = [];
-let icon:any = null;
-let text:string = null;
+let icon:actor_t;
+let text:string;
 let option:any[] = [];
 let option_count = 0;
 let current_option = NO_OPTION;
 let fxfade_in = false;
 let fxfade_out= false;
-let input:any = null;
+let input:input_t;
 
 /**
  * confirmbox_init()
@@ -46,7 +46,7 @@ export const confirmbox_init = () => {
 
   input = input_create_user();
   icon = actor_create();
-  icon = actor_change_animation(icon, sprite_get_animation("SD_TITLEFOOT", 0));
+  actor_change_animation(icon, sprite_get_animation("SD_TITLEFOOT", 0));
 
   textfnt = font_create(8);
   font_set_text(textfnt, text);

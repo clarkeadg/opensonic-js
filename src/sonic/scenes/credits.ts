@@ -4,7 +4,7 @@ import { INFINITY } from "./../core/global"
 import { video_get_backbuffer, video_clearDisplay, video_fadefx_over, video_fadefx_is_fading, video_fadefx_in, video_fadefx_out, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
 import { music_load, music_play, music_is_playing, sound_play } from "./../core/audio"
 import { lang_get } from "./../core/lang"
-import { input_destroy, input_button_pressed, input_create_user, IB_FIRE3, IB_FIRE4 } from "./../core/input"
+import { input_t, input_destroy, input_button_pressed, input_create_user, IB_FIRE3, IB_FIRE4 } from "./../core/input"
 import { image_destroy, image_rgb, image_create } from "./../core/image"
 import { timer_get_delta, timer_get_ticks } from "./../core/timer"
 import { scenestack_pop } from "./../core/scene"
@@ -68,14 +68,14 @@ let credits_text = [
 const CREDITS_BGFILE       = "data/themes/credits.bg.json";
 const OPTIONS_MUSICFILE    = "data/music/options.mp4";
 
-let box:any = null;
+let box:any;
 let quit = false;
-let title:font_t = null;
-let text:font_t = null;
-let back:font_t = null;
-let input:any = null;
+let title:font_t;
+let text:font_t;
+let back:font_t;
+let input:input_t;
 let line_count = 0;
-let bgtheme:bgtheme_t = null;
+let bgtheme:bgtheme_t;
 
 /**
  * credits_init()

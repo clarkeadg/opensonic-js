@@ -9,12 +9,12 @@ import { image_rgb } from "./../core/image"
 import { sprite_get_animation } from "./../core/sprite"
 import { music_load, music_is_playing, music_play, sound_play } from "./../core/audio"
 import { lang_get, lang_loadfile } from "./../core/lang"
-import { IB_UP, IB_DOWN, IB_FIRE1, IB_FIRE3, IB_FIRE4, input_destroy, input_create_user, input_button_pressed } from "./../core/input"
+import { input_t, IB_UP, IB_DOWN, IB_FIRE1, IB_FIRE3, IB_FIRE4, input_destroy, input_create_user, input_button_pressed } from "./../core/input"
 import { timer_get_delta } from "./../core/timer"
 import { resourcemanager_getJsonFiles } from "./../core/resourcemanager"
 import { soundfactory_get } from "./../core/soundfactory"
 import { font_t, font_create, font_get_charsize, font_get_text, font_set_text, font_render, font_destroy } from "./../entities/font"
-import { actor_create, actor_change_animation, actor_render, actor_destroy } from "./../entities/actor"
+import { actor_t, actor_create, actor_change_animation, actor_render, actor_destroy } from "./../entities/actor"
 import { bgtheme_t, background_load, background_update, background_render_bg, background_render_fg, background_unload } from "./../entities/background"
 
 const langFiles = [
@@ -42,13 +42,13 @@ let quit = false
 let lngcount = 0;
 let title:font_t[]  = [];
 let lngfnt:any  = [];
-let page_label:any = null;
-let lngdata:any = null;
+let page_label:any;
+let lngdata:any;
 let option = 0;
-let icon:any = null;
-let input:any = null;
+let icon:actor_t;
+let input:input_t;
 let scene_time = 0.0;
-let bgtheme:bgtheme_t = null;
+let bgtheme:bgtheme_t;
 
 /**
  * langselect_init()

@@ -1397,14 +1397,14 @@ const calculate_rotated_boundingbox = (z:number, act:actor_t, spot: v2d_t[]) => 
 }
 
 /* custom */
-const flipHorizontally = (context:any, around:number) => {
+const flipHorizontally = (context:CanvasRenderingContext2D, around:number) => {
   context.translate(around, 0);
   context.scale(-1, 1);
   context.translate(-around, 0);
   return context;
 }
 
-const rotateContext = (context:any, x:number, y:number, ang:number) => {
+const rotateContext = (context:CanvasRenderingContext2D, x:number, y:number, ang:number) => {
   context.translate(x, y);
   context.rotate(ang);
   context.translate(-x, -y);

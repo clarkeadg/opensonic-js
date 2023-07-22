@@ -151,7 +151,7 @@ export const enemy_get_observed_player = (enemy:enemy_t) => {
   return enemy.observed_player != null ? enemy.observed_player : level_player();
 }
 
-export const enemy_observe_player = (enemy:enemy_t, player:any) => {
+export const enemy_observe_player = (enemy:enemy_t, player:player_t) => {
   enemy.observed_player = player;
 }
 
