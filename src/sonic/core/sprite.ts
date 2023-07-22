@@ -1,7 +1,7 @@
 import { DATA_ROOT } from "./global"
 import { data_sprite_file_t, data_sprite_t, data_sprite_animation_t } from "./data"
 import { hashtable_sprites, hashtable_spriteinfo_t_create, hashtable_spriteinfo_t_add } from "./hashtable"
-import { image_load, image_destroy } from "./image"
+import { image_load, image_destroy, image_t } from "./image"
 import { logfile_message } from "./logfile"
 import { resourcemanager_getJsonFiles } from "./resourcemanager"
 import { isInArray } from "./util"
@@ -332,7 +332,7 @@ const load_sprite_images = (spr:spriteinfo_t) => {
     let cur_y = 0;
     // need to put event listener inside of image.load and return promise
     image_load(spr.source_file)
-    .then(function(sheet){
+    .then(function(sheet:image_t){
 
       //console.log('image loaded',spr.source_file)
 
@@ -347,7 +347,7 @@ const load_sprite_images = (spr:spriteinfo_t) => {
   });
 }
 
-const setupCanvasSprite = (spr:spriteinfo_t, sheet:any) => {
+const setupCanvasSprite = (spr:spriteinfo_t, sheet:image_t) => {
   let cur_x = 0;
   let cur_y = 0;
 
