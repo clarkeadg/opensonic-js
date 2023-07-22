@@ -290,7 +290,7 @@ export const actor_collision = (a:actor_t, b:actor_t) => {
 
   let right = 0;
 
-  let corner:any = [];
+  const corner:Array<v2d_t>[] = [];
  
   corner[0] = [
     v2d_new(0,0),
