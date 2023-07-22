@@ -3,19 +3,14 @@ import { INFINITY, DATA_ROOT } from "./global"
 import { resourcemanager_add_music, resourcemanager_add_sample } from "./resourcemanager"
 import { logfile_message } from "./logfile"
 
-export interface music_t {
-  stream: any,
-  loops_left: number,
-  is_paused: boolean,
-  elapsed_time: number
-}
+export interface music_t extends HTMLAudioElement {}
 
 export interface sound_t {
   data: any,
   voice_id: number
 }
 
-let current_music:any = null;
+let current_music:music_t = null;
 
 /**
  * audio_init()
@@ -58,7 +53,7 @@ export const music_load = (path:string) => {
  * Plays the given music and loops [loop] times.
  * Set loop equal to INFINITY to make it loop forever.
  */
-export const music_play = (music:any, loop:boolean) => {
+export const music_play = (music:music_t, loop:boolean) => {
 
   if(music_is_playing())
     music_stop();

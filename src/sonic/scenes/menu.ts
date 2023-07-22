@@ -8,7 +8,7 @@ import { v2d_new } from "./../core/v2d"
 import { input_t, input_create_user, input_destroy, input_ignore, input_restore, input_button_pressed, IB_UP, IB_DOWN, IB_FIRE1, IB_FIRE3, IB_FIRE4 } from "./../core/input"
 import { video_clearDisplay, video_get_backbuffer, video_fadefx_in, video_fadefx_out, video_fadefx_over, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
 import { image_rgb, image_blit } from "./../core/image"
-import { sound_play, music_load, music_play } from "./../core/audio"
+import { sound_play, music_load, music_play, music_t } from "./../core/audio"
 import { timer_get_ticks } from "./../core/timer"
 import { lang_get, lang_getstring } from "./../core/lang"
 import { soundfactory_get } from "./../core/soundfactory"
@@ -64,7 +64,7 @@ let qstmenuopt:number;
 let qstcount:number;
 let qstfnt:font_t[] = [];
 let qstdata:any[];
-let music:any;
+let music:music_t;
 
 export const menu_init = () => {
 

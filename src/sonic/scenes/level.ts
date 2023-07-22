@@ -1,6 +1,6 @@
 import { confirmbox_alert, confirmbox_selected_option } from "./confirmbox"
 import { editor_init, editor_is_enabled, editor_want_to_activate, editor_enable, editor_update, editor_render, editor_release } from "./editor"
-import { music_load, music_play, music_pause, music_stop, music_set_volume, music_get_volume, music_is_playing, sound_play } from "./../core/audio"
+import { music_load, music_play, music_pause, music_stop, music_set_volume, music_get_volume, music_is_playing, sound_play, music_t } from "./../core/audio"
 //import { fileSaver_saveAs } from "./../core/filesaver"
 import { EPSILON, PI, IF_NONE, IF_HFLIP, INFINITY } from "./../core/global"
 import { image_create, image_destroy, image_blit, image_draw, image_rgb } from "./../core/image"
@@ -157,8 +157,8 @@ let item_list:item_list_t;
 let enemy_list:enemy_list_t;
 let particle_list:particle_list_t;
 let spawn_point:v2d_t;
-let music:any;
-let override_music:any;
+let music:music_t;
+let override_music:music_t;
 let block_music:boolean;
 let quit_level:boolean;
 let quit_level_img:any;
