@@ -1,4 +1,3 @@
-
 import { DATA_ROOT } from "./global"
 import { 
   hashtable_spriteinfo_t_create,
@@ -12,6 +11,7 @@ import {
   hashtable_music_t_create,
   hashtable_music_t_add
 } from "./hashtable"
+import { music_t, sound_t } from "./audio"
 
 let images:any = {};
 let samples:any = {};
@@ -64,10 +64,10 @@ export const resourcemanager_add_image = (key:string, data:any) => {
   hashtable_image_t_add(images, key, data);
 };
 
-export const resourcemanager_add_sample = (key:string, data:any) => {
+export const resourcemanager_add_sample = (key:string, data:sound_t) => {
   hashtable_sound_t_add(samples, key, data);
 };
 
-export const resourcemanager_add_music = (key:string, data:any) => {
+export const resourcemanager_add_music = (key:string, data:music_t) => {
   hashtable_music_t_add(musics, key, data);
 };

@@ -4,7 +4,7 @@ import { v2d_new, v2d_t } from "./../core/v2d"
 //import { image_rgb } from "./../core/image"
 import { lang_get } from "./../core/lang"
 import { sprite_get_image, sprite_get_animation } from "./../core/sprite"
-import { video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H, VIDEO_SCALE } from "./../core/video"
+import { video_buffer_t, video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H, VIDEO_SCALE } from "./../core/video"
 
 /* Constants */
 const FONT_MAXVALUES      = 5;
@@ -327,7 +327,7 @@ const get_font_size = (f:font_t) => {
   return v2d_new(16,16);
 }
 
-const render_char = (dest:CanvasRenderingContext2D, img:any, x:number, y:number, color:color_t) => {
+const render_char = (dest:video_buffer_t, img:any, x:number, y:number, color:color_t) => {
   //console.log('render_char', r)
 
   let rgbks;

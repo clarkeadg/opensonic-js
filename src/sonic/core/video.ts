@@ -11,9 +11,12 @@ export const VIDEORESOLUTION_EDT      = 3; /* level editor */
 export const VIDEO_SCREEN_W           = 480;
 export const VIDEO_SCREEN_H           = 271;
 
+export interface video_canvas_t extends HTMLCanvasElement {}
+export interface video_buffer_t extends CanvasRenderingContext2D {}
+
 /* Private vars */
-let canvas:HTMLCanvasElement;
-let video_buffer:CanvasRenderingContext2D;
+let canvas:video_canvas_t;
+let video_buffer:video_buffer_t;
 let video_resolution:number;
 let video_smooth = false;
 let video_fullscreen = false;
@@ -52,15 +55,15 @@ export const video_init = (window_title:string, resolution:number, smooth:boolea
 
   if (canvasElement) {
     //console.log('111111111')
-    canvas = <HTMLCanvasElement>canvasElement;
+    canvas = <video_canvas_t>canvasElement;
     video_buffer = canvas.getContext("2d");
     CanvasScaleX = canvas.width / VIDEO_SCREEN_W;
     CanvasScaleY = canvas.height / VIDEO_SCREEN_H;
     video_buffer.scale( canvas.width / VIDEO_SCREEN_W, canvas.height / VIDEO_SCREEN_H);
   } else {
     //console.log('222222222')
-    canvasElement = <HTMLCanvasElement>document.createElement("canvas");
-    canvas = <HTMLCanvasElement>canvasElement;
+    canvasElement = <video_canvas_t>document.createElement("canvas");
+    canvas = <video_canvas_t>canvasElement;
     video_buffer = canvas.getContext("2d");
     canvas.width = VIDEO_SCREEN_W;
     canvas.height = VIDEO_SCREEN_H;
@@ -387,7 +390,7 @@ export const video_get_window_size = () => {
   return v2d_new(width, height);
 }
 
-export const video_getMousePos = (canvas:HTMLCanvasElement, evt:MouseEvent) => {
+export const video_getMousePos = (canvas:video_canvas_t, evt:MouseEvent) => {
   const rect = canvas.getBoundingClientRect();
   return {
     x: evt.clientX - rect.left,
@@ -395,7 +398,7 @@ export const video_getMousePos = (canvas:HTMLCanvasElement, evt:MouseEvent) => {
   };
 }
 
-const flipHorizontally = (context:CanvasRenderingContext2D, around:number) => {
+const flipHorizontally = (context:video_buffer_t, around:number) => {
   context.translate(around, 0);
   context.scale(-1, 1);
   context.translate(-around, 0);

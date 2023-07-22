@@ -1,3 +1,4 @@
+import { music_t, sound_t } from "./audio"
 
 let hash:any = {};
 
@@ -39,7 +40,7 @@ export const hashtable_sound_t_create = () => {
   return hash.samples;
 };
 
-export const hashtable_sound_t_add = (samples:any, key:string, data:any) => {
+export const hashtable_sound_t_add = (samples:any, key:string, data:sound_t) => {
   samples[key] = data;
 };
 
@@ -54,6 +55,6 @@ export const hashtable_music_t_create = () => {
   return hash.musics;
 };
 
-export const hashtable_music_t_add = (musics:any, key:string, data:any) => {
+export const hashtable_music_t_add = (musics:any, key:string, data:music_t) => {
   musics[key] = data;
 };

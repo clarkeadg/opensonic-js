@@ -3,7 +3,7 @@
 import { v2d_t, v2d_new } from "./../core/v2d"
 import { timer_get_delta } from "./../core/timer"
 import { video_clearDisplay, video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
-import { image_destroy } from "./../core/image"
+import { image_t, image_destroy } from "./../core/image"
 import { sprite_get_image, sprite_get_animation } from "./../core/sprite"
 import { input_t, input_destroy, input_create_user, input_button_pressed, IB_LEFT, IB_RIGHT, IB_FIRE1, IB_FIRE3 } from "./../core/input"
 import { sound_play } from "./../core/audio"
@@ -16,7 +16,7 @@ const MAX_OPTIONS =  5;
 const NO_OPTION   = -1;
 
 let box:any;
-let background:ImageData;
+let background:image_t;
 let boxpos:v2d_t
 let textfnt:font_t;
 let optionfnt:any[] = [];

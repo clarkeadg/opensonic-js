@@ -5,7 +5,7 @@ import { video_get_backbuffer, video_clearDisplay, video_fadefx_over, video_fade
 import { music_load, music_play, music_is_playing, sound_play } from "./../core/audio"
 import { lang_get } from "./../core/lang"
 import { input_t, input_destroy, input_button_pressed, input_create_user, IB_FIRE3, IB_FIRE4 } from "./../core/input"
-import { image_destroy, image_rgb, image_create } from "./../core/image"
+import { image_t, image_destroy, image_rgb, image_create } from "./../core/image"
 import { timer_get_delta, timer_get_ticks } from "./../core/timer"
 import { scenestack_pop } from "./../core/scene"
 import { soundfactory_get } from "./../core/soundfactory"
@@ -68,7 +68,7 @@ let credits_text = [
 const CREDITS_BGFILE       = "data/themes/credits.bg.json";
 const OPTIONS_MUSICFILE    = "data/music/options.mp4";
 
-let box:ImageData;
+let box:image_t;
 let quit = false;
 let title:font_t;
 let text:font_t;

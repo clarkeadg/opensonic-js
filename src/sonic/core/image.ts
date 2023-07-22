@@ -1,10 +1,12 @@
 
 import { logfile_message } from "./logfile"
-import { video_get_backbuffer } from "./video"
+import { video_buffer_t, video_get_backbuffer } from "./video"
 
 export const IF_NONE = 0;
 export const IF_HFLIP = 1;
 export const IF_VFLIP = 2;
+
+export interface image_t extends ImageData {}
 
 interface cache_t {
   [key: string]: any
@@ -50,7 +52,7 @@ export const image_load = (url:string) => {
  * image_rectfill()
  * Draws a filled rectangle
  */
-export const image_rectfill = (ctx:CanvasRenderingContext2D, x1:number, y1:number, x2:number, y2:number, color:string) => {
+export const image_rectfill = (ctx:video_buffer_t, x1:number, y1:number, x2:number, y2:number, color:string) => {
   ctx.fillStyle = color;
   ctx.fillRect(x1,y1,x2-x1,y2-y1);
 };
@@ -60,7 +62,7 @@ export const image_rectfill = (ctx:CanvasRenderingContext2D, x1:number, y1:numbe
  * Draws an image onto the destination surface
  * at the specified position
  */
-export const image_draw = (src:ImageData, dest:CanvasRenderingContext2D, x:number, y:number) => {
+export const image_draw = (src:image_t, dest:video_buffer_t, x:number, y:number) => {
   dest.putImageData(src, x, y);
 };
 
@@ -68,7 +70,7 @@ export const image_draw = (src:ImageData, dest:CanvasRenderingContext2D, x:numbe
  * image_blit()
  * Blits a surface onto another
  */
-export const image_blit = (src:CanvasImageSource, dest:CanvasRenderingContext2D, source_x:number, source_y:number, dest_x:number, dest_y:number, width:number, height:number) => {
+export const image_blit = (src:CanvasImageSource, dest:video_buffer_t, source_x:number, source_y:number, dest_x:number, dest_y:number, width:number, height:number) => {
   if (!src || !dest) return false;
   dest.drawImage(
     src,
@@ -87,7 +89,7 @@ export const image_blit = (src:CanvasImageSource, dest:CanvasRenderingContext2D,
  * image_putpixel()
  * Plots a pixel into the given image
  */
-export const image_putpixel = (img:ImageData, dest:CanvasRenderingContext2D, x:number, y:number, color:string) => {
+export const image_putpixel = (img:image_t, dest:video_buffer_t, x:number, y:number, color:string) => {
   dest.fillStyle = color;
   dest.fillRect(x,y,x+1,y+1);
   //putpixel(img.data, x, y, color);
@@ -97,7 +99,7 @@ export const image_putpixel = (img:ImageData, dest:CanvasRenderingContext2D, x:n
  * image_line()
  * Draws a line from (x1,y1) to (x2,y2) using the specified color
  */
-export const image_line = (ctx:CanvasRenderingContext2D, x1:number, y1:number, x2:number, y2:number, color:string) => {
+export const image_line = (ctx:video_buffer_t, x1:number, y1:number, x2:number, y2:number, color:string) => {
   ctx.beginPath();
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
@@ -118,7 +120,7 @@ export const image_rgb = (r:number, g:number, b:number) => {
  * image_clear()
  * Clears an given image with some color
  */
-export const image_clear = (img:ImageData, r:number, g:number, b:number) => {
+export const image_clear = (img:image_t, r:number, g:number, b:number) => {
   for (let i=0; i<img.data.length; i+= 4) {
     img.data[i]     = r; // red
     img.data[i+1]   = g; // green
@@ -130,7 +132,7 @@ export const image_clear = (img:ImageData, r:number, g:number, b:number) => {
  * image_pixelperfect_collision()
  * Pixel perfect collision detection
  */
-export const image_pixelperfect_collision = (img1:ImageData, img2:ImageData, x1:number, y1:number, x2:number, y2:number):boolean => {
+export const image_pixelperfect_collision = (img1:image_t, img2:image_t, x1:number, y1:number, x2:number, y2:number):boolean => {
 
   // # hack
   return true;
@@ -173,7 +175,7 @@ export const image_pixelperfect_collision = (img1:ImageData, img2:ImageData, x1:
  * Destroys an image. This is called automatically
  * while unloading the resource manager.
  */
-export const image_destroy = (img:ImageData) => {
+export const image_destroy = (img:image_t) => {
   if (!img) return;
   
   //if(img.data != null) {

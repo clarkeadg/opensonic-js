@@ -7,14 +7,14 @@ import { storyboard_get_scene, SCENE_CONFIRMBOX } from "./../core/storyboard"
 import { v2d_new } from "./../core/v2d"
 import { video_fadefx_over, video_fadefx_out, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
 import { music_resume } from "./../core/audio"
-import { image_create, image_destroy, image_blit, image_rgb } from "./../core/image"
+import { image_t, image_create, image_destroy, image_blit, image_rgb } from "./../core/image"
 import { input_t, input_create_user, input_button_pressed, input_button_up, input_destroy, IB_FIRE3, IB_FIRE4 } from "./../core/input"
 import { lang_getstring } from "./../core/lang"
 import { sprite_get_image, sprite_get_animation } from "./../core/sprite"
 import { timer_get_delta } from "./../core/timer"
 
 /* private data */
-let pause_buf:ImageData = null;
+let pause_buf:image_t = null;
 let pause_input:input_t = null;
 let pause_ready = false;
 let pause_quit = false

@@ -2,7 +2,7 @@ import { INT_MAX, EPSILON, PI } from "./../core/global"
 import { v2d_t, v2d_new, v2d_add, v2d_subtract, v2d_rotate, v2d_multiply } from "./../core/v2d"
 import { input_t, IB_FIRE1, IB_UP, IB_DOWN, IB_LEFT, IB_RIGHT, input_destroy, input_button_down } from "./../core/input"
 import { IF_HFLIP, IF_NONE, image_rgb, image_rectfill, image_pixelperfect_collision } from "./../core/image"
-import { video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H, VIDEO_SCALE } from "./../core/video"
+import { video_buffer_t, video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H, VIDEO_SCALE } from "./../core/video"
 import { timer_get_delta } from "./../core/timer"
 import { animation_t, sprite_get_image } from "./../core/sprite"
 import { clip, bounding_box, swap, circular_collision } from "./../core/util"
@@ -1397,14 +1397,14 @@ const calculate_rotated_boundingbox = (z:number, act:actor_t, spot: v2d_t[]) => 
 }
 
 /* custom */
-const flipHorizontally = (context:CanvasRenderingContext2D, around:number) => {
+const flipHorizontally = (context:video_buffer_t, around:number) => {
   context.translate(around, 0);
   context.scale(-1, 1);
   context.translate(-around, 0);
   return context;
 }
 
-const rotateContext = (context:CanvasRenderingContext2D, x:number, y:number, ang:number) => {
+const rotateContext = (context:video_buffer_t, x:number, y:number, ang:number) => {
   context.translate(x, y);
   context.rotate(ang);
   context.translate(-x, -y);
