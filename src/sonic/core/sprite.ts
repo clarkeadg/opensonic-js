@@ -1,4 +1,5 @@
 import { DATA_ROOT } from "./global"
+import { data_sprite_file_t, data_sprite_t, data_sprite_animation_t } from "./data"
 import { hashtable_sprites, hashtable_spriteinfo_t_create, hashtable_spriteinfo_t_add } from "./hashtable"
 import { image_load, image_destroy } from "./image"
 import { logfile_message } from "./logfile"
@@ -88,7 +89,7 @@ const spriteFiles = [
 ];
 
 let numLoaded = 0;
-let spriteData: any[] = [];
+let spriteData: data_sprite_t[] = [];
 
 /**
  * sprite_init()
@@ -109,9 +110,9 @@ export const sprite_init = () => {
     video_renderLoading('Loading...',0);
 
     resourcemanager_getJsonFiles(spriteFiles)
-    .then(function(data:any){
+    .then(function(data:data_sprite_file_t[]){
 
-      //console.log('GOT ALL SPRITE JSON FILES')
+      //console.log('GOT ALL SPRITE JSON FILES')      
 
       // merge data
       for(i=0;i<data.length;i++) {
@@ -168,7 +169,7 @@ export const sprite_get_image = (anim:animation_t, frame_id:number) => {
   return anim.frame_data[anim.data[frame_id]];
 }
 
-export const sprite_create = (tree:any) => {
+export const sprite_create = (tree:data_sprite_t) => {
   //console.log('CREATE SPRITE',tree)
   return new Promise(function (fulfill, reject){
     spriteinfo_create(tree)
@@ -277,7 +278,7 @@ const validate_animation = (anim:animation_t) => {
  * Creates and stores on the memory a spriteinfo_t
  * object by parsing the passed tree
  */
-const spriteinfo_create = (tree:any) => {
+const spriteinfo_create = (tree:data_sprite_t) => {
   return new Promise(function (fulfill, reject){
     let s = spriteinfo_new();
     let sprite = traverse_sprite_attributes(s,tree);
@@ -343,18 +344,6 @@ const load_sprite_images = (spr:spriteinfo_t) => {
       //console.log(spr)
       fulfill(spr);
     })
-
-    /*
-    var sheet = image.load(spr.source_file);
-    //console.log(sheet)
-    spr.frame_count = parseInt((spr.rect_w / spr.frame_w) * (spr.rect_h / spr.frame_h),10);
-    spr.frame_data = [];
-    sheet.addEventListener("load",function(){
-      spr = setupCanvasSprite(spr,sheet);
-      //console.log(spr)
-      fulfill(spr);
-    });
-    */
   });
 }
 
@@ -362,7 +351,7 @@ const setupCanvasSprite = (spr:spriteinfo_t, sheet:any) => {
   let cur_x = 0;
   let cur_y = 0;
 
-  //console.log('setupCanvasSprite',spr.frame_count);
+  //console.log('setupCanvasSprite', sheet);
 
   for(let i=0; i<spr.frame_count; i++) {
 
@@ -401,7 +390,7 @@ const fix_sprite_animations = (spr:spriteinfo_t) => {
  * traverse()
  * Sprite list traversal
  */
-const traverse = (data:any) => {
+const traverse = (data:data_sprite_t[]) => {
   return Promise.all(data.map(spriteinfo_create));
 }
 
@@ -409,7 +398,7 @@ const traverse = (data:any) => {
  * traverse_sprite_attributes()
  * Sprite attributes traversal
  */
-const traverse_sprite_attributes = (sprite:spriteinfo_t, s:any) => {
+const traverse_sprite_attributes = (sprite:spriteinfo_t, s:data_sprite_t) => {
 
   /* source_file */
   sprite.source_file = DATA_ROOT + s.source_file;
@@ -446,7 +435,7 @@ const traverse_sprite_attributes = (sprite:spriteinfo_t, s:any) => {
  * traverse_animation_attributes()
  * Animation attributes traversal
  */
-const traverse_animation_attributes = (anim:animation_t, animation:animation_t) => {
+const traverse_animation_attributes = (anim:animation_t, animation:data_sprite_animation_t) => {
   //console.log(anim, animation);
 
   anim.repeat = animation.repeat;

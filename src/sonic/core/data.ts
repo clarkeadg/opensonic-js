@@ -85,25 +85,28 @@ export interface data_quest_t {
   levels: string[]
 }
 
+export interface data_sprite_file_t {
+  [key: string]: data_sprite_t 
+}
+
 export interface data_sprite_t {
-  [key: string]: {
-    source_file: string,
-    source_rect: {
-      xpos: number,
-      ypos: number,
-      width: number,
-      height: number
-    },
-    frame_size: {
-      width: number,
-      height: number
-    },
-    hot_spot: {
-      xpos: number,
-      ypos: number
-    },
-    animations: data_sprite_animation_t[]
-  }  
+  name: string,
+  source_file: string,
+  source_rect: {
+    xpos: number,
+    ypos: number,
+    width: number,
+    height: number
+  },
+  frame_size: {
+    width: number,
+    height: number
+  },
+  hot_spot: {
+    xpos: number,
+    ypos: number
+  },
+  animations: data_sprite_animation_t[]   
 }
 
 export interface data_sprite_animation_t {
@@ -130,23 +133,7 @@ export interface data_theme_bg_t {
   repeat_x: boolean,
   repeat_y: boolean,
   zindex: number,
-  sprite: {
-    source_rect: {
-      xpos: number,
-      ypos: number,
-      width: number,
-      height: number
-    },
-    frame_size: {
-      width: number,
-      height: number
-    },
-    animations: {
-      repeat: boolean,
-      fps: number,
-      data: number[]
-    }
-  }
+  sprite: data_sprite_t
 }
 
 export interface data_theme_bricks_t {
@@ -154,21 +141,5 @@ export interface data_theme_bricks_t {
   behavior: any, // string | array
   angle: number,
   zindex: number
-  sprite: {
-    source_rect: {
-      xpos: number,
-      ypos: number,
-      width: number,
-      height: number
-    },
-    frame_size: {
-      width: number,
-      height: number
-    },
-    animations: {
-      repeat: boolean,
-      fps: number,
-      data: number[]
-    }
-  }
+  sprite: data_sprite_t
 }
