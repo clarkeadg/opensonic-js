@@ -272,7 +272,7 @@ let enemy_list:enemy_list_t;
 let spawn_point = v2d_new(0,0);
 
 
-export const editor_init = () => {
+export const editor_init = async () => {
   logfile_message("editor_init()");
 
   brick_list = level_get_brick_list();
@@ -289,10 +289,9 @@ export const editor_init = () => {
 
   /* creating objects */
   
-  image_load(EDITOR_BGFILE)
-  .then(function(img:HTMLImageElement){
-    editor_bgimage = img
-  })
+  const img = await image_load(EDITOR_BGFILE);
+  editor_bgimage = <HTMLImageElement>img;
+
   editor_keyboard = input_create_keyboard(editor_keybmap);
   editor_keyboard2 = input_create_keyboard(editor_keybmap2);
   editor_mouse = input_create_mouse();

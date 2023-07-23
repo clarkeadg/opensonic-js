@@ -55,7 +55,7 @@ let bgtheme:bgtheme_t;
  * langselect_init()
  * Initializes the scene
  */
-export const langselect_init = () => {
+export const langselect_init = async () => {
   option = 0;
   quit = false;
   scene_time = 0;
@@ -79,12 +79,8 @@ export const langselect_init = () => {
   title[2].position.y = VIDEO_SCREEN_H-font_get_charsize(title[2]).y*1.5;
 
   /* background init */
-  background_load(LANG_BGFILE)
-  .then(function(bgdata:bgtheme_t){
-    bgtheme = bgdata;
-    video_fadefx_in(image_rgb(0,0,0), 1.0);
-  });
-
+  const bgdata = await background_load(LANG_BGFILE);
+  bgtheme = <bgtheme_t>bgdata;
 
   icon = actor_create();
   actor_change_animation(icon, sprite_get_animation("SD_TITLEFOOT", 0));
@@ -210,28 +206,24 @@ const save_preferences = (filepath:string) => {
   preferences_set_language(filepath);
 }
 
-const load_lang_list = () => {
-
+const load_lang_list = async () => {
   logfile_message("load_lang_list()");
-
-  resourcemanager_getJsonFiles(langFiles)
-  .then(function(data:data_language_t[]){
-    lngdata = data;
-    lngcount = lngdata.length;
-    lngfnt[0] = [];
-    lngfnt[1] = [];
-    for(let i = 0; i< lngcount;i++) {
-      lngdata[i].filepath = langFiles[i];
-      lngfnt[0][i] = font_create(8);
-      lngfnt[1][i] = font_create(8);
-      //font_set_text(lngfnt[0][i], "%2d. %s", i+1, lngdata[i].title);
-      //font_set_text(lngfnt[1][i], "<color=ffff00>% 2d. %s</color>", i+1, lngdata[i].title);
-      font_set_text(lngfnt[0][i], lngdata[i].LANG_LANGUAGE);
-      font_set_text(lngfnt[1][i], lngdata[i].LANG_LANGUAGE);
-      lngfnt[0][i].position = v2d_new(25, 75 + 20*(i%LANG_MAXPERPAGE));
-      lngfnt[1][i].position = v2d_new(25, 75 + 20*(i%LANG_MAXPERPAGE));
-    }
-  });
+  const data = await resourcemanager_getJsonFiles(langFiles)
+  lngdata = <data_language_t[]>data;
+  lngcount = lngdata.length;
+  lngfnt[0] = [];
+  lngfnt[1] = [];
+  for(let i = 0; i< lngcount;i++) {
+    lngdata[i].filepath = langFiles[i];
+    lngfnt[0][i] = font_create(8);
+    lngfnt[1][i] = font_create(8);
+    //font_set_text(lngfnt[0][i], "%2d. %s", i+1, lngdata[i].title);
+    //font_set_text(lngfnt[1][i], "<color=ffff00>% 2d. %s</color>", i+1, lngdata[i].title);
+    font_set_text(lngfnt[0][i], lngdata[i].LANG_LANGUAGE);
+    font_set_text(lngfnt[1][i], lngdata[i].LANG_LANGUAGE);
+    lngfnt[0][i].position = v2d_new(25, 75 + 20*(i%LANG_MAXPERPAGE));
+    lngfnt[1][i].position = v2d_new(25, 75 + 20*(i%LANG_MAXPERPAGE));
+  }
 }
 
 const unload_lang_list = () => {
