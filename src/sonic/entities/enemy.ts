@@ -64,18 +64,16 @@ let name_table:object_name_data_t = {
   length: 0
 };
 
-export const enemy_objects_init = () => {
-
+export const enemy_objects_init = async () => {
   const path = "data/objects/enemies.json";
-
   logfile_message("Loading objects scripts...");
-  objects = null;
 
-  resourcemanager_getJsonFile(path)
-  .then(function(enemy_data:data_objects_t){
-    fill_object_data(objects, enemy_data);
-    objects = enemy_data;
-  });
+  objects = null;
+  const data = await resourcemanager_getJsonFile(path);
+  const enemy_data = <data_objects_t>data;
+  
+  fill_object_data(objects, enemy_data);
+  objects = enemy_data;
 }
 
 export const enemy_release = () => {
