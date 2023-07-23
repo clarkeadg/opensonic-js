@@ -17,13 +17,11 @@ let bgtheme:bgtheme_t = null;
  * intro_init()
  * Initializes the introduction scene
  */
-export const intro_init = () => {
+export const intro_init = async () => {
   elapsed_time = 0.0;
-  background_load(INTRO_BGFILE)
-  .then(function(bgdata:bgtheme_t){
-    bgtheme = bgdata;
-    video_fadefx_in(image_rgb(0,0,0), 1.0);
-  });
+  const bgdata = await background_load(INTRO_BGFILE);
+  bgtheme = <bgtheme_t>bgdata;
+  video_fadefx_in(image_rgb(0,0,0), 1.0);
 }
 
 /**
