@@ -71,7 +71,7 @@ let stage_label:font_t[] = [];
  * stageselect_init()
  * Initializes the scene
  */
-export const stageselect_init = () => {
+export const stageselect_init = async () => {
 
   option = 0;
   scene_time = 0;
@@ -93,10 +93,8 @@ export const stageselect_init = () => {
   page.position.x = VIDEO_SCREEN_W - font_get_text(page).length*font_get_charsize(page).x - 10;
   page.position.y = 40;
 
-  background_load(STAGE_BGFILE)
-  .then(function(data:bgtheme_t){
-    bgtheme = data;
-  })
+  const data = await background_load(STAGE_BGFILE);
+  bgtheme = <bgtheme_t>data;
 
   icon = actor_create();
   actor_change_animation(icon, sprite_get_animation("SD_TITLEFOOT", 0));
@@ -241,20 +239,17 @@ export const stageselect_release = () => {
   input_destroy(input);
 }
 
-const load_stage_list = () => {
-
+const load_stage_list = async () => {
   logfile_message("load_stage_list()");
-
-  resourcemanager_getJsonFiles(stageFiles)
-  .then(function(data:data_level_t[]){
-    stage_data = data;
-    stage_count = stage_data.length;
-    for(var i = 0; i< stage_count;i++) {
-      stage_label[i] = font_create(8);
-      stage_label[i].position = v2d_new(25, 60 + 20 * (i % STAGE_MAXPERPAGE));
-      stage_data[i].filepath = stageFiles[i];
-    }
-  });
+  
+  const data = await resourcemanager_getJsonFiles(stageFiles);
+  stage_data = <data_level_t[]>data;
+  stage_count = stage_data.length;
+  for(var i = 0; i< stage_count;i++) {
+    stage_label[i] = font_create(8);
+    stage_label[i].position = v2d_new(25, 60 + 20 * (i % STAGE_MAXPERPAGE));
+    stage_data[i].filepath = stageFiles[i];
+  }
 }
 
 const unload_stage_list = () => {}
