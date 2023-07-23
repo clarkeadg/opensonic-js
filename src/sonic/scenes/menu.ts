@@ -65,7 +65,7 @@ let qstfnt:font_t[] = [];
 let qstdata:quest_t[] = [];
 let music:music_t;
 
-export const menu_init = () => {
+export const menu_init = async () => {
 
   /* initializing... */
   quit = false;
@@ -76,21 +76,9 @@ export const menu_init = () => {
   input = input_create_user();
   input_ignore(input);
   load_quest_list();
-  //console.log(qstdata);
 
   music = music_load(MENU_MUSICFILE);
-  music_play(music, true);
-  //music.play( music.load(MENU_MUSICFILE) , INFINITY);
-
-
-  /* background init */
-   background_load(MENU_BGFILE)
-  .then(function(bgdata:bgtheme_t){
-    bgtheme = bgdata;
-    //console.log(bgtheme);
-    video_fadefx_in(image_rgb(0,0,0), 1.0);
-  });
-
+  music_play(music, true); 
 
   /* main actors */
   surge_entering = true;
@@ -153,6 +141,9 @@ export const menu_init = () => {
   qstdetail = font_create(8);
   qstdetail.position = v2d_new(5, 170);
 
+  /* background init */
+  const bgdata = await background_load(MENU_BGFILE);
+  bgtheme = <bgtheme_t>bgdata;
 
   /* fade in */
   video_fadefx_in(image_rgb(0,0,0), 1.5);
@@ -374,28 +365,21 @@ export const menu_release = () => {
 }
 
 /* private functions */
-const select_option = (opt:number) => {
+const select_option = async (opt:number) => {
   let abs_path = questFiles[0];
+  let q:quest_t;
 
   switch(opt) {
     // 1P GAME
     case 0:
-        //resource_filepath(abs_path, "data/quests/default.qst", sizeof(abs_path), RESFP_READ);
-        //game_start();
-        quest_load(abs_path)
-        .then(function(q){
-          game_start(q)
-        })
+        q = await quest_load(abs_path)
+        game_start(q)        
         return;
 
     // TUTORIAL
     case 1:
-        //resource_filepath(abs_path, "data/quests/tutorial.qst", sizeof(abs_path), RESFP_READ);
-        //game_start( load_quest(abs_path) );
-        quest_load("data/quests/tutorial.json")
-        .then(function(q){
-          game_start(q)
-        })
+        q = await quest_load("data/quests/tutorial.json");
+        game_start(q)        
         return;
 
     // CUSTOM QUESTS
@@ -419,20 +403,14 @@ const select_option = (opt:number) => {
 }
 
 const load_quest_list = () => {
-  var i;
-
   qstcount = questFiles.length;
-
   qstdata = [];
-  for(i=0; i<qstcount; i++) {
-    (function(n){
-      quest_load(questFiles[i])
-        .then(function(q:quest_t){
-          qstfnt[n] = font_create(8);
-          qstdata[n] = q;
-          font_set_text(qstfnt[n], q.name);
-          //font_set_text(qstfnt[n], "%2d %s", i+1, q.name);
-        })
+  for(let i=0; i<qstcount; i++) {
+    (async (n) => {
+      const q = await quest_load(questFiles[i]);
+      qstfnt[n] = font_create(8);
+      qstdata[n] = q;
+      font_set_text(qstfnt[n], q.name);
     })(i)
   }
 }
