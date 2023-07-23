@@ -132,7 +132,7 @@ export const image_clear = (img:image_t, r:number, g:number, b:number) => {
  * image_pixelperfect_collision()
  * Pixel perfect collision detection
  */
-export const image_pixelperfect_collision = (img1:image_t, img2:image_t, x1:number, y1:number, x2:number, y2:number):boolean => {
+export const image_pixelperfect_collision = (img1:HTMLImageElement, img2:HTMLImageElement, x1:number, y1:number, x2:number, y2:number):boolean => {
 
   // # hack
   return true;

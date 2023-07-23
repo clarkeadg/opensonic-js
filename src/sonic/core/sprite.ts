@@ -10,13 +10,25 @@ import { video_renderLoading } from "./video"
 
 const SPRITE_MAX_ANIM = 1000;
 
+export interface spriteframe_t {
+  data: HTMLImageElement,
+  sx: number,
+  sy: number,
+  swidth: number,
+  sheight: number,
+  x: number,
+  y: number,
+  width: number,
+  height: number
+};
+
 export interface animation_t {
   repeat: boolean,
   fps: number,
   frame_count: number,
   data: number[],
   hot_spot: v2d_t,
-  frame_data: any
+  frame_data: spriteframe_t[]
 }
 
 export interface spriteinfo_t {
@@ -24,14 +36,14 @@ export interface spriteinfo_t {
   rect_x: number,
   rect_y: number,
   rect_w: number,
-  rect_h: number,
+  rect_h: number, 
   frame_w: number,
   frame_h: number,
   hot_spot: v2d_t,
   frame_count: number,
-  frame_data: any,
+  frame_data: spriteframe_t[],
   animation_count: number,
-  animation_data: any
+  animation_data: animation_t[]
 }
 
 export interface sprites_t {
@@ -164,7 +176,7 @@ export const sprite_get_animation = (sprite_name:string, anim_id:number) => {
  * Returns an image.
  */
 export const sprite_get_image = (anim:animation_t, frame_id:number) => {
-  if (!anim) return 0;
+  if (!anim) return null;
   //frame_id = Math.min(frame_id, 0, anim.frame_count-1);
   return anim.frame_data[anim.data[frame_id]];
 }
@@ -188,26 +200,18 @@ export const sprite_info_destroy = (info:spriteinfo_t) => {
     info.source_file = null
 
   if(info.frame_data != null) {
-      for(i=0; i<info.frame_count; i++)
-          image_destroy(info.frame_data[i]);
-      info.frame_data = null;
+    //for(i=0; i<info.frame_count; i++)
+    //  image_destroy(info.frame_data[i].data);
+    info.frame_data = null;
   }
 
   if(info.animation_data != null) {
-      for(i=0; i<info.animation_count; i++)
-          info.animation_data[i] = animation_delete(info.animation_data[i]);
-      info.animation_data = null;
+    for(i=0; i<info.animation_count; i++)
+      info.animation_data[i] = animation_delete(info.animation_data[i]);
+    info.animation_data = null;
   }
 
   info = null;
-}
-
-const createCanvas = (imgUrl:string, spr:spriteinfo_t) => {
-  let canvas = document.createElement("canvas");
-  canvas.width = spr.rect_w;
-  canvas.height = spr.rect_h;
-  document.body.appendChild(canvas);
-  return canvas.getContext("2d");
 }
 
 /**
@@ -233,31 +237,31 @@ const validate_sprite = (spr:spriteinfo_t) => {
   //console.log(spr)
 
   if(spr.frame_w > spr.rect_w || spr.frame_h > spr.rect_h) {
-      //logfile_message("Sprite error: frame_size (%d,%d) can't be larger than source_rect size (%d,%d)", spr.frame_w, spr.frame_h, spr.rect_w, spr.rect_h);
-      spr.frame_w = Math.min(spr.frame_w, spr.rect_w);
-      spr.frame_h = Math.min(spr.frame_h, spr.rect_h);
-      //logfile_message("Adjusting frame_size to (%d,%d)", spr.frame_w, spr.frame_h);
+    //logfile_message("Sprite error: frame_size (%d,%d) can't be larger than source_rect size (%d,%d)", spr.frame_w, spr.frame_h, spr.rect_w, spr.rect_h);
+    spr.frame_w = Math.min(spr.frame_w, spr.rect_w);
+    spr.frame_h = Math.min(spr.frame_h, spr.rect_h);
+    //logfile_message("Adjusting frame_size to (%d,%d)", spr.frame_w, spr.frame_h);
   }
 
   if(spr.rect_w % spr.frame_w > 0 || spr.rect_h % spr.frame_h > 0) {
-      //logfile_message("Sprite error: incompatible frame_size (%d,%d) x source_rect size (%d,%d). source_rect size should be a multiple of frame_size.", spr.frame_w, spr.frame_h, spr.rect_w, spr.rect_h);
-      spr.rect_w = (spr.rect_w % spr.frame_w > 0) ? (spr.rect_w - spr.rect_w % spr.frame_w + spr.frame_w) : spr.rect_w;
-      spr.rect_h = (spr.rect_h % spr.frame_h > 0) ? (spr.rect_h - spr.rect_h % spr.frame_h + spr.frame_h) : spr.rect_h;
-      //logfile_message("Adjusting source_rect size to (%d,%d)", spr.rect_w, spr.rect_h);
+    //logfile_message("Sprite error: incompatible frame_size (%d,%d) x source_rect size (%d,%d). source_rect size should be a multiple of frame_size.", spr.frame_w, spr.frame_h, spr.rect_w, spr.rect_h);
+    spr.rect_w = (spr.rect_w % spr.frame_w > 0) ? (spr.rect_w - spr.rect_w % spr.frame_w + spr.frame_w) : spr.rect_w;
+    spr.rect_h = (spr.rect_h % spr.frame_h > 0) ? (spr.rect_h - spr.rect_h % spr.frame_h + spr.frame_h) : spr.rect_h;
+    //logfile_message("Adjusting source_rect size to (%d,%d)", spr.rect_w, spr.rect_h);
   }
 
   //if(spr.animation_count < 1 || spr.animation_data == null)
-  //    fatal_error("Sprite error: sprites must contain at least one animation");
+  //   fatal_error("Sprite error: sprites must contain at least one animation");
 
   n = (spr.rect_w / spr.frame_w) * (spr.rect_h / spr.frame_h);
   for(i=0; i<spr.animation_count; i++) {
-      for(j=0; j<spr.animation_data[i].frame_count; j++) {
-          if(!(spr.animation_data[i].data[j] >= 0 && spr.animation_data[i].data[j] < n)) {
-              //logfile_message("Sprite error: invalid frame '%d' of animation %d. Animation frames must be in range %d..%d", spr.animation_data[i].data[j], i, 0, n-1);
-              spr.animation_data[i].data[j] = Math.min(spr.animation_data[i].data[j], 0, n-1);
-              //logfile_message("Adjusting animation frame to %d", spr.animation_data[i].data[j]);
-          }
+    for(j=0; j<spr.animation_data[i].frame_count; j++) {
+      if(!(spr.animation_data[i].data[j] >= 0 && spr.animation_data[i].data[j] < n)) {
+        //logfile_message("Sprite error: invalid frame '%d' of animation %d. Animation frames must be in range %d..%d", spr.animation_data[i].data[j], i, 0, n-1);
+        spr.animation_data[i].data[j] = Math.min(spr.animation_data[i].data[j], 0, n-1);
+        //logfile_message("Adjusting animation frame to %d", spr.animation_data[i].data[j]);
       }
+    }
   }
 
   return spr;
@@ -332,7 +336,7 @@ const load_sprite_images = (spr:spriteinfo_t) => {
     let cur_y = 0;
     // need to put event listener inside of image.load and return promise
     image_load(spr.source_file)
-    .then(function(sheet:image_t){
+    .then(function(sheet:HTMLImageElement){
 
       //console.log('image loaded',spr.source_file)
 
@@ -347,7 +351,7 @@ const load_sprite_images = (spr:spriteinfo_t) => {
   });
 }
 
-const setupCanvasSprite = (spr:spriteinfo_t, sheet:image_t) => {
+const setupCanvasSprite = (spr:spriteinfo_t, sheet:HTMLImageElement) => {
   let cur_x = 0;
   let cur_y = 0;
 
@@ -355,7 +359,7 @@ const setupCanvasSprite = (spr:spriteinfo_t, sheet:image_t) => {
 
   for(let i=0; i<spr.frame_count; i++) {
 
-    spr.frame_data[i] = {
+    const spriteFrame:spriteframe_t = {
       data: sheet,
       sx: cur_x + spr.rect_x,
       sy: cur_y + spr.rect_y,
@@ -365,7 +369,9 @@ const setupCanvasSprite = (spr:spriteinfo_t, sheet:image_t) => {
       y: 0,
       width: spr.frame_w,
       height: spr.frame_h
-    };
+    }
+
+    spr.frame_data[i] = spriteFrame;
 
     cur_x += spr.frame_w;
 

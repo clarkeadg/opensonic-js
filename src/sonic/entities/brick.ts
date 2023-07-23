@@ -1,6 +1,6 @@
 import { data_theme_t, data_theme_bricks_t } from "./../core/data"
 import { image_t } from "./../core/image"
-import { animation_t, spriteinfo_t, sprite_create, sprite_info_destroy } from "./../core/sprite"
+import { spriteframe_t, animation_t, spriteinfo_t, sprite_create, sprite_info_destroy } from "./../core/sprite"
 import { resourcemanager_getJsonFile } from "./../core/resourcemanager"
 import { timer_get_delta } from "./../core/timer"
 import { logfile_message } from "./../core/logfile"
@@ -29,7 +29,7 @@ export const BRB_FALL_TIME         =  1.0; /* time in seconds before a BRB_FALL 
 
 export interface brickdata_t {
   data: spriteinfo_t,
-  image: image_t,
+  image: spriteframe_t,
   property: number,
   behavior: number,
   angle: number,
@@ -136,7 +136,6 @@ export const brick_animate = (brk:brick_t) => {
       f = ~~brk.animation_frame;
       brk.brick_ref.image = sprite.frame_data[ sprite.animation_data[0].data[f] ];
   }
-  return brk;
 }
 
 /**

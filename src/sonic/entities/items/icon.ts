@@ -63,8 +63,8 @@ const update = (item:item_t, team:player_t[], team_size:number, brick_list:brick
     let particle;
 
     /* particle party! :) */
-    for(i=0; i<img.h; i++) {
-      for(j=0; j<img.w; j++) {
+    for(i=0; i<img.height; i++) {
+      for(j=0; j<img.width; j++) {
         particle = image_create(1,1);
         image_clear(particle, 255, 255, 255);
         //image.clear(particle, image.getpixel(img, j, i));

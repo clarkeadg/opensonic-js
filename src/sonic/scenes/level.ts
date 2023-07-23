@@ -12,7 +12,7 @@ import { resourcemanager_getJsonFile } from "./../core/resourcemanager"
 import { scenestack_push, scenestack_pop } from "./../core/scene"
 import { storyboard_get_scene, SCENE_PAUSE, SCENE_GAMEOVER, SCENE_CONFIRMBOX } from "./../core/storyboard"
 import { soundfactory_get } from "./../core/soundfactory"
-import { sprite_get_animation, sprite_get_image } from "./../core/sprite"
+import { spriteframe_t, sprite_get_animation, sprite_get_image } from "./../core/sprite"
 import { timer_get_delta, timer_get_ticks } from "./../core/timer"
 import { bounding_box, clip, random } from "./../core/util"
 import { v2d_t, v2d_new, v2d_add, v2d_subtract } from "./../core/v2d"
@@ -1566,12 +1566,12 @@ const render_entities = () => {
   major_bricks = brick_list_clip();
 
   /* render bricks - background */
-  let brickImage:any = {};
+  let brickImage:spriteframe_t = null;
   for(let p=major_bricks; p; p=p.next) {
     if(p.data) {
       let ref = p.data.brick_ref;
       if(ref.zindex < 0.5) {
-          p.data = brick_animate(p.data);
+          brick_animate(p.data);
           brickImage = brick_image(p.data);
           video_get_backbuffer().drawImage(
             brickImage.data,
@@ -1596,7 +1596,7 @@ const render_entities = () => {
     if(p.data) {
       let ref = p.data.brick_ref;
       if(Math.abs(ref.zindex-0.5) < EPSILON && ref.property != BRK_OBSTACLE) {
-          p.data = brick_animate(p.data);
+          brick_animate(p.data);
           brickImage = brick_image(p.data);
           video_get_backbuffer().drawImage(
             brickImage.data,
@@ -1625,7 +1625,7 @@ const render_entities = () => {
     if(p.data) {
       let ref = p.data.brick_ref;
        if(Math.abs(ref.zindex-0.5) < EPSILON && ref.property == BRK_OBSTACLE) {
-          p.data = brick_animate(p.data);
+          brick_animate(p.data);
           brickImage = brick_image(p.data);
           video_get_backbuffer().drawImage(
             brickImage.data,
@@ -1672,7 +1672,7 @@ const render_entities = () => {
     if(p.data) {
       let ref = p.data.brick_ref;
        if(ref.zindex > 0.5) {
-          p.data = brick_animate(p.data);
+          brick_animate(p.data);
           brickImage = brick_image(p.data);
           video_get_backbuffer().drawImage(
             brickImage.data,
@@ -2029,9 +2029,21 @@ const spawn_players = () => {
 
 const create_fake_brick = (width:number, height:number, position:v2d_t, angle:number) => {
   
+  const brickImage:spriteframe_t = {
+    data: null,
+    sx: 0,
+    sy: 0,
+    swidth: 0,
+    sheight: 0,
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0
+  }
+  
   const d:brickdata_t = {
     data: null,
-    image: image_create(width, height),
+    image: brickImage,
     angle: angle,
     property: BRK_OBSTACLE,
     behavior: BRB_DEFAULT,
@@ -2259,7 +2271,7 @@ const remove_dead_bricks = () => {
 }
 
 const destroy_fake_brick = (b:brick_t) => {
-  image_destroy(b.brick_ref.image);
+  //image_destroy(b.brick_ref.image);
   b.brick_ref = null;
   b = null;
 }

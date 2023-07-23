@@ -404,8 +404,8 @@ const onplayerrectcollision_should_trigger_event = (event:eventstrategy_t, objec
 
   b[0] = pa.position.x - pa.hot_spot.x;
   b[1] = pa.position.y - pa.hot_spot.y;
-  b[2] = pa.position.x - pa.hot_spot.x + pi.w;
-  b[3] = pa.position.y - pa.hot_spot.y + pi.h;
+  b[2] = pa.position.x - pa.hot_spot.x + pi.width;
+  b[3] = pa.position.y - pa.hot_spot.y + pi.height;
 
   return !player.dying && bounding_box(a, b);
 }

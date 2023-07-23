@@ -94,10 +94,6 @@ export const actor_destroy = (act:actor_t) => {
 export const actor_render = (act:actor_t, camera_position:v2d_t) => {
   if (!camera_position || !act) return;
 
-  let diff = MAGIC_DIFF;
-  let img;
-  let tmp;
-
   if(act.visible && act.animation) {
 
     /* update animation */
@@ -112,8 +108,7 @@ export const actor_render = (act:actor_t, camera_position:v2d_t) => {
     }
 
     /* render */
-    tmp = act.position;
-    img = actor_image(act);
+    const img = actor_image(act);
 
     if (!img) return false;      
 
@@ -185,7 +180,7 @@ export const actor_render_repeat_xy = (act:actor_t, camera_position:v2d_t, repea
         act.animation_frame = act.animation.frame_count-1;
     }
 
-    let img = actor_image(act);
+    const img = actor_image(act);
     if (!img) return false;
 
     final_pos.x = act.position.x%(repeat_x?img.width:INT_MAX) - act.hot_spot.x-(camera_position.x-VIDEO_SCREEN_W/2) - (repeat_x?img.width:0);
@@ -412,7 +407,7 @@ export const actor_pixelperfect_collision = (a:actor_t, b:actor_t) => {
       x2 = b.position.x - b.hot_spot.x;
       y2 = b.position.y - b.hot_spot.y;
 
-      return image_pixelperfect_collision(actor_image(a), actor_image(b), x1, y1, x2, y2);
+      return image_pixelperfect_collision(actor_image(a).data, actor_image(b).data, x1, y1, x2, y2);
     }
     else
       return false;
@@ -469,7 +464,7 @@ export const actor_pixelperfect_collision = (a:actor_t, b:actor_t) => {
  */
 export const actor_brick_collision = (act:actor_t, brk:brick_t) => {
   let topleft = v2d_subtract(act.position, v2d_rotate(act.hot_spot, act.angle));
-  let bottomright = v2d_add( topleft, v2d_rotate(v2d_new(actor_image(act).w, actor_image(act).h), act.angle) );
+  let bottomright = v2d_add( topleft, v2d_rotate(v2d_new(actor_image(act).width, actor_image(act).height), act.angle) );
   let a = [ topleft.x, topleft.y, bottomright.x, bottomright.y ];
   let b = [ brk.x, brk.y, (brk.x+brk.brick_ref.image.width), (brk.y+brk.brick_ref.image.height) ];
 
