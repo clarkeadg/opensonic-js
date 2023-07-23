@@ -202,7 +202,7 @@ const bgstrategy_circular_new = (background:background_t, amplitude_x:number, am
   
   const base:bgstrategy_t = {
     background: background,
-    update: bgstrategy_linear_update
+    update: bgstrategy_circular_update
   }
 
   const me:bgstrategy_circular_t = <bgstrategy_circular_t>base;  
