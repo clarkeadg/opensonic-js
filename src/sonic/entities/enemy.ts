@@ -1,4 +1,5 @@
 import { logfile_message } from "./../core/logfile"
+import { data_objects_t, data_object_t } from "./../core/data"
 import { sprite_get_animation } from "./../core/sprite"
 import { input_create_computer } from "./../core/input"
 import { resourcemanager_getJsonFile } from "./../core/resourcemanager"
@@ -57,7 +58,7 @@ export interface in_out_t {
 }
 
 const MAX_OBJECTS = 1024;
-let objects:any = null;
+let objects:data_objects_t = null;
 let name_table:object_name_data_t = {
   name: [],
   length: 0
@@ -71,7 +72,7 @@ export const enemy_objects_init = () => {
   objects = null;
 
   resourcemanager_getJsonFile(path)
-  .then(function(enemy_data){
+  .then(function(enemy_data:data_objects_t){
     fill_object_data(objects, enemy_data);
     objects = enemy_data;
   });
@@ -211,7 +212,7 @@ const is_hidden_object = (name:string) => {
   return name[0] == '.';
 }
 
-const find_object_block = (stmt:any, in_out_param:any,) => { 
+const find_object_block = (stmt:data_objects_t, in_out_param:in_out_t,) => { 
   
   let param = in_out_param;
   //var id = nanoparser_get_identifier(stmt);
@@ -235,7 +236,7 @@ const find_object_block = (stmt:any, in_out_param:any,) => {
   return 0;
 }
 
-const fill_object_data = (stmt:any, object_name_data:any) => {
+const fill_object_data = (stmt:data_objects_t, object_name_data:data_objects_t) => {
   return stmt;
 }
 
