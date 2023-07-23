@@ -40,7 +40,7 @@ export interface input_t {
   dx:number, /* delta-x, delta-y, delta-z (mouse mickeys) */
   dy:number,
   dz:number,
-  keybmap:any, /* keyboard-related, key mappings */
+  keybmap:keybmap_t, /* keyboard-related, key mappings */
   enabled:boolean, /* enable input? */
   howlong:any /* for how long (in seconds) is this button being holded? */
 }
@@ -48,6 +48,10 @@ export interface input_t {
 export interface input_list_t {
   data: input_t,
   next: input_list_t
+}
+
+export interface keybmap_t {
+  [key: number]: number
 }
 
 export const KEY_UP           = 38;
@@ -100,10 +104,10 @@ let joystick2:any = null;
 let joystick3:any = null;
 let joystick4:any = null;
 
-let canGamepad:any = null;
+let canGamepad:boolean;
 let gp:any = null;
 
-let mousePos = { x: 0, y: 0 };
+let mousePos = v2d_new(0,0);
 let mouseIsDown = { left: false, middle: false, right: false };
 
 /**
@@ -501,7 +505,7 @@ export const input_create_computer = () => {
  * keybmap: array of IB_MAX integers. Use NULL
  *          to use the default settings.
  */
-export const input_create_keyboard = (keybmap:any) => {
+export const input_create_keyboard = (keybmap:keybmap_t) => {
   let inp:input_t = {
     type: input_device_t.IT_KEYBOARD,
     enabled: true,
