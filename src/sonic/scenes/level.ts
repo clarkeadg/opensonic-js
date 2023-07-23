@@ -349,8 +349,7 @@ export const level_save = (filepath:string) => {
  * level_init()
  * Initializes the scene
  */
-export const level_init = () => {
-  let i;
+export const level_init = async () => {
 
   DEFAULT_MARGIN        =  VIDEO_SCREEN_W;
 
@@ -378,72 +377,70 @@ export const level_init = () => {
   editor_init();
 
   /* level init */
-  level_load(file)
-  .then(function(){
+  await level_load(file);
 
-    /* loading players */
-    logfile_message("Creating players...");
-    for(let i = 0; i<PLAYERS.length;i++) {
-      team[i] = player_create(PLAYERS[i]);
-    }
-    //team[0] = player_create(PL_SONIC);
-    //team[1] = player_create(PL_TAILS);
-    //team[2] = player_create(PL_KNUCKLES);
-    spawn_players();
-    player_id = 0;
-    currentPlayer = team[player_id];
-    camera_init();
-    camera_set_position(v2d_new(currentPlayer.actor.position.x,currentPlayer.actor.position.y));
-    level_set_camera_focus(currentPlayer.actor);
-    player_set_rings(0);
-    player_inside_boss_area = false;
-    boss_fight_activated = false;
+  /* loading players */
+  logfile_message("Creating players...");
+  for(let i = 0; i<PLAYERS.length;i++) {
+    team[i] = player_create(PLAYERS[i]);
+  }
+  //team[0] = player_create(PL_SONIC);
+  //team[1] = player_create(PL_TAILS);
+  //team[2] = player_create(PL_KNUCKLES);
+  spawn_players();
+  player_id = 0;
+  currentPlayer = team[player_id];
+  camera_init();
+  camera_set_position(v2d_new(currentPlayer.actor.position.x,currentPlayer.actor.position.y));
+  level_set_camera_focus(currentPlayer.actor);
+  player_set_rings(0);
+  player_inside_boss_area = false;
+  boss_fight_activated = false;
 
-    /* gui */
-    logfile_message("Loading hud...");
-    maingui = actor_create();
-    maingui.position = v2d_new(16, 7);
-    actor_change_animation(maingui, sprite_get_animation("SD_MAINGUI", 0));
-    lifegui = actor_create();
-    lifegui.position = v2d_new(16, VIDEO_SCREEN_H-23);
-    actor_change_animation(lifegui, sprite_get_animation("SD_LIFEGUI", 0));
-    lifefnt = font_create(0);
-    lifefnt.position = v2d_add(lifegui.position, v2d_new(32,11));
-    for(i=0; i<3; i++) {
-      mainfnt[i] = font_create(2);
-      mainfnt[i].position = v2d_add(maingui.position, v2d_new(42, i*16+2));
-    }
+  /* gui */
+  logfile_message("Loading hud...");
+  maingui = actor_create();
+  maingui.position = v2d_new(16, 7);
+  actor_change_animation(maingui, sprite_get_animation("SD_MAINGUI", 0));
+  lifegui = actor_create();
+  lifegui.position = v2d_new(16, VIDEO_SCREEN_H-23);
+  actor_change_animation(lifegui, sprite_get_animation("SD_LIFEGUI", 0));
+  lifefnt = font_create(0);
+  lifefnt.position = v2d_add(lifegui.position, v2d_new(32,11));
+  for(let i=0; i<3; i++) {
+    mainfnt[i] = font_create(2);
+    mainfnt[i].position = v2d_add(maingui.position, v2d_new(42, i*16+2));
+  }
 
-    /* level opening */
-    levelop = actor_create();
-    levelop.position = v2d_new(0,-240);
-    actor_change_animation(levelop, sprite_get_animation("SD_LEVELOP", 0));
-    levelact = actor_create();
-    levelact.position = v2d_new(260,250);
-    actor_change_animation(levelact, sprite_get_animation("SD_LEVELACT", act-1));
-    leveltitle = font_create(3);
-    leveltitle.position = v2d_new(330,50);
-    font_set_text(leveltitle, "%s", name.toUpperCase());
-    font_set_width(leveltitle, 180);
+  /* level opening */
+  levelop = actor_create();
+  levelop.position = v2d_new(0,-240);
+  actor_change_animation(levelop, sprite_get_animation("SD_LEVELOP", 0));
+  levelact = actor_create();
+  levelact.position = v2d_new(260,250);
+  actor_change_animation(levelact, sprite_get_animation("SD_LEVELACT", act-1));
+  leveltitle = font_create(3);
+  leveltitle.position = v2d_new(330,50);
+  font_set_text(leveltitle, "%s", name.toUpperCase());
+  font_set_width(leveltitle, 180);
 
-    /* end of act */
-    actclear_teamname = font_create(4);
-    actclear_gotthrough = font_create(7);
-    actclear_levelact = actor_create();
-    for(i=0; i<ACTCLEAR_BONUSMAX; i++) {
-      actclear_bonusfnt[i] = font_create(2);
-      actclear_bonus[i] = actor_create();
-    }
+  /* end of act */
+  actclear_teamname = font_create(4);
+  actclear_gotthrough = font_create(7);
+  actclear_levelact = actor_create();
+  for(let i=0; i<ACTCLEAR_BONUSMAX; i++) {
+    actclear_bonusfnt[i] = font_create(2);
+    actclear_bonus[i] = actor_create();
+  }
 
-    /* dialog box */
-    dlgbox_active = false;
-    dlgbox_starttime = 0;
-    dlgbox = actor_create();
-    dlgbox.position.y = VIDEO_SCREEN_H;
-    actor_change_animation(dlgbox, sprite_get_animation("SD_DIALOGBOX", 0));
-    dlgbox_title = font_create(8);
-    dlgbox_message = font_create(8);
-  });  
+  /* dialog box */
+  dlgbox_active = false;
+  dlgbox_starttime = 0;
+  dlgbox = actor_create();
+  dlgbox.position.y = VIDEO_SCREEN_H;
+  actor_change_animation(dlgbox, sprite_get_animation("SD_DIALOGBOX", 0));
+  dlgbox_title = font_create(8);
+  dlgbox_message = font_create(8); 
 }
 
 /**
@@ -2332,7 +2329,7 @@ const got_boss = () => {
 }
 
 /* load */
-const level_load = (filepath:string) => {
+const level_load = async (filepath:string) => {
 
   /* default values */
   name = "Untitled";
@@ -2346,35 +2343,24 @@ const level_load = (filepath:string) => {
   dialogregion_size =  0;
   boss =  null;
   act = 1;
-  //requires[0] = GAME_VERSION;
-  //requires[1] = GAME_SUB_VERSION;
-  //requires[2] = GAME_WIP_VERSION;
   readonly = false;
 
-  return new Promise(function (fulfill, reject){
-    logfile_message(`level_load("${filepath}")`);
-    resourcemanager_getJsonFile(filepath)
-    .then(traverse_level)
-    .then(function(){
+  logfile_message(`level_load("${filepath}")`);
+  
+  const data = await resourcemanager_getJsonFile(filepath);
+  await traverse_level(<data_level_t>data);
 
-      /* load the music */
-      //block_music = true;
-      music = music_load(musicfile);
+  /* load the music */
+  music = music_load(musicfile);
 
-      /* misc */
-      update_level_size();
+  /* misc */
+  update_level_size();
 
-      /* success! */
-
-      logfile_message("level_load() ok");
-
-      fulfill(null);
-    });
-  });
+  /* success! */
+  logfile_message("level_load() ok");
 }
 
-const traverse_level = (data:data_level_t) => {
-  //console.log(data)
+const traverse_level = async (data:data_level_t) => {
 
   theme = data.theme;
   bgtheme = data.bgtheme;
@@ -2388,14 +2374,11 @@ const traverse_level = (data:data_level_t) => {
   spawn_point = data.spawn_point;
   readonly = data.readonly;
 
-  let i;
-
   if (data.boss) {
     boss = boss_create(data.boss.id, v2d_new(data.boss.x,data.boss.y), data.boss.rx, data.boss.ry, data.boss.rw, data.boss.rh);
-    //console.log("BOSS",boss)
   }
 
-  for(i=0;i<data.dialogbox.length;i++) {
+  for(let i=0;i<data.dialogbox.length;i++) {
     //let d = &(dialogregion[dialogregion_size++]);
     let d:dialogregion_t = {
       disabled: false,
@@ -2410,36 +2393,24 @@ const traverse_level = (data:data_level_t) => {
     dialogregion.push(d);
     dialogregion_size = dialogregion.length;
   }
-  //console.log('DIALOG BOXES',dialogregion)
 
-  for(i=0;i<data.enemylist.length;i++) {
+  for(let i=0;i<data.enemylist.length;i++) {
     level_create_enemy(""+data.enemylist[i].id, v2d_new(data.enemylist[i].xpos,data.enemylist[i].ypos));
   }
 
-  return new Promise(function (fulfill, reject){
+  await brick_load(data.theme);
 
-    brick_load(data.theme)
-    .then(function(bricks){
-      for(let i=0;i<data.bricklist.length;i++) {
-        //brick_list[i] = {};
-        //brick_list[i].data = level_create_brick(data.bricklist[i].id, v2d_new(data.bricklist[i].xpos,data.bricklist[i].ypos));
-        level_create_brick(data.bricklist[i].id, v2d_new(data.bricklist[i].xpos,data.bricklist[i].ypos));
-      }
-      //console.log('BRICKS LOADED',brick_list)
-      //loadBackground(data.bgtheme)
-      //console.log('LOAD BACKGROUND',data.bgtheme)
-      background_load(data.bgtheme)
-      .then(function(bgdata:bgtheme_t){
-        backgroundtheme = bgdata;
-        //console.log('BACKGROUND LOADED',backgroundtheme)
+  for(let i=0;i<data.bricklist.length;i++) {
+    level_create_brick(data.bricklist[i].id, v2d_new(data.bricklist[i].xpos,data.bricklist[i].ypos));
+  }
 
-        /* items */
-        for(i=0;i<data.itemlist.length;i++) {
-          level_create_item(data.itemlist[i].id, v2d_new(data.itemlist[i].xpos,data.itemlist[i].ypos));
-        }
+  const bgdata = await background_load(data.bgtheme);
+  backgroundtheme = <bgtheme_t>bgdata;
 
-        fulfill(backgroundtheme);
-      });
-    });
-  });
+  /* items */
+  for(let i=0;i<data.itemlist.length;i++) {
+    level_create_item(data.itemlist[i].id, v2d_new(data.itemlist[i].xpos,data.itemlist[i].ypos));
+  }
+
+  return backgroundtheme;
 }
