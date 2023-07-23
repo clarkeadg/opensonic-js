@@ -64,16 +64,11 @@ let brickdata:brickdata_t[] = [];
  * brickdata_load()
  * Loads all the brick data from a file
  */
-export const brick_load = (filename:string) => {
-  return new Promise(function (fulfill, reject){
-    logfile_message(`brickdata_load("${filename}")`);
-    resourcemanager_getJsonFile(filename)
-    .then(traverse)
-    .then(function(bdata:brickdata_t[]){
-      brickdata = bdata;
-    })
-    .then(fulfill);
-  });
+export const brick_load = async (filename:string) => {
+  logfile_message(`brickdata_load("${filename}")`);
+  const data = await resourcemanager_getJsonFile(filename);
+  const bdata = await traverse(<data_theme_t>data);
+  brickdata = <brickdata_t[]>bdata;
 }
 
 /**
@@ -227,63 +222,59 @@ const traverse = (stmt:data_theme_t) => {
   return Promise.all(stmt.bricks.map(traverse_brick_attributes))
 }
 
-const traverse_brick_attributes = (stmt:data_theme_bricks_t) => {
-  return new Promise(function (fulfill, reject){
-    let dat = brickdata_new();
-    let type = stmt.type;
-    
-    // type       
-    if(type == "OBSTACLE") {
-      dat.property = BRK_OBSTACLE;
-    } else if(type == "PASSABLE") {
-      dat.property = BRK_NONE;
-    } else if(type == "CLOUD") {
-      dat.property = BRK_CLOUD;
-    } else {
-      logfile_message(`Can't read brick attributes: unknown brick type ${type}`);
-      //fatal_error("Can't read brick attributes: unknown brick type '%s'", type);
-    }
+const traverse_brick_attributes = async (stmt:data_theme_bricks_t) => {
 
-    // behavior 
-    if (isArray(stmt.behavior)) {
-      type = stmt.behavior[0];
-    } else {
-      type = stmt.behavior;
-    }
-    if(type == "DEFAULT") {
-      dat.behavior = BRB_DEFAULT;
-    } else if(type == "CIRCULAR") {
-      dat.behavior = BRB_CIRCULAR;
-    } else if(type == "BREAKABLE") {
-      dat.behavior = BRB_BREAKABLE;
-    } else if(type == "FALL") {
-      dat.behavior = BRB_FALL;
-    } else {
-      logfile_message(`Can't read brick attributes: unknown brick type ${type}`);
-      //fatal_error("Can't read brick attributes: unknown brick type '%s'", type);
-    }
+  let dat = brickdata_new();
+  let type = stmt.type;
+  
+  // type       
+  if(type == "OBSTACLE") {
+    dat.property = BRK_OBSTACLE;
+  } else if(type == "PASSABLE") {
+    dat.property = BRK_NONE;
+  } else if(type == "CLOUD") {
+    dat.property = BRK_CLOUD;
+  } else {
+    logfile_message(`Can't read brick attributes: unknown brick type ${type}`);
+    //fatal_error("Can't read brick attributes: unknown brick type '%s'", type);
+  }
 
-    for(let j=0; j<BRICKBEHAVIOR_MAXARGS; j++) {
-      //pj = nanoparser_get_nth_parameter(param_list, 2+j);
-      dat.behavior_arg[j] = stmt.behavior[1+j]
-    }
-     dat.behavior_arg[dat.behavior_arg.length-1] = 0;
+  // behavior 
+  if (isArray(stmt.behavior)) {
+    type = stmt.behavior[0];
+  } else {
+    type = stmt.behavior;
+  }
+  if(type == "DEFAULT") {
+    dat.behavior = BRB_DEFAULT;
+  } else if(type == "CIRCULAR") {
+    dat.behavior = BRB_CIRCULAR;
+  } else if(type == "BREAKABLE") {
+    dat.behavior = BRB_BREAKABLE;
+  } else if(type == "FALL") {
+    dat.behavior = BRB_FALL;
+  } else {
+    logfile_message(`Can't read brick attributes: unknown brick type ${type}`);
+    //fatal_error("Can't read brick attributes: unknown brick type '%s'", type);
+  }
 
-    // angle 
-    dat.angle =  stmt.angle;
+  for(let j=0; j<BRICKBEHAVIOR_MAXARGS; j++) {
+    dat.behavior_arg[j] = stmt.behavior[1+j]
+  }
+  dat.behavior_arg[dat.behavior_arg.length-1] = 0;
 
-    // zindex 
-    if (stmt.zindex) {
-      dat.zindex = stmt.zindex;
-    }
+  // angle 
+  dat.angle =  stmt.angle;
 
-    // sprite 
-    sprite_create(stmt.sprite)
-    .then(function(data:spriteinfo_t){
-      dat.data = data;
-      dat.image = data.frame_data[0];
-      brickdata_count++;
-      fulfill(dat);
-    });
-  });
+  // zindex 
+  if (stmt.zindex) {
+    dat.zindex = stmt.zindex;
+  }
+
+  // sprite 
+  const data = await sprite_create(stmt.sprite);
+  dat.data = <spriteinfo_t>data;
+  dat.image = (<spriteinfo_t>data).frame_data[0];
+  brickdata_count++;
+  return dat;
 }
