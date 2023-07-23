@@ -17,37 +17,11 @@ export interface strings_t {
 let strings:strings_t = {};
 
 /**
- * lang_init()
- * Initializes the language module
- */
-export const lang_init = (lang:string, cb:Function):void => {
-  logfile_message("Initializing the language module");
-  //strings = hashtable_stringadapter_t_create(stringadapter_destroy);
-  DEFAULT_LANGUAGE_FILEPATH = lang ? lang : DEFAULT_LANGUAGE_FILEPATH;
-  lang_loadfile(DEFAULT_LANGUAGE_FILEPATH)
-  .then(function(){
-    //console.log(langdata)
-    //strings = langdata;
-    logfile_message("lang_init() ok!");
-    cb();
-  });
-};
-
-/**
- * lang_release()
- * Releases the language module
- */
-export const lang_release = ():void => {
-
-};
-
-/**
  * lang_loadfile()
  * Loads a language definition file
  */
 export const lang_loadfile = (filepath:string):Promise<strings_t> => {
   return new Promise(function (fulfill, reject){
-
     logfile_message(`lang_loadfile("${filepath}")...`);
 
     resourcemanager_getJsonFile(filepath)
@@ -56,6 +30,25 @@ export const lang_loadfile = (filepath:string):Promise<strings_t> => {
       fulfill(data);
     });
   });
+};
+
+/**
+ * lang_init()
+ * Initializes the language module
+ */
+export const lang_init = async (lang:string) => {
+  logfile_message("Initializing the language module");
+  DEFAULT_LANGUAGE_FILEPATH = lang ? lang : DEFAULT_LANGUAGE_FILEPATH;
+  await lang_loadfile(DEFAULT_LANGUAGE_FILEPATH);
+  logfile_message("lang_init() ok!");
+};
+
+/**
+ * lang_release()
+ * Releases the language module
+ */
+export const lang_release = ():void => {
+
 };
 
 /**

@@ -435,8 +435,6 @@ const load_quest_list = () => {
         })
     })(i)
   }
-
-  console.log("qstdata", qstdata)
 }
 
 const qstmenuopt_getpage = (val:number) => {

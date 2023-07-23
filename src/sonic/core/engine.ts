@@ -48,23 +48,18 @@ export interface engine_options_t {
  * Initializes all the subsystems of
  * the game engine
  */
-export const engine_init = (options:engine_options_t) => {
-
-  init_basic_stuff();
+export const engine_init = async (options:engine_options_t) => {  
   const cmd = commandline_parse(options);
-  //console.log('COMMAND LINE', cmd)
-
+  console.log('ENGINE OPTIONS', cmd)
+  
+  init_basic_stuff();
   init_managers(cmd);
-
-  sprite_init()
-  .then(function(){
-    font_init();
-    init_accessories(cmd,function(){
-      init_game_data();
-      push_initial_scene(cmd);
-      engine_mainloop();
-    });
-  });
+  await sprite_init()
+  font_init();
+  await init_accessories(cmd);
+  init_game_data();
+  push_initial_scene(cmd);
+  engine_mainloop();
 };
 
 /**
@@ -72,14 +67,12 @@ export const engine_init = (options:engine_options_t) => {
  * A classic main loop
  */
 const engine_mainloop = () => {
-  let scn;
-
-  runAnimation(function() {
+  runAnimation(()=>{
     timer_update();
     input_update();
     //audio_update();
 
-    scn = scenestack_top();
+    const scn = scenestack_top();
     if (scn) {
       scn.update();
       if(scn == scenestack_top()) {
@@ -117,15 +110,13 @@ const init_managers = (cmd:engine_options_t) => {
  * init_accessories()
  * Initializes the accessories
  */
-const init_accessories = (cmd:engine_options_t,cb:Function) => {
+const init_accessories = async (cmd:engine_options_t) => {
   soundfactory_init();
   enemy_objects_init();
   storyboard_init();
   screenshot_init();
-  lang_init(cmd.language, function(){
-    scenestack_init();
-    cb();
-  });
+  await lang_init(cmd.language);
+  scenestack_init();
 }
 
 /**
