@@ -51,21 +51,14 @@ export interface background_sprite_t extends spriteinfo_t,animation_t {}
  * background_load()
  * Loads a background theme from a .bg file
  */
-export const background_load = (file:string) => {
-  //console.log("background_load", file)
-  return new Promise(function (fulfill, reject){
-
-    logfile_message(`background_load("${file}")`);
-
-    resourcemanager_getJsonFile(file)
-    .then(traverse)
-    .then(function(bgdata){
-      fulfill({
-        data: bgdata,
-        length: bgdata.length
-      });
-    });
-   });         
+export const background_load = async (file:string) => {
+  logfile_message(`background_load("${file}")`);
+  const data = await resourcemanager_getJsonFile(file);
+  const bgdata = await traverse(<data_theme_t>data);
+  return {
+    data: bgdata,
+    length: bgdata.length
+  }        
 }
 
 /**
@@ -240,71 +233,68 @@ const bgstrategy_circular_update = (strategy:bgstrategy_circular_t) => {
   bg.actor.position.y += (me.angularspeed_y * me.amplitude_y * cy) * dt;
 }
 
-const traverse = (data:data_theme_t) => {
+const traverse = async (data:data_theme_t) => {
   return Promise.all(data.bg.map(traverse_background_attributes));
 }
 
-const traverse_background_attributes = (data:data_theme_bg_t) => {
-  return new Promise(function (fulfill, reject){
-    let bg = background_new();
+const traverse_background_attributes = async (data:data_theme_bg_t) => {
 
-    /* initial_position */
-    bg.actor.spawn_point.x = data.initial_position.xpos;
-    bg.actor.spawn_point.y = data.initial_position.ypos;
-    bg.actor.position = v2d_new(bg.actor.spawn_point.x, bg.actor.spawn_point.y);
+  const bg = background_new();
 
-    /* scroll_speed */
-    bg.actor.speed.x = data.scroll_speed.xspeed;
-    bg.actor.speed.y = data.scroll_speed.yspeed;
+  /* initial_position */
+  bg.actor.spawn_point.x = data.initial_position.xpos;
+  bg.actor.spawn_point.y = data.initial_position.ypos;
+  bg.actor.position = v2d_new(bg.actor.spawn_point.x, bg.actor.spawn_point.y);
 
-    /* behavior */
-    let strategy = null;
-    if (data.behavior && isArray(data.behavior)) {
-      strategy = data.behavior[0]; 
-    } else {
-      strategy = data.behavior;
-    }
+  /* scroll_speed */
+  bg.actor.speed.x = data.scroll_speed.xspeed;
+  bg.actor.speed.y = data.scroll_speed.yspeed;
 
-    switch(strategy) {
-      case 'DEFAULT':
-        //bg.strategy = strategy;
-        if(bg.strategy)
-          bg.strategy = bgstrategy_delete(bg.strategy);
-        bg.strategy = bgstrategy_default_new(bg);
-      break;
-      case 'LINEAR':
-        if(bg.strategy)
-          bg.strategy = bgstrategy_delete(bg.strategy);
-        bg.strategy = bgstrategy_linear_new(bg, data.behavior[1], data.behavior[2]);
-      break;
-      case 'CIRCULAR':
-        if(bg.strategy)
-          bg.strategy = bgstrategy_delete(bg.strategy);
-        bg.strategy = bgstrategy_circular_new(bg, data.behavior[1], data.behavior[2], data.behavior[3], data.behavior[4], data.behavior[5], data.behavior[6]);
-      break;
-      default:
-      break;
-    }
+  /* behavior */
+  let strategy = null;
+  if (data.behavior && isArray(data.behavior)) {
+    strategy = data.behavior[0]; 
+  } else {
+    strategy = data.behavior;
+  }
 
-    /* repeat */
-    bg.repeat_x = data.repeat_x;
-    bg.repeat_y = data.repeat_y;
+  switch(strategy) {
+    case 'DEFAULT':
+      //bg.strategy = strategy;
+      if(bg.strategy)
+        bg.strategy = bgstrategy_delete(bg.strategy);
+      bg.strategy = bgstrategy_default_new(bg);
+    break;
+    case 'LINEAR':
+      if(bg.strategy)
+        bg.strategy = bgstrategy_delete(bg.strategy);
+      bg.strategy = bgstrategy_linear_new(bg, data.behavior[1], data.behavior[2]);
+    break;
+    case 'CIRCULAR':
+      if(bg.strategy)
+        bg.strategy = bgstrategy_delete(bg.strategy);
+      bg.strategy = bgstrategy_circular_new(bg, data.behavior[1], data.behavior[2], data.behavior[3], data.behavior[4], data.behavior[5], data.behavior[6]);
+    break;
+    default:
+    break;
+  }
 
-    /* zindex */
-    if (data.zindex) {
-      bg.zindex = data.zindex;
-    }
+  /* repeat */
+  bg.repeat_x = data.repeat_x;
+  bg.repeat_y = data.repeat_y;
 
-    /* sprite */
-    sprite_create(data.sprite)
-    .then(function(spr:background_sprite_t){
-      bg.data = <spriteinfo_t>spr;
-      bg.actor.animation = <animation_t>spr
-      bg.actor.animation.data = [0];
-      //bg.actor.image = bg.actor.animation.frame_data[0];
-      fulfill(bg);
-    });
-  });
+  /* zindex */
+  if (data.zindex) {
+    bg.zindex = data.zindex;
+  }
+
+  /* sprite */
+  const spr = await sprite_create(data.sprite);
+  bg.data = <spriteinfo_t>spr;
+  bg.actor.animation = <animation_t>spr
+  bg.actor.animation.data = [0];
+  //bg.actor.image = bg.actor.animation.frame_data[0];
+  return(bg);
 }
 
 const validate_background = (bg:background_t) => {
