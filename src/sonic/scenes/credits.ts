@@ -81,7 +81,7 @@ let bgtheme:bgtheme_t;
  * credits_init()
  * Initializes the scene
  */
-export const credits_init = () => {
+export const credits_init = async () => {
   let p;
 
   /* initializing stuff... */
@@ -89,7 +89,6 @@ export const credits_init = () => {
   input = input_create_user();
 
   title = font_create(4);
-  //console.log(title)
   font_set_text(title, lang_get("CREDITS_TITLE"));
   //title.position.x = (VIDEO_SCREEN_W - strlen(font_get_text(title))*font_get_charsize(title).x)/2;
   //title.position.x = (VIDEO_SCREEN_W - font_get_text(title).length*font_get_charsize(title).x)/2;
@@ -102,7 +101,6 @@ export const credits_init = () => {
   back.position.y = VIDEO_SCREEN_H - font_get_charsize(back).y - 5;
 
   text = font_create(8);
-  //console.log(credits_text)
 
   for(let i=0; i<credits_text.length; i++ ) {
     let msg = credits_text[i];
@@ -118,14 +116,14 @@ export const credits_init = () => {
       credits_text[i] = msg;
     }
   }
-  //console.log(credits_text)
+
   font_set_text(text, credits_text.join(""), "%s");
   font_set_width(text, 300);
   text.position.x = 10;
   text.position.y = VIDEO_SCREEN_H;
   line_count = 1;
   let myText = font_get_text(text);
-  //console.log(myText)
+
   for(let i = 0; i<myText.length;i++) {
     if (myText[i] == '\n') {
       line_count++;
@@ -136,13 +134,8 @@ export const credits_init = () => {
   box = image_create(VIDEO_SCREEN_W, 30);
   //image_clear(box, image_rgb(0,0,0));
 
-  background_load(CREDITS_BGFILE)
-  .then(function(bgdata:bgtheme_t){
-    bgtheme = bgdata;
-    //console.log(bgtheme);
-    video_fadefx_in(image_rgb(0,0,0), 1.0);
-  });
-
+  const bgdata = await background_load(CREDITS_BGFILE);
+  bgtheme = <bgtheme_t>bgdata;
   video_fadefx_in(image_rgb(0,0,0), 1.0);
 }
 
