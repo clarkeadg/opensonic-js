@@ -32,8 +32,8 @@ export enum input_device_t {
 
 export interface input_t {
   type:input_device_t, /* which input device? keyboard, mouse...? other? */
-  state:any,
-  oldstate:any, /* states */
+  state:boolean[],
+  oldstate:boolean[], /* states */
   x:number, /* mouse-related, cursor position */
   y:number,
   z:number, 
@@ -42,7 +42,7 @@ export interface input_t {
   dz:number,
   keybmap:keybmap_t, /* keyboard-related, key mappings */
   enabled:boolean, /* enable input? */
-  howlong:any /* for how long (in seconds) is this button being holded? */
+  howlong:number[] /* for how long (in seconds) is this button being holded? */
 }
 
 export interface input_list_t {
@@ -52,6 +52,14 @@ export interface input_list_t {
 
 export interface keybmap_t {
   [key: number]: number
+}
+
+export interface keycodes_t {
+  [key: number]: string
+}
+
+export interface keypresses_t {
+  [key: string]: boolean
 }
 
 export const KEY_UP           = 38;
@@ -85,7 +93,7 @@ let ignore_joystick:boolean = false;
 let enableVirtualJoystick:boolean = false;
 
 /* Custom */
-const arrowCodes = {
+const arrowCodes:keycodes_t = {
   37: "left",
   38: "up",
   39: "right",
@@ -97,15 +105,15 @@ const arrowCodes = {
   192: "tilda"
 };
 
-let arrows:any = null;
+let arrows:keypresses_t = null;
 let joy:any = null;
-let joystick:any = null;
-let joystick2:any = null;
-let joystick3:any = null;
-let joystick4:any = null;
+let joystick:any = null;  //VirtualJoystick
+let joystick2:any = null; //VirtualJoystick
+let joystick3:any = null; //VirtualJoystick
+let joystick4:any = null; //VirtualJoystick
 
 let canGamepad:boolean;
-let gp:any = null;
+let gp:Gamepad = null;
 
 let mousePos = v2d_new(0,0);
 let mouseIsDown = { left: false, middle: false, right: false };
@@ -780,7 +788,7 @@ const input_unregister = (input:input_t) => {
   }
 }
 
-const trackKeys = (codes:any) => {
+const trackKeys = (codes:keycodes_t) => {
   let pressed = Object.create(null);
   function handler(e:KeyboardEvent) {
     if (codes.hasOwnProperty(e.keyCode)) {
@@ -795,7 +803,7 @@ const trackKeys = (codes:any) => {
 }
 
 const getGamepad = () => {
-  if (typeof(navigator) == "undefined") return false;
+  if (typeof(navigator) == "undefined") return null;
   return navigator.getGamepads()[0] || null;
 }
 
