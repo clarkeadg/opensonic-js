@@ -54,14 +54,10 @@ export const soundfactory_get = (sound_name:string) => {
 }
 
 /* loads the samples table */
-const load_samples_table = ():void => {
-
-  logfile_message("soundfactory: loading the samples table...");
-  
-  resourcemanager_getJsonFile("data/config/samples.json")
-  .then(function(data){   
-    traverse(data);
-  });
+const load_samples_table = async () => {
+  logfile_message("soundfactory: loading the samples table...");  
+  const data:samples_t = await resourcemanager_getJsonFile("data/config/samples.json");
+  traverse(data);
 }
 
 /* traverses a sound configuration file */
