@@ -3,7 +3,7 @@ import { clip, isspace } from "./../core/util"
 import { v2d_new, v2d_t } from "./../core/v2d"
 //import { image_rgb } from "./../core/image"
 import { lang_get } from "./../core/lang"
-import { sprite_get_image, sprite_get_animation } from "./../core/sprite"
+import { sprite_get_image, sprite_get_animation, spriteframe_t } from "./../core/sprite"
 import { video_buffer_t, video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H, VIDEO_SCALE } from "./../core/video"
 
 /* Constants */
@@ -11,6 +11,12 @@ const FONT_MAXVALUES      = 5;
 const FONT_MAX            = 10; /* how many fonts do we have? */
 const FONT_STACKCAPACITY  = 32;
 const FONT_TEXTMAXLENGTH  = 20480;
+
+export interface char_t {
+  ch: {
+    [key: string]: spriteframe_t
+  }
+}
 
 export interface font_t {
   type: number,
@@ -30,10 +36,18 @@ export interface color_t {
   b: number
 }
 
+export interface rgbks_t {
+  [key: string]: HTMLImageElement[]
+}
+
+export interface tintcache_t {
+  [key: string]: HTMLImageElement
+}
+
 /* private */
-let fontdata:any[] = [];
-let rgbksCache:any = {};
-let tintImageCache:any = {};
+let fontdata:char_t[] = [];
+let rgbksCache:rgbks_t = {};
+let tintImageCache:tintcache_t = {};
 
 export const font_init = () => {
   let i, j;
@@ -55,7 +69,7 @@ export const font_init = () => {
   logfile_message("font_init()");
   for(i=0; i<alphabet.length; i++) {
     //for(j=0; j<256; j++) {
-      fontdata[i] = { ch: [] };
+      fontdata[i] = { ch: {} };
     //  fontdata[i].ch[j] = null;
     //}
 
@@ -293,6 +307,7 @@ export const font_render = (f:font_t, camera_position:v2d_t) => {
             //offx+= ch.width/2;
           }
           render_char(
+            p,
             video_get_backbuffer(),
             ch,
             ~~f.position.x+offx-(camera_position.x-VIDEO_SCREEN_W/2),
@@ -327,15 +342,19 @@ const get_font_size = (f:font_t) => {
   return v2d_new(16,16);
 }
 
-const render_char = (dest:video_buffer_t, img:any, x:number, y:number, color:color_t) => {
+const render_char = (char: string, dest:video_buffer_t, img:spriteframe_t, x:number, y:number, color:color_t) => {
   //console.log('render_char', r)
 
   let rgbks;
-  let tintImg = img.data;
+  let tintImg:HTMLImageElement;
+  //let tintImg = img.data;
   
   if (color && !color.disabled) {
     rgbks = generateRGBKs( img.data );
-    tintImg = generateTintImage( img.data, rgbks, color.r, color.g, color.b );
+    tintImg = generateTintImage( char, img.data, rgbks, color.r, color.g, color.b );
+    //console.log("tintImg", tintImg.src)
+  } else {
+    tintImg = img.data;
   }
 
   dest.drawImage(
@@ -409,16 +428,20 @@ const generateRGBKs = (img:HTMLImageElement) => {
     return rgbks;
 }
 
-const generateTintImage = ( img:HTMLImageElement, rgbks:any, red:number, green:number, blue:number ) => {
-  const cachheKey = red+"_"+green+"_"+blue;
-  //console.log("generateTintImage", cachheKey, img, rgbks, red, green, blue)
-  //if (tintImageCache[cachheKey]) return tintImageCache[cachheKey];
+const generateTintImage = (char: string, img:HTMLImageElement, rgbks:HTMLImageElement[], red:number, green:number, blue:number ) => {
+  const cacheKey = char+"_"+red+"_"+green+"_"+blue+"_"+img.src;
+  //console.log("generateTintImage", cacheKey, img, rgbks, red, green, blue)
+  const cache = tintImageCache[cacheKey];
+  if (cache) {
+    //console.log("cache", cacheKey, cache, typeof cache)
+    return cache;
+  }
 
-  let buff = document.createElement( "canvas" );
-  buff.width  = img.width;
-  buff.height = img.height;
+  let canvas = document.createElement( "canvas" );
+  canvas.width  = img.width;
+  canvas.height = img.height;
 
-  let ctx  = buff.getContext("2d");
+  let ctx  = canvas.getContext("2d");
 
   ctx.globalAlpha = 1;
   ctx.globalCompositeOperation = 'copy';
@@ -438,7 +461,24 @@ const generateTintImage = ( img:HTMLImageElement, rgbks:any, red:number, green:n
       ctx.drawImage( rgbks[2], 0, 0 );
   }
 
-  //tintImageCache[cachheKey] = buff;
+  let to = ctx.getImageData( 0, 0, canvas.width, canvas.height );
 
-  return buff;
+  ctx.putImageData( to, 0, 0 );
+
+  let imgComp = new Image();
+  imgComp.src = canvas.toDataURL();
+
+  if (!isCanvasTransparent(canvas)) {
+    tintImageCache[cacheKey] = imgComp;
+  }
+
+  return imgComp;
+}
+
+const isCanvasTransparent = (canvas:HTMLCanvasElement) => { // true if all pixels Alpha equals to zero
+  const ctx = canvas.getContext("2d");
+  const imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+  for(var i=0;i<imageData.data.length;i+=4)
+    if(imageData.data[i+3]!==0) return false;
+  return true;
 }
