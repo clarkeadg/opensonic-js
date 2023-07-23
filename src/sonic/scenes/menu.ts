@@ -1,4 +1,3 @@
-
 import { quest_run } from "./quest"
 import { quest_t, quest_load } from "./../core/quest"
 import { scene_t, scenestack_pop, scenestack_push } from "./../core/scene"
@@ -44,7 +43,7 @@ let start_time:number;
 let control_restored:boolean;
 let menu;
 let menuopt:number;
-let menufnt:any[];
+let menufnt:Array<font_t>[] = [];
 let menufoot:actor_t;
 let surge_entering:boolean;
 let surge:actor_t;
@@ -63,7 +62,7 @@ let qstdetail:font_t;
 let qstmenuopt:number;
 let qstcount:number;
 let qstfnt:font_t[] = [];
-let qstdata:any[];
+let qstdata:quest_t[] = [];
 let music:music_t;
 
 export const menu_init = () => {
@@ -428,7 +427,7 @@ const load_quest_list = () => {
   for(i=0; i<qstcount; i++) {
     (function(n){
       quest_load(questFiles[i])
-        .then(function(q){
+        .then(function(q:quest_t){
           qstfnt[n] = font_create(8);
           qstdata[n] = q;
           font_set_text(qstfnt[n], q.name);
@@ -436,6 +435,8 @@ const load_quest_list = () => {
         })
     })(i)
   }
+
+  console.log("qstdata", qstdata)
 }
 
 const qstmenuopt_getpage = (val:number) => {

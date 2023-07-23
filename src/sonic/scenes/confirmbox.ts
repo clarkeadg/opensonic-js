@@ -19,7 +19,7 @@ let box:any;
 let background:image_t;
 let boxpos:v2d_t
 let textfnt:font_t;
-let optionfnt:any[] = [];
+let optionfnt:Array<font_t>[] = [];
 let icon:actor_t;
 let text:string;
 let option:any[] = [];

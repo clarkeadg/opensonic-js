@@ -1,5 +1,7 @@
 {
     "name":             "$SUPERBOSSES_NAME",
+    "author":           "OS Team",
+    "version":          "1.0",
     "description":      "$MENU_CQ_SUPERBOSSES",
     "image":            "data/images/quest_superbosses.png",
     "show_ending":       false,

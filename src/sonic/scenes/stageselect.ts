@@ -1,4 +1,5 @@
 import { level_setfile } from "./level"
+import { data_level_t } from "./../core/data"
 import { scenestack_pop, scenestack_push } from "./../core/scene"
 import { storyboard_get_scene, SCENE_LEVEL } from "./../core/storyboard"
 import { v2d_new } from "./../core/v2d"
@@ -61,7 +62,7 @@ let scene_time = 0.0;
 let bgtheme:bgtheme_t;
 
 let state:state_e;
-let stage_data:any[] = [];
+let stage_data:data_level_t[] = [];
 let stage_count = 0;
 let option = 0;
 let stage_label:font_t[] = [];
@@ -245,7 +246,7 @@ const load_stage_list = () => {
   logfile_message("load_stage_list()");
 
   resourcemanager_getJsonFiles(stageFiles)
-  .then(function(data){
+  .then(function(data:data_level_t[]){
     stage_data = data;
     stage_count = stage_data.length;
     for(var i = 0; i< stage_count;i++) {
@@ -253,7 +254,6 @@ const load_stage_list = () => {
       stage_label[i].position = v2d_new(25, 60 + 20 * (i % STAGE_MAXPERPAGE));
       stage_data[i].filepath = stageFiles[i];
     }
-    //console.log(stage_label,stage_data)
   });
 }
 

@@ -1,19 +1,16 @@
 {
     "name":             "$DEFAULT_QUEST_NAME",
+    "author":           "OS Team",
+    "version":          "1.0",
     "description":      "$MENU_CQ_DEFAULT",
     "image":            "data/images/null.png",
     "show_ending":       true,
-    "1levels": [
+    "levels": [
                         "data/levels/blue_ocean_1.json",
                         "data/levels/blue_ocean_2.json",
                         "data/levels/blue_ocean_3.json",
                         "data/levels/exotic_1.json",
                         "data/levels/exotic_2.json",
                         "data/levels/exotic_3.json"
-    ],
-    "levels": [
-                        "data/levels/blue_ocean_1.json",
-                        "data/levels/blue_ocean_2.json",
-                        "data/levels/blue_ocean_3.json"
     ] 
 }

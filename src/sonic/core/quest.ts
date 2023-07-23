@@ -1,6 +1,6 @@
-
 import { DATA_ROOT } from "./global"
-import { image_load } from "./image"
+import { data_quest_t } from "./data"
+import { image_t, image_load } from "./image"
 import { logfile_message } from "./logfile"
 import { resourcemanager_getJsonFile } from "./resourcemanager"
 
@@ -9,16 +9,16 @@ const QUESTIMAGE_WIDTH  = 100;
 const QUESTIMAGE_HEIGHT = 75;
 
 export interface quest_t {
-  file:string,
-  name:string,
-  author:string,
-  version:string,
-  description:string,
-  image:string,
-  level_count:number
+  file: string,
+  name: string,
+  author: string,
+  version: string,
+  description: string,
+  image: HTMLImageElement,
+  level_count: number
   levels: string[],
   level_path: string[],
-  show_ending:boolean
+  show_ending: boolean
 }
 
 /*
@@ -100,7 +100,7 @@ const load_quest_image = (file:string) => {
 }
 
 /* interprets a statement from a .json file */
-const traverse_quest = (data:quest_t) => {
+const traverse_quest = (data:data_quest_t) => {
   return new Promise(function (fulfill, reject){
     let q:quest_t = {
       file: "",
@@ -109,14 +109,14 @@ const traverse_quest = (data:quest_t) => {
       version: data.version || "0",
       description: data.description || "",
       show_ending: data.show_ending || false,
-      image: "",
+      image: null,
       levels: data.levels || [],
       level_count: data.levels ? data.levels.length : 0,
       level_path: data.levels || []
     };
 
     load_quest_image(data.image)
-    .then(function(thumb:string) {
+    .then(function(thumb:HTMLImageElement) {
       q.image = thumb;
       fulfill(q);
     });

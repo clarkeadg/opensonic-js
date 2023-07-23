@@ -1,5 +1,7 @@
 {
     "name":             "$TUTORIAL_QUEST_NAME",
+    "author":           "OS Team",
+    "version":          "1.0",
     "description":      "$MENU_CQ_TUTORIAL",
     "image":            "data/images/quest_tutorial.png",
     "show_ending":       false,

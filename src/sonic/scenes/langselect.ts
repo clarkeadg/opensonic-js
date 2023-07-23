@@ -1,5 +1,6 @@
 
 import { PI, INFINITY } from "./../core/global"
+import { data_language_t } from "./../core/data"
 import { v2d_new } from "./../core/v2d"
 import { scenestack_pop } from "./../core/scene"
 import { preferences_set_language } from "./../core/preferences"
@@ -41,9 +42,9 @@ let maxpages      = 1;
 let quit = false
 let lngcount = 0;
 let title:font_t[]  = [];
-let lngfnt:any  = [];
+let lngfnt:Array<font_t>[] = [];
 let page_label:font_t;
-let lngdata:any;
+let lngdata:data_language_t[] = [];
 let option = 0;
 let icon:actor_t;
 let input:input_t;
@@ -214,7 +215,7 @@ const load_lang_list = () => {
   logfile_message("load_lang_list()");
 
   resourcemanager_getJsonFiles(langFiles)
-  .then(function(data){
+  .then(function(data:data_language_t[]){
     lngdata = data;
     lngcount = lngdata.length;
     lngfnt[0] = [];

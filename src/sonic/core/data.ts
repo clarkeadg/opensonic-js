@@ -21,6 +21,7 @@ export interface data_level_t {
   itemlist: data_level_itemlist_t[],
   enemylist: data_level_enemylist_t[],
   dialogbox: data_level_dialogbox_t[],
+  filepath?: string,
   author?: string,
   version?: string,
   requires?: any[],
@@ -84,6 +85,8 @@ export interface data_object_state_list_t extends Array<any> {}
 
 export interface data_quest_t {
   name: string,
+  author: string,
+  version: string,
   description: string,
   image: string,
   show_ending: boolean,
