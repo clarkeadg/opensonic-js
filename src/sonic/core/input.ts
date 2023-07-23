@@ -121,18 +121,18 @@ export const input_init = () => {
   inlist = null;
 
   /* mouse */
-  video_get_canvas().addEventListener('contextmenu', function(e:any) {
+  video_get_canvas().addEventListener('contextmenu', function(e:MouseEvent) {
     if (e.button === 2) {
      e.preventDefault();
       return false;
     }
   }, false);
 
-  video_get_canvas().addEventListener('mousemove', function(e:any) {
+  video_get_canvas().addEventListener('mousemove', function(e:MouseEvent) {
     mousePos = video_getMousePos(video_get_canvas(), e);
   }, false);
 
-  video_get_canvas().addEventListener('mousedown', function(e:any) {
+  video_get_canvas().addEventListener('mousedown', function(e:MouseEvent) {
     //console.log('mousedown', e)
     switch(e.which) {
       case 1:
@@ -147,7 +147,7 @@ export const input_init = () => {
     }
   }, false);
 
-  video_get_canvas().addEventListener('mouseup', function(e:any) {
+  video_get_canvas().addEventListener('mouseup', function(e:MouseEvent) {
     //console.log('mouseup', e)
     switch(e.which) {
       case 1:
@@ -188,7 +188,7 @@ export const input_init = () => {
       limitStickTravel: true,
       stickRadius: 50
     });
-    joystick.addEventListener('touchStartValidation', function(e:any){
+    joystick.addEventListener('touchStartValidation', function(e:TouchEvent){
       const touch = e.changedTouches[0];
       //console.log(touch)
       //if( touch.pageX >= video.VIDEO_SCREEN_W/2 ) return false;
@@ -210,7 +210,7 @@ export const input_init = () => {
       limitStickTravel: true,
       stickRadius: 50
     });
-    joystick2.addEventListener('touchStartValidation', function(e:any){
+    joystick2.addEventListener('touchStartValidation', function(e:TouchEvent){
       const touch = e.changedTouches[0];
       //console.log(touch)
       if( touch.pageX < window.innerWidth/2 )  return false;
@@ -229,7 +229,7 @@ export const input_init = () => {
       limitStickTravel: true,
       stickRadius: 50
     });
-    joystick3.addEventListener('touchStartValidation', function(e:any){
+    joystick3.addEventListener('touchStartValidation', function(e:TouchEvent){
       const touch = e.changedTouches[0];
       //console.log(touch)
       if( touch.pageX > window.innerWidth/2 )  return false;
@@ -250,7 +250,7 @@ export const input_init = () => {
       limitStickTravel: true,
       stickRadius: 50
     });
-    joystick4.addEventListener('touchStartValidation', function(e:any){
+    joystick4.addEventListener('touchStartValidation', function(e:TouchEvent){
       const touch = e.changedTouches[0];
       //console.log(touch)
       if( touch.pageX < window.innerWidth/2 )  return false;
@@ -782,7 +782,7 @@ const input_unregister = (input:input_t) => {
 
 const trackKeys = (codes:any) => {
   let pressed = Object.create(null);
-  function handler(e:any) {
+  function handler(e:KeyboardEvent) {
     if (codes.hasOwnProperty(e.keyCode)) {
       const down = e.type == "keydown";
       pressed[codes[e.keyCode]] = down;
