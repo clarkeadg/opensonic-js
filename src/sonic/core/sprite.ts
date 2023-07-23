@@ -107,44 +107,34 @@ let spriteData: data_sprite_t[] = [];
  * sprite_init()
  * Initializes the sprite module
  */
-export const sprite_init = () => {
-  return new Promise(function (fulfill, reject){
+export const sprite_init = async () => {
+  logfile_message("Loading sprites...");
+  sprites = hashtable_spriteinfo_t_create();
 
-    let i;
+  for(let i=0;i<spriteFiles.length;i++) {
+    spriteFiles[i] = "data/sprites/"+spriteFiles[i]+".json";
+  }
 
-    logfile_message("Loading sprites...");
-    sprites = hashtable_spriteinfo_t_create();
+  video_renderLoading('Loading...',0);
 
-    for(i=0;i<spriteFiles.length;i++) {
-      spriteFiles[i] = "data/sprites/"+spriteFiles[i]+".json";
+  const d = await resourcemanager_getJsonFiles(spriteFiles);
+  const data = <data_sprite_file_t[]>d;  
+
+  // merge data
+  for(let i=0;i<data.length;i++) {
+    for (let s in data[i]) {
+      data[i][s].name = s;
+      spriteData.push(data[i][s]);
     }
+  }
+  
+  await traverse(spriteData);
 
-    video_renderLoading('Loading...',0);
+  logfile_message("All sprites have been loaded!");
 
-    resourcemanager_getJsonFiles(spriteFiles)
-    .then(function(data:data_sprite_file_t[]){
+  sprites = hashtable_sprites();
 
-      //console.log('GOT ALL SPRITE JSON FILES')      
-
-      // merge data
-      for(i=0;i<data.length;i++) {
-        for (let s in data[i]) {
-          data[i][s].name = s;
-          spriteData.push(data[i][s]);
-        }
-      }
-
-      traverse(spriteData)
-      .then(function(){
-        logfile_message("All sprites have been loaded!");
-        //console.log(hashtable.hash.sprites)
-        sprites = hashtable_sprites();
-        //cb();
-        fulfill(sprites);
-      });
-
-    });
-  });
+  return sprites;
 }
 
 /**
@@ -181,12 +171,9 @@ export const sprite_get_image = (anim:animation_t, frame_id:number) => {
   return anim.frame_data[anim.data[frame_id]];
 }
 
-export const sprite_create = (tree:data_sprite_t) => {
-  //console.log('CREATE SPRITE',tree)
-  return new Promise(function (fulfill, reject){
-    spriteinfo_create(tree)
-    .then(fulfill);
-  });
+export const sprite_create = async (tree:data_sprite_t) => {
+  const spr = await spriteinfo_create(tree)
+  return spr;
 }
 
 /**
@@ -282,22 +269,18 @@ const validate_animation = (anim:animation_t) => {
  * Creates and stores on the memory a spriteinfo_t
  * object by parsing the passed tree
  */
-const spriteinfo_create = (tree:data_sprite_t) => {
-  return new Promise(function (fulfill, reject){
-    let s = spriteinfo_new();
-    let sprite = traverse_sprite_attributes(s,tree);
-    sprite = validate_sprite(sprite);
-    //fulfill();
-    load_sprite_images(sprite)
-    .then(function(loadedSprite:spriteinfo_t){
-      //console.log('SPRITE LOADED',loadedSprite)
-      sprite = fix_sprite_animations(loadedSprite);
-      register_sprite(tree.name, sprite)
-      numLoaded++;
-      video_renderLoading('Loading...',numLoaded/spriteData.length);
-      fulfill(sprite);
-    });
-  });
+const spriteinfo_create = async (tree:data_sprite_t) => {
+
+  const s = spriteinfo_new();
+  let sprite = traverse_sprite_attributes(s,tree);
+  sprite = validate_sprite(sprite);
+
+  const loadedSprite = await load_sprite_images(sprite);
+  sprite = fix_sprite_animations(<spriteinfo_t>loadedSprite);
+  register_sprite(tree.name, sprite)
+  numLoaded++;
+  video_renderLoading('Loading...',numLoaded/spriteData.length);
+  return sprite;
 }
 
 /**
@@ -328,27 +311,16 @@ const spriteinfo_new = () => {
  * Loads the sprite by reading the spritesheet
  * !!! this function needs to be highly optimzed, it gets run many many times
  */
-const load_sprite_images = (spr:spriteinfo_t) => {
-  //console.log('load_sprite_images')
-  return new Promise(function (fulfill, reject){
-    let i = 0;
-    let cur_x = 0;
-    let cur_y = 0;
-    // need to put event listener inside of image.load and return promise
-    image_load(spr.source_file)
-    .then(function(sheet:HTMLImageElement){
+const load_sprite_images = async (spr:spriteinfo_t) => {
 
-      //console.log('image loaded',spr.source_file)
+  const sheet = await image_load(spr.source_file);
 
-      //console.log(sheet)
-      spr.frame_count = (spr.rect_w / spr.frame_w) * (spr.rect_h / spr.frame_h);
-      spr.frame_data = [];
+  spr.frame_count = (spr.rect_w / spr.frame_w) * (spr.rect_h / spr.frame_h);
+  spr.frame_data = [];
 
-      spr = setupCanvasSprite(spr,sheet);
-      //console.log(spr)
-      fulfill(spr);
-    })
-  });
+  spr = setupCanvasSprite(spr,<HTMLImageElement>sheet);
+
+  return spr;
 }
 
 const setupCanvasSprite = (spr:spriteinfo_t, sheet:HTMLImageElement) => {

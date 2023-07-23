@@ -289,7 +289,8 @@ const traverse_background_attributes = async (data:data_theme_bg_t) => {
   }
 
   /* sprite */
-  const spr = await sprite_create(data.sprite);
+  const spriteData = await sprite_create(data.sprite);
+  const spr = <background_sprite_t>spriteData;
   bg.data = <spriteinfo_t>spr;
   bg.actor.animation = <animation_t>spr
   bg.actor.animation.data = [0];
