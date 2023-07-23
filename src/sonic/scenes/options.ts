@@ -1,6 +1,4 @@
-
 import { group_t, grouptree_group_addchild, grouptree_group_create, grouptree_init_all, grouptree_update_all, grouptree_render_all, grouptree_group_label_init, grouptree_group_label_release, grouptree_group_label_update, grouptree_group_label_render } from "./util/grouptree"
-
 import { INFINITY, PI } from "./../core/global"
 import { scene_t, scenestack_pop, scenestack_push } from "./../core/scene"
 import { storyboard_get_scene, SCENE_MENU, SCENE_LANGSELECT, SCENE_STAGESELECT, SCENE_CREDITS } from "./../core/storyboard"
@@ -38,7 +36,7 @@ const OPTIONS_MAX     = 5;
 let option:number;
 let root:group_t;
 
-export const options_init = () => {
+export const options_init = async () => {
   option = 0;
   quit = false;
   scene_time = 0;
@@ -53,20 +51,15 @@ export const options_init = () => {
   title.position.y = 10;
 
   /* background init */
-  background_load(OPTIONS_BGFILE)
-  .then(function(bgdata:bgtheme_t){
-    bgtheme = bgdata;
-    //console.log(bgtheme);
-  });
+  const bgdata = await background_load(OPTIONS_BGFILE);
+  bgtheme = <bgtheme_t>bgdata;
 
   icon = actor_create();
   actor_change_animation(icon, sprite_get_animation("SD_TITLEFOOT", 0));
   icon.position = v2d_new(-50,-50);
 
   root = create_grouptree();
-  //console.log('ROOT',root)
   grouptree_init_all(root);
-  //console.log('ROOT INITED',root)
 }
 
 export const options_update = () => {
