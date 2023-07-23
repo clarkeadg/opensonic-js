@@ -31,7 +31,7 @@ export interface color_t {
 }
 
 /* private */
-let fontdata: any[] = [];
+let fontdata:any[] = [];
 let rgbksCache:any = {};
 let tintImageCache:any = {};
 
@@ -95,7 +95,7 @@ export const font_destroy = (f:font_t) => {
   }
 }
 
-export const font_set_text = (f:font_t,  msg:string, ...replace: any[]) => {
+export const font_set_text = (f:font_t,  msg:string, ...replace:any[]) => {
   if (!f) return false;
 
   //console.log('FONT SET TEXT', f, msg, replace)
