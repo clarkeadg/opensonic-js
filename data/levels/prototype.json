@@ -3,9 +3,6 @@
     "act":          1,
     "theme":        "data/themes/prototype.bricks.json",
     "bgtheme":      "data/themes/prototype.bg.json",    
-    "Xspawn_point":  { "x": 31, "y": 270 },
-    "1spawn_point":  { "x": 214, "y": 415 },
-    "2spawn_point":  { "x": 714, "y": 415 },
     "spawn_point":  { "x": 1500, "y": 415 },
     "dialogbox": [
         {

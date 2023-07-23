@@ -2,7 +2,7 @@
     "name":         "Super Boss",
     "act":          1,
     "theme":        "data/themes/ocean.bricks.json",
-    "bgtheme":      "data/themes/ocean.bg.json",
+    "bgtheme":      "data/themes/oceanb.bg.json",
     "spawn_point":  { "x": 35, "y": 280 },
     "music":        "data/music/boss.mp4",
     "boss":         { "id": 2, "x": 900, "y": 80, "rx": 450, "ry": 0, "rw": 638, "rh": 231 },

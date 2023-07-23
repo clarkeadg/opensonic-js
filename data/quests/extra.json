@@ -1,5 +1,7 @@
 {
     "name":             "$EXTRA_LEVELS_NAME",
+    "author":           "Various authors",
+    "version":          "0.1",
     "description":      "$MENU_CQ_EXTRA",
     "image":            "data/images/quest_extra.png",
     "show_ending":       false,

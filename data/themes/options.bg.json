@@ -4,6 +4,7 @@
             "initial_position":    { "xpos": 0, "ypos": 0 },
             "scroll_speed":        { "xspeed": 0, "yspeed": 0 },
             "behavior":            ["LINEAR", -30, -30],
+            "behavior111":            ["CIRCULAR", 10, 10, 1, 1, 1, 1],
             "repeat_x":            true,
             "repeat_y":            true,
 
