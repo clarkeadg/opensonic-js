@@ -132,22 +132,20 @@ const init_game_data = () => {
  * push_initial_scene()
  * Decides which scene should be pushed into the scene stack
  */
-const push_initial_scene = (cmd:engine_options_t) => {
+const push_initial_scene = async (cmd:engine_options_t) => {
   if(cmd.level) {
       level_setfile(cmd.level);
       scenestack_push(storyboard_get_scene(SCENE_LEVEL));
   }
   /*else if(cmd.quest) {
-    quest_load(cmd.quest)
-    .then(function(q){
-      //quest.run(q, true);
-      scenestack_push(storyboard_get_scene(SCENE_QUEST));
-      //quest_run(q, false);
-      //jump_to = storyboard_get_scene(SCENE_QUEST);
-      //jump_to = storyboard_get_scene(SCENE_LEVEL);
-      //input_ignore(input);
-      //video_fadefx_out(image.rgb(0,0,0), 0.5);
-    });
+    const q = await quest_load(cmd.quest);
+    //quest.run(q, true);
+    scenestack_push(storyboard_get_scene(SCENE_QUEST));
+    //quest_run(q, false);
+    //jump_to = storyboard_get_scene(SCENE_QUEST);
+    //jump_to = storyboard_get_scene(SCENE_LEVEL);
+    //input_ignore(input);
+    //video_fadefx_out(image.rgb(0,0,0), 0.5);
   }*/
   else {
     scenestack_push(storyboard_get_scene(SCENE_INTRO));
