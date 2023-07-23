@@ -219,7 +219,7 @@ const editor_keybmap2 = [
 
 let editor_previous_video_resolution:number;
 let editor_previous_video_smooth:boolean;
-let editor_bgimage:any;
+let editor_bgimage:HTMLImageElement;
 let editor_mouse:input_t;
 let editor_keyboard:input_t;
 let editor_keyboard2:input_t;
@@ -288,7 +288,11 @@ export const editor_init = () => {
   editor_enemy_name = enemy_get_list_of_names(editor_enemy_name_length);
 
   /* creating objects */
-  editor_bgimage = image_load(EDITOR_BGFILE);
+  
+  image_load(EDITOR_BGFILE)
+  .then(function(img:HTMLImageElement){
+    editor_bgimage = img
+  })
   editor_keyboard = input_create_keyboard(editor_keybmap);
   editor_keyboard2 = input_create_keyboard(editor_keybmap2);
   editor_mouse = input_create_mouse();
