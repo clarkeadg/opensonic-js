@@ -1,7 +1,7 @@
 import { data_theme_t, data_theme_bg_t } from "./../core/data"
 import { PI } from "./../core/global"
 import { v2d_t, v2d_new, v2d_subtract } from "./../core/v2d"
-import { spriteinfo_t, sprite_info_destroy, sprite_create } from "./../core/sprite"
+import { spriteinfo_t, animation_t, sprite_info_destroy, sprite_create } from "./../core/sprite"
 import { VIDEO_SCREEN_W, VIDEO_SCREEN_H} from "./../core/video"
 import { logfile_message } from "./../core/logfile"
 import { timer_get_delta } from "./../core/timer"
@@ -44,6 +44,8 @@ export interface bgstrategy_circular_t extends bgstrategy_t {
   initialphase_x: number,
   initialphase_y: number
 }
+
+export interface background_sprite_t extends spriteinfo_t,animation_t {}
 
 /**
  * background_load()
@@ -295,9 +297,9 @@ const traverse_background_attributes = (data:data_theme_bg_t) => {
 
     /* sprite */
     sprite_create(data.sprite)
-    .then(function(spr:any){
-      bg.data = spr;
-      bg.actor.animation = spr;
+    .then(function(spr:background_sprite_t){
+      bg.data = <spriteinfo_t>spr;
+      bg.actor.animation = <animation_t>spr
       bg.actor.animation.data = [0];
       //bg.actor.image = bg.actor.animation.frame_data[0];
       fulfill(bg);
