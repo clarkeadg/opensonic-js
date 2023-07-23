@@ -20,16 +20,10 @@ let strings:strings_t = {};
  * lang_loadfile()
  * Loads a language definition file
  */
-export const lang_loadfile = (filepath:string):Promise<strings_t> => {
-  return new Promise(function (fulfill, reject){
-    logfile_message(`lang_loadfile("${filepath}")...`);
-
-    resourcemanager_getJsonFile(filepath)
-    .then(function(data:strings_t){
-      strings = data;
-      fulfill(data);
-    });
-  });
+export const lang_loadfile = async (filepath:string) => {
+  logfile_message(`lang_loadfile("${filepath}")...`);
+  const data = await resourcemanager_getJsonFile(filepath);
+  strings = <strings_t>data;
 };
 
 /**
@@ -38,7 +32,7 @@ export const lang_loadfile = (filepath:string):Promise<strings_t> => {
  */
 export const lang_init = async (lang:string) => {
   logfile_message("Initializing the language module");
-  DEFAULT_LANGUAGE_FILEPATH = lang ? lang : DEFAULT_LANGUAGE_FILEPATH;
+  DEFAULT_LANGUAGE_FILEPATH = lang || DEFAULT_LANGUAGE_FILEPATH;
   await lang_loadfile(DEFAULT_LANGUAGE_FILEPATH);
   logfile_message("lang_init() ok!");
 };
