@@ -1,5 +1,4 @@
 
-//import { IF_NONE } from "./../core/global"
 import { v2d_t, v2d_new } from "./../core/v2d"
 import { timer_get_delta } from "./../core/timer"
 import { video_clearDisplay, video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"

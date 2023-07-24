@@ -7,7 +7,8 @@ import { actor_create, actor_move, actor_platform_movement, actor_render, actor_
 import { sprite_get_animation } from "./../../core/sprite"
 import { random } from "./../../core/util"
 import { input_create_computer, input_simulate_button_down, IB_FIRE1 } from "./../../core/input"
-import { EPSILON, IF_NONE, IF_HFLIP } from "./../../core/global"
+import { EPSILON } from "./../../core/global"
+import { IF_NONE, IF_HFLIP } from "./../../core/image"
 import { IS_DEAD } from "./../item"
 import { level_gravity } from "./../../scenes/level"
 

@@ -14,6 +14,3 @@ export const INFINITY               = (1<<30);
 export const INFINITY_FLT           = (1.0/0.0);
 export const INT_MAX                = 999999999;
 export const PI                     = Math.PI;
-export const IF_NONE                = 0;
-export const IF_HFLIP               = 1;
-export const IF_VFLIP               = 1;

@@ -1,7 +1,7 @@
 import { v2d_t } from "../../core/v2d"
 import { objectmachine_t } from "./base/objectmachine"
 import { objectdecorator_t, get_object_instance } from "./base/objectdecorator"
-import { IF_HFLIP } from "./../../core/global"
+import { IF_HFLIP } from "./../../core/image"
 import { enemy_get_observed_player, enemy_list_t } from "./../enemy"
 import { brick_list_t } from "./../brick"
 import { item_list_t } from "./../item"
