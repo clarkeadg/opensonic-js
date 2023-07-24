@@ -1,7 +1,7 @@
 import { INT_MAX, EPSILON, PI } from "./../core/global"
 import { v2d_t, v2d_new, v2d_add, v2d_subtract, v2d_rotate, v2d_multiply } from "./../core/v2d"
 import { input_t, IB_FIRE1, IB_UP, IB_DOWN, IB_LEFT, IB_RIGHT, input_destroy, input_button_down } from "./../core/input"
-import { IF_HFLIP, IF_NONE, image_rgb, image_rectfill, image_pixelperfect_collision } from "./../core/image"
+import { IF_HFLIP, IF_NONE, image_draw, image_rgb, image_rectfill, image_pixelperfect_collision } from "./../core/image"
 import { video_buffer_t, video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H, VIDEO_SCALE } from "./../core/video"
 import { timer_get_delta } from "./../core/timer"
 import { animation_t, sprite_get_image } from "./../core/sprite"
@@ -129,17 +129,7 @@ export const actor_render = (act:actor_t, camera_position:v2d_t) => {
       video_get_backbuffer().translate(-x, -y);
     }
 
-    video_get_backbuffer().drawImage(
-      img.data,
-      img.sx, // The x coordinate where to start clipping
-      img.sy, //  The y coordinate where to start clipping
-      img.swidth, // The width of the clipped image
-      img.sheight, // The height of the clipped image
-      ~~(act.position.x-act.hot_spot.x-(camera_position.x-VIDEO_SCREEN_W/2)), // The x coordinate where to place the image on the canvas
-      ~~(act.position.y-act.hot_spot.y-(camera_position.y-VIDEO_SCREEN_H/2)), // The y coordinate where to place the image on the canvas
-      img.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
-      img.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
-    );
+    image_draw(img, video_get_backbuffer(), ~~(act.position.x-act.hot_spot.x-(camera_position.x-VIDEO_SCREEN_W/2)), ~~(act.position.y-act.hot_spot.y-(camera_position.y-VIDEO_SCREEN_H/2)), act.mirror);
 
     if (act.angle) {
       video_get_backbuffer().translate(x, y);
@@ -191,17 +181,7 @@ export const actor_render_repeat_xy = (act:actor_t, camera_position:v2d_t, repea
     let h = repeat_y ? (VIDEO_SCREEN_H/img.height + 3) : 1;
     for(let i=0; i<w; i++) {
       for(let j=0; j<h; j++) {
-         video_get_backbuffer().drawImage(
-          img.data,
-          img.sx, // The x coordinate where to start clipping
-          img.sy, //  The y coordinate where to start clipping
-          img.swidth, // The width of the clipped image
-          img.sheight, // The height of the clipped image
-          ~~(final_pos.x + i*img.width), // The x coordinate where to place the image on the canvas
-          ~~(final_pos.y + j*img.height), // The y coordinate where to place the image on the canvas
-          img.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
-          img.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
-        );    
+        image_draw(img, video_get_backbuffer(), ~~(final_pos.x + i*img.width), ~~(final_pos.y + j*img.height), act.mirror);
       }
     }      
   }
