@@ -1,5 +1,6 @@
 
 import { logfile_message } from "./logfile"
+import { spriteframe_t } from "./sprite";
 import { video_buffer_t, video_get_backbuffer } from "./video"
 
 export const IF_NONE = 0;
@@ -71,8 +72,19 @@ export const image_rectfill = (ctx:video_buffer_t, x1:number, y1:number, x2:numb
  * Draws an image onto the destination surface
  * at the specified position
  */
-export const image_draw = (src:image_t, dest:video_buffer_t, x:number, y:number) => {
-  dest.putImageData(src, x, y);
+export const image_draw = (src:spriteframe_t, dest:video_buffer_t, x:number, y:number, flags:number) => {
+  //dest.putImageData(src, x, y);
+  dest.drawImage(
+    src.data,
+    src.sx, // The x coordinate where to start clipping
+    src.sy, //  The y coordinate where to start clipping
+    src.swidth, // The width of the clipped image
+    src.sheight, // The height of the clipped image
+    x, // The x coordinate where to place the image on the canvas
+    y, // The y coordinate where to place the image on the canvas
+    src.swidth, // The width of the image to use (stretch or reduce the image)
+    src.sheight // The height of the image to use (stretch or reduce the image)
+  );
 };
 
 /**

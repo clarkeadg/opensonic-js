@@ -1901,12 +1901,13 @@ const particle_render_all = () => {
   for(let it=particle_list; it; it=it.next) {
     const p:particle_t = it.data;
     if(p) {
-      image_draw(
-        p.image,
-        video_get_backbuffer(),
-        p.position.x-topleft.x,
-        p.position.y-topleft.y
-      );
+      //image_draw(
+      //  p.image,
+      //  video_get_backbuffer(),
+      //  p.position.x-topleft.x,
+      //  p.position.y-topleft.y,
+      //  IF_NONE
+      //);
     }
   }
 }

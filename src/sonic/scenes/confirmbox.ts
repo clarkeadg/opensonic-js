@@ -2,7 +2,7 @@
 import { v2d_t, v2d_new } from "./../core/v2d"
 import { timer_get_delta } from "./../core/timer"
 import { video_clearDisplay, video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
-import { image_t, image_create, imagedata_to_image, image_blit, image_destroy } from "./../core/image"
+import { image_t, image_create, imagedata_to_image, image_blit, image_draw, image_destroy, IF_NONE } from "./../core/image"
 import { spriteframe_t, sprite_get_image, sprite_get_animation } from "./../core/sprite"
 import { input_t, input_destroy, input_create_user, input_button_pressed, IB_LEFT, IB_RIGHT, IB_FIRE1, IB_FIRE3 } from "./../core/input"
 import { sound_play } from "./../core/audio"
@@ -130,20 +130,7 @@ export const confirmbox_render = () => {
   video_clearDisplay();
 
   image_blit(background, video_get_backbuffer(), 0, 0, 0, 0, background.width, background.height);
-  //image_draw(box, video_get_backbuffer(), boxpos.x, boxpos.y, IF_NONE);
-  
-  video_get_backbuffer().drawImage(
-    box.data,
-    box.sx, // The x coordinate where to start clipping
-    box.sy, //  The y coordinate where to start clipping
-    box.swidth, // The width of the clipped image
-    box.sheight, // The height of the clipped image
-    boxpos.x, // The x coordinate where to place the image on the canvas
-    boxpos.y, // The y coordinate where to place the image on the canvas
-    box.swidth, // The width of the image to use (stretch or reduce the image)
-    box.sheight // The height of the image to use (stretch or reduce the image)
-  );
-
+  image_draw(box, video_get_backbuffer(), boxpos.x, boxpos.y, IF_NONE);
   font_render(textfnt, cam);
 
   for(i=0; i<option_count; i++) {
