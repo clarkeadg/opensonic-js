@@ -7,7 +7,7 @@ import { storyboard_get_scene, SCENE_CONFIRMBOX } from "./../core/storyboard"
 import { v2d_new } from "./../core/v2d"
 import { video_fadefx_over, video_fadefx_out, VIDEO_SCREEN_W, VIDEO_SCREEN_H, video_get_backbuffer } from "./../core/video"
 import { music_resume } from "./../core/audio"
-import { image_t, image_create, image_destroy, image_blit, image_draw, image_rgb, imagedata_to_image } from "./../core/image"
+import { image_t, image_create, image_destroy, image_blit, image_draw, image_draw_scaled, image_rgb, IF_NONE } from "./../core/image"
 import { input_t, input_create_user, input_button_pressed, input_button_up, input_destroy, IB_FIRE3, IB_FIRE4 } from "./../core/input"
 import { lang_getstring } from "./../core/lang"
 import { sprite_get_image, sprite_get_animation } from "./../core/sprite"
@@ -89,19 +89,7 @@ export const pause_render = function() {
   let pos = v2d_new((VIDEO_SCREEN_W-p.width)/2 - (scale-1)*p.width/2, (VIDEO_SCREEN_H-p.height)/2 - (scale-1)*p.height/2);
 
   image_blit(pause_buf, video_get_backbuffer(), 0, 0, 0, 0, pause_buf.width, pause_buf.height);
-  //image_draw_scaled(p, video_get_backbuffer(), ~~pos.x, ~~pos.y, v2d_new(scale,scale), IF_NONE);
-
-  video_get_backbuffer().drawImage(
-    p.data,
-    p.sx, // The x coordinate where to start clipping
-    p.sy, //  The y coordinate where to start clipping
-    p.swidth, // The width of the clipped image
-    p.sheight, // The height of the clipped image
-    ~~pos.x, // The x coordinate where to place the image on the canvas
-    ~~pos.y, // The y coordinate where to place the image on the canvas
-    ~~(p.swidth*scale), // The width of the image to use (stretch or reduce the image)
-    ~~(p.sheight*scale) // The height of the image to use (stretch or reduce the image)
-  );
+  image_draw_scaled(p, video_get_backbuffer(), ~~pos.x, ~~pos.y, v2d_new(scale,scale), IF_NONE);
 
   if(!pause_quit)
     pause_timer += timer_get_delta();

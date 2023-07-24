@@ -1,5 +1,6 @@
 
 import { logfile_message } from "./logfile"
+import { v2d_t } from "./v2d"
 import { spriteframe_t } from "./sprite";
 import { video_buffer_t, video_get_backbuffer } from "./video"
 
@@ -23,18 +24,6 @@ let cache:cache_t = {};
  */
 export const image_create = (width:number, height:number) => {
   return video_get_backbuffer().createImageData(width, height);
-}
-
-export const imagedata_to_image = (imagedata:ImageData) => {
-  var canvas = document.createElement('canvas');
-  var ctx = canvas.getContext('2d');
-  canvas.width = imagedata.width;
-  canvas.height = imagedata.height;
-  ctx.putImageData(imagedata, 0, 0);
-
-  var image = new Image();
-  image.src = canvas.toDataURL();
-  return image;
 }
 
 /**
@@ -73,7 +62,6 @@ export const image_rectfill = (ctx:video_buffer_t, x1:number, y1:number, x2:numb
  * at the specified position
  */
 export const image_draw = (src:spriteframe_t, dest:video_buffer_t, x:number, y:number, flags:number) => {
-  //dest.putImageData(src, x, y);
   dest.drawImage(
     src.data,
     src.sx, // The x coordinate where to start clipping
@@ -84,6 +72,29 @@ export const image_draw = (src:spriteframe_t, dest:video_buffer_t, x:number, y:n
     y, // The y coordinate where to place the image on the canvas
     src.swidth, // The width of the image to use (stretch or reduce the image)
     src.sheight // The height of the image to use (stretch or reduce the image)
+  );
+};
+
+/*
+ * image_draw_scaled()
+ * Draws a scaled image onto the destination surface
+ * at the specified position
+ *
+ * scale: (1.0, 1.0) is the original size
+ *        (2.0, 2.0) stands for a double-sized image
+ *        (0.5, 0.5) stands for a smaller image
+ */
+export const image_draw_scaled = (src:spriteframe_t, dest:video_buffer_t, x:number, y:number, scale:v2d_t, flags:number) => {
+  dest.drawImage(
+    src.data,
+    src.sx, // The x coordinate where to start clipping
+    src.sy, //  The y coordinate where to start clipping
+    src.swidth, // The width of the clipped image
+    src.sheight, // The height of the clipped image
+    x, // The x coordinate where to place the image on the canvas
+    y, // The y coordinate where to place the image on the canvas
+    ~~(src.swidth*scale.x), // The width of the image to use (stretch or reduce the image)
+    ~~(src.sheight*scale.y)// The height of the image to use (stretch or reduce the image)
   );
 };
 
