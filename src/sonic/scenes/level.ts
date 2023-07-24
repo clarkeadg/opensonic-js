@@ -1563,24 +1563,12 @@ const render_entities = () => {
   major_bricks = brick_list_clip();
 
   /* render bricks - background */
-  let brickImage:spriteframe_t = null;
   for(let p=major_bricks; p; p=p.next) {
     if(p.data) {
       let ref = p.data.brick_ref;
       if(ref.zindex < 0.5) {
-          brick_animate(p.data);
-          brickImage = brick_image(p.data);
-          video_get_backbuffer().drawImage(
-            brickImage.data,
-            brickImage.sx, // The x coordinate where to start clipping
-            brickImage.sy, //  The y coordinate where to start clipping
-            brickImage.swidth, // The width of the clipped image
-            brickImage.sheight, // The height of the clipped image
-            p.data.x-(camera_get_position().x-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
-            p.data.y-(camera_get_position().y-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
-            brickImage.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
-            brickImage.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
-          );
+        brick_animate(p.data);
+        image_draw(brick_image(p.data), video_get_backbuffer(), p.data.x-(~~camera_get_position().x-VIDEO_SCREEN_W/2), p.data.y-(~~camera_get_position().y-VIDEO_SCREEN_H/2), IF_NONE);
       }
     }
   }
@@ -1593,26 +1581,14 @@ const render_entities = () => {
     if(p.data) {
       let ref = p.data.brick_ref;
       if(Math.abs(ref.zindex-0.5) < EPSILON && ref.property != BRK_OBSTACLE) {
-          brick_animate(p.data);
-          brickImage = brick_image(p.data);
-          video_get_backbuffer().drawImage(
-            brickImage.data,
-            brickImage.sx, // The x coordinate where to start clipping
-            brickImage.sy, //  The y coordinate where to start clipping
-            brickImage.swidth, // The width of the clipped image
-            brickImage.sheight, // The height of the clipped image
-            p.data.x-(camera_get_position().x-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
-            p.data.y-(camera_get_position().y-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
-            brickImage.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
-            brickImage.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
-          );
+        brick_animate(p.data);
+        image_draw(brick_image(p.data), video_get_backbuffer(), p.data.x-(~~camera_get_position().x-VIDEO_SCREEN_W/2), p.data.y-(~~camera_get_position().y-VIDEO_SCREEN_H/2), IF_NONE);
       }
     }
   }
 
   /* render items (bring to back) */
   for(inode=item_list; inode; inode=inode.next) {
-    //console.log(inode)
     if(inode.data && inode.data.bring_to_back)
       item_render(inode.data, camera_get_position());
   }
@@ -1622,19 +1598,8 @@ const render_entities = () => {
     if(p.data) {
       let ref = p.data.brick_ref;
        if(Math.abs(ref.zindex-0.5) < EPSILON && ref.property == BRK_OBSTACLE) {
-          brick_animate(p.data);
-          brickImage = brick_image(p.data);
-          video_get_backbuffer().drawImage(
-            brickImage.data,
-            brickImage.sx, // The x coordinate where to start clipping
-            brickImage.sy, //  The y coordinate where to start clipping
-            brickImage.swidth, // The width of the clipped image
-            brickImage.sheight, // The height of the clipped image
-            p.data.x-(camera_get_position().x-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
-            p.data.y-(camera_get_position().y-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
-            brickImage.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
-            brickImage.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
-          );
+        brick_animate(p.data);
+        image_draw(brick_image(p.data), video_get_backbuffer(), p.data.x-(~~camera_get_position().x-VIDEO_SCREEN_W/2), p.data.y-(~~camera_get_position().y-VIDEO_SCREEN_H/2), IF_NONE);
       }
     }
   }
@@ -1669,19 +1634,8 @@ const render_entities = () => {
     if(p.data) {
       let ref = p.data.brick_ref;
        if(ref.zindex > 0.5) {
-          brick_animate(p.data);
-          brickImage = brick_image(p.data);
-          video_get_backbuffer().drawImage(
-            brickImage.data,
-            brickImage.sx, // The x coordinate where to start clipping
-            brickImage.sy, //  The y coordinate where to start clipping
-            brickImage.swidth, // The width of the clipped image
-            brickImage.sheight, // The height of the clipped image
-            p.data.x-(camera_get_position().x-VIDEO_SCREEN_W/2), // The x coordinate where to place the image on the canvas
-            p.data.y-(camera_get_position().y-VIDEO_SCREEN_H/2), // The y coordinate where to place the image on the canvas
-            brickImage.width*VIDEO_SCALE, // The width of the image to use (stretch or reduce the image)
-            brickImage.height*VIDEO_SCALE // The height of the image to use (stretch or reduce the image)
-          );
+        brick_animate(p.data);
+        image_draw(brick_image(p.data), video_get_backbuffer(), p.data.x-(~~camera_get_position().x-VIDEO_SCREEN_W/2), p.data.y-(~~camera_get_position().y-VIDEO_SCREEN_H/2), IF_NONE);
       }
     }
   }
