@@ -758,7 +758,7 @@ export const player_platform_movement = (player:player_t, team:player_t[], brick
             // particles
             let a, sd_sig = act.mirror&IF_HFLIP ? 1 : -1, r;
             let sd_relativepos, sd_speed;
-            let pixel;
+            let pixel:ImageData;
 
             for(a=0; a<3; a++) {
               r = 128+random(128);

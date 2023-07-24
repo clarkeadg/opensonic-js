@@ -217,3 +217,19 @@ export const image_destroy = (img:image_t) => {
 
   img = null;
 }
+
+/**
+ * imagedata_to_image()
+ * Converts ImageData to ImageHTMLElement
+ */
+export const imagedata_to_image = (imagedata:ImageData) => {
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+  canvas.width = imagedata.width;
+  canvas.height = imagedata.height;
+  ctx.putImageData(imagedata, 0, 0);
+
+  var image = new Image();
+  image.src = canvas.toDataURL();
+  return image;
+}

@@ -4,7 +4,7 @@ import { music_t, sound_t, music_load, music_play, music_pause, music_stop, musi
 //import { fileSaver_saveAs } from "./../core/filesaver"
 import { data_level_t, data_level_boss_t, data_level_bricklist_t, data_level_itemlist_t, data_level_enemylist_t, data_level_dialogbox_t } from "./../core/data"
 import { EPSILON, PI, INFINITY } from "./../core/global"
-import { image_t, IF_NONE, IF_HFLIP, image_create, image_destroy, image_blit, image_draw, image_rgb } from "./../core/image"
+import { image_t, IF_NONE, IF_HFLIP, image_create, image_destroy, image_blit, image_draw, image_rgb, imagedata_to_image } from "./../core/image"
 import { input_button_pressed, input_is_ignored, input_ignore, input_restore, IB_FIRE2, IB_FIRE3, IB_FIRE4 } from "./../core/input"
 import { lang_get, lang_getstring } from "./../core/lang"
 import { logfile_message } from "./../core/logfile"
@@ -78,7 +78,7 @@ import {
 import { quest_abort, quest_setvalue, quest_getvalue } from "./quest"
 
 export interface particle_t {
-  image: image_t,
+  image: spriteframe_t,
   position: v2d_t,
   speed: v2d_t,
   destroy_on_brick: boolean
@@ -1395,9 +1395,23 @@ export const level_create_enemy = (name:string, position:v2d_t) => {
  * level_create_particle()
  * Creates a new particle.
  */
-export const level_create_particle = (image:image_t, position:v2d_t, speed:v2d_t, destroy_on_brick:boolean) => {
+export const level_create_particle = (image:ImageData, position:v2d_t, speed:v2d_t, destroy_on_brick:boolean) => {
+  
+  const img = imagedata_to_image(image);
+  const spriteImage:spriteframe_t = {
+    data: img,
+    sx: 0,
+    sy: 0,
+    swidth: img.width,
+    sheight: img.height,
+    x: 0,
+    y: 0,
+    width: img.width,
+    height: img.height
+  }
+
   const p:particle_t = {
-    image: image,
+    image: spriteImage,
     position: position,
     speed: speed,
     destroy_on_brick: destroy_on_brick
@@ -1410,11 +1424,13 @@ export const level_create_particle = (image:image_t, position:v2d_t, speed:v2d_t
 
   /* no, you can't create a new particle! */
   if(editor_is_enabled()) {
-      image_destroy(image);
-      return;
+    //image_destroy(image);
+    return;
   }
 
   particle_list = node;
+
+  //console.log("level_create_particle", node)
 }
 
 /**
@@ -1855,13 +1871,14 @@ const particle_render_all = () => {
   for(let it=particle_list; it; it=it.next) {
     const p:particle_t = it.data;
     if(p) {
-      //image_draw(
-      //  p.image,
-      //  video_get_backbuffer(),
-      //  p.position.x-topleft.x,
-      //  p.position.y-topleft.y,
-      //  IF_NONE
-      //);
+      //console.log("render particle", p)
+      image_draw(
+        p.image,
+        video_get_backbuffer(),
+        ~~(p.position.x-topleft.x),
+        ~~(p.position.y-topleft.y),
+        IF_NONE
+      );
     }
   }
 }
