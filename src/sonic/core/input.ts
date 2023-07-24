@@ -687,7 +687,7 @@ export const input_button_down = (inp:input_t, button:inputbutton_t) => {
  * Checks if a given button is pressed, not holded
  */
 export const input_button_pressed = (inp:input_t, button:inputbutton_t) => {
-  if (!button) return false;
+  if (!button || !inp) return false;
   return inp.enabled ? (inp.state[button] && !inp.oldstate[button]) : false;
 }
 
