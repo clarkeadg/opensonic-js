@@ -57,14 +57,6 @@ npm run build
       <td>ESC</td>
       <td>Quit</td>
     </tr>
-    <tr>
-      <td>PrintScreen or '='</td>
-      <td>Snapshot</td>
-    </tr>
-    <tr>
-      <td>F6</td>
-      <td>Ignore/restore joystick input</td>
-    </tr>
   </table>
 
   <h3>Cooperative play</h3>
