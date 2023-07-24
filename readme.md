@@ -2,8 +2,10 @@
 # Open Sonic JS
 This is a port of the OpenSonic Project for the web browser.
 
-Thanks to the Original Open Sonic
-[Open Sonic](http://opensnc.sourceforge.net/home/index.php)
+Open Sonic<br/>
+<a href="http://opensnc.sourceforge.net/home/index.php" target="_blank">
+  http://opensnc.sourceforge.net/home/index.php
+</a>
 
 Open Sonic is a free open-source game based on the "Sonic the Hedgehog" universe. It introduces a different style of gameplay called cooperative play, in which it's possible to control 3 characters simultaneously. Unlike most similar games, Open Sonic provides a greater level of interaction between the player and the levels. It's more than just a jump'n'run; the user must come up with some strategy in order to get through the levels.
 
