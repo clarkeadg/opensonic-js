@@ -5,7 +5,7 @@ import { PI } from "./../core/global"
 import { scenestack_push, scenestack_pop } from "./../core/scene"
 import { storyboard_get_scene, SCENE_CONFIRMBOX } from "./../core/storyboard"
 import { v2d_new } from "./../core/v2d"
-import { video_fadefx_over, video_fadefx_out, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
+import { video_fadefx_over, video_fadefx_out, VIDEO_SCREEN_W, VIDEO_SCREEN_H, video_get_backbuffer } from "./../core/video"
 import { music_resume } from "./../core/audio"
 import { image_t, image_create, image_destroy, image_blit, image_rgb } from "./../core/image"
 import { input_t, input_create_user, input_button_pressed, input_button_up, input_destroy, IB_FIRE3, IB_FIRE4 } from "./../core/input"
@@ -87,8 +87,8 @@ export const pause_render = function() {
   let scale = 1+0.5*Math.abs(Math.cos(PI/2*pause_timer));
   let pos = v2d_new((VIDEO_SCREEN_W-p.width)/2 - (scale-1)*p.width/2, (VIDEO_SCREEN_H-p.height)/2 - (scale-1)*p.height/2);
 
-  //image.blit(pause_buf, video_get_backbuffer(), 0, 0, 0, 0, pause_buf.width, pause_buf.height);
-  //image.draw_scaled(p, video_get_backbuffer(), parseInt(pos.x,10), parseInt(pos.y,10), v2d_new(scale,scale), IF_NONE);
+  //image_blit(pause_buf, video_get_backbuffer(), 0, 0, 0, 0, pause_buf.width, pause_buf.height);
+  //image_draw_scaled(p, video_get_backbuffer(), ~~pos.x), ~~pos.y, v2d_new(scale,scale), IF_NONE);
 
   if(!pause_quit)
     pause_timer += timer_get_delta();

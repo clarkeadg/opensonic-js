@@ -31,14 +31,11 @@ export const image_create = (width:number, height:number) => {
  */
 export const image_load = (url:string) => {
   return new Promise(function (fulfill, reject){
-    //console.log('LOADING IMAGE: ',url)
     if (cache[url]) {
-      //console.log('cached url',url)
       return fulfill(cache[url]);
     }
     const img = document.createElement("img");
     img.src = url;
-    //img.src = url+'?'+d.getTime();
     img.addEventListener("load",function(){
       cache[url] = img;
       return fulfill(img);
