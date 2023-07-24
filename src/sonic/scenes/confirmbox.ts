@@ -2,7 +2,7 @@
 import { v2d_t, v2d_new } from "./../core/v2d"
 import { timer_get_delta } from "./../core/timer"
 import { video_clearDisplay, video_get_backbuffer, VIDEO_SCREEN_W, VIDEO_SCREEN_H } from "./../core/video"
-import { image_t, image_destroy } from "./../core/image"
+import { image_t, image_create, imagedata_to_image, image_blit, image_destroy } from "./../core/image"
 import { spriteframe_t, sprite_get_image, sprite_get_animation } from "./../core/sprite"
 import { input_t, input_destroy, input_create_user, input_button_pressed, IB_LEFT, IB_RIGHT, IB_FIRE1, IB_FIRE3 } from "./../core/input"
 import { sound_play } from "./../core/audio"
@@ -15,7 +15,7 @@ const MAX_OPTIONS =  5;
 const NO_OPTION   = -1;
 
 let box:spriteframe_t;
-let background:image_t;
+let background:HTMLImageElement;
 let boxpos:v2d_t
 let textfnt:font_t;
 let optionfnt:Array<font_t>[] = [];
@@ -36,8 +36,9 @@ let input:input_t;
  */
 export const confirmbox_init = () => {
 
-  //background = image_create(video_get_backbuffer().width, video_get_backbuffer().height);
-  //image_blit(video_get_backbuffer(), background, 0, 0, 0, 0, video_get_backbuffer().width, video_get_backbuffer().height);
+  background = new Image();
+  background.src = video_get_backbuffer().canvas.toDataURL();
+  image_blit(background, video_get_backbuffer(), 0, 0, 0, 0, video_get_backbuffer().canvas.width, video_get_backbuffer().canvas.height);
 
   box = sprite_get_image(sprite_get_animation("SD_CONFIRMBOX", 0), 0);
   boxpos = v2d_new( (VIDEO_SCREEN_W-box.width)/2 , VIDEO_SCREEN_H );
@@ -128,7 +129,7 @@ export const confirmbox_render = () => {
 
   video_clearDisplay();
 
-  //image_blit(background, video_get_backbuffer(), 0, 0, 0, 0, background.width, background.height);
+  image_blit(background, video_get_backbuffer(), 0, 0, 0, 0, background.width, background.height);
   //image_draw(box, video_get_backbuffer(), boxpos.x, boxpos.y, IF_NONE);
   
   video_get_backbuffer().drawImage(
@@ -168,7 +169,7 @@ export const confirmbox_release = () => {
   actor_destroy(icon);
   input_destroy(input);
   font_destroy(textfnt);
-  image_destroy(background);
+  //image_destroy(background);
 }
 
 /**

@@ -24,6 +24,18 @@ export const image_create = (width:number, height:number) => {
   return video_get_backbuffer().createImageData(width, height);
 }
 
+export const imagedata_to_image = (imagedata:ImageData) => {
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+  canvas.width = imagedata.width;
+  canvas.height = imagedata.height;
+  ctx.putImageData(imagedata, 0, 0);
+
+  var image = new Image();
+  image.src = canvas.toDataURL();
+  return image;
+}
+
 /**
  * image_load()
  * Loads a image from a file.
