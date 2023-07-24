@@ -9,9 +9,11 @@ Open Sonic<br/>
 
 Open Sonic is a free open-source game based on the "Sonic the Hedgehog" universe. It introduces a different style of gameplay called cooperative play, in which it's possible to control 3 characters simultaneously. Unlike most similar games, Open Sonic provides a greater level of interaction between the player and the levels. It's more than just a jump'n'run; the user must come up with some strategy in order to get through the levels.
 
-<a href="https://clarkeadg.github.io/opensonic-js/" target="_blank">
-  PLAY GAME
-</a>
+<p style="text-align:center; font-size: 32px;">
+  <a href="https://clarkeadg.github.io/opensonic-js/" target="_blank">
+    PLAY GAME
+  </a>
+</p>
 
 <a href="https://clarkeadg.github.io/opensonic-js/" target="_blank">
   <img src="https://clarkeadg.github.io/opensonic-js/screenshots/OpenSonicJS_01.jpg">
