@@ -58,8 +58,3 @@ npm run build
       <td>Quit</td>
     </tr>
   </table>
-
-  <h3>Cooperative play</h3>
-  <p>Cooperative play is an exciting feature of the game which allows you to control 3 characters simultaneously! Each character has unique advantages and disadvantages, so some team work is needed in order to get through the levels.</p>
-  <p>To learn more about cooperative play, please play the Tutorial.</p>
-
